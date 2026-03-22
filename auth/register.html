@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crear Cuenta — BOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#002D72;--blue:#004DB3;--red:#C8102E;--gold:#C9A84C;--gold2:#E8C878;--dark:#0A0F1E;--dark2:#0F1828;--font-d:'Cormorant Garamond',Georgia,serif;--font-b:'Barlow',sans-serif;--font-c:'Barlow Condensed',sans-serif;--tr:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font-b);background:var(--dark);color:white;min-height:100vh;display:flex;overflow-x:hidden;}
+.left-panel{flex:1;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:2.5rem;background:linear-gradient(160deg,#000814 0%,#001233 20%,#002372 45%,#1a3060 60%,#7a3520 78%,#c85828 90%,#e8a050 100%);overflow:hidden;}
+.left-panel::after{content:'';position:absolute;inset:0;background:rgba(0,14,46,0.45);pointer-events:none;}
+canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.panel-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%;}
+.logo-wrap a{text-decoration:none;}.logo-wrap img{height:44px;filter:brightness(0) invert(1);}
+.panel-middle{padding:2rem 0;}
+.panel-tagline{font-family:var(--font-d);font-size:clamp(2rem,3.5vw,3rem);font-weight:700;line-height:1.05;color:white;margin-bottom:1rem;}
+.panel-tagline em{font-style:italic;color:var(--gold);font-weight:400;}
+.panel-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;max-width:320px;}
+.panel-benefits{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem;}
+.benefit-item{display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(255,255,255,.7);}
+.benefit-icon{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.panel-stats{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,.2);}
+.pstat-num{font-family:var(--font-d);font-size:1.8rem;font-weight:700;color:var(--gold);line-height:1;}
+.pstat-lbl{font-family:var(--font-c);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.right-panel{width:520px;background:var(--dark2);border-left:1px solid rgba(201,168,76,.12);display:flex;flex-direction:column;justify-content:flex-start;padding:2.5rem;overflow-y:auto;position:relative;}
+.right-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--red));}
+.auth-tag{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:block;}
+.auth-title{font-family:var(--font-d);font-size:2.2rem;font-weight:700;color:white;margin-bottom:.3rem;}
+.auth-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.45);margin-bottom:2rem;}
+.auth-sub a{color:var(--gold);text-decoration:none;font-weight:500;}
+.auth-sub a:hover{text-decoration:underline;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{margin-bottom:1rem;}
+.form-label{display:block;font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.4rem;cursor:pointer;}
+.form-input,.form-select{width:100%;padding:12px 16px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:3px;color:white;font-family:var(--font-b);font-size:14px;outline:none;transition:var(--tr);}
+.form-input:focus,.form-select:focus{border-color:var(--gold);background:rgba(0,0,0,.5);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
+.form-input::placeholder{color:rgba(255,255,255,.25);font-size:13px;}
+.form-select option{background:var(--dark2);}
+.form-input[type="date"]{color-scheme:dark;}
+.input-wrap{position:relative;}
+.toggle-pass{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:15px;transition:color .2s;padding:0;}
+.toggle-pass:hover{color:rgba(255,255,255,.7);}
+.section-sep{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,.6);margin:1.5rem 0 1rem;display:flex;align-items:center;gap:1rem;}
+.section-sep::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.15);}
+.terms-wrap{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.5rem;}
+.terms-wrap input[type="checkbox"]{margin-top:3px;width:16px;height:16px;accent-color:var(--gold);cursor:pointer;flex-shrink:0;}
+.terms-label{font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;cursor:pointer;}
+.terms-label a{color:var(--gold);text-decoration:none;}
+.btn-submit{width:100%;padding:15px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:10px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+.btn-submit:hover{background:#e01535;transform:translateY(-2px);box-shadow:0 8px 25px rgba(200,16,46,.35);}
+.btn-submit:disabled{opacity:.6;pointer-events:none;}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.divider span{font-family:var(--font-c);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.btn-google{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:3px;color:rgba(255,255,255,.7);font-family:var(--font-b);font-size:14px;font-weight:500;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn-google:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05);color:white;}
+.btn-google:disabled{opacity:.5;pointer-events:none;}
+.error-msg{background:rgba(200,16,46,.12);border:1px solid rgba(200,16,46,.35);border-radius:3px;padding:12px 14px;font-size:13px;color:#ff8a9a;margin-bottom:1rem;display:none;line-height:1.6;}
+.error-msg.show{display:block;}
+.error-msg a{color:#ffb0bf;}
+.success-card{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2.5rem 2rem;text-align:center;display:none;}
+.success-card.show{display:block;}
+.success-icon{font-size:3.5rem;margin-bottom:1rem;display:block;}
+.success-card h3{font-family:var(--font-d);font-size:1.8rem;font-weight:700;color:white;margin-bottom:.75rem;}
+.success-card p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;}
+.btn-goto{display:inline-flex;align-items:center;gap:8px;margin-top:1.5rem;padding:12px 28px;background:var(--gold);border:none;color:var(--navy);font-family:var(--font-c);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);text-decoration:none;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.btn-goto:hover{background:var(--gold2);}
+.strength-wrap{margin-top:6px;}
+.strength-bar-bg{height:3px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;}
+.strength-bar{height:100%;width:0;transition:width .3s,background .3s;border-radius:2px;}
+.strength-text{font-size:11px;color:rgba(255,255,255,.3);margin-top:3px;}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:900px){body{flex-direction:column;overflow:auto;}.left-panel{min-height:200px;flex:none;padding:1.5rem;}.panel-middle{padding:.5rem 0;}.panel-benefits{display:none;}.right-panel{width:100%;padding:2rem 1.5rem;border-left:none;border-top:1px solid rgba(201,168,76,.15);}.form-row-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="left-panel">
+  <canvas id="stars"></canvas>
+  <div class="panel-content">
+    <div class="logo-wrap"><a href="../index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></a></div>
+    <div class="panel-middle">
+      <h2 class="panel-tagline">Únete a<br/><em>BOA</em></h2>
+      <p class="panel-sub">Crea tu cuenta y disfruta de los beneficios exclusivos de volar con la aerolínea de bandera boliviana.</p>
+      <div class="panel-benefits">
+        <div class="benefit-item"><div class="benefit-icon">🎫</div>Gestiona tus reservas en línea</div>
+        <div class="benefit-item"><div class="benefit-icon">💰</div>Accede a tarifas y ofertas exclusivas</div>
+        <div class="benefit-item"><div class="benefit-icon">📱</div>Check-in digital sin filas</div>
+        <div class="benefit-item"><div class="benefit-icon">🔔</div>Alertas de vuelo en tiempo real</div>
+      </div>
+    </div>
+    <div class="panel-stats">
+      <div><div class="pstat-num">30+</div><div class="pstat-lbl">Destinos</div></div>
+      <div><div class="pstat-num">15</div><div class="pstat-lbl">Años</div></div>
+      <div><div class="pstat-num">5M+</div><div class="pstat-lbl">Pasajeros</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="right-panel">
+  <span class="auth-tag">Boliviana de Aviación</span>
+  <h1 class="auth-title">Crear Cuenta</h1>
+  <p class="auth-sub">¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+
+  <div class="error-msg" id="error-msg" role="alert"></div>
+
+  <!-- Éxito: necesita confirmar email -->
+  <div class="success-card" id="success-email">
+    <span class="success-icon">✉️</span>
+    <h3>¡Revisa tu correo!</h3>
+    <p>Enviamos un enlace de confirmación a<br/>
+    <strong id="confirm-email" style="color:var(--gold)"></strong><br/><br/>
+    Revisa también la carpeta de <strong>spam</strong>.<br/>
+    Después de confirmar, ya puedes iniciar sesión.</p>
+    <a href="login.html" class="btn-goto">Ir al inicio de sesión →</a>
+  </div>
+
+  <!-- Éxito: sin confirmación (email confirm OFF) -->
+  <div class="success-card" id="success-direct">
+    <span class="success-icon">✅</span>
+    <h3>¡Cuenta creada!</h3>
+    <p>Tu cuenta fue creada exitosamente con rol <strong style="color:var(--gold);">Usuario</strong>.<br/>
+    Serás redirigido automáticamente...</p>
+    <a href="login.html" class="btn-goto">Iniciar sesión →</a>
+  </div>
+
+  <form id="register-form" onsubmit="handleRegister(event)" novalidate>
+
+    <div class="section-sep">Datos personales</div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label class="form-label" for="reg-nombre">Nombre</label>
+        <input class="form-input" type="text" id="reg-nombre" name="nombre"
+               placeholder="Tu nombre" required autocomplete="given-name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-apellido">Apellido</label>
+        <input class="form-input" type="text" id="reg-apellido" name="apellido"
+               placeholder="Tu apellido" required autocomplete="family-name"/>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label class="form-label" for="reg-telefono">Teléfono</label>
+        <input class="form-input" type="tel" id="reg-telefono" name="telefono"
+               placeholder="+591 7XXXXXXX" autocomplete="tel"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-nacimiento">Fecha de nacimiento</label>
+        <input class="form-input" type="date" id="reg-nacimiento" name="fecha_nacimiento"/>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label class="form-label" for="reg-genero">Género</label>
+        <select class="form-select" id="reg-genero" name="genero">
+          <option value="">Seleccionar...</option>
+          <option value="masculino">Masculino</option>
+          <option value="femenino">Femenino</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-tipo-doc">Tipo de documento</label>
+        <select class="form-select" id="reg-tipo-doc" name="tipo_documento">
+          <option value="">Seleccionar...</option>
+          <option value="documento_identidad">Cédula de identidad</option>
+          <option value="pasaporte">Pasaporte</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-num-doc">Número de documento</label>
+      <input class="form-input" type="text" id="reg-num-doc" name="numero_documento"
+             placeholder="Ej: 12345678"/>
+    </div>
+
+    <div class="section-sep">Acceso a la cuenta</div>
+    <div class="form-group">
+      <label class="form-label" for="reg-email">Correo electrónico</label>
+      <input class="form-input" type="email" id="reg-email" name="email"
+             placeholder="tu@correo.com" required autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-password">Contraseña</label>
+      <div class="input-wrap">
+        <input class="form-input" type="password" id="reg-password" name="password"
+               placeholder="Mínimo 8 caracteres" required autocomplete="new-password"
+               oninput="checkStrength(this.value)"/>
+        <button type="button" class="toggle-pass"
+                onclick="togglePass('reg-password',this)"
+                aria-label="Mostrar contraseña">👁</button>
+      </div>
+      <div class="strength-wrap">
+        <div class="strength-bar-bg"><div class="strength-bar" id="strength-bar"></div></div>
+        <div class="strength-text" id="strength-text"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-confirm-pwd">Confirmar contraseña</label>
+      <div class="input-wrap">
+        <input class="form-input" type="password" id="reg-confirm-pwd" name="confirm_password"
+               placeholder="Repite tu contraseña" required autocomplete="new-password"/>
+        <button type="button" class="toggle-pass"
+                onclick="togglePass('reg-confirm-pwd',this)"
+                aria-label="Mostrar contraseña">👁</button>
+      </div>
+    </div>
+
+    <div class="terms-wrap">
+      <input type="checkbox" id="reg-terms" name="terms" required/>
+      <label class="terms-label" for="reg-terms">
+        Acepto los <a href="#" target="_blank">Términos y Condiciones</a>
+        y la <a href="#" target="_blank">Política de Privacidad</a> de BOA.
+      </label>
+    </div>
+
+    <button class="btn-submit" type="submit" id="submit-btn">
+      <div class="spinner" id="spinner"></div>
+      <span id="btn-text">Crear cuenta</span>
+    </button>
+
+    <div class="divider"><span>o regístrate con</span></div>
+
+    <button type="button" class="btn-google" id="btn-google" onclick="handleGoogle()">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continuar con Google
+    </button>
+
+  </form>
+</div>
+
+<script type="module">
+import { supabase } from '../assets/js/supabase.js';
+
+// Si ya hay sesión activa, redirigir al panel
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) window.location.href = '../public/user/index.html';
+})();
+
+// ── REGISTRO PRINCIPAL ────────────────────────────────────────────────────────
+window.handleRegister = async function(e) {
+  e.preventDefault();
+
+  const nombre   = document.getElementById('reg-nombre').value.trim();
+  const apellido = document.getElementById('reg-apellido').value.trim();
+  const email    = document.getElementById('reg-email').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value;
+  const confirm  = document.getElementById('reg-confirm-pwd').value;
+  const errEl    = document.getElementById('error-msg');
+  const btn      = document.getElementById('submit-btn');
+  const spinner  = document.getElementById('spinner');
+  const btnTxt   = document.getElementById('btn-text');
+
+  errEl.classList.remove('show');
+
+  // Validaciones cliente
+  if (!nombre || !apellido) { showErr('Completa tu nombre y apellido.'); return; }
+  if (password !== confirm)  { showErr('Las contraseñas no coinciden.'); return; }
+  if (password.length < 8)   { showErr('La contraseña debe tener al menos 8 caracteres.'); return; }
+  if (!document.getElementById('reg-terms').checked) {
+    showErr('Debes aceptar los Términos y Condiciones.'); return;
+  }
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnTxt.textContent = 'Creando cuenta...';
+
+  try {
+    // 1 ── Registrar en Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { nombre, apellido },
+        emailRedirectTo: window.location.origin + '/auth/login.html'
+      }
+    });
+
+    // ── Manejo de error SMTP / 500 ────────────────────────────────────────────
+    if (error) {
+      const msg = error.message?.toLowerCase() || '';
+      const is500  = error.status === 500;
+      const isSmtp = msg.includes('sending') || msg.includes('smtp') || msg.includes('email');
+
+      if (is500 || isSmtp) {
+        // El usuario pudo haberse creado a pesar del error de email, intentar login
+        const { data: rd } = await supabase.auth.signInWithPassword({ email, password });
+        if (rd?.user) {
+          await saveProfile(rd.user, nombre, apellido);
+          await saveRole(rd.user.id);           // ← asignar rol user
+          showSuccessDirect();
+          return;
+        }
+        showErr(
+          '<strong>Error al enviar el email de confirmación (500).</strong><br/>' +
+          'Ve a Supabase → <code>Authentication → Sign In / Providers → Email</code> ' +
+          'y desactiva <strong>"Confirm email"</strong>, o configura tu SMTP.'
+        );
+        return;
+      }
+
+      if (msg.includes('already registered') || msg.includes('already been')) {
+        showErr('Este correo ya está registrado. <a href="login.html">Inicia sesión</a>.');
+        return;
+      }
+      if (msg.includes('password')) {
+        showErr('La contraseña no cumple los requisitos mínimos (mín. 6 caracteres).');
+        return;
+      }
+      throw error;
+    }
+
+    // ── Registro exitoso ──────────────────────────────────────────────────────
+    if (data?.user) {
+      // Guardar perfil completo
+      await saveProfile(data.user, nombre, apellido);
+      // Asignar rol 'user' — el trigger también lo hace, pero lo forzamos
+      // por si el trigger falla o hay delay
+      await saveRole(data.user.id);
+
+      document.getElementById('register-form').style.display = 'none';
+
+      if (!data.session && !data.user.confirmed_at) {
+        // Necesita confirmar email
+        document.getElementById('confirm-email').textContent = email;
+        document.getElementById('success-email').classList.add('show');
+      } else {
+        // Email confirm OFF → sesión directa
+        showSuccessDirect();
+      }
+    }
+
+  } catch (err) {
+    console.error('Register error:', err);
+    showErr(err.message || 'Error inesperado. Intenta de nuevo.');
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnTxt.textContent = 'Crear cuenta';
+  }
+};
+
+// ── GOOGLE OAUTH ──────────────────────────────────────────────────────────────
+// El trigger de Supabase asignará el rol automáticamente al crear el user
+window.handleGoogle = async function() {
+  document.getElementById('btn-google').disabled = true;
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + '/public/user/index.html',
+      queryParams: { prompt: 'select_account' }
+    }
+  });
+  if (error) {
+    showErr('Error con Google: ' + error.message);
+    document.getElementById('btn-google').disabled = false;
+  }
+};
+
+// ── HELPERS DE BD ─────────────────────────────────────────────────────────────
+
+// Guarda/actualiza el perfil completo en users_profile
+async function saveProfile(user, nombre, apellido) {
+  try {
+    await supabase.from('users_profile').upsert({
+      id:              user.id,
+      nombre,
+      apellido,
+      telefono:        fv('reg-telefono')  || null,
+      fecha_nacimiento:fv('reg-nacimiento')|| null,
+      genero:          fv('reg-genero')    || null,
+      tipo_documento:  fv('reg-tipo-doc')  || null,
+      numero_documento:fv('reg-num-doc')   || null,
+    }, { onConflict: 'id' });
+  } catch (err) {
+    console.warn('saveProfile warning:', err.message);
+  }
+}
+
+// Inserta rol 'user' en user_roles (ON CONFLICT no hace nada si ya existe)
+async function saveRole(userId) {
+  try {
+    await supabase.from('user_roles').upsert(
+      { user_id: userId, role: 'user' },
+      { onConflict: 'user_id', ignoreDuplicates: true }
+    );
+  } catch (err) {
+    console.warn('saveRole warning:', err.message);
+    // No es crítico — el trigger de Supabase también lo hace
+  }
+}
+
+// ── UI HELPERS ────────────────────────────────────────────────────────────────
+
+function fv(id) {
+  return document.getElementById(id)?.value?.trim() || '';
+}
+
+function showErr(html) {
+  const el = document.getElementById('error-msg');
+  el.innerHTML = html;
+  el.classList.add('show');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showSuccessDirect() {
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('success-direct').classList.add('show');
+  setTimeout(() => window.location.href = '../public/user/index.html', 2200);
+}
+
+window.togglePass = function(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+};
+
+window.checkStrength = function(val) {
+  const bar = document.getElementById('strength-bar');
+  const txt = document.getElementById('strength-text');
+  let s = 0;
+  if (val.length >= 8)           s++;
+  if (/[A-Z]/.test(val))         s++;
+  if (/[0-9]/.test(val))         s++;
+  if (/[^A-Za-z0-9]/.test(val))  s++;
+  const w = ['0%','25%','50%','75%','100%'];
+  const c = ['transparent','#ef4444','#f97316','#eab308','#22c55e'];
+  const l = ['','Muy débil','Débil','Buena','Fuerte'];
+  bar.style.width      = w[s];
+  bar.style.background = c[s];
+  txt.textContent      = val.length ? l[s] : '';
+  txt.style.color      = c[s];
+};
+
+// ── STARFIELD ─────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('stars');
+const ctx    = canvas.getContext('2d');
+let stars    = [];
+function initS() {
+  canvas.width  = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+  stars = Array.from({ length: 120 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.2 + 0.2,
+    a: Math.random(),
+    d: (Math.random() * 0.006 + 0.002) * (Math.random() < 0.5 ? 1 : -1)
+  }));
+}
+function drawS() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.d;
+    if (s.a > 1 || s.a < 0) s.d *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.max(0, s.a)})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawS);
+}
+initS();
+drawS();
+window.addEventListener('resize', initS);
+</script>
+</body>
+</html>

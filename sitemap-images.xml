@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ====================================================
+       SITEMAP DE IMÁGENES – BOA Boliviana de Aviación
+       Un sitemap de imágenes separado ayuda a Google
+       a indexar tus imágenes en Google Images,
+       lo que genera tráfico adicional.
+       ==================================================== -->
+
+  <url>
+    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/</loc>
+
+    <!-- Logo BOA -->
+    <image:image>
+      <image:loc>https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg</image:loc>
+      <image:title>Logo BOA – Boliviana de Aviación</image:title>
+      <image:caption>Logotipo oficial de la aerolínea de bandera de Bolivia, BOA Boliviana de Aviación</image:caption>
+      <image:geo_location>Santa Cruz de la Sierra, Bolivia</image:geo_location>
+    </image:image>
+
+    <!-- Flota – Boeing 737 -->
+    <image:image>
+      <image:loc>https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg</image:loc>
+      <image:title>BOA Boliviana de Aviación – Boeing 737</image:title>
+      <image:caption>Aeronave Boeing 737 de la flota de BOA Boliviana de Aviación, aerolínea de Bolivia</image:caption>
+      <image:geo_location>Bolivia</image:geo_location>
+    </image:image>
+
+    <!-- OG Image (imagen de redes sociales) -->
+    <image:image>
+      <image:loc>https://infotiens43-design.github.io/BoaAgenciaViajes/assets/img/og-boa.jpg</image:loc>
+      <image:title>BOA – Vuela con Orgullo | Reserva Vuelos Bolivia</image:title>
+      <image:caption>Reserva vuelos nacionales e internacionales con BOA Boliviana de Aviación. La Paz, Cochabamba, Sucre, Buenos Aires, Lima, Madrid y más.</image:caption>
+      <image:geo_location>Bolivia</image:geo_location>
+    </image:image>
+
+  </url>
+</urlset>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Iniciar Sesión — BOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#002D72;--blue:#004DB3;--red:#C8102E;--gold:#C9A84C;--gold2:#E8C878;--dark:#0A0F1E;--dark2:#0F1828;--font-d:'Cormorant Garamond',Georgia,serif;--font-b:'Barlow',sans-serif;--font-c:'Barlow Condensed',sans-serif;--tr:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font-b);background:var(--dark);color:white;min-height:100vh;display:flex;overflow:hidden;}
+.left-panel{flex:1;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:2.5rem;background:linear-gradient(160deg,#000814 0%,#001233 20%,#002372 45%,#1a3060 60%,#7a3520 78%,#c85828 90%,#e8a050 100%);overflow:hidden;}
+.left-panel::after{content:'';position:absolute;inset:0;background:rgba(0,14,46,0.45);pointer-events:none;}
+canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.panel-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%;}
+.logo-wrap img{height:44px;filter:brightness(0) invert(1);}
+.logo-wrap a{text-decoration:none;}
+.panel-middle{padding:2rem 0;}
+.panel-tagline{font-family:var(--font-d);font-size:clamp(2.2rem,4vw,3.5rem);font-weight:700;line-height:1;color:white;margin-bottom:1rem;}
+.panel-tagline em{font-style:italic;color:var(--gold);font-weight:400;}
+.panel-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;max-width:340px;}
+.panel-stats{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.2);}
+.pstat-num{font-family:var(--font-d);font-size:2rem;font-weight:700;color:var(--gold);line-height:1;}
+.pstat-lbl{font-family:var(--font-c);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+.right-panel{width:480px;background:var(--dark2);border-left:1px solid rgba(201,168,76,0.12);display:flex;flex-direction:column;justify-content:center;padding:3rem;overflow-y:auto;position:relative;}
+.right-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));}
+.auth-tag{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;display:block;}
+.auth-title{font-family:var(--font-d);font-size:2.4rem;font-weight:700;color:white;margin-bottom:0.3rem;}
+.auth-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,0.45);margin-bottom:2.5rem;}
+.auth-sub a{color:var(--gold);text-decoration:none;font-weight:500;}
+.auth-sub a:hover{text-decoration:underline;}
+.form-group{margin-bottom:1.1rem;}
+.form-label{display:block;font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.45rem;cursor:pointer;}
+.form-input{width:100%;padding:13px 16px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.1);border-radius:3px;color:white;font-family:var(--font-b);font-size:15px;outline:none;transition:var(--tr);}
+.form-input:focus{border-color:var(--gold);background:rgba(0,0,0,0.5);box-shadow:0 0 0 3px rgba(201,168,76,0.1);}
+.form-input::placeholder{color:rgba(255,255,255,0.25);font-size:14px;}
+.input-wrap{position:relative;}
+.toggle-pass{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:16px;transition:color 0.2s;padding:0;}
+.toggle-pass:hover{color:rgba(255,255,255,0.7);}
+.form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.checkbox-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.checkbox-wrap input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;}
+.checkbox-wrap span{font-size:13px;font-weight:300;color:rgba(255,255,255,0.55);}
+.forgot-link{font-size:13px;font-weight:500;color:var(--gold);text-decoration:none;transition:opacity 0.2s;}
+.forgot-link:hover{opacity:0.75;}
+.btn-submit{width:100%;padding:15px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:10px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+.btn-submit:hover{background:#e01535;transform:translateY(-2px);box-shadow:0 8px 25px rgba(200,16,46,0.35);}
+.btn-submit:disabled{opacity:0.6;pointer-events:none;}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08);}
+.divider span{font-family:var(--font-c);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.btn-google{width:100%;padding:13px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:rgba(255,255,255,0.7);font-family:var(--font-b);font-size:14px;font-weight:500;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn-google:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);color:white;}
+.btn-google:disabled{opacity:0.5;pointer-events:none;}
+.error-msg{background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.35);border-radius:3px;padding:10px 14px;font-size:13px;color:#ff8a9a;margin-bottom:1rem;display:none;line-height:1.5;}
+.error-msg.show{display:block;}
+.success-msg{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:3px;padding:10px 14px;font-size:13px;color:#4ade80;margin-bottom:1rem;display:none;}
+.success-msg.show{display:block;}
+/* Loading overlay mientras detecta rol */
+.role-loading{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.role-loading.show{opacity:1;pointer-events:all;}
+.role-loading img{height:48px;filter:brightness(0) invert(1);animation:pulse 1.4s ease-in-out infinite;}
+.role-loading p{font-family:var(--font-c);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+.rl-bar{width:160px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.rl-bar-inner{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));animation:barfill 1.2s ease forwards;}
+@keyframes barfill{to{width:100%;}}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+@media(max-width:768px){body{flex-direction:column;overflow:auto;}.left-panel{min-height:200px;flex:none;padding:1.5rem;}.panel-middle{padding:0.5rem 0;}.panel-tagline{font-size:2rem;}.right-panel{width:100%;padding:2rem 1.5rem;border-left:none;border-top:1px solid rgba(201,168,76,0.15);}}
+</style>
+</head>
+<body>
+
+<!-- Loading overlay rol -->
+<div class="role-loading" id="role-loading">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
+  <div class="rl-bar"><div class="rl-bar-inner"></div></div>
+  <p id="role-loading-msg">Verificando sesión...</p>
+</div>
+
+<!-- LEFT -->
+<div class="left-panel">
+  <canvas id="stars"></canvas>
+  <div class="panel-content">
+    <div class="logo-wrap">
+      <a href="../index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></a>
+    </div>
+    <div class="panel-middle">
+      <h2 class="panel-tagline">Vuela con<br/><em>Orgullo</em></h2>
+      <p class="panel-sub">Accede a tu cuenta y gestiona tus reservas, vuelos y servicios personalizados con BOA.</p>
+    </div>
+    <div class="panel-stats">
+      <div><div class="pstat-num">30+</div><div class="pstat-lbl">Destinos</div></div>
+      <div><div class="pstat-num">15</div><div class="pstat-lbl">Años</div></div>
+      <div><div class="pstat-num">5M+</div><div class="pstat-lbl">Pasajeros</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT -->
+<div class="right-panel">
+  <span class="auth-tag">Boliviana de Aviación</span>
+  <h1 class="auth-title">Iniciar Sesión</h1>
+  <p class="auth-sub">¿Sin cuenta? <a href="register.html">Regístrate gratis</a></p>
+
+  <div class="error-msg" id="error-msg"></div>
+  <div class="success-msg" id="success-msg"></div>
+
+  <form id="login-form" onsubmit="handleLogin(event)" novalidate>
+    <div class="form-group">
+      <label class="form-label" for="login-email">Correo electrónico</label>
+      <input class="form-input" type="email" id="login-email"
+             placeholder="tu@correo.com" required autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="login-password">Contraseña</label>
+      <div class="input-wrap">
+        <input class="form-input" type="password" id="login-password"
+               placeholder="••••••••" required autocomplete="current-password"/>
+        <button type="button" class="toggle-pass"
+                onclick="togglePass('login-password',this)"
+                aria-label="Mostrar contraseña">👁</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="checkbox-wrap">
+        <input type="checkbox" id="remember"/>
+        <span>Recordarme</span>
+      </label>
+      <a class="forgot-link" href="reset.html">¿Olvidaste tu contraseña?</a>
+    </div>
+    <button class="btn-submit" type="submit" id="submit-btn">
+      <div class="spinner" id="spinner"></div>
+      <span id="btn-text">Ingresar</span>
+    </button>
+  </form>
+
+  <div class="divider"><span>o continúa con</span></div>
+
+  <button class="btn-google" id="btn-google" onclick="handleGoogle()">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continuar con Google
+  </button>
+</div>
+
+<script type="module">
+import { supabase } from '../assets/js/supabase.js';
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+
+// Consulta el rol del usuario en user_roles
+async function getUserRole(userId) {
+  try {
+    const { data } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .single();
+    return data?.role || 'user';
+  } catch {
+    return 'user';
+  }
+}
+
+// Redirige según rol
+function redirectByRole(role, searchParams) {
+  const base = '../';
+  if (searchParams?.get('redirect') === 'buscar') {
+    const p = new URLSearchParams({
+      origen:  searchParams.get('origen')  || '',
+      destino: searchParams.get('destino') || '',
+      fecha:   searchParams.get('fecha')   || '',
+    });
+    window.location.href = base + 'public/user/index.html?' + p;
+    return;
+  }
+  if (role === 'admin' || role === 'superadmin') {
+    window.location.href = base + 'public/admin/index.html';
+  } else {
+    window.location.href = base + 'public/user/index.html';
+  }
+}
+
+// Asegura que exista perfil (para OAuth / Google)
+async function ensureProfile(user) {
+  const { data: existing } = await supabase
+    .from('users_profile').select('id').eq('id', user.id).single();
+  if (!existing) {
+    const meta = user.user_metadata || {};
+    const parts = (meta.full_name || meta.name || '').split(' ');
+    await supabase.from('users_profile').upsert({
+      id:       user.id,
+      nombre:   meta.nombre  || parts[0] || user.email.split('@')[0],
+      apellido: meta.apellido || parts.slice(1).join(' ') || '',
+    }, { onConflict: 'id' });
+  }
+  // Asegurar fila de rol
+  await supabase.from('user_roles').upsert(
+    { user_id: user.id, role: 'user' },
+    { onConflict: 'user_id', ignoreDuplicates: true }
+  );
+}
+
+function showLoading(msg) {
+  document.getElementById('role-loading-msg').textContent = msg || 'Verificando sesión...';
+  document.getElementById('role-loading').classList.add('show');
+}
+
+// ── VERIFICAR SESIÓN EXISTENTE ────────────────────────────────────────────────
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return; // no hay sesión, mostrar form normal
+
+  showLoading('Identificando tu perfil...');
+  const role = await getUserRole(user.id);
+  const params = new URLSearchParams(window.location.search);
+  redirectByRole(role, params);
+})();
+
+// ── CALLBACK OAUTH (Google redirige aquí con hash) ───────────────────────────
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session?.user) {
+    showLoading('Configurando tu cuenta...');
+    await ensureProfile(session.user);
+    const role = await getUserRole(session.user.id);
+    const params = new URLSearchParams(window.location.search);
+    redirectByRole(role, params);
+  }
+});
+
+// ── LOGIN EMAIL / CONTRASEÑA ──────────────────────────────────────────────────
+window.handleLogin = async function(e) {
+  e.preventDefault();
+  const email    = document.getElementById('login-email').value.trim().toLowerCase();
+  const password = document.getElementById('login-password').value;
+  const errEl    = document.getElementById('error-msg');
+  const sucEl    = document.getElementById('success-msg');
+  const btn      = document.getElementById('submit-btn');
+  const spinner  = document.getElementById('spinner');
+  const btnTxt   = document.getElementById('btn-text');
+
+  errEl.classList.remove('show');
+  sucEl.classList.remove('show');
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnTxt.textContent = 'Ingresando...';
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      // Mensajes de error claros en español
+      let msg = 'Correo o contraseña incorrectos.';
+      const m = error.message?.toLowerCase() || '';
+      if (m.includes('email not confirmed'))
+        msg = 'Debes confirmar tu correo antes de ingresar. Revisa tu bandeja de entrada.';
+      else if (m.includes('invalid login'))
+        msg = 'Correo o contraseña incorrectos. Verifica tus datos.';
+      else if (m.includes('too many'))
+        msg = 'Demasiados intentos. Espera unos minutos e intenta de nuevo.';
+      throw new Error(msg);
+    }
+
+    // ── Obtener rol y redirigir ──
+    showLoading('Accediendo a tu panel...');
+    const role = await getUserRole(data.user.id);
+    const params = new URLSearchParams(window.location.search);
+    redirectByRole(role, params);
+
+  } catch (err) {
+    errEl.textContent = err.message;
+    errEl.classList.add('show');
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnTxt.textContent = 'Ingresar';
+    document.getElementById('role-loading').classList.remove('show');
+  }
+};
+
+// ── LOGIN GOOGLE ──────────────────────────────────────────────────────────────
+window.handleGoogle = async function() {
+  const btn = document.getElementById('btn-google');
+  btn.disabled = true;
+  // Google redirigirá de vuelta aquí → onAuthStateChange lo maneja
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.href, // vuelve a esta misma página
+      queryParams: { prompt: 'select_account' }
+    }
+  });
+  if (error) {
+    document.getElementById('error-msg').textContent = 'Error con Google: ' + error.message;
+    document.getElementById('error-msg').classList.add('show');
+    btn.disabled = false;
+  }
+};
+
+// ── UI HELPERS ────────────────────────────────────────────────────────────────
+window.togglePass = function(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+};
+
+// ── STARFIELD ─────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function initStars() {
+  canvas.width  = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+  stars = Array.from({ length: 120 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.2 + 0.2,
+    a: Math.random(),
+    d: (Math.random() * 0.006 + 0.002) * (Math.random() < 0.5 ? 1 : -1)
+  }));
+}
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.d;
+    if (s.a > 1 || s.a < 0) s.d *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.max(0, s.a)})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+initStars();
+drawStars();
+window.addEventListener('resize', initStars);
+</script>
+</body>
+</html>

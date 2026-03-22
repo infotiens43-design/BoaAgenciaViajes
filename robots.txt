@@ -1,17 +1,59 @@
+# ============================================================
+# robots.txt – BOA Boliviana de Aviación
+# Ubicación: raíz del sitio → /robots.txt
+# ============================================================
+# Este archivo indica a los rastreadores de buscadores
+# (Googlebot, Bingbot, etc.) qué páginas pueden indexar.
+# ============================================================
 
-# ================================================
-# robots.txt – El Padrino Sorteos
-# Este archivo le dice a Google y otros buscadores
-# qué páginas pueden rastrear e indexar.
-# ================================================
+# ── GOOGLEBOT (rastreador principal de Google) ───────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /node_modules/
+Disallow: /auth/callback
+Crawl-delay: 1
 
-# Permitir a TODOS los robots rastrear el sitio
+# ── GOOGLE ADS (para campañas de publicidad) ─────────────────
+User-agent: AdsBot-Google
+Allow: /
+
+# ── BINGBOT ──────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /node_modules/
+Crawl-delay: 2
+
+# ── YANDEX (Rusia & Latam) ───────────────────────────────────
+User-agent: Yandex
+Allow: /
+Disallow: /assets/
+Disallow: /node_modules/
+Crawl-delay: 3
+
+# ── TODOS LOS DEMÁS RASTREADORES ─────────────────────────────
 User-agent: *
 Allow: /
 
-# Bloquear carpetas que no deben aparecer en Google
-Disallow: /assets/
+# Carpetas técnicas que NO deben aparecer en Google
+Disallow: /assets/js/
+Disallow: /assets/css/
 Disallow: /node_modules/
+Disallow: /auth/callback
 
-# Ubicación del sitemap (hoja de ruta del sitio)
+# Proteger archivos de configuración sensibles
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /supabase.js
+
+# ── SITEMAP ──────────────────────────────────────────────────
 Sitemap: https://infotiens43-design.github.io/BoaAgenciaViajes/sitemap.xml
+Sitemap: https://infotiens43-design.github.io/BoaAgenciaViajes/sitemap-images.xml
+
+# ── NOTAS ────────────────────────────────────────────────────
+# Para verificar que funciona correctamente visita:
+# https://search.google.com/search-console/robots-testing-tool
+# ============================================================

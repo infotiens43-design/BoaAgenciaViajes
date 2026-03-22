@@ -3,7 +3,7 @@
 
   <!-- PÁGINA PRINCIPAL -->
   <url>
-    <loc>https://borleone101.github.io/ELJuegoDelPadrino/</loc>
+    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -11,7 +11,7 @@
 
   <!-- LOGIN -->
   <url>
-    <loc>https://borleone101.github.io/ELJuegoDelPadrino/auth/login.html</loc>
+    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/auth/login.html</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -19,7 +19,7 @@
 
   <!-- REGISTRO -->
   <url>
-    <loc>https://borleone101.github.io/ELJuegoDelPadrino/auth/register.html</loc>
+    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/auth/register.html</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

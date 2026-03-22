@@ -1,99 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- ====================================================
-       SITEMAP – BOA Boliviana de Aviación
-       Actualizar lastmod cada vez que se modifique una página.
-       priority: 1.0 = más importante, 0.1 = menos importante
-       changefreq: always | hourly | daily | weekly | monthly
-       ==================================================== -->
-
-  <!-- ── PÁGINA PRINCIPAL ─────────────────────────────── -->
   <url>
     <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es-BO"
-      href="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
-    <xhtml:link rel="alternate" hreflang="es"
-      href="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
-    <image:image>
-      <image:loc>https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg</image:loc>
-      <image:title>BOA – Boliviana de Aviación</image:title>
-      <image:caption>Aerolínea de bandera de Bolivia – Vuela con Orgullo</image:caption>
-    </image:image>
   </url>
 
-  <!-- ── AUTENTICACIÓN ────────────────────────────────── -->
   <url>
     <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/auth/login.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es-BO"
-      href="https://infotiens43-design.github.io/BoaAgenciaViajes/auth/login.html"/>
   </url>
 
   <url>
     <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/auth/register.html</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es-BO"
-      href="https://infotiens43-design.github.io/BoaAgenciaViajes/auth/register.html"/>
-  </url>
-
-  <!-- ── ÁREA DE USUARIO (si es indexable) ────────────── -->
-  <!-- Nota: si estas páginas requieren login, Google no puede
-       acceder a ellas, por lo que puedes eliminar estas entradas
-       o añadir <meta name="robots" content="noindex"> en esas páginas -->
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/public/user/index.html</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- ── SECCIONES DE LA PÁGINA PRINCIPAL (anclas) ────── -->
-  <!-- Estas URLs con # ayudan a Google a entender
-       las secciones importantes del sitio               -->
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/#destinos</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/#vuelos-live</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/#flota</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/#servicios</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://infotiens43-design.github.io/BoaAgenciaViajes/#promos</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
 
 </urlset>

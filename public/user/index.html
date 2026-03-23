@@ -3,946 +3,1717 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mi Cuenta — BOA</title>
+<title>Mi Cuenta — BOA Boliviana de Aviación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --navy:#002D72;--blue:#004DB3;--red:#C8102E;
-  --gold:#C9A84C;--gold2:#E8C878;
-  --dark:#0A0F1E;--dark2:#0F1828;--dark3:#141C2E;
-  --surface:rgba(0,45,114,0.1);--surface2:rgba(0,45,114,0.18);
-  --border:rgba(201,168,76,0.12);--border2:rgba(201,168,76,0.25);
-  --font-d:'Cormorant Garamond',Georgia,serif;
-  --font-b:'Barlow',sans-serif;
-  --font-c:'Barlow Condensed',sans-serif;
-  --tr:all 0.3s cubic-bezier(0.4,0,0.2,1);
-  --sidebar:260px;
+/* ═══════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #F4F6FB;
+  --bg2:       #EAEEF7;
+  --surface:   #FFFFFF;
+  --surface2:  #F8FAFF;
+  --navy:      #0A2463;
+  --blue:      #1B4FCC;
+  --blue-lt:   #E8EFFE;
+  --red:       #D62839;
+  --red-lt:    #FEE8EA;
+  --gold:      #C9982A;
+  --gold-lt:   #FEF3DC;
+  --green:     #1A9E5C;
+  --green-lt:  #E0F7EC;
+  --gray:      #64748B;
+  --gray2:     #94A3B8;
+  --border:    #E2E8F0;
+  --border2:   #CBD5E1;
+  --text:      #0F172A;
+  --text2:     #334155;
+  --text3:     #64748B;
+  --shadow:    0 1px 3px rgba(10,36,99,0.06), 0 4px 16px rgba(10,36,99,0.08);
+  --shadow2:   0 2px 8px rgba(10,36,99,0.1), 0 16px 40px rgba(10,36,99,0.12);
+  --radius:    14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --sidebar-w: 270px;
+  --topbar-h:  64px;
+  --font-d: 'DM Serif Display', Georgia, serif;
+  --font-b: 'Plus Jakarta Sans', sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+  --tr: 0.2s cubic-bezier(0.4,0,0.2,1);
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-b);background:var(--dark);color:white;min-height:100vh;overflow-x:hidden;}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.3);border-radius:3px;}
 
-/* LAYOUT */
-.app{display:flex;min-height:100vh;}
-
-/* SIDEBAR */
-.sidebar{
-  width:var(--sidebar);position:fixed;top:0;left:0;bottom:0;
-  background:var(--dark2);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  z-index:100;transition:transform 0.3s ease;
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--font-b);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-.sidebar-logo{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.sidebar-logo img{height:32px;filter:brightness(0) invert(1);}
-.sidebar-logo span{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius:6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue); }
+img { max-width:100%; display:block; }
+a { text-decoration:none; color:inherit; }
+button { font-family:var(--font-b); cursor:pointer; }
+input, select, textarea { font-family:var(--font-b); }
 
-.sidebar-user{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.user-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));border:2px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;font-family:var(--font-c);font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0;}
-.user-info{overflow:hidden;}
-.user-name{font-size:14px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.user-email{font-size:11px;color:rgba(255,255,255,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app { display:flex; min-height:100vh; }
+.main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; transition:margin-left var(--tr); }
 
-.nav-menu{flex:1;padding:1rem 0;overflow-y:auto;}
-.nav-section-label{font-family:var(--font-c);font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:0.75rem 1.5rem 0.3rem;}
-.nav-item{display:flex;align-items:center;gap:12px;padding:0.75rem 1.5rem;color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;cursor:pointer;transition:var(--tr);border-left:3px solid transparent;text-decoration:none;}
-.nav-item:hover{color:white;background:var(--surface);}
-.nav-item.active{color:var(--gold);background:rgba(201,168,76,0.08);border-left-color:var(--gold);}
-.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
-.nav-badge{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:var(--font-c);}
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  position: fixed; top:0; left:0; bottom:0;
+  background: var(--navy);
+  display: flex; flex-direction:column;
+  z-index: 200;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+/* decorative bg pattern */
+.sidebar::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 0% 0%, rgba(27,79,204,0.4) 0%, transparent 60%),
+              radial-gradient(ellipse at 100% 100%, rgba(214,40,57,0.15) 0%, transparent 50%);
+  pointer-events:none;
+}
 
-.sidebar-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);}
-.btn-logout{width:100%;padding:10px;background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);border-radius:3px;color:rgba(255,100,100,0.8);font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--tr);}
-.btn-logout:hover{background:rgba(200,16,46,0.2);color:white;}
+.sidebar-header {
+  padding: 1.5rem 1.5rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:1;
+}
+.sidebar-logo { display:flex; align-items:center; gap:10px; }
+.sidebar-logo img { height:28px; filter:brightness(0) invert(1); }
+.sidebar-logo-badge {
+  font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  background: rgba(201,152,42,0.2); color:rgba(201,152,42,0.9);
+  border:1px solid rgba(201,152,42,0.3);
+  padding:2px 8px; border-radius:20px;
+}
 
-/* MAIN */
-.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.sidebar-close-btn {
+  display:none; background:none; border:none;
+  color:rgba(255,255,255,0.4); font-size:20px; padding:4px;
+  transition: color var(--tr);
+}
+.sidebar-close-btn:hover { color:white; }
 
-/* TOP BAR */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  background:rgba(10,15,30,0.9);backdrop-filter:blur(14px);
+.sidebar-user {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display:flex; align-items:center; gap:12px;
+  position:relative; z-index:1;
+}
+.user-avatar {
+  width:44px; height:44px; border-radius:50%;
+  background: linear-gradient(135deg, #1B4FCC, #4F80FF);
+  border: 2px solid rgba(201,152,42,0.5);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-b); font-size:15px; font-weight:700;
+  color:#fff; flex-shrink:0;
+  box-shadow: 0 0 0 4px rgba(201,152,42,0.1);
+}
+.user-info { overflow:hidden; }
+.user-name { font-size:14px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.user-email { font-size:11px; color:rgba(255,255,255,0.4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+.user-badge {
+  margin-top:4px; display:inline-flex; align-items:center; gap:4px;
+  font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:rgba(26,158,92,0.9); background:rgba(26,158,92,0.15);
+  border:1px solid rgba(26,158,92,0.25); padding:2px 7px; border-radius:20px;
+}
+.user-badge::before { content:'●'; font-size:6px; }
+
+.nav-menu { flex:1; padding:1rem 0; overflow-y:auto; position:relative; z-index:1; }
+.nav-section-lbl {
+  font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase;
+  color:rgba(255,255,255,0.2); padding:0.75rem 1.5rem 0.3rem;
+}
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding:0.75rem 1.5rem;
+  color:rgba(255,255,255,0.5); font-size:13.5px; font-weight:500;
+  border-left:3px solid transparent;
+  transition:all var(--tr); cursor:pointer; text-decoration:none;
+}
+.nav-item:hover { color:rgba(255,255,255,0.9); background:rgba(255,255,255,0.06); border-left-color:rgba(255,255,255,0.2); }
+.nav-item.active { color:#fff; background:rgba(27,79,204,0.35); border-left-color:var(--gold); }
+.nav-icon { font-size:17px; width:22px; text-align:center; flex-shrink:0; }
+.nav-badge-dot { margin-left:auto; background:var(--red); color:#fff; font-size:10px; font-weight:700; padding:2px 7px; border-radius:20px; min-width:22px; text-align:center; }
+
+.sidebar-footer {
+  padding:1.2rem 1.5rem;
+  border-top:1px solid rgba(255,255,255,0.08);
+  position:relative; z-index:1;
+}
+.btn-logout {
+  width:100%; padding:10px 16px;
+  background:rgba(214,40,57,0.12); border:1px solid rgba(214,40,57,0.25);
+  border-radius:var(--radius-sm); color:rgba(255,100,100,0.85);
+  font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  transition:all var(--tr);
+}
+.btn-logout:hover { background:rgba(214,40,57,0.25); color:#fff; border-color:rgba(214,40,57,0.5); }
+
+/* ═══════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════ */
+.topbar {
+  position:sticky; top:0; z-index:100;
+  height:var(--topbar-h);
+  background:rgba(244,246,251,0.92); backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
-  padding:1rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:0 1.5rem;
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
 }
-.topbar-title{font-family:var(--font-d);font-size:1.6rem;font-weight:700;color:white;}
-.topbar-actions{display:flex;align-items:center;gap:0.75rem;}
-.topbar-btn{padding:8px 20px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:var(--tr);text-decoration:none;display:inline-flex;align-items:center;gap:6px;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
-.topbar-btn:hover{background:#e01535;}
-.topbar-btn.outline{background:transparent;border:1px solid var(--border2);color:var(--gold);}
-.topbar-btn.outline:hover{background:rgba(201,168,76,0.1);}
-.hamburger-mobile{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:4px;}
-
-/* PAGE CONTENT */
-.page{display:none;padding:2rem;animation:fadeIn 0.4s ease;}
-.page.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-
-/* WELCOME HEADER */
-.welcome-header{margin-bottom:2rem;}
-.welcome-tag{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.3rem;}
-.welcome-title{font-family:var(--font-d);font-size:2.5rem;font-weight:700;color:white;}
-.welcome-title em{font-style:italic;color:var(--gold);}
-
-/* STATS CARDS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
-.stat-card{background:var(--dark2);border:1px solid var(--border);border-radius:4px;padding:1.5rem;position:relative;overflow:hidden;transition:var(--tr);}
-.stat-card:hover{border-color:var(--border2);}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.stat-card:nth-child(1)::before{background:var(--gold);}
-.stat-card:nth-child(2)::before{background:var(--red);}
-.stat-card:nth-child(3)::before{background:#22c55e;}
-.stat-card:nth-child(4)::before{background:var(--blue);}
-.stat-card-icon{font-size:1.8rem;margin-bottom:0.75rem;}
-.stat-card-num{font-family:var(--font-d);font-size:2.2rem;font-weight:700;color:white;line-height:1;}
-.stat-card-label{font-family:var(--font-c);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
-
-/* SECTION HEADERS */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;}
-.section-h{font-family:var(--font-d);font-size:1.6rem;font-weight:700;color:white;}
-.section-h small{font-family:var(--font-c);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);display:block;margin-bottom:2px;}
-.see-all{font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;transition:var(--tr);}
-.see-all:hover{opacity:0.7;}
-
-/* VUELO PRÓXIMO BANNER */
-.next-flight-banner{
-  background:linear-gradient(135deg,rgba(0,45,114,0.5),rgba(200,16,46,0.2));
-  border:1px solid rgba(201,168,76,0.2);
-  border-radius:4px;padding:1.5rem 2rem;
-  margin-bottom:2rem;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  flex-wrap:wrap;
-  position:relative;overflow:hidden;
+.topbar-left { display:flex; align-items:center; gap:12px; }
+.hamburger-btn {
+  display:none; background:none; border:none;
+  font-size:22px; color:var(--text); padding:6px; border-radius:var(--radius-sm);
+  transition:background var(--tr);
 }
-.next-flight-banner::before{content:'✈';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.05;}
-.nfb-label{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;}
-.nfb-route{font-family:var(--font-d);font-size:1.8rem;font-weight:700;color:white;}
-.nfb-details{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;}
-.nfb-status{padding:5px 14px;border-radius:20px;font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
-.status-confirmado{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
-.status-pendiente{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);}
-.status-cancelado{background:rgba(200,16,46,0.12);color:#f87171;border:1px solid rgba(200,16,46,0.3);}
-.status-pago_en_revision{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.3);}
-.status-completado{background:rgba(100,100,100,0.2);color:rgba(255,255,255,0.5);border:1px solid rgba(100,100,100,0.3);}
-
-/* RESERVAS TABLE */
-.reservas-table{width:100%;border-collapse:collapse;}
-.reservas-table th{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
-.reservas-table td{padding:1rem;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:rgba(255,255,255,0.75);}
-.reservas-table tr:hover td{background:var(--surface);}
-.reservas-table .route-cell{font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:white;}
-.table-wrap{background:var(--dark2);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.empty-state{text-align:center;padding:4rem 2rem;}
-.empty-state .es-icon{font-size:3rem;margin-bottom:1rem;}
-.empty-state p{color:rgba(255,255,255,0.3);font-size:14px;margin-bottom:1.5rem;}
-
-/* VUELOS SEARCH */
-.search-bar{display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;}
-.search-input{flex:1;min-width:200px;padding:11px 16px;background:var(--dark2);border:1px solid var(--border);border-radius:3px;color:white;font-family:var(--font-b);font-size:14px;outline:none;transition:var(--tr);}
-.search-input:focus{border-color:var(--gold);}
-.search-input::placeholder{color:rgba(255,255,255,0.25);}
-.search-select{padding:11px 16px;background:var(--dark2);border:1px solid var(--border);border-radius:3px;color:white;font-family:var(--font-b);font-size:14px;outline:none;cursor:pointer;}
-.search-select option{background:var(--dark2);}
-.search-btn-sm{padding:11px 22px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);}
-.search-btn-sm:hover{background:#e01535;}
-
-/* FLIGHT CARDS */
-.flights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;}
-.flight-card{background:var(--dark2);border:1px solid var(--border);border-radius:4px;padding:1.5rem;transition:var(--tr);position:relative;overflow:hidden;}
-.flight-card:hover{border-color:var(--border2);transform:translateY(-3px);}
-.flight-card.en_vuelo{border-color:rgba(34,197,94,0.2);}
-.fc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-.fc-route{font-family:var(--font-d);font-size:1.4rem;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
-.fc-arrow{color:var(--gold);}
-.fc-estado{padding:3px 10px;border-radius:20px;font-family:var(--font-c);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
-.fc-info{display:flex;justify-content:space-between;align-items:flex-end;}
-.fc-time{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;}
-.fc-price{font-family:var(--font-d);font-size:1.8rem;font-weight:700;color:var(--gold);}
-.fc-seats{font-size:11px;color:rgba(255,255,255,0.3);}
-.btn-book{padding:8px 18px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:var(--tr);margin-top:1rem;width:100%;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
-.btn-book:hover{background:#e01535;}
-.btn-book:disabled{opacity:0.5;pointer-events:none;}
-
-/* PROFILE FORM */
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.profile-card{background:var(--dark2);border:1px solid var(--border);border-radius:4px;padding:2rem;}
-.form-group{margin-bottom:1.2rem;}
-.form-label{display:block;font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.4rem;}
-.form-input,.form-select{width:100%;padding:12px 16px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:3px;color:white;font-family:var(--font-b);font-size:14px;outline:none;transition:var(--tr);}
-.form-input:focus,.form-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1);}
-.form-input::placeholder{color:rgba(255,255,255,0.2);}
-.form-select option{background:var(--dark2);}
-.form-input:disabled{opacity:0.5;cursor:not-allowed;}
-.btn-save{padding:12px 32px;background:var(--gold);border:none;color:var(--navy);font-family:var(--font-c);font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
-.btn-save:hover{background:var(--gold2);}
-
-/* RESERVA MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
-.modal-overlay.show{opacity:1;pointer-events:all;}
-.modal{background:var(--dark2);border:1px solid var(--border2);border-radius:4px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform 0.3s;}
-.modal-overlay.show .modal{transform:translateY(0);}
-.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));}
-.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:var(--font-d);font-size:1.5rem;font-weight:700;color:white;}
-.modal-close{background:none;border:none;color:rgba(255,255,255,0.4);font-size:20px;cursor:pointer;transition:color 0.2s;}
-.modal-close:hover{color:white;}
-.modal-body{padding:2rem;}
-.modal-flight-info{background:rgba(0,45,114,0.2);border:1px solid var(--border);border-radius:3px;padding:1.2rem;margin-bottom:1.5rem;}
-.mfi-route{font-family:var(--font-d);font-size:1.6rem;font-weight:700;color:white;margin-bottom:0.3rem;}
-.mfi-details{font-size:13px;color:rgba(255,255,255,0.45);}
-.mfi-price{font-family:var(--font-d);font-size:2rem;font-weight:700;color:var(--gold);margin-top:0.5rem;}
-.passenger-section{margin-bottom:1.5rem;}
-.psec-title{font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
-.psec-title::after{content:'';flex:1;height:1px;background:var(--border);}
-.passenger-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
-.modal-footer{padding:1.5rem 2rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;justify-content:flex-end;}
-.btn-cancel{padding:12px 24px;background:transparent;border:1px solid var(--border2);color:rgba(255,255,255,0.6);font-family:var(--font-c);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);}
-.btn-cancel:hover{border-color:rgba(255,255,255,0.3);color:white;}
-.btn-confirm{padding:12px 28px;background:var(--red);border:none;color:white;font-family:var(--font-c);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--tr);clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
-.btn-confirm:hover{background:#e01535;}
-.btn-confirm:disabled{opacity:0.6;pointer-events:none;}
-
-/* TOAST */
-.toast{position:fixed;bottom:2rem;right:2rem;z-index:2000;background:var(--dark2);border:1px solid var(--gold);border-radius:4px;padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);min-width:280px;max-width:380px;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast.error{border-color:var(--red);}
-.toast-icon{font-size:20px;}
-.toast-msg{font-size:13px;color:rgba(255,255,255,0.8);}
-.toast-msg strong{color:var(--gold);display:block;font-size:14px;margin-bottom:2px;}
-.toast.error .toast-msg strong{color:#f87171;}
-
-/* LOADING */
-.loading-overlay{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity 0.5s;}
-.loading-overlay.done{opacity:0;pointer-events:none;}
-.loading-logo img{height:50px;filter:brightness(0) invert(1);animation:pulse 1.5s ease-in-out infinite;}
-.loading-bar-wrap{width:180px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
-.loading-bar{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));animation:fill 1.5s ease forwards;}
-@keyframes fill{to{width:100%;}}
-@keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
-
-/* PAYMENT PROOF */
-.payment-section{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:1.2rem;margin-top:1rem;}
-.payment-title{font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:0.75rem;}
-.file-upload{display:flex;align-items:center;gap:0.75rem;}
-.file-input{display:none;}
-.file-label{padding:8px 16px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:3px;color:var(--gold);font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--tr);}
-.file-label:hover{background:rgba(201,168,76,0.2);}
-.file-name{font-size:12px;color:rgba(255,255,255,0.4);}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  :root{--sidebar:0px;}
-  .sidebar{transform:translateX(-260px);width:260px;}
-  .sidebar.open{transform:translateX(0);}
-  .main{margin-left:0;}
-  .hamburger-mobile{display:block;}
-  .stats-row{grid-template-columns:1fr 1fr;}
-  .profile-grid{grid-template-columns:1fr;}
-  .passenger-grid{grid-template-columns:1fr;}
+.hamburger-btn:hover { background:var(--bg2); }
+.topbar-title { font-family:var(--font-d); font-size:1.35rem; color:var(--text); }
+.topbar-right { display:flex; align-items:center; gap:10px; }
+.topbar-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 18px; border-radius:var(--radius-sm);
+  font-size:12.5px; font-weight:600; border:none;
+  transition:all var(--tr);
 }
-@media(max-width:600px){
-  .stats-row{grid-template-columns:1fr;}
-  .page{padding:1rem;}
-  .topbar{padding:0.75rem 1rem;}
+.topbar-btn.primary { background:var(--blue); color:#fff; }
+.topbar-btn.primary:hover { background:#1444b0; box-shadow:0 4px 12px rgba(27,79,204,0.3); }
+.topbar-btn.ghost { background:transparent; color:var(--text2); border:1px solid var(--border2); }
+.topbar-btn.ghost:hover { background:var(--bg2); }
+
+/* ═══════════════════════════════════════════
+   PAGES
+═══════════════════════════════════════════ */
+.page { display:none; padding:1.75rem 1.5rem 3rem; animation:pageIn 0.35s ease; }
+.page.active { display:block; }
+@keyframes pageIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════
+   COMMON COMPONENTS
+═══════════════════════════════════════════ */
+.page-header { margin-bottom:1.75rem; }
+.page-tag {
+  font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase;
+  color:var(--blue); display:block; margin-bottom:0.3rem;
+}
+.page-title { font-family:var(--font-d); font-size:2rem; color:var(--text); }
+.page-title em { font-style:italic; color:var(--blue); }
+
+.section-lbl {
+  font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--text3); margin-bottom:0.75rem; display:block;
+}
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+}
+.card-header {
+  padding:1.25rem 1.5rem; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.card-title { font-size:15px; font-weight:700; color:var(--text); }
+.card-action { font-size:12px; font-weight:600; color:var(--blue); background:none; border:none; transition:opacity var(--tr); }
+.card-action:hover { opacity:0.7; }
+
+/* ═══════════════════════════════════════════
+   STATS ROW
+═══════════════════════════════════════════ */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+.stat-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:1.4rem 1.5rem;
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
+  transition:all var(--tr);
+}
+.stat-card:hover { box-shadow:var(--shadow2); transform:translateY(-2px); }
+.stat-card::after {
+  content:''; position:absolute; top:0; right:0;
+  width:80px; height:80px; border-radius:50%;
+  transform:translate(25px,-25px); opacity:0.08;
+}
+.stat-card:nth-child(1)::after { background:var(--blue); }
+.stat-card:nth-child(2)::after { background:var(--green); }
+.stat-card:nth-child(3)::after { background:var(--gold); }
+.stat-card:nth-child(4)::after { background:var(--red); }
+.stat-icon-wrap {
+  width:40px; height:40px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; margin-bottom:1rem;
+}
+.stat-icon-wrap.blue  { background:var(--blue-lt); }
+.stat-icon-wrap.green { background:var(--green-lt); }
+.stat-icon-wrap.gold  { background:var(--gold-lt); }
+.stat-icon-wrap.red   { background:var(--red-lt); }
+.stat-num { font-family:var(--font-d); font-size:2.2rem; font-weight:400; color:var(--text); line-height:1; }
+.stat-lbl { font-size:12px; font-weight:500; color:var(--text3); margin-top:4px; }
+
+/* ═══════════════════════════════════════════
+   NEXT FLIGHT BANNER
+═══════════════════════════════════════════ */
+.next-flight-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, #1b3880 60%, #1B4FCC 100%);
+  border-radius:var(--radius); padding:1.75rem 2rem;
+  margin-bottom:1.5rem; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem; box-shadow:var(--shadow2);
+}
+.next-flight-banner::before {
+  content:'✈'; position:absolute; right:2rem; top:50%;
+  transform:translateY(-50%); font-size:7rem; opacity:0.05; line-height:1;
+}
+.nfb-label { font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:rgba(201,152,42,0.9); margin-bottom:0.3rem; }
+.nfb-route { font-family:var(--font-d); font-size:1.8rem; color:#fff; }
+.nfb-details { font-size:13px; color:rgba(255,255,255,0.55); margin-top:4px; }
+.nfb-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+
+/* STATUS CHIPS */
+.chip {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  padding:4px 12px; border-radius:20px;
+}
+.chip::before { content:'●'; font-size:7px; }
+.chip-pendiente     { background:rgba(201,152,42,0.12); color:#a07010; border:1px solid rgba(201,152,42,0.25); }
+.chip-confirmado    { background:var(--green-lt); color:var(--green); border:1px solid rgba(26,158,92,0.25); }
+.chip-cancelado     { background:var(--red-lt); color:var(--red); border:1px solid rgba(214,40,57,0.2); }
+.chip-completado    { background:#F1F5F9; color:var(--gray); border:1px solid var(--border2); }
+.chip-pago_en_revision { background:var(--blue-lt); color:var(--blue); border:1px solid rgba(27,79,204,0.2); }
+.chip-programado    { background:var(--blue-lt); color:var(--blue); border:1px solid rgba(27,79,204,0.2); }
+.chip-abordando     { background:var(--gold-lt); color:var(--gold); border:1px solid rgba(201,152,42,0.25); }
+.chip-en_vuelo      { background:var(--green-lt); color:var(--green); border:1px solid rgba(26,158,92,0.25); }
+.chip-aterrizado    { background:#F1F5F9; color:var(--gray); border:1px solid var(--border2); }
+
+/* ═══════════════════════════════════════════
+   RESERVAS TABLE
+═══════════════════════════════════════════ */
+.table-scroll { overflow-x:auto; }
+.boa-table { width:100%; border-collapse:collapse; }
+.boa-table thead tr { border-bottom:2px solid var(--border); }
+.boa-table th {
+  font-size:10.5px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--text3); padding:0.875rem 1.25rem; text-align:left; white-space:nowrap;
+  background:var(--surface2);
+}
+.boa-table th:first-child { border-radius:0; }
+.boa-table td { padding:1rem 1.25rem; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text2); vertical-align:middle; }
+.boa-table tr:last-child td { border-bottom:none; }
+.boa-table tbody tr { transition:background var(--tr); }
+.boa-table tbody tr:hover td { background:var(--blue-lt); }
+.td-route { font-family:var(--font-d); font-size:1.05rem; color:var(--text); font-weight:400; white-space:nowrap; }
+.td-code { font-family:var(--font-m); font-size:11px; color:var(--text3); display:block; margin-top:1px; }
+.td-price { font-family:var(--font-m); font-size:14px; font-weight:600; color:var(--blue); }
+.btn-cancel-sm {
+  padding:5px 12px; border-radius:6px;
+  background:transparent; border:1px solid rgba(214,40,57,0.25);
+  color:rgba(214,40,57,0.8); font-size:11px; font-weight:600;
+  transition:all var(--tr);
+}
+.btn-cancel-sm:hover { background:var(--red-lt); color:var(--red); border-color:rgba(214,40,57,0.4); }
+.btn-cancel-sm:disabled { opacity:0.35; pointer-events:none; }
+
+.empty-state {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:4rem 2rem; text-align:center; gap:1rem;
+}
+.empty-state .es-icon { font-size:2.5rem; opacity:0.4; }
+.empty-state p { font-size:14px; color:var(--text3); max-width:280px; line-height:1.6; }
+
+/* ═══════════════════════════════════════════
+   FLIGHT CARDS
+═══════════════════════════════════════════ */
+.flights-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; }
+.flight-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:1.4rem;
+  box-shadow:var(--shadow); transition:all var(--tr);
+  display:flex; flex-direction:column; gap:1rem;
+}
+.flight-card:hover { box-shadow:var(--shadow2); transform:translateY(-3px); border-color:var(--border2); }
+.fc-top { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; }
+.fc-route-wrap { flex:1; }
+.fc-airports { display:flex; align-items:center; gap:8px; }
+.fc-city { font-family:var(--font-d); font-size:1.3rem; color:var(--text); }
+.fc-arrow { color:var(--blue); font-size:14px; flex-shrink:0; }
+.fc-codes { font-family:var(--font-m); font-size:10px; color:var(--text3); margin-top:2px; }
+.fc-body { display:flex; justify-content:space-between; align-items:flex-end; gap:0.5rem; }
+.fc-info-row { font-size:12px; color:var(--text3); line-height:1.8; }
+.fc-info-row span { color:var(--text2); font-weight:500; }
+.fc-pricing { text-align:right; }
+.fc-price { font-family:var(--font-d); font-size:1.6rem; color:var(--navy); }
+.fc-seats { font-size:11px; color:var(--text3); margin-top:2px; }
+.fc-seats.low { color:var(--red); font-weight:600; }
+.btn-book {
+  width:100%; padding:11px;
+  background:var(--blue); color:#fff; border:none;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  letter-spacing:0.5px; transition:all var(--tr);
+}
+.btn-book:hover { background:#1444b0; box-shadow:0 4px 14px rgba(27,79,204,0.35); }
+.btn-book:disabled { background:var(--bg2); color:var(--text3); box-shadow:none; pointer-events:none; }
+
+/* ═══════════════════════════════════════════
+   SEARCH BAR
+═══════════════════════════════════════════ */
+.search-bar {
+  display:flex; gap:0.75rem; margin-bottom:1.25rem;
+  flex-wrap:wrap; align-items:flex-end;
+}
+.search-group { display:flex; flex-direction:column; gap:5px; flex:1; min-width:140px; }
+.search-group label { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--text3); }
+.s-input, .s-select {
+  padding:10px 14px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-sm); color:var(--text); font-size:13.5px; outline:none;
+  transition:border-color var(--tr), box-shadow var(--tr);
+  width:100%;
+}
+.s-input:focus, .s-select:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(27,79,204,0.1); }
+.s-input::placeholder { color:var(--gray2); }
+.s-select option { background:var(--surface); }
+.search-btn-primary {
+  padding:10px 22px; align-self:flex-end;
+  background:var(--blue); color:#fff; border:none;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  letter-spacing:0.5px; transition:all var(--tr); white-space:nowrap;
+  display:flex; align-items:center; gap:6px;
+}
+.search-btn-primary:hover { background:#1444b0; }
+
+/* ═══════════════════════════════════════════
+   PROFILE
+═══════════════════════════════════════════ */
+.profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.profile-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.profile-card-header { padding:1.25rem 1.5rem; border-bottom:1px solid var(--border); background:var(--surface2); }
+.profile-card-header h3 { font-family:var(--font-d); font-size:1.2rem; color:var(--text); }
+.profile-card-body { padding:1.5rem; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.875rem; }
+.form-group { display:flex; flex-direction:column; gap:5px; margin-bottom:0.875rem; }
+.form-group:last-child { margin-bottom:0; }
+.form-lbl { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); }
+.form-input, .form-select {
+  padding:11px 14px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-sm); color:var(--text); font-size:14px; outline:none;
+  transition:all var(--tr);
+}
+.form-input:focus, .form-select:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(27,79,204,0.1); }
+.form-input:disabled { background:var(--bg2); color:var(--text3); cursor:not-allowed; }
+.form-input::placeholder { color:var(--gray2); }
+.form-select option { background:#fff; }
+.btn-save {
+  padding:11px 28px; background:var(--blue); color:#fff; border:none;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  letter-spacing:0.5px; transition:all var(--tr); margin-top:1.25rem;
+  display:inline-flex; align-items:center; gap:7px;
+}
+.btn-save:hover { background:#1444b0; box-shadow:0 4px 14px rgba(27,79,204,0.3); }
+.btn-save.secondary { background:var(--navy); }
+.btn-save.secondary:hover { background:#071a4a; }
+.divider { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
+
+/* ═══════════════════════════════════════════
+   MODAL (BOOKING FLOW)
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0;
+  background:rgba(10,36,99,0.45); backdrop-filter:blur(8px);
+  z-index:1000; display:flex; align-items:center; justify-content:center;
+  padding:1rem; opacity:0; pointer-events:none; transition:opacity 0.25s;
+}
+.modal-overlay.show { opacity:1; pointer-events:all; }
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); width:100%; max-width:640px;
+  max-height:92vh; overflow:hidden;
+  display:flex; flex-direction:column;
+  transform:translateY(24px) scale(0.98);
+  transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 24px 64px rgba(10,36,99,0.2), 0 4px 16px rgba(10,36,99,0.1);
+}
+.modal-overlay.show .modal { transform:translateY(0) scale(1); }
+.modal-header {
+  padding:1.5rem 1.75rem; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0;
+}
+.modal-title { font-family:var(--font-d); font-size:1.5rem; color:var(--text); }
+.modal-close { background:none; border:none; color:var(--text3); font-size:22px; padding:4px; transition:color var(--tr); }
+.modal-close:hover { color:var(--text); }
+.modal-body { padding:1.75rem; overflow-y:auto; flex:1; }
+.modal-footer {
+  padding:1.25rem 1.75rem; border-top:1px solid var(--border);
+  display:flex; gap:0.75rem; justify-content:flex-end;
+  flex-shrink:0; background:var(--surface2);
+}
+
+/* Progress steps */
+.steps-bar { display:flex; align-items:center; gap:0; margin-bottom:1.75rem; }
+.step { display:flex; align-items:center; flex:1; }
+.step-circle {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; transition:all 0.3s;
+  background:var(--bg2); color:var(--text3); border:2px solid var(--border2);
+}
+.step.done .step-circle { background:var(--green); color:#fff; border-color:var(--green); }
+.step.active .step-circle { background:var(--blue); color:#fff; border-color:var(--blue); box-shadow:0 0 0 4px rgba(27,79,204,0.15); }
+.step-label { font-size:11px; font-weight:600; color:var(--text3); margin-left:8px; white-space:nowrap; }
+.step.active .step-label { color:var(--blue); }
+.step.done .step-label { color:var(--green); }
+.step-line { flex:1; height:2px; background:var(--border); margin:0 8px; }
+.step.done + .step .step-line { background:var(--green); }
+
+/* Flight info block in modal */
+.modal-flight-info {
+  background:linear-gradient(135deg,var(--navy),#1B4FCC);
+  border-radius:var(--radius); padding:1.4rem;
+  margin-bottom:1.5rem; color:#fff; position:relative; overflow:hidden;
+}
+.modal-flight-info::after { content:'✈'; position:absolute; right:1rem; top:50%; transform:translateY(-50%); font-size:4rem; opacity:0.07; }
+.mfi-route { font-family:var(--font-d); font-size:1.6rem; margin-bottom:0.3rem; }
+.mfi-details { font-size:12px; color:rgba(255,255,255,0.55); line-height:1.6; }
+.mfi-price-row { display:flex; align-items:center; justify-content:space-between; margin-top:0.75rem; }
+.mfi-price { font-family:var(--font-d); font-size:2rem; }
+.mfi-seats { font-size:12px; color:rgba(255,255,255,0.5); }
+
+/* Sections in modal */
+.modal-section { margin-bottom:1.5rem; }
+.modal-section-title {
+  font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--blue); margin-bottom:1rem;
+  display:flex; align-items:center; gap:8px;
+}
+.modal-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* Seat selection */
+.seat-class-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.25rem; }
+.seat-class-card {
+  border:2px solid var(--border); border-radius:var(--radius-sm);
+  padding:1rem; cursor:pointer; transition:all var(--tr);
+  display:flex; flex-direction:column; gap:4px;
+}
+.seat-class-card:hover { border-color:var(--blue); background:var(--blue-lt); }
+.seat-class-card.selected { border-color:var(--blue); background:var(--blue-lt); }
+.seat-class-card .sc-icon { font-size:1.5rem; }
+.seat-class-card .sc-name { font-size:14px; font-weight:700; color:var(--text); }
+.seat-class-card .sc-desc { font-size:11px; color:var(--text3); line-height:1.4; }
+.seat-class-card .sc-price-extra { font-size:12px; font-weight:700; color:var(--blue); margin-top:4px; }
+
+/* Passenger rows */
+.passenger-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.875rem; }
+
+/* Special assistance */
+.assistance-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+.assistance-item {
+  display:flex; align-items:center; gap:10px;
+  padding:0.875rem 1rem; border:1px solid var(--border);
+  border-radius:var(--radius-sm); cursor:pointer; transition:all var(--tr);
+}
+.assistance-item:hover { border-color:var(--blue); background:var(--blue-lt); }
+.assistance-item.selected { border-color:var(--blue); background:var(--blue-lt); }
+.assistance-item input[type="checkbox"] { display:none; }
+.ai-icon { font-size:1.4rem; }
+.ai-text { font-size:13px; font-weight:500; color:var(--text2); line-height:1.3; }
+.ai-check {
+  margin-left:auto; width:20px; height:20px; border-radius:5px;
+  border:2px solid var(--border2); display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:all var(--tr); font-size:11px; color:transparent;
+}
+.assistance-item.selected .ai-check { background:var(--blue); border-color:var(--blue); color:#fff; }
+
+/* Payment section */
+.payment-methods { display:flex; flex-direction:column; gap:0.75rem; }
+.payment-method-card {
+  border:2px solid var(--border); border-radius:var(--radius-sm);
+  padding:1rem 1.2rem; cursor:pointer; transition:all var(--tr);
+  display:flex; align-items:center; gap:12px;
+}
+.payment-method-card:hover { border-color:var(--blue); }
+.payment-method-card.selected { border-color:var(--blue); background:var(--blue-lt); }
+.pm-radio {
+  width:18px; height:18px; border-radius:50%;
+  border:2px solid var(--border2); flex-shrink:0; position:relative; transition:all var(--tr);
+}
+.payment-method-card.selected .pm-radio { border-color:var(--blue); }
+.payment-method-card.selected .pm-radio::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:8px; height:8px; border-radius:50%; background:var(--blue); }
+.pm-info { flex:1; }
+.pm-name { font-size:14px; font-weight:600; color:var(--text); }
+.pm-desc { font-size:12px; color:var(--text3); margin-top:2px; }
+.pm-icon { font-size:1.5rem; flex-shrink:0; }
+
+/* QR Payment */
+.qr-section { display:none; margin-top:1rem; }
+.qr-section.show { display:block; }
+.qr-card {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:var(--radius); padding:1.5rem; text-align:center;
+}
+.qr-placeholder {
+  width:160px; height:160px; margin:0 auto 1rem;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center;
+  font-size:3rem;
+}
+.qr-amount { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.5rem; }
+.qr-instr { font-size:12px; color:var(--text3); line-height:1.6; max-width:280px; margin:0 auto; }
+.qr-bank-detail {
+  background:var(--blue-lt); border:1px solid rgba(27,79,204,0.15);
+  border-radius:var(--radius-sm); padding:0.875rem 1rem;
+  margin:1rem 0; text-align:left;
+}
+.qr-bank-row { display:flex; justify-content:space-between; font-size:12.5px; padding:3px 0; }
+.qr-bank-row .lbl { color:var(--text3); }
+.qr-bank-row .val { font-weight:600; color:var(--text); font-family:var(--font-m); }
+
+/* File upload */
+.file-upload-area {
+  border:2px dashed var(--border2); border-radius:var(--radius-sm);
+  padding:1.5rem; text-align:center; cursor:pointer; transition:all var(--tr);
+  position:relative; margin-top:1rem;
+}
+.file-upload-area:hover { border-color:var(--blue); background:var(--blue-lt); }
+.file-upload-area.has-file { border-color:var(--green); background:var(--green-lt); border-style:solid; }
+.file-upload-area input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.fua-icon { font-size:2rem; margin-bottom:0.5rem; }
+.fua-text { font-size:13px; font-weight:600; color:var(--text2); }
+.fua-sub { font-size:11px; color:var(--text3); margin-top:3px; }
+.fua-file-name { font-size:12px; font-weight:600; color:var(--green); margin-top:4px; }
+
+/* Summary */
+.booking-summary { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.bs-row { display:flex; justify-content:space-between; padding:0.875rem 1.25rem; border-bottom:1px solid var(--border); font-size:13.5px; }
+.bs-row:last-child { border-bottom:none; }
+.bs-row .lbl { color:var(--text3); }
+.bs-row .val { font-weight:600; color:var(--text); }
+.bs-row.total { background:var(--navy); }
+.bs-row.total .lbl { color:rgba(255,255,255,0.6); font-size:12px; text-transform:uppercase; letter-spacing:1px; }
+.bs-row.total .val { font-family:var(--font-d); font-size:1.4rem; color:#fff; }
+
+/* Modal nav buttons */
+.btn-modal-next {
+  padding:12px 28px; background:var(--blue); color:#fff; border:none;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  letter-spacing:0.5px; transition:all var(--tr); display:flex; align-items:center; gap:7px;
+}
+.btn-modal-next:hover { background:#1444b0; }
+.btn-modal-next:disabled { opacity:0.5; pointer-events:none; }
+.btn-modal-back {
+  padding:12px 22px; background:transparent; border:1px solid var(--border2);
+  color:var(--text2); border-radius:var(--radius-sm); font-size:13px; font-weight:600;
+  transition:all var(--tr);
+}
+.btn-modal-back:hover { background:var(--bg2); }
+.btn-confirm-final {
+  padding:12px 28px; background:var(--green); color:#fff; border:none;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  transition:all var(--tr); display:flex; align-items:center; gap:7px;
+}
+.btn-confirm-final:hover { background:#178a4f; }
+.btn-confirm-final:disabled { opacity:0.5; pointer-events:none; }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR OVERLAY (mobile)
+═══════════════════════════════════════════ */
+.sidebar-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(10,36,99,0.45); z-index:150;
+}
+.sidebar-overlay.show { display:block; }
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast {
+  position:fixed; bottom:1.5rem; right:1.5rem; z-index:3000;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:1rem 1.25rem;
+  display:flex; align-items:center; gap:12px;
+  box-shadow:var(--shadow2);
+  transform:translateY(80px); opacity:0;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  min-width:280px; max-width:360px;
+}
+.toast.show { transform:translateY(0); opacity:1; }
+.toast.success { border-left:4px solid var(--green); }
+.toast.error   { border-left:4px solid var(--red); }
+.toast.info    { border-left:4px solid var(--blue); }
+.toast-icon { font-size:20px; flex-shrink:0; }
+.toast-body .toast-title { font-size:14px; font-weight:700; color:var(--text); }
+.toast-body .toast-msg   { font-size:12px; color:var(--text3); margin-top:2px; }
+
+/* ═══════════════════════════════════════════
+   LOADING
+═══════════════════════════════════════════ */
+.loading-screen {
+  position:fixed; inset:0;
+  background:var(--navy); z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;
+  transition:opacity 0.5s;
+}
+.loading-screen.done { opacity:0; pointer-events:none; }
+.loading-logo img { height:48px; filter:brightness(0) invert(1); animation:logoPulse 1.5s ease-in-out infinite; }
+.loading-bar-wrap { width:200px; height:3px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; }
+.loading-bar { height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); animation:barFill 1.4s ease forwards; }
+.loading-text { font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+@keyframes logoPulse { 0%,100% { opacity:0.4; } 50% { opacity:1; } }
+@keyframes barFill { to { width:100%; } }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width:1024px) {
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .profile-grid { grid-template-columns:1fr; }
+}
+@media (max-width:768px) {
+  :root { --sidebar-w:0px; }
+  .sidebar { transform:translateX(-270px); width:270px; }
+  .sidebar.open { transform:translateX(0); }
+  .sidebar-close-btn { display:flex; }
+  .main { margin-left:0; }
+  .hamburger-btn { display:flex; }
+  .topbar { padding:0 1rem; }
+  .topbar-btn span { display:none; }
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .seat-class-grid { grid-template-columns:1fr; }
+  .passenger-grid { grid-template-columns:1fr; }
+  .assistance-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+}
+@media (max-width:520px) {
+  .stats-row { grid-template-columns:1fr; }
+  .page { padding:1rem 1rem 3rem; }
+  .modal { border-radius:var(--radius) var(--radius) 0 0; max-height:95vh; margin-top:auto; }
+  .modal-overlay { align-items:flex-end; }
+  .next-flight-banner { padding:1.25rem; }
+  .nfb-right { align-items:flex-start; }
 }
 </style>
 </head>
 <body>
 
-<div class="loading-overlay" id="loading">
-  <div class="loading-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></div>
+<!-- LOADING -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
+  </div>
   <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+  <div class="loading-text">Cargando tu cuenta</div>
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast">
-  <div class="toast-icon">✈️</div>
-  <div class="toast-msg"><strong>Mensaje</strong><span id="toast-text"></span></div>
+  <div class="toast-icon" id="toast-icon">✈️</div>
+  <div class="toast-body">
+    <div class="toast-title" id="toast-title">Mensaje</div>
+    <div class="toast-msg"  id="toast-msg"></div>
+  </div>
 </div>
 
-<!-- RESERVATION MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════ BOOKING MODAL ═══════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleModalBg(event)">
   <div class="modal" id="modal">
     <div class="modal-header">
       <h3 class="modal-title">Reservar vuelo</h3>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="modal-flight-info" id="modal-flight-info"></div>
-      <div class="passenger-section">
-        <div class="psec-title">Pasajero principal</div>
-        <div class="passenger-grid">
-          <div class="form-group">
-            <label class="form-label">Nombre</label>
-            <input class="form-input" id="p-nombre" placeholder="Nombre" required/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Apellido</label>
-            <input class="form-input" id="p-apellido" placeholder="Apellido" required/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tipo documento</label>
-            <select class="form-select" id="p-tipo-doc">
-              <option value="documento_identidad">Cédula de identidad</option>
-              <option value="pasaporte">Pasaporte</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nº documento</label>
-            <input class="form-input" id="p-num-doc" placeholder="Ej: 12345678" required/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Correo</label>
-            <input class="form-input" type="email" id="p-correo" placeholder="tu@correo.com"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Celular</label>
-            <input class="form-input" id="p-celular" placeholder="+591 7XXXXXXX"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Fecha de nacimiento</label>
-            <input class="form-input" type="date" id="p-nacimiento"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Género</label>
-            <select class="form-select" id="p-genero">
-              <option value="masculino">Masculino</option>
-              <option value="femenino">Femenino</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="payment-section">
-        <div class="payment-title">Comprobante de pago (opcional)</div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:0.75rem;">Adjunta tu comprobante de transferencia para agilizar la confirmación.</p>
-        <div class="file-upload">
-          <input class="file-input" type="file" id="comprobante" accept="image/*,.pdf"/>
-          <label class="file-label" for="comprobante">📎 Adjuntar</label>
-          <span class="file-name" id="file-name">Sin archivo</span>
-        </div>
-      </div>
+    <div class="modal-body" id="modal-body">
+      <!-- Steps injected by JS -->
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-confirm" id="btn-confirm" onclick="confirmReservation()">
-        <span id="confirm-text">Confirmar reserva</span>
-      </button>
+    <div class="modal-footer" id="modal-footer">
+      <!-- Buttons injected by JS -->
     </div>
   </div>
 </div>
 
 <div class="app">
-  <!-- SIDEBAR -->
+  <!-- ═══════ SIDEBAR ═══════ -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
-      <span>Portal</span>
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
+        <span class="sidebar-logo-badge">Portal</span>
+      </div>
+      <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
     </div>
     <div class="sidebar-user">
       <div class="user-avatar" id="avatar-initials">??</div>
       <div class="user-info">
-        <div class="user-name" id="sidebar-name">Cargando...</div>
+        <div class="user-name"  id="sidebar-name">Cargando...</div>
         <div class="user-email" id="sidebar-email"></div>
+        <div class="user-badge">Activo</div>
       </div>
     </div>
     <nav class="nav-menu">
-      <div class="nav-section-label">Principal</div>
+      <div class="nav-section-lbl">Principal</div>
       <a class="nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)">
         <span class="nav-icon">🏠</span> Inicio
       </a>
       <a class="nav-item" data-page="mis-reservas" onclick="showPage('mis-reservas',this)">
         <span class="nav-icon">🎫</span> Mis reservas
-        <span class="nav-badge" id="badge-reservas" style="display:none">0</span>
+        <span class="nav-badge-dot" id="badge-reservas" style="display:none">0</span>
       </a>
       <a class="nav-item" data-page="buscar-vuelos" onclick="showPage('buscar-vuelos',this)">
         <span class="nav-icon">✈️</span> Buscar vuelos
       </a>
-      <div class="nav-section-label">Cuenta</div>
+      <div class="nav-section-lbl">Cuenta</div>
       <a class="nav-item" data-page="perfil" onclick="showPage('perfil',this)">
         <span class="nav-icon">👤</span> Mi perfil
       </a>
-      <div class="nav-section-label">Más</div>
+      <div class="nav-section-lbl">Navegación</div>
       <a class="nav-item" href="../../index.html">
-        <span class="nav-icon">🌐</span> Inicio BOA
+        <span class="nav-icon">🌐</span> Volver a BOA
       </a>
     </nav>
     <div class="sidebar-footer">
-      <button class="btn-logout" onclick="handleLogout()">Cerrar sesión</button>
+      <button class="btn-logout" onclick="handleLogout()">↩ Cerrar sesión</button>
     </div>
   </aside>
 
-  <!-- MAIN -->
+  <!-- ═══════ MAIN ═══════ -->
   <main class="main">
+    <!-- TOPBAR -->
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:1rem;">
-        <button class="hamburger-mobile" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-left">
+        <button class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">☰</button>
         <span class="topbar-title" id="topbar-title">Inicio</span>
       </div>
-      <div class="topbar-actions">
-        <a class="topbar-btn" onclick="showPage('buscar-vuelos',null)">✈ Buscar vuelo</a>
-        <a class="topbar-btn outline" href="../../index.html">← BOA</a>
+      <div class="topbar-right">
+        <button class="topbar-btn primary" onclick="showPage('buscar-vuelos',null)">
+          <span>✈</span><span>Buscar vuelo</span>
+        </button>
+        <a class="topbar-btn ghost" href="../../index.html">
+          <span>← BOA</span>
+        </a>
       </div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- ── DASHBOARD ── -->
     <div class="page active" id="page-dashboard">
-      <div class="welcome-header">
-        <span class="welcome-tag">Panel de usuario</span>
-        <h1 class="welcome-title">Bienvenido, <em id="welcome-name">…</em></h1>
+      <div class="page-header">
+        <span class="page-tag">Panel de usuario</span>
+        <h1 class="page-title">Bienvenido, <em id="welcome-name">…</em></h1>
       </div>
 
       <div id="next-flight-container"></div>
 
       <div class="stats-row">
         <div class="stat-card">
-          <div class="stat-card-icon">🎫</div>
-          <div class="stat-card-num" id="stat-reservas">0</div>
-          <div class="stat-card-label">Reservas totales</div>
+          <div class="stat-icon-wrap blue">🎫</div>
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl">Reservas totales</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-icon">✅</div>
-          <div class="stat-card-num" id="stat-confirmadas">0</div>
-          <div class="stat-card-label">Confirmadas</div>
+          <div class="stat-icon-wrap green">✅</div>
+          <div class="stat-num" id="stat-confirmadas">0</div>
+          <div class="stat-lbl">Confirmadas</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-icon">⏳</div>
-          <div class="stat-card-num" id="stat-pendientes">0</div>
-          <div class="stat-card-label">Pendientes</div>
+          <div class="stat-icon-wrap gold">⏳</div>
+          <div class="stat-num" id="stat-pendientes">0</div>
+          <div class="stat-lbl">Pendientes</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-icon">✈️</div>
-          <div class="stat-card-num" id="stat-completados">0</div>
-          <div class="stat-card-label">Vuelos completados</div>
+          <div class="stat-icon-wrap red">✈️</div>
+          <div class="stat-num" id="stat-completados">0</div>
+          <div class="stat-lbl">Vuelos completados</div>
         </div>
       </div>
 
-      <div class="section-header">
-        <div class="section-h"><small>Recientes</small>Mis últimas reservas</div>
-        <button class="see-all" onclick="showPage('mis-reservas',null)">Ver todas →</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+        <span class="section-lbl" style="margin:0">Últimas reservas</span>
+        <button class="card-action" onclick="showPage('mis-reservas',null)">Ver todas →</button>
       </div>
-      <div class="table-wrap" id="recent-reservas-table">
-        <div class="empty-state"><div class="es-icon">🎫</div><p>Cargando reservas...</p></div>
+      <div class="card" style="margin-bottom:1.75rem;">
+        <div class="table-scroll" id="recent-reservas-table">
+          <div class="empty-state"><div class="es-icon">🎫</div><p>Cargando...</p></div>
+        </div>
       </div>
 
-      <div class="section-header" style="margin-top:2rem;">
-        <div class="section-h"><small>Disponibles ahora</small>Vuelos recomendados</div>
-        <button class="see-all" onclick="showPage('buscar-vuelos',null)">Ver todos →</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+        <span class="section-lbl" style="margin:0">Vuelos disponibles</span>
+        <button class="card-action" onclick="showPage('buscar-vuelos',null)">Ver todos →</button>
       </div>
       <div class="flights-grid" id="recommended-flights">
-        <!-- loaded dynamically -->
+        <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text3);">Cargando vuelos...</div>
       </div>
     </div>
 
-    <!-- MIS RESERVAS -->
+    <!-- ── MIS RESERVAS ── -->
     <div class="page" id="page-mis-reservas">
-      <div class="welcome-header">
-        <span class="welcome-tag">Historial</span>
-        <h1 class="welcome-title">Mis <em>Reservas</em></h1>
+      <div class="page-header">
+        <span class="page-tag">Historial de viajes</span>
+        <h1 class="page-title">Mis <em>Reservas</em></h1>
       </div>
-      <div class="table-wrap" id="all-reservas-table">
-        <div class="empty-state"><div class="es-icon">⏳</div><p>Cargando...</p></div>
+      <div class="card">
+        <div class="table-scroll" id="all-reservas-table">
+          <div class="empty-state"><div class="es-icon">⏳</div><p>Cargando...</p></div>
+        </div>
       </div>
     </div>
 
-    <!-- BUSCAR VUELOS -->
+    <!-- ── BUSCAR VUELOS ── -->
     <div class="page" id="page-buscar-vuelos">
-      <div class="welcome-header">
-        <span class="welcome-tag">Disponibilidad</span>
-        <h1 class="welcome-title">Buscar <em>Vuelos</em></h1>
+      <div class="page-header">
+        <span class="page-tag">Disponibilidad en tiempo real</span>
+        <h1 class="page-title">Buscar <em>Vuelos</em></h1>
       </div>
       <div class="search-bar">
-        <input class="search-input" id="filter-origen" placeholder="Origen (ciudad o código)"/>
-        <input class="search-input" id="filter-destino" placeholder="Destino (ciudad o código)"/>
-        <input class="search-input" type="date" id="filter-fecha" style="max-width:180px;"/>
-        <select class="search-select" id="filter-estado">
-          <option value="">Todos los estados</option>
-          <option value="programado">Programado</option>
-          <option value="abordando">Abordando</option>
-          <option value="en_vuelo">En vuelo</option>
-        </select>
-        <button class="search-btn-sm" onclick="loadFlights()">Buscar</button>
+        <div class="search-group">
+          <label>Origen</label>
+          <input class="s-input" id="filter-origen" placeholder="Ej: La Paz, VVI…"/>
+        </div>
+        <div class="search-group">
+          <label>Destino</label>
+          <input class="s-input" id="filter-destino" placeholder="Ej: Buenos Aires…"/>
+        </div>
+        <div class="search-group" style="max-width:170px;">
+          <label>Fecha</label>
+          <input class="s-input" type="date" id="filter-fecha"/>
+        </div>
+        <div class="search-group" style="max-width:180px;">
+          <label>Estado</label>
+          <select class="s-select" id="filter-estado">
+            <option value="">Todos</option>
+            <option value="programado">Programado</option>
+            <option value="abordando">Abordando</option>
+            <option value="en_vuelo">En vuelo</option>
+          </select>
+        </div>
+        <button class="search-btn-primary" onclick="loadFlights()">
+          🔍 Buscar
+        </button>
       </div>
       <div class="flights-grid" id="flights-grid">
-        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(255,255,255,0.3);">Cargando vuelos...</div>
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text3);">Cargando vuelos...</div>
       </div>
     </div>
 
-    <!-- PERFIL -->
+    <!-- ── PERFIL ── -->
     <div class="page" id="page-perfil">
-      <div class="welcome-header">
-        <span class="welcome-tag">Configuración</span>
-        <h1 class="welcome-title">Mi <em>Perfil</em></h1>
+      <div class="page-header">
+        <span class="page-tag">Configuración de cuenta</span>
+        <h1 class="page-title">Mi <em>Perfil</em></h1>
       </div>
       <div class="profile-grid">
         <div class="profile-card">
-          <div class="section-header" style="margin-bottom:1.5rem;">
-            <h3 style="font-family:var(--font-d);font-size:1.4rem;font-weight:700;">Datos personales</h3>
+          <div class="profile-card-header">
+            <h3>Datos personales</h3>
           </div>
-          <div class="form-group">
-            <label class="form-label">Correo electrónico</label>
-            <input class="form-input" id="prof-email" disabled/>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div class="profile-card-body">
             <div class="form-group">
-              <label class="form-label">Nombre</label>
-              <input class="form-input" id="prof-nombre" placeholder="Tu nombre"/>
+              <label class="form-lbl">Correo electrónico</label>
+              <input class="form-input" id="prof-email" disabled/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-lbl">Nombre</label>
+                <input class="form-input" id="prof-nombre" placeholder="Tu nombre"/>
+              </div>
+              <div class="form-group">
+                <label class="form-lbl">Apellido</label>
+                <input class="form-input" id="prof-apellido" placeholder="Tu apellido"/>
+              </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Apellido</label>
-              <input class="form-input" id="prof-apellido" placeholder="Tu apellido"/>
+              <label class="form-lbl">Teléfono</label>
+              <input class="form-input" id="prof-telefono" placeholder="+591 7XXXXXXX"/>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Teléfono</label>
-            <input class="form-input" id="prof-telefono" placeholder="+591 7XXXXXXX"/>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div class="form-group">
-              <label class="form-label">Fecha de nacimiento</label>
-              <input class="form-input" type="date" id="prof-nacimiento"/>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-lbl">Fecha de nacimiento</label>
+                <input class="form-input" type="date" id="prof-nacimiento"/>
+              </div>
+              <div class="form-group">
+                <label class="form-lbl">Género</label>
+                <select class="form-select" id="prof-genero">
+                  <option value="">Seleccionar</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="femenino">Femenino</option>
+                </select>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Género</label>
-              <select class="form-select" id="prof-genero">
-                <option value="">Seleccionar</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-              </select>
-            </div>
+            <button class="btn-save" onclick="saveProfile()">💾 Guardar cambios</button>
           </div>
-          <button class="btn-save" onclick="saveProfile()">Guardar cambios</button>
         </div>
         <div class="profile-card">
-          <div class="section-header" style="margin-bottom:1.5rem;">
-            <h3 style="font-family:var(--font-d);font-size:1.4rem;font-weight:700;">Documento de identidad</h3>
+          <div class="profile-card-header">
+            <h3>Documento de identidad</h3>
           </div>
-          <div class="form-group">
-            <label class="form-label">Tipo de documento</label>
-            <select class="form-select" id="prof-tipo-doc">
-              <option value="">Seleccionar</option>
-              <option value="documento_identidad">Cédula de identidad</option>
-              <option value="pasaporte">Pasaporte</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Número de documento</label>
-            <input class="form-input" id="prof-num-doc" placeholder="Ej: 12345678"/>
-          </div>
-          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
-            <h4 style="font-family:var(--font-c);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem;">Seguridad</h4>
-            <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:1rem;">Para cambiar tu contraseña, recibirás un enlace en tu correo.</p>
-            <button class="btn-save" style="background:var(--navy)" onclick="sendPasswordReset()">Cambiar contraseña</button>
+          <div class="profile-card-body">
+            <div class="form-group">
+              <label class="form-lbl">Tipo de documento</label>
+              <select class="form-select" id="prof-tipo-doc">
+                <option value="">Seleccionar</option>
+                <option value="documento_identidad">Cédula de identidad</option>
+                <option value="pasaporte">Pasaporte</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-lbl">Número de documento</label>
+              <input class="form-input" id="prof-num-doc" placeholder="Ej: 12345678"/>
+            </div>
+            <hr class="divider"/>
+            <div style="margin-bottom:0.75rem;">
+              <p style="font-size:12px;color:var(--text3);line-height:1.6;">Para cambiar tu contraseña, recibirás un enlace en tu correo registrado.</p>
+            </div>
+            <button class="btn-save secondary" onclick="saveProfile(); sendPasswordReset()">🔒 Guardar y cambiar contraseña</button>
           </div>
         </div>
       </div>
     </div>
-  </main>
-</div>
+
+  </main><!-- /main -->
+</div><!-- /app -->
 
 <script type="module">
 import { supabase } from '../../assets/js/supabase.js';
-
-let currentUser = null;
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let currentUser    = null;
 let currentProfile = null;
 let selectedFlight = null;
+let modalStep      = 1;   // 1:asiento 2:pasajero 3:asistencia 4:pago 5:resumen
+let bookingData    = { clase:'economica', extraCost:0, assistance:{} };
 
-// INIT
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
 async function init() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data:{ user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = '../../auth/login.html'; return; }
   currentUser = user;
 
-  // Load profile
-  const { data: profile } = await supabase.from('users_profile').select('*').eq('id', user.id).single();
+  const { data: profile } = await supabase
+    .from('users_profile').select('*').eq('id', user.id).single();
   currentProfile = profile;
 
-  const nombre = profile?.nombre || user.user_metadata?.nombre || user.email.split('@')[0];
+  const nombre   = profile?.nombre   || user.user_metadata?.nombre   || user.email.split('@')[0];
   const apellido = profile?.apellido || user.user_metadata?.apellido || '';
-  const initials = (nombre[0] || '?') + (apellido[0] || '');
+  const initials = (nombre[0]||'?').toUpperCase() + (apellido[0]||'').toUpperCase();
 
-  document.getElementById('avatar-initials').textContent = initials.toUpperCase();
-  document.getElementById('sidebar-name').textContent = `${nombre} ${apellido}`.trim();
-  document.getElementById('sidebar-email').textContent = user.email;
-  document.getElementById('welcome-name').textContent = nombre;
+  document.getElementById('avatar-initials').textContent = initials;
+  document.getElementById('sidebar-name').textContent    = `${nombre} ${apellido}`.trim();
+  document.getElementById('sidebar-email').textContent   = user.email;
+  document.getElementById('welcome-name').textContent    = nombre;
+  document.getElementById('prof-email').value            = user.email;
 
-  // Fill profile form
-  document.getElementById('prof-email').value = user.email;
-  if (profile) {
-    document.getElementById('prof-nombre').value = profile.nombre || '';
-    document.getElementById('prof-apellido').value = profile.apellido || '';
-    document.getElementById('prof-telefono').value = profile.telefono || '';
-    document.getElementById('prof-nacimiento').value = profile.fecha_nacimiento || '';
-    document.getElementById('prof-genero').value = profile.genero || '';
-    document.getElementById('prof-tipo-doc').value = profile.tipo_documento || '';
-    document.getElementById('prof-num-doc').value = profile.numero_documento || '';
-  }
+  if (profile) fillProfileForm(profile);
 
-  // Pre-fill passenger modal with profile data
-  if (profile) {
-    document.getElementById('p-nombre').value = profile.nombre || '';
-    document.getElementById('p-apellido').value = profile.apellido || '';
-    document.getElementById('p-num-doc').value = profile.numero_documento || '';
-    document.getElementById('p-tipo-doc').value = profile.tipo_documento || 'documento_identidad';
-    document.getElementById('p-nacimiento').value = profile.fecha_nacimiento || '';
-    document.getElementById('p-genero').value = profile.genero || 'masculino';
-  }
-  document.getElementById('p-correo').value = user.email;
-
-  // Check URL params (from search redirect)
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('flight')) {
-    await openBookingById(urlParams.get('flight'));
-  }
+  // URL params → open booking or search
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('flight'))  await openBookingModal(p.get('flight'));
+  if (p.get('origen'))  document.getElementById('filter-origen').value  = p.get('origen');
+  if (p.get('destino')) document.getElementById('filter-destino').value = p.get('destino');
+  if (p.get('fecha'))   document.getElementById('filter-fecha').value   = p.get('fecha');
+  if (p.get('origen') || p.get('destino') || p.get('fecha')) showPage('buscar-vuelos',null);
 
   await loadDashboard();
   await loadFlights();
 
-  // Hide loader
   setTimeout(() => {
-    document.getElementById('loading').classList.add('done');
-    setTimeout(() => document.getElementById('loading').remove(), 600);
+    document.getElementById('loading-screen').classList.add('done');
+    setTimeout(() => document.getElementById('loading-screen').remove(), 600);
   }, 1200);
 }
 
-// DASHBOARD
+function fillProfileForm(p) {
+  document.getElementById('prof-nombre').value    = p.nombre    || '';
+  document.getElementById('prof-apellido').value  = p.apellido  || '';
+  document.getElementById('prof-telefono').value  = p.telefono  || '';
+  document.getElementById('prof-nacimiento').value= p.fecha_nacimiento || '';
+  document.getElementById('prof-genero').value    = p.genero    || '';
+  document.getElementById('prof-tipo-doc').value  = p.tipo_documento  || '';
+  document.getElementById('prof-num-doc').value   = p.numero_documento || '';
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════ */
 async function loadDashboard() {
   const { data: reservas } = await supabase
     .from('reservations')
     .select('*, flights(*)')
     .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending:false });
 
-  const total = reservas?.length || 0;
-  const confirmadas = reservas?.filter(r => r.estado === 'confirmado').length || 0;
-  const pendientes = reservas?.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length || 0;
-  const completados = reservas?.filter(r => r.estado === 'completado').length || 0;
+  const all         = reservas || [];
+  const confirmadas = all.filter(r => r.estado==='confirmado').length;
+  const pendientes  = all.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
+  const completados = all.filter(r => r.estado==='completado').length;
 
-  document.getElementById('stat-reservas').textContent = total;
+  document.getElementById('stat-total').textContent       = all.length;
   document.getElementById('stat-confirmadas').textContent = confirmadas;
-  document.getElementById('stat-pendientes').textContent = pendientes;
+  document.getElementById('stat-pendientes').textContent  = pendientes;
   document.getElementById('stat-completados').textContent = completados;
 
-  // Badge
   if (pendientes > 0) {
-    const badge = document.getElementById('badge-reservas');
-    badge.textContent = pendientes;
-    badge.style.display = 'inline-block';
+    const b = document.getElementById('badge-reservas');
+    b.textContent = pendientes; b.style.display = 'inline-flex';
   }
 
-  // Next flight
-  const nextFlight = reservas?.find(r => r.flights && new Date(r.flights.fecha_salida) > new Date() && r.estado !== 'cancelado');
-  const nfc = document.getElementById('next-flight-container');
-  if (nextFlight) {
-    const f = nextFlight.flights;
-    const salida = new Date(f.fecha_salida);
+  // Next flight banner
+  const next = all.find(r => r.flights && new Date(r.flights.fecha_salida) > new Date() && r.estado !== 'cancelado');
+  const nfc  = document.getElementById('next-flight-container');
+  if (next) {
+    const f = next.flights;
+    const d = new Date(f.fecha_salida);
     nfc.innerHTML = `
       <div class="next-flight-banner">
         <div>
           <div class="nfb-label">Tu próximo vuelo</div>
-          <div class="nfb-route">${getCityName(f.origen)} → ${getCityName(f.destino)}</div>
-          <div class="nfb-details">${salida.toLocaleDateString('es-BO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})} · ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
+          <div class="nfb-route">${cityName(f.origen)} → ${cityName(f.destino)}</div>
+          <div class="nfb-details">
+            📅 ${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+            &nbsp;·&nbsp; 🕐 ${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+          </div>
         </div>
-        <span class="nfb-status status-${nextFlight.estado}">${formatEstado(nextFlight.estado)}</span>
-      </div>
-    `;
+        <div class="nfb-right">
+          <span class="chip chip-${next.estado}">${fmtEstado(next.estado)}</span>
+        </div>
+      </div>`;
   }
 
-  // Recent reservas table (last 5)
-  renderReservasTable('recent-reservas-table', reservas?.slice(0, 5) || []);
-  renderReservasTable('all-reservas-table', reservas || []);
-
-  // Recommended flights
-  loadRecommendedFlights();
+  renderReservasTable('recent-reservas-table', all.slice(0,5));
+  renderReservasTable('all-reservas-table',    all);
+  await loadRecommendedFlights();
 }
 
 async function loadRecommendedFlights() {
-  const { data: flights } = await supabase
-    .from('flights')
-    .select('*')
-    .in('estado', ['programado','abordando'])
-    .gt('asientos_disponibles', 0)
-    .order('fecha_salida', { ascending: true })
+  const { data:flights } = await supabase
+    .from('flights').select('*')
+    .in('estado',['programado','abordando'])
+    .gt('asientos_disponibles',0)
+    .order('fecha_salida',{ascending:true})
     .limit(4);
-
-  const grid = document.getElementById('recommended-flights');
-  if (!flights?.length) { grid.innerHTML = `<p style="color:rgba(255,255,255,0.3);grid-column:1/-1;padding:2rem;">No hay vuelos disponibles.</p>`; return; }
-  grid.innerHTML = flights.map(f => renderFlightCard(f)).join('');
+  const g = document.getElementById('recommended-flights');
+  if (!flights?.length) { g.innerHTML = `<p style="grid-column:1/-1;color:var(--text3);padding:2rem;">Sin vuelos disponibles por ahora.</p>`; return; }
+  g.innerHTML = flights.map(f => flightCardHTML(f)).join('');
 }
 
 function renderReservasTable(containerId, reservas) {
-  const container = document.getElementById(containerId);
+  const c = document.getElementById(containerId);
   if (!reservas.length) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎫</div><p>Aún no tienes reservas. ¡Planifica tu próximo vuelo!</p><button class="topbar-btn" onclick="showPage('buscar-vuelos',null)" style="margin:0 auto;display:inline-flex;">Buscar vuelos</button></div>`;
-    return;
+    c.innerHTML = `<div class="empty-state">
+      <div class="es-icon">🎫</div>
+      <p>Aún no tienes reservas. ¡Planifica tu próximo viaje!</p>
+      <button class="topbar-btn primary" onclick="showPage('buscar-vuelos',null)" style="margin:0 auto;">✈ Buscar vuelos</button>
+    </div>`; return;
   }
-  container.innerHTML = `
-    <table class="reservas-table">
+  c.innerHTML = `
+    <table class="boa-table">
       <thead><tr>
-        <th>Ruta</th><th>Fecha</th><th>Precio</th><th>Estado</th><th>Acciones</th>
+        <th>Ruta</th><th>Fecha</th><th>Clase</th><th>Precio</th><th>Estado</th><th>Acción</th>
       </tr></thead>
       <tbody>${reservas.map(r => {
         const f = r.flights;
-        const salida = f ? new Date(f.fecha_salida) : null;
+        const d = f ? new Date(f.fecha_salida) : null;
         return `<tr>
-          <td class="route-cell">${f ? getCityName(f.origen) + ' → ' + getCityName(f.destino) : '—'}</td>
-          <td>${salida ? salida.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
-          <td style="color:var(--gold);font-family:var(--font-c);font-weight:700;">${r.precio_total ? 'Bs. ' + r.precio_total : '—'}</td>
-          <td><span class="nfb-status status-${r.estado}">${formatEstado(r.estado)}</span></td>
-          <td><button onclick="cancelReservation('${r.id}','${r.estado}')" style="background:none;border:1px solid rgba(200,16,46,0.3);color:rgba(255,100,100,0.7);padding:4px 10px;border-radius:2px;cursor:pointer;font-size:11px;font-family:var(--font-c);" ${r.estado==='cancelado'||r.estado==='completado'?'disabled':''}>Cancelar</button></td>
+          <td>
+            <div class="td-route">${f?cityName(f.origen)+' → '+cityName(f.destino):'—'}</div>
+            <div class="td-code">${f?f.origen+' → '+f.destino:''}</div>
+          </td>
+          <td>${d?d.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}):'—'}</td>
+          <td><span style="font-size:11px;font-weight:600;color:var(--text3);">${r.clase||'Económica'}</span></td>
+          <td><span class="td-price">${r.precio_total?'Bs. '+r.precio_total:'—'}</span></td>
+          <td><span class="chip chip-${r.estado}">${fmtEstado(r.estado)}</span></td>
+          <td><button class="btn-cancel-sm" onclick="cancelReservation('${r.id}','${r.estado}')" ${['cancelado','completado'].includes(r.estado)?'disabled':''}>Cancelar</button></td>
         </tr>`;
       }).join('')}</tbody>
-    </table>
-  `;
+    </table>`;
 }
 
-// FLIGHTS
+/* ═══════════════════════════════════════════
+   FLIGHTS
+═══════════════════════════════════════════ */
 async function loadFlights() {
-  const origen = document.getElementById('filter-origen')?.value.trim() || '';
+  const origen  = document.getElementById('filter-origen')?.value.trim() || '';
   const destino = document.getElementById('filter-destino')?.value.trim() || '';
-  const fecha = document.getElementById('filter-fecha')?.value || '';
-  const estado = document.getElementById('filter-estado')?.value || '';
+  const fecha   = document.getElementById('filter-fecha')?.value || '';
+  const estado  = document.getElementById('filter-estado')?.value || '';
 
-  let query = supabase.from('flights').select('*').gt('asientos_disponibles', 0).order('fecha_salida', { ascending: true });
-  if (origen) query = query.ilike('origen', `%${origen}%`);
-  if (destino) query = query.ilike('destino', `%${destino}%`);
-  if (estado) query = query.eq('estado', estado);
-  else query = query.in('estado', ['programado','abordando','en_vuelo']);
+  let q = supabase.from('flights').select('*').gt('asientos_disponibles',0).order('fecha_salida',{ascending:true});
+  if (origen)  q = q.ilike('origen', `%${origen}%`);
+  if (destino) q = q.ilike('destino',`%${destino}%`);
+  if (estado)  q = q.eq('estado',estado);
+  else         q = q.in('estado',['programado','abordando','en_vuelo']);
   if (fecha) {
-    const start = new Date(fecha); start.setHours(0,0,0,0);
-    const end = new Date(fecha); end.setHours(23,59,59,999);
-    query = query.gte('fecha_salida', start.toISOString()).lte('fecha_salida', end.toISOString());
+    const s = new Date(fecha); s.setHours(0,0,0,0);
+    const e = new Date(fecha); e.setHours(23,59,59,999);
+    q = q.gte('fecha_salida',s.toISOString()).lte('fecha_salida',e.toISOString());
   }
-  query = query.limit(20);
+  q = q.limit(24);
 
-  const { data: flights } = await query;
-  const grid = document.getElementById('flights-grid');
-  if (!flights?.length) { grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:rgba(255,255,255,0.3);">No se encontraron vuelos con esos criterios.</div>`; return; }
-  grid.innerHTML = flights.map(f => renderFlightCard(f)).join('');
+  const { data:flights } = await q;
+  const g = document.getElementById('flights-grid');
+  if (!flights?.length) {
+    g.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text3);">No se encontraron vuelos.</div>`;
+    return;
+  }
+  g.innerHTML = flights.map(f => flightCardHTML(f)).join('');
 }
 window.loadFlights = loadFlights;
 
-function renderFlightCard(f) {
-  const salida = new Date(f.fecha_salida);
-  const llegada = new Date(f.fecha_llegada);
-  const durMin = Math.round((llegada - salida) / 60000);
-  const durH = Math.floor(durMin/60); const durM = durMin%60;
-  const isIntl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => f.destino.includes(c));
-  const currency = isIntl ? '$' : 'Bs.';
-  const canBook = ['programado','abordando'].includes(f.estado) && f.asientos_disponibles > 0;
-
-  return `<div class="flight-card ${f.estado}">
-    <div class="fc-header">
-      <div class="fc-route">
-        <span>${getCityName(f.origen)}</span>
-        <span class="fc-arrow">✈</span>
-        <span>${getCityName(f.destino)}</span>
+function flightCardHTML(f) {
+  const sal   = new Date(f.fecha_salida);
+  const lle   = new Date(f.fecha_llegada);
+  const durM  = Math.round((lle-sal)/60000);
+  const h     = Math.floor(durM/60); const m = durM%60;
+  const intl  = isIntl(f.destino);
+  const cur   = intl ? '$' : 'Bs.';
+  const can   = ['programado','abordando'].includes(f.estado) && f.asientos_disponibles>0;
+  const low   = f.asientos_disponibles <= 5 && f.asientos_disponibles > 0;
+  return `<div class="flight-card">
+    <div class="fc-top">
+      <div class="fc-route-wrap">
+        <div class="fc-airports">
+          <span class="fc-city">${cityName(f.origen)}</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-city">${cityName(f.destino)}</span>
+        </div>
+        <div class="fc-codes">${f.origen} · ${f.destino} · ${h}h ${m}m</div>
       </div>
-      <span class="fc-estado estado-${f.estado}">${f.estado.replace('_',' ')}</span>
+      <span class="chip chip-${f.estado}">${f.estado.replace('_',' ')}</span>
     </div>
-    <div class="fc-info">
-      <div class="fc-time">
-        📅 ${salida.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})}<br/>
-        🕐 ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}<br/>
-        ⏱ ${durH}h ${durM}min
+    <div class="fc-body">
+      <div class="fc-info-row">
+        📅 <span>${sal.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})}</span><br/>
+        🕐 <span>${sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${lle.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</span>
       </div>
-      <div style="text-align:right;">
-        <div class="fc-price">${currency} ${f.precio}</div>
-        <div class="fc-seats">${f.asientos_disponibles} disponibles</div>
+      <div class="fc-pricing">
+        <div class="fc-price">${cur} ${f.precio}</div>
+        <div class="fc-seats ${low?'low':''}">${f.asientos_disponibles} asientos${low?' · ¡Últimos!':''}</div>
       </div>
     </div>
-    <button class="btn-book" onclick="openBookingModal('${f.id}')" ${!canBook?'disabled':''}>
-      ${canBook ? 'Reservar este vuelo' : 'No disponible'}
+    <button class="btn-book" onclick="openBookingModal('${f.id}')" ${!can?'disabled':''}>
+      ${can?'Reservar este vuelo':'No disponible'}
     </button>
   </div>`;
 }
 
-// BOOKING MODAL
-async function openBookingById(flightId) {
-  const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
-  if (f) openBookingModal(f.id, f);
-}
-
+/* ═══════════════════════════════════════════
+   BOOKING MODAL — MULTI-STEP
+═══════════════════════════════════════════ */
 window.openBookingModal = async function(flightId) {
-  const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
-  if (!f) return;
+  const { data:f } = await supabase.from('flights').select('*').eq('id',flightId).single();
+  if (!f) { showToast('❌','Error','No se encontró el vuelo.','error'); return; }
   selectedFlight = f;
-
-  const salida = new Date(f.fecha_salida);
-  const isIntl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => f.destino.includes(c));
-  document.getElementById('modal-flight-info').innerHTML = `
-    <div class="mfi-route">${getCityName(f.origen)} → ${getCityName(f.destino)}</div>
-    <div class="mfi-details">📅 ${salida.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} · ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} · ${f.asientos_disponibles} asientos disponibles</div>
-    <div class="mfi-price">${isIntl?'$':'Bs.'} ${f.precio}</div>
-  `;
+  bookingData = { clase:'economica', extraCost:0, assistance:{}, file:null, method:'qr' };
+  modalStep = 1;
+  renderModalStep();
   document.getElementById('modal-overlay').classList.add('show');
 };
-
 window.closeModal = function() { document.getElementById('modal-overlay').classList.remove('show'); };
-window.closeModalOutside = function(e) { if(e.target.id==='modal-overlay') closeModal(); };
+window.handleModalBg = function(e) { if (e.target.id==='modal-overlay') closeModal(); };
 
-window.confirmReservation = async function() {
-  if (!selectedFlight) return;
-  const btn = document.getElementById('btn-confirm');
-  const text = document.getElementById('confirm-text');
-  btn.disabled = true; text.textContent = 'Reservando...';
+function renderModalStep() {
+  const stepLabels = ['Asiento','Pasajero','Asistencia','Pago','Resumen'];
+  const stepsHTML  = stepLabels.map((lbl,i) => {
+    const n = i+1;
+    const cls = n < modalStep ? 'done' : n === modalStep ? 'active' : '';
+    const line = i < stepLabels.length-1 ? `<div class="step-line"></div>` : '';
+    return `<div class="step ${cls}">
+      <div class="step-circle">${n<modalStep?'✓':n}</div>
+      <span class="step-label">${lbl}</span>
+      ${line}
+    </div>`;
+  }).join('');
 
-  try {
-    // 1. Create reservation
-    const { data: reservation, error: rError } = await supabase.from('reservations').insert({
-      user_id: currentUser.id,
-      flight_id: selectedFlight.id,
-      estado: 'pendiente',
-      precio_total: selectedFlight.precio,
-    }).select().single();
-    if (rError) throw rError;
+  const f    = selectedFlight;
+  const sal  = new Date(f.fecha_salida);
+  const lle  = new Date(f.fecha_llegada);
+  const cur  = isIntl(f.destino) ? '$' : 'Bs.';
+  const durM = Math.round((lle-sal)/60000);
+  const basePrice = parseFloat(f.precio);
+  const total     = basePrice + (bookingData.extraCost||0);
 
-    // 2. Create passenger
-    const { error: pError } = await supabase.from('passengers').insert({
-      reservation_id: reservation.id,
-      nombre: document.getElementById('p-nombre').value,
-      apellido: document.getElementById('p-apellido').value,
-      tipo_documento: document.getElementById('p-tipo-doc').value,
-      numero_documento: document.getElementById('p-num-doc').value,
+  const flightInfoHTML = `
+    <div class="modal-flight-info">
+      <div class="mfi-route">${cityName(f.origen)} → ${cityName(f.destino)}</div>
+      <div class="mfi-details">
+        📅 ${sal.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+        &nbsp;·&nbsp; 🕐 ${sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+        &nbsp;·&nbsp; ⏱ ${Math.floor(durM/60)}h ${durM%60}m
+        &nbsp;·&nbsp; ${f.asientos_disponibles} disponibles
+      </div>
+      <div class="mfi-price-row">
+        <div class="mfi-price">${cur} ${total.toFixed(2)}</div>
+        <span class="chip chip-${f.estado}">${f.estado}</span>
+      </div>
+    </div>`;
+
+  let bodyHTML = `<div class="steps-bar">${stepsHTML}</div>${flightInfoHTML}`;
+  let footHTML = '';
+
+  /* ── STEP 1: Clase/Asiento ── */
+  if (modalStep === 1) {
+    bodyHTML += `
+      <div class="modal-section">
+        <div class="modal-section-title">Clase de servicio</div>
+        <div class="seat-class-grid">
+          <div class="seat-class-card ${bookingData.clase==='economica'?'selected':''}" onclick="selectClase('economica',0)">
+            <div class="sc-icon">💺</div>
+            <div class="sc-name">Económica</div>
+            <div class="sc-desc">Asiento estándar con servicio de alimentos incluido.</div>
+            <div class="sc-price-extra">Sin costo extra</div>
+          </div>
+          <div class="seat-class-card ${bookingData.clase==='ejecutiva'?'selected':''}" onclick="selectClase('ejecutiva',150)">
+            <div class="sc-icon">🛋️</div>
+            <div class="sc-name">Ejecutiva</div>
+            <div class="sc-desc">Asiento reclinable premium, menú selecto y prioridad de embarque.</div>
+            <div class="sc-price-extra">+ ${cur} 150.00</div>
+          </div>
+        </div>
+      </div>`;
+    footHTML = `
+      <button class="btn-modal-back" onclick="closeModal()">Cancelar</button>
+      <button class="btn-modal-next" onclick="nextStep()">Siguiente → Pasajero</button>`;
+  }
+
+  /* ── STEP 2: Pasajero ── */
+  else if (modalStep === 2) {
+    const p = currentProfile || {};
+    bodyHTML += `
+      <div class="modal-section">
+        <div class="modal-section-title">Datos del pasajero</div>
+        <div class="passenger-grid">
+          <div class="form-group">
+            <label class="form-lbl">Nombre *</label>
+            <input class="form-input" id="p-nombre" placeholder="Nombre" value="${p.nombre||''}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Apellido *</label>
+            <input class="form-input" id="p-apellido" placeholder="Apellido" value="${p.apellido||''}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Tipo documento *</label>
+            <select class="form-select" id="p-tipo-doc">
+              <option value="documento_identidad" ${p.tipo_documento==='documento_identidad'?'selected':''}>Cédula de identidad</option>
+              <option value="pasaporte" ${p.tipo_documento==='pasaporte'?'selected':''}>Pasaporte</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">N° documento *</label>
+            <input class="form-input" id="p-num-doc" placeholder="12345678" value="${p.numero_documento||''}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Correo</label>
+            <input class="form-input" type="email" id="p-correo" placeholder="tu@correo.com" value="${currentUser.email}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Celular</label>
+            <input class="form-input" id="p-celular" placeholder="+591 7XXXXXXX" value="${p.telefono||''}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Fecha de nacimiento</label>
+            <input class="form-input" type="date" id="p-nacimiento" value="${p.fecha_nacimiento||''}"/>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Género</label>
+            <select class="form-select" id="p-genero">
+              <option value="masculino" ${p.genero==='masculino'?'selected':''}>Masculino</option>
+              <option value="femenino" ${p.genero==='femenino'?'selected':''}>Femenino</option>
+            </select>
+          </div>
+        </div>
+      </div>`;
+    footHTML = `
+      <button class="btn-modal-back" onclick="prevStep()">← Atrás</button>
+      <button class="btn-modal-next" onclick="nextStep()">Siguiente → Asistencia</button>`;
+  }
+
+  /* ── STEP 3: Asistencia especial ── */
+  else if (modalStep === 3) {
+    const a = bookingData.assistance;
+    bodyHTML += `
+      <div class="modal-section">
+        <div class="modal-section-title">Asistencia especial (opcional)</div>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:1.25rem;line-height:1.6;">
+          Si necesitas apoyo adicional, selecciona los servicios que requieres. Nuestro equipo estará listo para recibirte.
+        </p>
+        <div class="assistance-grid">
+          <div class="assistance-item ${a.movilidad?'selected':''}" onclick="toggleAssistance('movilidad',this)">
+            <input type="checkbox" ${a.movilidad?'checked':''}/>
+            <span class="ai-icon">♿</span>
+            <span class="ai-text">Movilidad reducida</span>
+            <div class="ai-check">${a.movilidad?'✓':''}</div>
+          </div>
+          <div class="assistance-item ${a.visual?'selected':''}" onclick="toggleAssistance('visual',this)">
+            <input type="checkbox" ${a.visual?'checked':''}/>
+            <span class="ai-icon">👁️</span>
+            <span class="ai-text">Discapacidad visual</span>
+            <div class="ai-check">${a.visual?'✓':''}</div>
+          </div>
+          <div class="assistance-item ${a.auditiva?'selected':''}" onclick="toggleAssistance('auditiva',this)">
+            <input type="checkbox" ${a.auditiva?'checked':''}/>
+            <span class="ai-icon">🦻</span>
+            <span class="ai-text">Discapacidad auditiva</span>
+            <div class="ai-check">${a.auditiva?'✓':''}</div>
+          </div>
+          <div class="assistance-item ${a.aeropuerto?'selected':''}" onclick="toggleAssistance('aeropuerto',this)">
+            <input type="checkbox" ${a.aeropuerto?'checked':''}/>
+            <span class="ai-icon">🏢</span>
+            <span class="ai-text">Asistencia en aeropuerto</span>
+            <div class="ai-check">${a.aeropuerto?'✓':''}</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--text3);margin-top:1rem;">Si no necesitas asistencia, continúa sin seleccionar.</p>
+      </div>`;
+    footHTML = `
+      <button class="btn-modal-back" onclick="prevStep()">← Atrás</button>
+      <button class="btn-modal-next" onclick="nextStep()">Siguiente → Pago</button>`;
+  }
+
+  /* ── STEP 4: Pago ── */
+  else if (modalStep === 4) {
+    const totalPrice = (parseFloat(f.precio) + (bookingData.extraCost||0)).toFixed(2);
+    const cur2 = isIntl(f.destino) ? '$' : 'Bs.';
+    bodyHTML += `
+      <div class="modal-section">
+        <div class="modal-section-title">Método de pago</div>
+        <div class="payment-methods">
+          <div class="payment-method-card ${bookingData.method==='qr'?'selected':''}" onclick="selectPayMethod('qr',this)">
+            <div class="pm-radio"></div>
+            <div class="pm-info">
+              <div class="pm-name">Código QR / Transferencia</div>
+              <div class="pm-desc">Escanea el QR con tu app bancaria y adjunta el comprobante.</div>
+            </div>
+            <div class="pm-icon">📱</div>
+          </div>
+          <div class="payment-method-card ${bookingData.method==='transferencia'?'selected':''}" onclick="selectPayMethod('transferencia',this)">
+            <div class="pm-radio"></div>
+            <div class="pm-info">
+              <div class="pm-name">Transferencia bancaria</div>
+              <div class="pm-desc">Transfiere directamente con los datos bancarios y sube el comprobante.</div>
+            </div>
+            <div class="pm-icon">🏦</div>
+          </div>
+        </div>
+        <div class="qr-section ${bookingData.method==='qr'||bookingData.method==='transferencia'?'show':''}" id="qr-section">
+          <div class="qr-card">
+            <div class="qr-placeholder">📲</div>
+            <div class="qr-amount">${cur2} ${totalPrice}</div>
+            <div class="qr-instr">Escanea o usa los datos bancarios para realizar el pago exacto por este monto.</div>
+            <div class="qr-bank-detail">
+              <div class="qr-bank-row"><span class="lbl">Banco</span><span class="val">BNB Bolivia</span></div>
+              <div class="qr-bank-row"><span class="lbl">Cuenta</span><span class="val">1234-5678-9012</span></div>
+              <div class="qr-bank-row"><span class="lbl">Titular</span><span class="val">BOA Boliviana</span></div>
+              <div class="qr-bank-row"><span class="lbl">Monto</span><span class="val">${cur2} ${totalPrice}</span></div>
+              <div class="qr-bank-row"><span class="lbl">Concepto</span><span class="val">Reserva vuelo ${f.origen.split(' ')[0]}→${f.destino.split(' ')[0]}</span></div>
+            </div>
+          </div>
+          <div style="margin-top:1.25rem;">
+            <label class="form-lbl">Adjuntar comprobante de pago *</label>
+            <div class="file-upload-area" id="upload-area">
+              <input type="file" id="comprobante" accept="image/*,.pdf" onchange="handleFileSelect(this)"/>
+              <div class="fua-icon" id="fua-icon">📎</div>
+              <div class="fua-text">Arrastra tu comprobante aquí o haz clic</div>
+              <div class="fua-sub">PNG, JPG, PDF — máx. 10MB</div>
+              <div class="fua-file-name" id="fua-file-name" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    footHTML = `
+      <button class="btn-modal-back" onclick="prevStep()">← Atrás</button>
+      <button class="btn-modal-next" onclick="nextStep()">Revisar reserva →</button>`;
+  }
+
+  /* ── STEP 5: Resumen ── */
+  else if (modalStep === 5) {
+    const totalPrice = (parseFloat(f.precio) + (bookingData.extraCost||0)).toFixed(2);
+    const cur2 = isIntl(f.destino) ? '$' : 'Bs.';
+    const p = bookingData.passenger || {};
+    const asistList = Object.entries(bookingData.assistance||{}).filter(([,v])=>v).map(([k])=>({movilidad:'Movilidad reducida',visual:'Visual',auditiva:'Auditiva',aeropuerto:'Aeropuerto'}[k])).join(', ') || 'Ninguna';
+    bodyHTML += `
+      <div class="modal-section">
+        <div class="modal-section-title">Resumen de reserva</div>
+        <div class="booking-summary">
+          <div class="bs-row"><span class="lbl">Vuelo</span><span class="val">${cityName(f.origen)} → ${cityName(f.destino)}</span></div>
+          <div class="bs-row"><span class="lbl">Fecha salida</span><span class="val">${new Date(f.fecha_salida).toLocaleString('es-BO',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
+          <div class="bs-row"><span class="lbl">Clase</span><span class="val" style="text-transform:capitalize;">${bookingData.clase}</span></div>
+          <div class="bs-row"><span class="lbl">Pasajero</span><span class="val">${p.nombre||''} ${p.apellido||''}</span></div>
+          <div class="bs-row"><span class="lbl">Documento</span><span class="val">${p.num_doc||''}</span></div>
+          <div class="bs-row"><span class="lbl">Asistencia especial</span><span class="val">${asistList}</span></div>
+          <div class="bs-row"><span class="lbl">Método de pago</span><span class="val">${bookingData.method==='qr'?'QR / Transferencia':'Transferencia bancaria'}</span></div>
+          <div class="bs-row"><span class="lbl">Comprobante</span><span class="val">${bookingData.file?'✅ Adjunto':'⚠️ Pendiente'}</span></div>
+          <div class="bs-row total"><span class="lbl">Total a pagar</span><span class="val">${cur2} ${totalPrice}</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:1rem;line-height:1.6;">Al confirmar aceptas los términos del vuelo. Tu reserva quedará en estado <strong>Pendiente</strong> hasta que el pago sea verificado.</p>
+      </div>`;
+    footHTML = `
+      <button class="btn-modal-back" onclick="prevStep()">← Atrás</button>
+      <button class="btn-confirm-final" id="btn-confirm-final" onclick="confirmReservation()">✅ Confirmar reserva</button>`;
+  }
+
+  document.getElementById('modal-body').innerHTML  = bodyHTML;
+  document.getElementById('modal-footer').innerHTML = footHTML;
+}
+
+window.selectClase = function(clase, extra) {
+  bookingData.clase = clase;
+  bookingData.extraCost = extra;
+  renderModalStep();
+};
+window.toggleAssistance = function(key, el) {
+  bookingData.assistance[key] = !bookingData.assistance[key];
+  el.classList.toggle('selected', bookingData.assistance[key]);
+  const chk = el.querySelector('.ai-check');
+  chk.textContent = bookingData.assistance[key] ? '✓' : '';
+};
+window.selectPayMethod = function(method) {
+  bookingData.method = method;
+  renderModalStep();
+};
+window.handleFileSelect = function(input) {
+  bookingData.file = input.files[0] || null;
+  const area = document.getElementById('upload-area');
+  const fname = document.getElementById('fua-file-name');
+  const icon  = document.getElementById('fua-icon');
+  if (bookingData.file) {
+    area.classList.add('has-file');
+    fname.textContent = bookingData.file.name;
+    fname.style.display = 'block';
+    icon.textContent = '✅';
+  }
+};
+window.nextStep = function() {
+  // Validate step 2
+  if (modalStep === 2) {
+    const n = document.getElementById('p-nombre')?.value.trim();
+    const a = document.getElementById('p-apellido')?.value.trim();
+    const d = document.getElementById('p-num-doc')?.value.trim();
+    if (!n || !a || !d) { showToast('⚠️','Datos incompletos','Completa nombre, apellido y documento.','error'); return; }
+    bookingData.passenger = {
+      nombre: n, apellido: a,
+      tipo_doc: document.getElementById('p-tipo-doc').value,
+      num_doc: d,
       correo: document.getElementById('p-correo').value,
       celular: document.getElementById('p-celular').value,
-      fecha_nacimiento: document.getElementById('p-nacimiento').value || null,
+      nacimiento: document.getElementById('p-nacimiento').value,
       genero: document.getElementById('p-genero').value,
-    });
-    if (pError) throw pError;
+    };
+  }
+  if (modalStep < 5) { modalStep++; renderModalStep(); }
+};
+window.prevStep = function() {
+  if (modalStep > 1) { modalStep--; renderModalStep(); }
+};
 
-    // 3. Upload comprobante if provided
-    const fileInput = document.getElementById('comprobante');
+window.confirmReservation = async function() {
+  const btn = document.getElementById('btn-confirm-final');
+  if (btn) { btn.disabled=true; btn.textContent='Creando reserva...'; }
+  try {
+    const f = selectedFlight;
+    // 1. Reservation
+    const { data:res, error:rErr } = await supabase.from('reservations').insert({
+      user_id: currentUser.id,
+      flight_id: f.id,
+      estado: 'pendiente',
+      precio_total: parseFloat(f.precio) + (bookingData.extraCost||0),
+      clase: bookingData.clase,
+    }).select().single();
+    if (rErr) throw rErr;
+
+    // 2. Passenger
+    const p = bookingData.passenger || {};
+    const { data:pass, error:pErr } = await supabase.from('passengers').insert({
+      reservation_id: res.id,
+      nombre: p.nombre, apellido: p.apellido,
+      tipo_documento: p.tipo_doc,
+      numero_documento: p.num_doc,
+      correo: p.correo, celular: p.celular,
+      fecha_nacimiento: p.nacimiento || null,
+      genero: p.genero,
+    }).select().single();
+    if (pErr) throw pErr;
+
+    // 3. Special assistance
+    const a = bookingData.assistance || {};
+    if (Object.values(a).some(Boolean)) {
+      await supabase.from('special_assistance').insert({
+        passenger_id: pass.id,
+        movilidad_reducida: !!a.movilidad,
+        discapacidad_visual: !!a.visual,
+        discapacidad_auditiva: !!a.auditiva,
+        asistencia_aeropuerto: !!a.aeropuerto,
+      });
+    }
+
+    // 4. Upload comprobante via Cloudinary if file exists
     let comprobanteUrl = null;
-    if (fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const ext = file.name.split('.').pop();
-      const path = `comprobantes/${reservation.id}.${ext}`;
-      const { error: uploadErr } = await supabase.storage.from('payments').upload(path, file);
-      if (!uploadErr) {
-        const { data: urlData } = supabase.storage.from('payments').getPublicUrl(path);
-        comprobanteUrl = urlData.publicUrl;
+    if (bookingData.file) {
+      try {
+        const { uploadToCloudinary } = await import('../../assets/js/cloudinary.js');
+        comprobanteUrl = await uploadToCloudinary(bookingData.file);
+      } catch(e) {
+        console.warn('Cloudinary upload failed:', e);
       }
     }
 
-    // 4. Create payment record
+    // 5. Payment
     await supabase.from('payments').insert({
-      reservation_id: reservation.id,
-      monto: selectedFlight.precio,
-      metodo: 'transferencia',
+      reservation_id: res.id,
+      monto: parseFloat(f.precio) + (bookingData.extraCost||0),
+      metodo: bookingData.method,
       comprobante_url: comprobanteUrl,
       estado: comprobanteUrl ? 'revisando' : 'pendiente',
     });
 
-    // 5. Decrement seats
+    // 6. Decrement seats
     await supabase.from('flights').update({
-      asientos_disponibles: selectedFlight.asientos_disponibles - 1
-    }).eq('id', selectedFlight.id);
+      asientos_disponibles: f.asientos_disponibles - 1
+    }).eq('id', f.id);
 
     closeModal();
-    showToast('✅', '¡Reserva creada!', 'Tu reserva está pendiente de confirmación.', false);
+    showToast('✅','¡Reserva creada!','Tu reserva está pendiente de verificación de pago.','success');
     await loadDashboard();
     await loadFlights();
 
-  } catch (err) {
-    showToast('❌', 'Error', err.message || 'No se pudo crear la reserva.', true);
-  } finally {
-    btn.disabled = false; text.textContent = 'Confirmar reserva';
+  } catch(err) {
+    showToast('❌','Error',err.message||'No se pudo crear la reserva.','error');
+    if (btn) { btn.disabled=false; btn.textContent='✅ Confirmar reserva'; }
   }
 };
 
-window.cancelReservation = async function(reservationId, estado) {
+/* ═══════════════════════════════════════════
+   CANCEL RESERVATION
+═══════════════════════════════════════════ */
+window.cancelReservation = async function(id, estado) {
   if (['cancelado','completado'].includes(estado)) return;
-  if (!confirm('¿Cancelar esta reserva?')) return;
-  await supabase.from('reservations').update({ estado: 'cancelado' }).eq('id', reservationId);
-  showToast('🚫', 'Reserva cancelada', '', false);
+  if (!confirm('¿Cancelar esta reserva? Esta acción no se puede deshacer.')) return;
+  const { error } = await supabase.from('reservations').update({estado:'cancelado'}).eq('id',id);
+  if (error) { showToast('❌','Error',error.message,'error'); return; }
+  showToast('🚫','Reserva cancelada','Tu reserva fue cancelada correctamente.','info');
   await loadDashboard();
 };
 
-// PROFILE
+/* ═══════════════════════════════════════════
+   PROFILE
+═══════════════════════════════════════════ */
 window.saveProfile = async function() {
-  const { error } = await supabase.from('users_profile').upsert({
+  const payload = {
     id: currentUser.id,
-    nombre: document.getElementById('prof-nombre').value.trim(),
-    apellido: document.getElementById('prof-apellido').value.trim(),
-    telefono: document.getElementById('prof-telefono').value.trim() || null,
+    nombre:    document.getElementById('prof-nombre').value.trim(),
+    apellido:  document.getElementById('prof-apellido').value.trim(),
+    telefono:  document.getElementById('prof-telefono').value.trim() || null,
     fecha_nacimiento: document.getElementById('prof-nacimiento').value || null,
-    genero: document.getElementById('prof-genero').value || null,
-    tipo_documento: document.getElementById('prof-tipo-doc').value || null,
+    genero:    document.getElementById('prof-genero').value || null,
+    tipo_documento:  document.getElementById('prof-tipo-doc').value || null,
     numero_documento: document.getElementById('prof-num-doc').value.trim() || null,
-  });
-  if (error) showToast('❌', 'Error', error.message, true);
-  else { showToast('✅', 'Perfil actualizado', '', false); await init(); }
+  };
+  const { error } = await supabase.from('users_profile').upsert(payload);
+  if (error) showToast('❌','Error',error.message,'error');
+  else { showToast('✅','Perfil guardado','Tus datos fueron actualizados.','success'); await init(); }
 };
 
 window.sendPasswordReset = async function() {
   const { error } = await supabase.auth.resetPasswordForEmail(currentUser.email, {
     redirectTo: window.location.origin + '/auth/login.html'
   });
-  if (error) showToast('❌', 'Error', error.message, true);
-  else showToast('📧', 'Correo enviado', 'Revisa tu bandeja de entrada.', false);
+  if (error) showToast('❌','Error',error.message,'error');
+  else showToast('📧','Correo enviado','Revisa tu bandeja de entrada.','info');
 };
 
-// LOGOUT
+/* ═══════════════════════════════════════════
+   LOGOUT  — cierra sesión al volver a BOA
+═══════════════════════════════════════════ */
 window.handleLogout = async function() {
   await supabase.auth.signOut();
   window.location.href = '../../index.html';
 };
+// Cerrar sesión también al hacer clic en "← BOA" del sidebar
+document.querySelectorAll('.nav-item[href="../../index.html"]').forEach(el => {
+  el.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await supabase.auth.signOut();
+    window.location.href = '../../index.html';
+  });
+});
+// También topbar ghost btn
+document.querySelector('.topbar-btn.ghost')?.addEventListener('click', async (e) => {
+  e.preventDefault();
+  await supabase.auth.signOut();
+  window.location.href = '../../index.html';
+});
 
-// NAVIGATION
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
 window.showPage = function(page, navEl) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const el = document.getElementById('page-' + page);
-  if (el) el.classList.add('active');
+  document.getElementById('page-'+page)?.classList.add('active');
   if (navEl) navEl.classList.add('active');
-  else {
-    const found = document.querySelector(`.nav-item[data-page="${page}"]`);
-    if (found) found.classList.add('active');
-  }
+  else document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
   const titles = { dashboard:'Inicio', 'mis-reservas':'Mis Reservas', 'buscar-vuelos':'Buscar Vuelos', perfil:'Mi Perfil' };
-  document.getElementById('topbar-title').textContent = titles[page] || 'Panel';
-  // Close mobile sidebar
-  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('topbar-title').textContent = titles[page] || 'Portal';
+  closeSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
 };
 
+/* ═══════════════════════════════════════════
+   SIDEBAR MOBILE
+═══════════════════════════════════════════ */
 window.toggleSidebar = function() {
-  document.getElementById('sidebar').classList.toggle('open');
+  const s   = document.getElementById('sidebar');
+  const ov  = document.getElementById('sidebar-overlay');
+  const open = s.classList.toggle('open');
+  ov.classList.toggle('show', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+};
+window.closeSidebar = function() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+  document.body.style.overflow = '';
 };
 
-// TOAST
-function showToast(icon, title, msg, isError) {
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+function showToast(icon, title, msg, type='info') {
   const t = document.getElementById('toast');
-  t.querySelector('.toast-icon').textContent = icon;
-  t.querySelector('.toast-msg').innerHTML = `<strong>${title}</strong>${msg}`;
-  t.classList.toggle('error', !!isError);
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4000);
+  document.getElementById('toast-icon').textContent  = icon;
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-msg').textContent   = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 4500);
 }
+window.showToast = showToast;
 
-// HELPERS
-function getCityName(str) { return (str || '').replace(/\s*\([^)]*\)/,'').trim(); }
-function formatEstado(e) {
-  const map = { pendiente:'Pendiente', confirmado:'Confirmado', cancelado:'Cancelado', completado:'Completado', pago_en_revision:'En revisión' };
-  return map[e] || e;
-}
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+function cityName(str) { return (str||'').replace(/\s*\([^)]*\)/,'').trim(); }
+function isIntl(dest)   { return ['Buenos Aires','Lima','São Paulo','Miami','Madrid','Santiago'].some(c=>(dest||'').includes(c)); }
+function fmtEstado(e)   { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
 
-// File upload label
-document.getElementById('comprobante')?.addEventListener('change', function() {
-  document.getElementById('file-name').textContent = this.files[0]?.name || 'Sin archivo';
-});
-
-// Pre-fill search if URL has params
-const urlP = new URLSearchParams(window.location.search);
-if (urlP.get('origen')) { document.getElementById('filter-origen').value = urlP.get('origen'); }
-if (urlP.get('destino')) { document.getElementById('filter-destino').value = urlP.get('destino'); }
-if (urlP.get('fecha')) { document.getElementById('filter-fecha').value = urlP.get('fecha'); }
-if (urlP.get('origen') || urlP.get('destino') || urlP.get('fecha')) {
-  showPage('buscar-vuelos', null);
-}
-
-// GO
+/* ── BOOT ── */
 init();
 </script>
 </body>

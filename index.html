@@ -18,12 +18,61 @@
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"/>
 <meta property="og:site_name" content="BOA Boliviana de Aviación"/>
 <meta property="og:locale" content="es_BO"/>
+
+<!-- Schema.org limpio y válido — solo Airline + FAQPage -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebSite","url":"https://infotiens43-design.github.io/BoaAgenciaViajes/","name":"BOA Boliviana de Aviación","inLanguage":"es"},{"@type":"Airline","name":"BOA – Boliviana de Aviación","url":"https://infotiens43-design.github.io/BoaAgenciaViajes/","logo":"https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg","foundingDate":"2009","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de la Sierra","addressCountry":"BO"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cuáles son los destinos nacionales de BOA?","acceptedAnswer":{"@type":"Answer","text":"BOA conecta Santa Cruz, La Paz, Cochabamba, Sucre, Potosí, Oruro y Trinidad."}},{"@type":"Question","name":"¿A qué países vuela BOA internacionalmente?","acceptedAnswer":{"@type":"Answer","text":"BOA opera vuelos a Argentina, Perú, Brasil, España y Estados Unidos."}},{"@type":"Question","name":"¿Cómo hago el check-in online con BOA?","acceptedAnswer":{"@type":"Answer","text":"Puedes hacer el check-in online hasta 24 horas antes de tu vuelo."}}]}]}
+{
+  "@context": "https://schema.org",
+  "@type": "Airline",
+  "name": "BOA – Boliviana de Aviación",
+  "url": "https://infotiens43-design.github.io/BoaAgenciaViajes/",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg",
+  "description": "Aerolínea de bandera de Bolivia. Vuelos nacionales e internacionales desde 2009.",
+  "foundingDate": "2009",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Santa Cruz de la Sierra",
+    "addressCountry": "BO"
+  }
+}
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Cuáles son los destinos nacionales de BOA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BOA conecta Santa Cruz, La Paz, Cochabamba, Sucre, Potosí, Oruro y Trinidad."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿A qué países vuela BOA internacionalmente?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BOA opera vuelos a Argentina (Buenos Aires), Perú (Lima), Brasil (São Paulo), España (Madrid) y Estados Unidos (Miami)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo hago el check-in online con BOA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Puedes hacer el check-in online hasta 24 horas antes de tu vuelo, sin filas ni esperas."
+      }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+
 <style>
 :root{--boa-navy:#002D72;--boa-blue:#004DB3;--boa-red:#C8102E;--boa-gold:#C9A84C;--boa-gold2:#E8C878;--boa-dark:#0A0F1E;--boa-dark2:#0F1828;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Barlow',sans-serif;--font-cond:'Barlow Condensed',sans-serif;--transition:all 0.35s cubic-bezier(0.4,0,0.2,1);}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -77,7 +126,7 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow
 .stat-item:last-child{border-right:none;}
 .stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--boa-gold);line-height:1;}
 .stat-label{font-family:var(--font-cond);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px;}
-#search{background:var(--boa-navy);padding:3.5rem 4rem;position:relative;overflow:hidden;}
+#search{background:var(--boa-navy);padding:3.5rem 4rem;}
 .search-title{font-family:var(--font-display);font-size:2.2rem;font-weight:600;color:white;text-align:center;margin-bottom:0.4rem;}
 .search-sub{font-family:var(--font-cond);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--boa-gold);text-align:center;margin-bottom:2.5rem;}
 .trip-tabs{display:flex;margin:0 auto 2rem;width:fit-content;border:1px solid rgba(201,168,76,0.3);border-radius:3px;overflow:hidden;}
@@ -118,8 +167,7 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow
 .dest-price span{font-size:11px;font-weight:400;color:rgba(255,255,255,0.4);}
 .dest-book-btn{padding:8px 20px;background:var(--boa-red);color:white;border:none;font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);border-radius:2px;opacity:0;transform:translateY(8px);text-decoration:none;display:inline-block;}
 .dest-card:hover .dest-book-btn{opacity:1;transform:translateY(0);}
-.dest-book-btn:hover{background:#e01535;}
-#flota{background:var(--boa-navy);padding:6rem 4rem;position:relative;overflow:hidden;}
+#flota{background:var(--boa-navy);padding:6rem 4rem;}
 .flota-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1300px;margin:0 auto;}
 .flota-img-block{position:relative;border-radius:4px;overflow:hidden;}
 .flota-img-block img{width:100%;height:400px;object-fit:cover;object-position:center 30%;filter:brightness(0.8) saturate(1.1);border-radius:4px;border:1px solid rgba(201,168,76,0.15);}
@@ -151,7 +199,7 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow
 .promo-discount{display:inline-block;font-family:var(--font-cond);font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--boa-red);color:white;padding:6px 16px;border-radius:2px;margin-bottom:1rem;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
 .promo-title{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:white;margin-bottom:0.4rem;}
 .promo-detail{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:1.5rem;}
-.promo-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-cond);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--boa-gold);background:none;border:none;cursor:pointer;transition:var(--transition);text-decoration:none;}
+.promo-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-cond);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--boa-gold);background:none;border:none;cursor:pointer;text-decoration:none;transition:var(--transition);}
 .promo-cta:hover{gap:14px;}
 .promo-cta span{display:inline-block;transition:transform 0.3s ease;}
 .promo-cta:hover span{transform:translateX(4px);}
@@ -216,26 +264,10 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 .dest-bg-ba{background:linear-gradient(135deg,#1a1a3a,#2d2d6e,#6e7ab8);}
 .dest-bg-lima{background:linear-gradient(135deg,#3a1a1a,#8a2d2d,#c88070);}
 .dest-bg-madrid{background:linear-gradient(135deg,#2a1a3a,#6e2d8a,#b870c8);}
-.dest-bg-sao{background:linear-gradient(135deg,#1a3a2a,#2d8a6e,#70c8a0);}
-.dest-bg-miami{background:linear-gradient(135deg,#1a3a3a,#2d8a8a,#70c8c8);}
-.dest-bg-default{background:linear-gradient(135deg,#1a2a3a,#2d4a6e,#7090b8);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:1100px){.flota-layout{grid-template-columns:1fr;}.servicios-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){
-  #navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}
-  .nav-links{display:none;}.hamburger{display:flex;}
-  .hero-content{padding:0 1.5rem;}
-  .stats-bar{display:grid;grid-template-columns:1fr 1fr;}
-  .stat-item{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}
-  .search-form{grid-template-columns:1fr;}
-  .form-field{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}
-  .search-btn{padding:1.2rem;min-width:auto;}
-  #search,#destinos,#flota,#servicios,#promos,#porque,#testimonios,#newsletter,footer{padding:4rem 1.5rem;}
-  .servicios-grid,.promos-grid,.footer-grid{grid-template-columns:1fr;}
-  .footer-bottom{flex-direction:column;text-align:center;}
-  .porque-grid{grid-template-columns:repeat(2,1fr);}
-}
+@media(max-width:768px){#navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}.nav-links{display:none;}.hamburger{display:flex;}.hero-content{padding:0 1.5rem;}.stats-bar{display:grid;grid-template-columns:1fr 1fr;}.stat-item{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-form{grid-template-columns:1fr;}.form-field{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-btn{padding:1.2rem;min-width:auto;}#search,#destinos,#flota,#servicios,#promos,#porque,#testimonios,#newsletter,footer{padding:4rem 1.5rem;}.servicios-grid,.promos-grid,.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
@@ -244,7 +276,6 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   <div class="toast-icon">✈️</div>
   <div class="toast-msg"><strong></strong></div>
 </div>
-
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <nav id="navbar">
@@ -322,7 +353,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
 </section>
 
-<section id="search" style="background:var(--boa-navy);padding:3.5rem 4rem;">
+<section id="search">
   <p class="search-sub">Planifica tu viaje</p>
   <h2 class="search-title">Encuentra tu vuelo perfecto</h2>
   <div class="trip-tabs">
@@ -376,7 +407,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <section id="flota">
   <div class="flota-layout">
     <div class="flota-img-block reveal">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Boeing 737 flota BOA" loading="lazy"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Boeing 737 flota BOA Boliviana de Aviación" loading="lazy"/>
       <div class="flota-img-tag"><p>Aeronave principal</p><h4>Boeing 737-300</h4></div>
     </div>
     <div class="flota-text">
@@ -433,6 +464,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
 </section>
 
+<!-- Testimonios sin itemscope ni Schema — solo HTML limpio -->
 <section id="testimonios">
   <span class="section-tag reveal">Pasajeros BOA</span>
   <h2 class="section-title reveal">Lo que dicen nuestros viajeros</h2>
@@ -481,20 +513,15 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
 </footer>
 
-<!-- ═══════════════════════════════════════════════════════
-     JS PURO — SIN SUPABASE
-     La landing es 100% estática. Supabase solo se usa
-     en auth/login.html y public/user/index.html
-     ═══════════════════════════════════════════════════════ -->
 <script>
-// Destinos estáticos — no necesita Supabase
+// Destinos estáticos — sin Supabase
 const DESTINOS = [
-  {city:'La Paz',      cat:'nacional',      bg:'dest-bg-lapaz',  icon:'🏔️', origen:'VVI', code:'LPB', precio:'280',  currency:'Bs.'},
-  {city:'Cochabamba',  cat:'nacional',      bg:'dest-bg-cbba',   icon:'🌿', origen:'VVI', code:'CBB', precio:'240',  currency:'Bs.'},
-  {city:'Sucre',       cat:'nacional',      bg:'dest-bg-sucre',  icon:'🏛️', origen:'VVI', code:'SRE', precio:'260',  currency:'Bs.'},
-  {city:'Buenos Aires',cat:'internacional', bg:'dest-bg-ba',     icon:'🌆', origen:'VVI', code:'EZE', precio:'180',  currency:'$'},
-  {city:'Lima',        cat:'internacional', bg:'dest-bg-lima',   icon:'🏯', origen:'VVI', code:'LIM', precio:'150',  currency:'$'},
-  {city:'Madrid',      cat:'internacional', bg:'dest-bg-madrid', icon:'🏰', origen:'VVI', code:'MAD', precio:'550',  currency:'$'},
+  {city:'La Paz',       cat:'nacional',      bg:'dest-bg-lapaz', icon:'🏔️', code:'LPB', precio:'280',  currency:'Bs.'},
+  {city:'Cochabamba',   cat:'nacional',      bg:'dest-bg-cbba',  icon:'🌿', code:'CBB', precio:'240',  currency:'Bs.'},
+  {city:'Sucre',        cat:'nacional',      bg:'dest-bg-sucre', icon:'🏛️', code:'SRE', precio:'260',  currency:'Bs.'},
+  {city:'Buenos Aires', cat:'internacional', bg:'dest-bg-ba',    icon:'🌆', code:'EZE', precio:'180',  currency:'$'},
+  {city:'Lima',         cat:'internacional', bg:'dest-bg-lima',  icon:'🏯', code:'LIM', precio:'150',  currency:'$'},
+  {city:'Madrid',       cat:'internacional', bg:'dest-bg-madrid',icon:'🏰', code:'MAD', precio:'550',  currency:'$'},
 ];
 
 function renderDestinos() {
@@ -522,14 +549,14 @@ function renderDestinos() {
   });
 }
 
-// Navbar scroll
+// Navbar
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
   document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
 });
 
-// Menu móvil
+// Menú móvil
 window.toggleMenu = function() {
   document.getElementById('hamburger').classList.toggle('active');
   document.getElementById('mobileMenu').classList.toggle('open');
@@ -551,7 +578,7 @@ function drawStars() {
 initStars(); drawStars();
 window.addEventListener('resize', initStars);
 
-// Buscador — redirige a login
+// Buscador
 document.getElementById('dep-date').value = new Date().toISOString().split('T')[0];
 window.setTrip = function(el, type) {
   document.querySelectorAll('.trip-tab').forEach(t=>t.classList.remove('active'));
@@ -564,11 +591,10 @@ window.handleSearch = function() {
   const origen  = document.getElementById('search-origen').value;
   const destino = document.getElementById('search-destino').value;
   const fecha   = document.getElementById('dep-date').value;
-  const params  = new URLSearchParams({origen, destino, fecha});
-  window.location.href = `auth/login.html?redirect=buscar&${params}`;
+  window.location.href = `auth/login.html?origen=${encodeURIComponent(origen)}&destino=${encodeURIComponent(destino)}&fecha=${fecha}`;
 };
 
-// Filtro destinos
+// Filtro
 window.filterDest = function(el, cat) {
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
@@ -577,7 +603,7 @@ window.filterDest = function(el, cat) {
   });
 };
 
-// Slider testimonios
+// Slider
 window.slideTestimonios = function(dir) {
   document.getElementById('testimonios-slider').scrollBy({left:dir*400,behavior:'smooth'});
 };
@@ -589,7 +615,6 @@ window.handleNewsletter = function() {
   document.getElementById('nl-email').value = '';
   showToast('📧','¡Suscripción exitosa!','Recibirás nuestras mejores ofertas pronto.');
 };
-
 function showToast(icon, title, msg) {
   const t = document.getElementById('toast');
   t.querySelector('.toast-icon').textContent = icon;
@@ -598,28 +623,23 @@ function showToast(icon, title, msg) {
   setTimeout(()=>t.classList.remove('show'), 4000);
 }
 
-// Contador animado
+// Contador
 function animateCount(el) {
   const target = parseInt(el.dataset.count); let c = 0;
   const step = target/60;
-  const t = setInterval(()=>{
-    c = Math.min(c+step, target);
-    el.textContent = Math.round(c)+'+';
-    if(c>=target) clearInterval(t);
-  }, 25);
+  const timer = setInterval(()=>{ c=Math.min(c+step,target); el.textContent=Math.round(c)+'+'; if(c>=target)clearInterval(timer); }, 25);
 }
 
-// Reveal on scroll
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);} });
-}, {threshold:0.12});
-const counterObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){animateCount(e.target);counterObs.unobserve(e.target);} });
-}, {threshold:0.5});
+// Observers
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:0.12});
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){animateCount(e.target);counterObs.unobserve(e.target);}});
+},{threshold:0.5});
 document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 document.querySelectorAll('[data-count]').forEach(el=>counterObs.observe(el));
 
-// Iniciar
 renderDestinos();
 </script>
 </body>

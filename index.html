@@ -3,85 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>BOA – Vuelos Bolivia | Reserva Pasajes Aéreos | Boliviana de Aviación</title>
-<meta name="description" content="Reserva vuelos nacionales e internacionales con BOA Boliviana de Aviación. Destinos: La Paz, Cochabamba, Sucre, Buenos Aires, Lima, Madrid y más."/>
-<meta name="keywords" content="BOA, Boliviana de Aviación, vuelos Bolivia, pasajes aéreos Bolivia, vuelos La Paz, vuelos Santa Cruz, vuelos Cochabamba, vuelos Buenos Aires, vuelos Lima, vuelos Madrid, aerolínea Bolivia"/>
-<meta name="robots" content="index, follow"/>
-<meta name="author" content="Juan Andrés Revollo Gutiérrez, Nazel Alexander Felipez, Olver Antonio Álvarez Oliva"/>
-<meta name="theme-color" content="#002D72"/>
-<link rel="canonical" href="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
-
-<!-- Favicon real (logo BOA de Wikipedia, siempre disponible) -->
-<link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg"/>
-
-<!-- Open Graph -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
-<meta property="og:title" content="BOA – Vuelos Bolivia | Boliviana de Aviación"/>
-<meta property="og:description" content="Reserva vuelos nacionales e internacionales con BOA. La Paz, Cochabamba, Sucre, Buenos Aires, Lima, Madrid y más."/>
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"/>
-<meta property="og:image:width" content="1280"/>
-<meta property="og:image:height" content="853"/>
-<meta property="og:image:alt" content="BOA Boliviana de Aviación – Boeing 737"/>
-<meta property="og:site_name" content="BOA Boliviana de Aviación"/>
-<meta property="og:locale" content="es_BO"/>
-
-<!-- Schema.org -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://infotiens43-design.github.io/BoaAgenciaViajes/#website",
-      "url": "https://infotiens43-design.github.io/BoaAgenciaViajes/",
-      "name": "BOA Boliviana de Aviación",
-      "description": "Aerolínea de bandera de Bolivia. Vuelos nacionales e internacionales desde 2009.",
-      "inLanguage": "es"
-    },
-    {
-      "@type": "Airline",
-      "@id": "https://infotiens43-design.github.io/BoaAgenciaViajes/#airline",
-      "name": "BOA – Boliviana de Aviación",
-      "url": "https://infotiens43-design.github.io/BoaAgenciaViajes/",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg",
-      "description": "Aerolínea de bandera de Bolivia. Vuelos nacionales e internacionales desde 2009.",
-      "foundingDate": "2009",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Santa Cruz de la Sierra",
-        "addressCountry": "BO"
-      }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "¿Cuáles son los destinos nacionales de BOA?",
-          "acceptedAnswer": {"@type": "Answer", "text": "BOA conecta Santa Cruz, La Paz, Cochabamba, Sucre, Potosí, Oruro y Trinidad."}
-        },
-        {
-          "@type": "Question",
-          "name": "¿A qué países vuela BOA internacionalmente?",
-          "acceptedAnswer": {"@type": "Answer", "text": "BOA opera vuelos a Argentina (Buenos Aires), Perú (Lima), Brasil (São Paulo), España (Madrid) y Estados Unidos (Miami)."}
-        },
-        {
-          "@type": "Question",
-          "name": "¿Cómo hago el check-in online con BOA?",
-          "acceptedAnswer": {"@type": "Answer", "text": "Puedes hacer el check-in online hasta 24 horas antes de tu vuelo, sin filas ni esperas."}
-        }
-      ]
-    }
-  ]
-}
-</script>
-
+<title>BOA – Boliviana de Aviación | Vuela con Orgullo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
-
 <style>
 :root {
   --boa-navy:#002D72; --boa-blue:#004DB3; --boa-red:#C8102E;
@@ -99,6 +24,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 ::-webkit-scrollbar{width:6px;}
 ::-webkit-scrollbar-track{background:var(--boa-dark);}
 ::-webkit-scrollbar-thumb{background:var(--boa-gold);border-radius:3px;}
+
+/* NAVBAR */
 #navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;transition:var(--transition);}
 #navbar.scrolled{background:rgba(0,14,46,0.97);backdrop-filter:blur(14px);padding:0.8rem 4rem;border-bottom:1px solid rgba(201,168,76,0.2);box-shadow:0 4px 30px rgba(0,0,0,0.4);}
 .nav-logo img{height:44px;filter:brightness(0) invert(1);transition:var(--transition);}
@@ -122,6 +49,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .mobile-menu.open{display:flex;}
 .mobile-menu a{color:white;text-decoration:none;font-family:var(--font-display);font-size:2rem;font-weight:600;transition:var(--transition);}
 .mobile-menu a:hover{color:var(--boa-gold);}
+
+/* HERO */
 #hero{position:relative;width:100%;height:100vh;min-height:650px;overflow:hidden;display:flex;align-items:center;}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(170deg,#000814 0%,#001233 18%,#002372 32%,#1a3060 48%,#7a3520 65%,#c85828 78%,#e8a050 90%,#f8d898 100%);}
 #starfield{position:absolute;inset:0;pointer-events:none;}
@@ -149,6 +78,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .stat-item:last-child{border-right:none;}
 .stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--boa-gold);line-height:1;}
 .stat-label{font-family:var(--font-cond);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px;}
+
+/* SEARCH */
 #search{background:var(--boa-navy);padding:3.5rem 4rem;position:relative;overflow:hidden;}
 #search::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(0,77,179,0.15) 0%,transparent 60%);pointer-events:none;}
 .search-title{font-family:var(--font-display);font-size:2.2rem;font-weight:600;color:white;text-align:center;margin-bottom:0.4rem;}
@@ -169,6 +100,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .form-field input[type="date"]{color-scheme:dark;}
 .search-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 2.5rem;background:var(--boa-red);border:none;color:white;font-family:var(--font-cond);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);min-width:180px;}
 .search-btn:hover{background:#e01535;}
+
+/* DESTINOS */
 #destinos{background:var(--boa-dark2);padding:6rem 4rem;position:relative;}
 .section-tag{font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--boa-gold);display:block;margin-bottom:0.6rem;text-align:center;}
 .section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:white;text-align:center;margin-bottom:0.5rem;}
@@ -198,6 +131,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .dest-book-btn{padding:8px 20px;background:var(--boa-red);color:white;border:none;font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);border-radius:2px;opacity:0;transform:translateY(8px);text-decoration:none;display:inline-block;}
 .dest-card:hover .dest-book-btn{opacity:1;transform:translateY(0);}
 .dest-book-btn:hover{background:#e01535;}
+
+/* VUELOS LIVE */
 #vuelos-live{background:var(--boa-dark);padding:4rem 4rem;}
 .live-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;max-width:1300px;margin:0 auto;}
 .vuelo-card{background:rgba(0,45,114,0.1);border:1px solid rgba(201,168,76,0.1);border-radius:4px;padding:1.2rem 1.5rem;transition:var(--transition);cursor:pointer;display:flex;flex-direction:column;gap:0.6rem;}
@@ -218,6 +153,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .vuelo-asientos{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;}
 .vuelo-book{padding:7px 16px;background:var(--boa-red);border:none;color:white;font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);border-radius:2px;text-decoration:none;display:inline-block;}
 .vuelo-book:hover{background:#e01535;}
+
+/* FLOTA */
 #flota{background:var(--boa-navy);padding:6rem 4rem;position:relative;overflow:hidden;}
 #flota::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,77,179,0.15) 0%,transparent 70%);pointer-events:none;}
 .flota-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1300px;margin:0 auto;}
@@ -234,6 +171,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .spec-item:hover{border-color:rgba(201,168,76,0.35);background:rgba(0,0,0,0.4);}
 .spec-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--boa-gold);line-height:1;}
 .spec-text{font-family:var(--font-cond);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
+
+/* SERVICIOS */
 #servicios{background:var(--boa-dark);padding:6rem 4rem;}
 .servicios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
 .servicio-card{background:rgba(0,45,114,0.12);border:1px solid rgba(201,168,76,0.12);border-radius:4px;padding:2.5rem 2rem;transition:var(--transition);position:relative;overflow:hidden;}
@@ -243,6 +182,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .servicio-icon{width:56px;height:56px;background:rgba(0,77,179,0.2);border:1px solid rgba(0,77,179,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:24px;}
 .servicio-name{font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:white;margin-bottom:0.75rem;}
 .servicio-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;}
+
+/* PROMOS */
 #promos{background:var(--boa-dark2);padding:6rem 4rem;}
 .promos-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;}
 .promo-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,0.15);transition:var(--transition);min-height:200px;}
@@ -256,6 +197,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .promo-cta:hover{gap:14px;}
 .promo-cta span{display:inline-block;transition:transform 0.3s ease;}
 .promo-cta:hover span{transform:translateX(4px);}
+
+/* POR QUÉ */
 #porque{background:var(--boa-navy);padding:5rem 4rem;text-align:center;position:relative;overflow:hidden;}
 #porque::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
 .porque-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1100px;margin:3rem auto 0;}
@@ -263,6 +206,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .porque-icon{font-size:2.5rem;margin-bottom:0.5rem;}
 .porque-num{font-family:var(--font-display);font-size:3.5rem;font-weight:700;color:var(--boa-gold);line-height:1;}
 .porque-label{font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+
+/* TESTIMONIOS */
 #testimonios{background:var(--boa-dark2);padding:6rem 4rem;}
 .testimonios-slider{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:1rem;max-width:1100px;margin:0 auto;-ms-overflow-style:none;scrollbar-width:none;}
 .testimonios-slider::-webkit-scrollbar{display:none;}
@@ -277,6 +222,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .slider-controls{display:flex;gap:0.75rem;justify-content:center;margin-top:2rem;}
 .slider-btn{width:44px;height:44px;border-radius:50%;background:rgba(0,45,114,0.3);border:1px solid rgba(201,168,76,0.25);color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;}
 .slider-btn:hover{background:var(--boa-blue);border-color:var(--boa-gold);color:white;}
+
+/* NEWSLETTER */
 #newsletter{background:linear-gradient(135deg,var(--boa-red) 0%,#8b0d1e 100%);padding:5rem 4rem;text-align:center;position:relative;overflow:hidden;}
 #newsletter::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:400px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;}
 .newsletter-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:white;margin-bottom:0.6rem;}
@@ -286,6 +233,8 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:var(--boa-whi
 .newsletter-input::placeholder{color:rgba(255,255,255,0.45);}
 .newsletter-btn{padding:16px 28px;background:var(--boa-gold);border:none;color:var(--boa-navy);font-family:var(--font-cond);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);white-space:nowrap;}
 .newsletter-btn:hover{background:var(--boa-gold2);}
+
+/* FOOTER */
 footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,168,76,0.15);}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1300px;margin:0 auto 3rem;}
 .footer-brand img{height:48px;filter:brightness(0) invert(1);margin-bottom:1.2rem;}
@@ -303,6 +252,8 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 .footer-legal a{color:rgba(201,168,76,0.7);text-decoration:none;}
 .footer-devs{font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);text-align:right;line-height:1.5;}
 .footer-devs strong{color:rgba(201,168,76,0.6);font-weight:500;}
+
+/* TOAST */
 .toast{position:fixed;bottom:2rem;right:2rem;z-index:3000;background:var(--boa-navy);border:1px solid var(--boa-gold);border-radius:4px;padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);min-width:280px;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast-icon{font-size:22px;}
@@ -331,6 +282,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 .dest-bg-sao{background:linear-gradient(135deg,#1a3a2a,#2d8a6e,#70c8a0);}
 .dest-bg-miami{background:linear-gradient(135deg,#1a3a3a,#2d8a8a,#70c8c8);}
 .dest-bg-default{background:linear-gradient(135deg,#1a2a3a,#2d4a6e,#7090b8);}
+
 @media(max-width:1100px){.flota-layout{grid-template-columns:1fr;}.servicios-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
   #navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}
@@ -354,9 +306,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <body>
 
 <div id="loader">
-  <div class="loader-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA Boliviana de Aviación"/>
-  </div>
+  <div class="loader-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></div>
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
 </div>
 
@@ -368,11 +318,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <nav id="navbar">
-  <div class="nav-logo">
-    <a href="/">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA Boliviana de Aviación"/>
-    </a>
-  </div>
+  <div class="nav-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></div>
   <ul class="nav-links">
     <li><a href="#destinos">Destinos</a></li>
     <li><a href="#vuelos-live">Vuelos</a></li>
@@ -519,8 +465,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <section id="flota">
   <div class="flota-layout">
     <div class="flota-img-block reveal">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"
-           alt="Boeing 737 flota BOA Boliviana de Aviación" loading="lazy"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Flota BOA"/>
       <div class="flota-img-tag"><p>Aeronave principal</p><h4>Boeing 737-300</h4></div>
     </div>
     <div class="flota-text">
@@ -638,7 +583,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA Boliviana de Aviación" loading="lazy"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
       <p class="footer-desc">Boliviana de Aviación es la aerolínea de bandera de Bolivia, conectando el país con el mundo desde 2009 con orgullo y seguridad.</p>
       <div class="social-links">
         <a class="social-btn" href="#">f</a>
@@ -660,6 +605,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <script type="module">
 import { supabase } from './assets/js/supabase.js';
 
+// LOADER
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loader').classList.add('done');
@@ -667,16 +613,19 @@ window.addEventListener('load', () => {
   }, 1800);
 });
 
+// FECHA DEFAULT
 document.getElementById('dep-date').value = new Date().toISOString().split('T')[0];
 
+// CHECK AUTH
 let currentUser = null;
 const { data: { user } } = await supabase.auth.getUser();
 currentUser = user;
 if (user) {
-  document.getElementById('nav-auth-item').innerHTML =
-    `<a href="public/user/index.html" class="nav-user-btn">👤 Mi cuenta</a>`;
+  const navItem = document.getElementById('nav-auth-item');
+  navItem.innerHTML = `<a href="public/user/index.html" class="nav-user-btn">👤 Mi cuenta</a>`;
 }
 
+// NAVBAR SCROLL
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
@@ -688,6 +637,7 @@ window.toggleMenu = function() {
   document.getElementById('mobileMenu').classList.toggle('open');
 };
 
+// STARFIELD
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -703,157 +653,211 @@ function drawStars() {
 initStars(); drawStars();
 window.addEventListener('resize', initStars);
 
+// TRIP TABS
 window.setTrip = function(el, type) {
   document.querySelectorAll('.trip-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   const r = document.getElementById('ret-field');
-  r.style.opacity = type==='ida'?'0.4':'1';
-  r.style.pointerEvents = type==='ida'?'none':'auto';
+  r.style.opacity = type==='ida' ? '0.4' : '1';
+  r.style.pointerEvents = type==='ida' ? 'none' : 'auto';
 };
 
+// SEARCH → siempre va a login si no está logueado
 window.handleSearch = function() {
   const origen = document.getElementById('search-origen').value;
   const destino = document.getElementById('search-destino').value;
   const fecha = document.getElementById('dep-date').value;
-  const params = new URLSearchParams({origen,destino,fecha});
-  window.location.href = currentUser
-    ? `public/user/index.html?${params}`
-    : `auth/login.html?redirect=buscar&${params}`;
+  const params = new URLSearchParams({ origen, destino, fecha });
+  if (currentUser) {
+    window.location.href = `public/user/index.html?${params}`;
+  } else {
+    window.location.href = `auth/login.html?redirect=buscar&${params}`;
+  }
 };
 
+// DESTINOS CONFIG
 const destConfig = {
-  'La Paz':      {cat:'nacional',      bg:'dest-bg-lapaz',  icon:'🏔️'},
-  'Cochabamba':  {cat:'nacional',      bg:'dest-bg-cbba',   icon:'🌿'},
-  'Sucre':       {cat:'nacional',      bg:'dest-bg-sucre',  icon:'🏛️'},
-  'Potosí':      {cat:'nacional',      bg:'dest-bg-sucre',  icon:'⛏️'},
-  'Oruro':       {cat:'nacional',      bg:'dest-bg-default',icon:'🎭'},
-  'Trinidad':    {cat:'nacional',      bg:'dest-bg-cbba',   icon:'🌴'},
-  'Buenos Aires':{cat:'internacional', bg:'dest-bg-ba',     icon:'🌆'},
-  'Lima':        {cat:'internacional', bg:'dest-bg-lima',   icon:'🏯'},
-  'São Paulo':   {cat:'internacional', bg:'dest-bg-sao',    icon:'🌉'},
-  'Miami':       {cat:'internacional', bg:'dest-bg-miami',  icon:'🌊'},
-  'Madrid':      {cat:'internacional', bg:'dest-bg-madrid', icon:'🏰'},
+  'La Paz':      { cat:'nacional',      bg:'dest-bg-lapaz',  icon:'🏔️' },
+  'Cochabamba':  { cat:'nacional',      bg:'dest-bg-cbba',   icon:'🌿' },
+  'Sucre':       { cat:'nacional',      bg:'dest-bg-sucre',  icon:'🏛️' },
+  'Potosí':      { cat:'nacional',      bg:'dest-bg-sucre',  icon:'⛏️' },
+  'Oruro':       { cat:'nacional',      bg:'dest-bg-default',icon:'🎭' },
+  'Trinidad':    { cat:'nacional',      bg:'dest-bg-cbba',   icon:'🌴' },
+  'Buenos Aires':{ cat:'internacional', bg:'dest-bg-ba',     icon:'🌆' },
+  'Lima':        { cat:'internacional', bg:'dest-bg-lima',   icon:'🏯' },
+  'São Paulo':   { cat:'internacional', bg:'dest-bg-sao',    icon:'🌉' },
+  'Miami':       { cat:'internacional', bg:'dest-bg-miami',  icon:'🌊' },
+  'Madrid':      { cat:'internacional', bg:'dest-bg-madrid', icon:'🏰' },
 };
-const getCityName = s => s.replace(/\s*\([^)]*\)/,'').trim();
-const getCode     = s => { const m=s.match(/\(([^)]+)\)/); return m?m[1]:''; };
 
+function getCityName(str) { return str.replace(/\s*\([^)]*\)/, '').trim(); }
+function getAirportCode(str) { const m=str.match(/\(([^)]+)\)/); return m?m[1]:''; }
+
+// CARGAR DESTINOS DESDE SUPABASE
 async function loadDestinos() {
-  const {data:flights,error} = await supabase.from('flights')
-    .select('destino,precio,origen').eq('estado','programado')
-    .gt('asientos_disponibles',0).order('precio',{ascending:true});
+  const { data: flights, error } = await supabase
+    .from('flights')
+    .select('destino, precio, origen')
+    .eq('estado', 'programado')
+    .gt('asientos_disponibles', 0)
+    .order('precio', { ascending: true });
+
   const grid = document.getElementById('dest-grid');
-  if(error||!flights?.length){
-    grid.innerHTML=`<p style="text-align:center;color:rgba(255,255,255,0.3);grid-column:1/-1;padding:3rem;">No hay destinos disponibles en este momento.</p>`;
+
+  if (error || !flights?.length) {
+    grid.innerHTML = `<p style="text-align:center;color:rgba(255,255,255,0.3);grid-column:1/-1;padding:3rem;">No hay destinos disponibles en este momento.</p>`;
     return;
   }
-  const map={};
-  flights.forEach(f=>{const c=getCityName(f.destino);if(!map[c]||f.precio<map[c].precio)map[c]={precio:f.precio,origen:f.origen,destino:f.destino};});
-  grid.innerHTML='';
-  Object.entries(map).slice(0,6).forEach(([city,data])=>{
-    const cfg=destConfig[city]||{cat:'nacional',bg:'dest-bg-default',icon:'✈️'};
-    const intl=cfg.cat==='internacional';
-    const card=document.createElement('div');
-    card.className='dest-card reveal'; card.dataset.cat=cfg.cat;
-    card.innerHTML=`
+
+  const destMap = {};
+  flights.forEach(f => {
+    const city = getCityName(f.destino);
+    if (!destMap[city] || f.precio < destMap[city].precio) {
+      destMap[city] = { precio: f.precio, origen: f.origen, destino: f.destino };
+    }
+  });
+
+  grid.innerHTML = '';
+  const entries = Object.entries(destMap).slice(0, 6);
+  entries.forEach(([city, data]) => {
+    const cfg = destConfig[city] || { cat:'nacional', bg:'dest-bg-default', icon:'✈️' };
+    const isIntl = cfg.cat === 'internacional';
+    const origCode = getAirportCode(data.origen);
+    const destCode = getAirportCode(data.destino);
+    const currency = isIntl ? '$' : 'Bs.';
+
+    const card = document.createElement('div');
+    card.className = 'dest-card reveal';
+    card.dataset.cat = cfg.cat;
+    card.innerHTML = `
       <div class="dest-img-placeholder ${cfg.bg}">${cfg.icon}</div>
       <div class="dest-overlay"></div>
-      <div class="dest-badge ${intl?'badge-internacional':'badge-nacional'}">${intl?'Internacional':'Nacional'}</div>
+      <div class="dest-badge ${isIntl?'badge-internacional':'badge-nacional'}">${isIntl?'Internacional':'Nacional'}</div>
       <div class="dest-info">
         <span class="dest-city">${city}</span>
-        <span class="dest-route">${getCode(data.origen)} → ${getCode(data.destino)}</span>
+        <span class="dest-route">${origCode} → ${destCode}</span>
         <div class="dest-bottom">
-          <div class="dest-price">${intl?'$':'Bs.'} ${data.precio} <span>desde</span></div>
+          <div class="dest-price">${currency} ${data.precio} <span>desde</span></div>
           <a class="dest-book-btn" href="auth/login.html">Reservar</a>
         </div>
-      </div>`;
+      </div>
+    `;
     grid.appendChild(card);
   });
-  grid.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+  grid.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 }
 
+// CARGAR VUELOS LIVE
 async function loadVuelosLive() {
-  const {data:flights} = await supabase.from('flights').select('*')
-    .in('estado',['programado','en_vuelo','abordando'])
-    .gt('asientos_disponibles',0).order('fecha_salida',{ascending:true}).limit(9);
-  const grid=document.getElementById('live-grid');
-  if(!flights?.length){
-    grid.innerHTML=`<p style="text-align:center;color:rgba(255,255,255,0.3);grid-column:1/-1;padding:3rem;">No hay vuelos disponibles en este momento.</p>`;
+  const { data: flights } = await supabase
+    .from('flights')
+    .select('*')
+    .in('estado', ['programado','en_vuelo','abordando'])
+    .gt('asientos_disponibles', 0)
+    .order('fecha_salida', { ascending: true })
+    .limit(9);
+
+  const grid = document.getElementById('live-grid');
+  if (!flights?.length) {
+    grid.innerHTML = `<p style="text-align:center;color:rgba(255,255,255,0.3);grid-column:1/-1;padding:3rem;">No hay vuelos disponibles en este momento.</p>`;
     return;
   }
-  grid.innerHTML='';
-  flights.forEach(f=>{
-    const salida=new Date(f.fecha_salida), llegada=new Date(f.fecha_llegada);
-    const dur=Math.round((llegada-salida)/60000);
-    const intl=['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
-    const href=currentUser?`public/user/index.html?flight=${f.id}`:'auth/login.html';
-    const card=document.createElement('div');
-    card.className=`vuelo-card reveal ${f.estado==='en_vuelo'?'en_vuelo':''}`;
-    card.innerHTML=`
+
+  grid.innerHTML = '';
+  flights.forEach(f => {
+    const salida = new Date(f.fecha_salida);
+    const llegada = new Date(f.fecha_llegada);
+    const durMin = Math.round((llegada - salida) / 60000);
+    const durH = Math.floor(durMin / 60);
+    const durM = durMin % 60;
+    const isIntl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => f.destino.includes(c));
+    const bookHref = currentUser ? `public/user/index.html?flight=${f.id}` : 'auth/login.html';
+
+    const card = document.createElement('div');
+    card.className = `vuelo-card reveal ${f.estado==='en_vuelo'?'en_vuelo':''}`;
+    card.innerHTML = `
       <div class="vuelo-header">
-        <div class="vuelo-ruta"><span>${getCityName(f.origen)}</span><span class="vuelo-arrow">✈</span><span>${getCityName(f.destino)}</span></div>
+        <div class="vuelo-ruta">
+          <span>${getCityName(f.origen)}</span>
+          <span class="vuelo-arrow">✈</span>
+          <span>${getCityName(f.destino)}</span>
+        </div>
         <span class="vuelo-estado estado-${f.estado}">${f.estado.replace('_',' ')}</span>
       </div>
       <div class="vuelo-details">
         <div>
-          <div class="vuelo-tiempo">${salida.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})} · ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} · ${Math.floor(dur/60)}h ${dur%60}min</div>
+          <div class="vuelo-tiempo">
+            ${salida.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})} · ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+            &nbsp;·&nbsp;${durH}h ${durM}min
+          </div>
           <div class="vuelo-asientos">${f.asientos_disponibles} asientos disponibles</div>
         </div>
         <div style="text-align:right">
-          <div class="vuelo-precio">${intl?'$':'Bs.'} ${f.precio}</div>
-          <a class="vuelo-book" href="${href}">Reservar →</a>
+          <div class="vuelo-precio">${isIntl?'$':'Bs.'} ${f.precio}</div>
+          <a class="vuelo-book" href="${bookHref}">Reservar →</a>
         </div>
-      </div>`;
+      </div>
+    `;
     grid.appendChild(card);
   });
-  grid.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+  grid.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 }
 
-window.filterDest = function(el,cat) {
+// FILTER DESTINOS
+window.filterDest = function(el, cat) {
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.dest-card').forEach(c=>{
-    c.classList.toggle('hidden', cat!=='todos' && c.dataset.cat!==cat);
+  document.querySelectorAll('.dest-card').forEach(card=>{
+    if(cat==='todos'||card.dataset.cat===cat) card.classList.remove('hidden');
+    else card.classList.add('hidden');
   });
 };
 
-function showToast(icon,title,msg) {
-  const t=document.getElementById('toast');
-  t.querySelector('.toast-icon').textContent=icon;
-  t.querySelector('.toast-msg').innerHTML=`<strong>${title}</strong>${msg}`;
+// TOAST
+function showToast(icon, title, msg) {
+  const t = document.getElementById('toast');
+  t.querySelector('.toast-icon').textContent = icon;
+  t.querySelector('.toast-msg').innerHTML = `<strong>${title}</strong>${msg}`;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),4000);
+  setTimeout(()=>t.classList.remove('show'), 4000);
 }
 
+// NEWSLETTER
 window.handleNewsletter = function() {
-  const email=document.getElementById('nl-email').value;
-  if(!email||!email.includes('@')){showToast('⚠️','Correo inválido','Ingresa un correo válido.');return;}
+  const email = document.getElementById('nl-email').value;
+  if(!email||!email.includes('@')){ showToast('⚠️','Correo inválido','Ingresa un correo válido.'); return; }
   document.getElementById('nl-email').value='';
   showToast('📧','¡Suscripción exitosa!','Recibirás nuestras mejores ofertas en '+email);
 };
 
+// TESTIMONIOS SLIDER
 window.slideTestimonios = function(dir) {
   document.getElementById('testimonios-slider').scrollBy({left:dir*400,behavior:'smooth'});
 };
 
+// COUNTER ANIMATION
 function animateCount(el) {
-  const target=parseInt(el.dataset.count); let current=0;
-  const step=target/60;
-  const t=setInterval(()=>{
-    current=Math.min(current+step,target);
-    el.textContent=Math.round(current)+'+';
-    if(current>=target)clearInterval(t);
-  },25);
+  const target = parseInt(el.dataset.count);
+  let current = 0;
+  const step = target/60;
+  const timer = setInterval(()=>{
+    current = Math.min(current+step, target);
+    el.textContent = Math.round(current)+'+';
+    if(current>=target) clearInterval(timer);
+  }, 25);
 }
 
-const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
-},{threshold:0.12});
-const counterObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){animateCount(e.target);counterObs.unobserve(e.target);}});
-},{threshold:0.5});
+// INTERSECTION OBSERVERS
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);} });
+}, {threshold:0.12});
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){animateCount(e.target);counterObs.unobserve(e.target);} });
+}, {threshold:0.5});
 document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 document.querySelectorAll('[data-count]').forEach(el=>counterObs.observe(el));
 
+// INIT
 await loadDestinos();
 await loadVuelosLive();
 </script>

@@ -3,69 +3,36 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BOA – Vuelos Bolivia | Reserva Pasajes Aéreos | Boliviana de Aviación</title>
-<meta name="description" content="Reserva vuelos nacionales e internacionales con BOA Boliviana de Aviación. Destinos: La Paz, Cochabamba, Sucre, Buenos Aires, Lima, Madrid y más."/>
-<meta name="keywords" content="BOA, Boliviana de Aviación, vuelos Bolivia, pasajes aéreos Bolivia, vuelos La Paz, vuelos Santa Cruz, vuelos Cochabamba, vuelos Buenos Aires, vuelos Lima, vuelos Madrid, aerolínea Bolivia"/>
+<title>Proyecto Académico BOA – Agencia de Viajes | Universidad</title>
+<meta name="description" content="Proyecto académico universitario basado en BOA Boliviana de Aviación. Sitio de práctica para reserva de vuelos nacionales e internacionales. No es el sitio oficial de BOA."/>
+<meta name="keywords" content="proyecto académico BOA, agencia viajes universitaria, práctica web vuelos Bolivia, proyecto universitario aviación"/>
 <meta name="robots" content="index, follow"/>
 <meta name="author" content="Juan Andrés Revollo Gutiérrez, Nazel Alexander Felipez, Olver Antonio Álvarez Oliva"/>
 <meta name="theme-color" content="#002D72"/>
 <link rel="canonical" href="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
 <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg"/>
+
+<!-- Open Graph -->
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
-<meta property="og:title" content="BOA – Vuelos Bolivia | Boliviana de Aviación"/>
-<meta property="og:description" content="Reserva vuelos nacionales e internacionales con BOA. La Paz, Cochabamba, Sucre, Buenos Aires, Lima, Madrid y más."/>
+<meta property="og:title" content="Proyecto Académico – Agencia de Viajes BOA"/>
+<meta property="og:description" content="Proyecto universitario de práctica web basado en BOA Boliviana de Aviación. No es el sitio oficial."/>
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"/>
-<meta property="og:site_name" content="BOA Boliviana de Aviación"/>
+<meta property="og:site_name" content="Proyecto Académico BOA"/>
 <meta property="og:locale" content="es_BO"/>
 
-<!-- Schema.org limpio y válido — solo Airline + FAQPage -->
+<!-- Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Airline",
-  "name": "BOA – Boliviana de Aviación",
+  "@type": "WebSite",
+  "name": "Proyecto Académico – Agencia de Viajes BOA",
   "url": "https://infotiens43-design.github.io/BoaAgenciaViajes/",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg",
-  "description": "Aerolínea de bandera de Bolivia. Vuelos nacionales e internacionales desde 2009.",
-  "foundingDate": "2009",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Santa Cruz de la Sierra",
-    "addressCountry": "BO"
+  "description": "Proyecto universitario de práctica web. No es el sitio oficial de BOA Boliviana de Aviación.",
+  "author": {
+    "@type": "Organization",
+    "name": "Equipo Académico – Infotiens43 Design"
   }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "¿Cuáles son los destinos nacionales de BOA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BOA conecta Santa Cruz, La Paz, Cochabamba, Sucre, Potosí, Oruro y Trinidad."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿A qué países vuela BOA internacionalmente?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BOA opera vuelos a Argentina (Buenos Aires), Perú (Lima), Brasil (São Paulo), España (Madrid) y Estados Unidos (Miami)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Cómo hago el check-in online con BOA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Puedes hacer el check-in online hasta 24 horas antes de tu vuelo, sin filas ni esperas."
-      }
-    }
-  ]
 }
 </script>
 
@@ -79,9 +46,15 @@
 html{scroll-behavior:smooth;}
 body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow-x:hidden;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--boa-dark);}::-webkit-scrollbar-thumb{background:var(--boa-gold);border-radius:3px;}
-#navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;transition:var(--transition);}
+
+/* AVISO ACADÉMICO — barra superior visible */
+#aviso-academico{background:#1a3a00;border-bottom:2px solid #4caf50;padding:0.6rem 1.5rem;text-align:center;font-family:var(--font-cond);font-size:12px;font-weight:600;letter-spacing:1px;color:#b9f6ca;position:relative;z-index:1001;}
+#aviso-academico a{color:#69f0ae;text-decoration:underline;}
+
+#navbar{position:fixed;top:36px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;transition:var(--transition);}
 #navbar.scrolled{background:rgba(0,14,46,0.97);backdrop-filter:blur(14px);padding:0.8rem 4rem;border-bottom:1px solid rgba(201,168,76,0.2);box-shadow:0 4px 30px rgba(0,0,0,0.4);}
 .nav-logo img{height:44px;filter:brightness(0) invert(1);}
+.nav-badge{font-family:var(--font-cond);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:#1a3a00;color:#69f0ae;border:1px solid #4caf50;padding:2px 8px;border-radius:2px;margin-left:8px;}
 .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none;}
 .nav-links a{color:rgba(255,255,255,0.85);text-decoration:none;font-family:var(--font-cond);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);position:relative;}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--boa-gold);transition:var(--transition);}
@@ -99,7 +72,7 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow
 .mobile-menu.open{display:flex;}
 .mobile-menu a{color:white;text-decoration:none;font-family:var(--font-display);font-size:2rem;font-weight:600;}
 .mobile-menu a:hover{color:var(--boa-gold);}
-#hero{position:relative;width:100%;height:100vh;min-height:650px;overflow:hidden;display:flex;align-items:center;}
+#hero{position:relative;width:100%;height:100vh;min-height:650px;overflow:hidden;display:flex;align-items:center;margin-top:36px;}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(170deg,#000814 0%,#001233 18%,#002372 32%,#1a3060 48%,#7a3520 65%,#c85828 78%,#e8a050 90%,#f8d898 100%);}
 #starfield{position:absolute;inset:0;pointer-events:none;}
 .mountains-svg{position:absolute;bottom:0;left:0;width:100%;height:50%;pointer-events:none;}
@@ -201,7 +174,7 @@ body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow
 .promo-detail{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:1.5rem;}
 .promo-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-cond);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--boa-gold);background:none;border:none;cursor:pointer;text-decoration:none;transition:var(--transition);}
 .promo-cta:hover{gap:14px;}
-.promo-cta span{display:inline-block;transition:transform 0.3s ease;}
+.promo-cta span{display:inline-block;transition:transform 0.3s;}
 .promo-cta:hover span{transform:translateX(4px);}
 #porque{background:var(--boa-navy);padding:5rem 4rem;text-align:center;}
 .porque-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1100px;margin:3rem auto 0;}
@@ -248,6 +221,9 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 .footer-legal a{color:rgba(201,168,76,0.7);text-decoration:none;}
 .footer-devs{font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);text-align:right;line-height:1.5;}
 .footer-devs strong{color:rgba(201,168,76,0.6);font-weight:500;}
+/* Aviso académico footer */
+.footer-academico{max-width:1300px;margin:1.5rem auto 0;padding:1rem 1.5rem;background:rgba(26,58,0,0.4);border:1px solid #4caf5040;border-radius:4px;text-align:center;font-size:12px;color:#b9f6ca;line-height:1.6;}
+.footer-academico a{color:#69f0ae;}
 #back-top{position:fixed;bottom:2rem;left:2rem;z-index:999;width:44px;height:44px;background:var(--boa-red);border:none;border-radius:50%;color:white;font-size:18px;cursor:pointer;transition:var(--transition);opacity:0;pointer-events:none;display:flex;align-items:center;justify-content:center;}
 #back-top.visible{opacity:1;pointer-events:all;}
 #back-top:hover{background:#e01535;transform:translateY(-3px);}
@@ -267,10 +243,16 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:1100px){.flota-layout{grid-template-columns:1fr;}.servicios-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){#navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}.nav-links{display:none;}.hamburger{display:flex;}.hero-content{padding:0 1.5rem;}.stats-bar{display:grid;grid-template-columns:1fr 1fr;}.stat-item{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-form{grid-template-columns:1fr;}.form-field{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-btn{padding:1.2rem;min-width:auto;}#search,#destinos,#flota,#servicios,#promos,#porque,#testimonios,#newsletter,footer{padding:4rem 1.5rem;}.servicios-grid,.promos-grid,.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){#aviso-academico{font-size:10px;padding:0.5rem 1rem;}#navbar{top:32px;}#hero{margin-top:32px;}#navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}.nav-links{display:none;}.hamburger{display:flex;}.hero-content{padding:0 1.5rem;}.stats-bar{display:grid;grid-template-columns:1fr 1fr;}.stat-item{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-form{grid-template-columns:1fr;}.form-field{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-btn{padding:1.2rem;min-width:auto;}#search,#destinos,#flota,#servicios,#promos,#porque,#testimonios,#newsletter,footer{padding:4rem 1.5rem;}.servicios-grid,.promos-grid,.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
+
+<!-- AVISO ACADÉMICO — visible para Google y visitantes -->
+<div id="aviso-academico">
+  ⚠️ <strong>PROYECTO ACADÉMICO</strong> — Este sitio es un trabajo universitario de práctica web. No es el sitio oficial de BOA Boliviana de Aviación.
+  El sitio oficial es <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a>
+</div>
 
 <div class="toast" id="toast">
   <div class="toast-icon">✈️</div>
@@ -279,17 +261,18 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <nav id="navbar">
-  <div class="nav-logo">
+  <div class="nav-logo" style="display:flex;align-items:center;">
     <a href="/BoaAgenciaViajes/">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA Boliviana de Aviación"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA – Proyecto Académico"/>
     </a>
+    <span class="nav-badge">Proyecto Académico</span>
   </div>
   <ul class="nav-links">
     <li><a href="#destinos">Destinos</a></li>
     <li><a href="#flota">Flota</a></li>
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#promos">Promociones</a></li>
-    <li><a href="auth/login.html" class="nav-cta">Reservar</a></li>
+    <li><a href="auth/login.html" class="nav-cta">Ingresar</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -301,7 +284,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   <a href="#flota" onclick="toggleMenu()">Flota</a>
   <a href="#servicios" onclick="toggleMenu()">Servicios</a>
   <a href="#promos" onclick="toggleMenu()">Promociones</a>
-  <a href="auth/login.html" style="color:var(--boa-gold)">Reservar Vuelo</a>
+  <a href="auth/login.html" style="color:var(--boa-gold)">Ingresar al sistema</a>
 </div>
 
 <section id="hero">
@@ -333,7 +316,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   <div class="hero-content">
     <div class="hero-flag-line">
       <div class="flag-dot"></div><div class="flag-dot gold"></div>
-      <span class="hero-sub">Boliviana de Aviación · Desde 2009</span>
+      <span class="hero-sub">Proyecto Académico · Basado en BOA · 2025</span>
     </div>
     <h1 class="hero-title">
       <span class="line1">Vuela con</span>
@@ -341,7 +324,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
     </h1>
     <p class="hero-desc">Conectamos Bolivia con el mundo. Rutas nacionales e internacionales con la seguridad, puntualidad y calidez que mereces.</p>
     <div class="hero-btns">
-      <a class="btn-primary" href="auth/login.html">Reservar Vuelo</a>
+      <a class="btn-primary" href="auth/login.html">Ingresar al sistema</a>
       <a class="btn-outline" href="#destinos">Ver Destinos</a>
     </div>
   </div>
@@ -407,11 +390,11 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <section id="flota">
   <div class="flota-layout">
     <div class="flota-img-block reveal">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Boeing 737 flota BOA Boliviana de Aviación" loading="lazy"/>
-      <div class="flota-img-tag"><p>Aeronave principal</p><h4>Boeing 737-300</h4></div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Boeing 737" loading="lazy"/>
+      <div class="flota-img-tag"><p>Aeronave referencial</p><h4>Boeing 737-300</h4></div>
     </div>
     <div class="flota-text">
-      <span class="section-tag reveal">Nuestra flota</span>
+      <span class="section-tag reveal">Flota referencial</span>
       <h2 class="section-title reveal">Tecnología al servicio de tu viaje</h2>
       <div class="section-divider reveal"></div>
       <p class="flota-desc reveal">BOA cuenta con una moderna flota de aeronaves de última generación, mantenidas bajo los más altos estándares internacionales de seguridad y eficiencia operacional.</p>
@@ -421,7 +404,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
         <div class="spec-item"><div class="spec-num">98%</div><div class="spec-text">Factor de regularidad</div></div>
         <div class="spec-item"><div class="spec-num">737</div><div class="spec-text">Boeing familia</div></div>
       </div>
-      <a class="btn-primary reveal" href="auth/login.html">Reservar ahora</a>
+      <a class="btn-primary reveal" href="auth/login.html">Ingresar al sistema</a>
     </div>
   </div>
 </section>
@@ -441,7 +424,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 </section>
 
 <section id="promos">
-  <span class="section-tag reveal">Ofertas especiales</span>
+  <span class="section-tag reveal">Ofertas de ejemplo</span>
   <h2 class="section-title reveal">Viaja más, paga menos</h2>
   <div class="section-divider reveal"></div>
   <div class="promos-grid">
@@ -464,7 +447,6 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
 </section>
 
-<!-- Testimonios sin itemscope ni Schema — solo HTML limpio -->
 <section id="testimonios">
   <span class="section-tag reveal">Pasajeros BOA</span>
   <h2 class="section-title reveal">Lo que dicen nuestros viajeros</h2>
@@ -494,8 +476,8 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA Boliviana de Aviación" loading="lazy"/>
-      <p class="footer-desc">Boliviana de Aviación es la aerolínea de bandera de Bolivia, conectando el país con el mundo desde 2009 con orgullo y seguridad.</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA – Proyecto Académico" loading="lazy"/>
+      <p class="footer-desc">Proyecto académico universitario basado en BOA Boliviana de Aviación. Desarrollado con fines educativos. No es el sitio oficial.</p>
       <div class="social-links">
         <a class="social-btn" href="#">f</a>
         <a class="social-btn" href="#">𝕏</a>
@@ -503,18 +485,25 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
         <a class="social-btn" href="#">▶</a>
       </div>
     </div>
-    <div class="footer-col"><h5>Volar</h5><ul class="footer-links"><li><a href="auth/login.html">Destinos nacionales</a></li><li><a href="auth/login.html">Destinos internacionales</a></li><li><a href="auth/login.html">Promociones</a></li><li><a href="auth/login.html">Check-in online</a></li><li><a href="auth/login.html">Estado de vuelo</a></li></ul></div>
-    <div class="footer-col"><h5>Servicios</h5><ul class="footer-links"><li><a href="auth/login.html">Equipaje</a></li><li><a href="auth/login.html">Clase ejecutiva</a></li><li><a href="auth/login.html">Asistencia especial</a></li><li><a href="auth/login.html">Plan corporativo</a></li><li><a href="auth/login.html">Cargo de carga</a></li></ul></div>
-    <div class="footer-col"><h5>Compañía</h5><ul class="footer-links"><li><a href="#">Quiénes somos</a></li><li><a href="#">Nuestra flota</a></li><li><a href="#">Responsabilidad social</a></li><li><a href="#">Trabaja con nosotros</a></li><li><a href="#">Contacto</a></li></ul></div>
+    <div class="footer-col"><h5>Navegación</h5><ul class="footer-links"><li><a href="auth/login.html">Ingresar</a></li><li><a href="auth/register.html">Registrarse</a></li><li><a href="#destinos">Destinos</a></li><li><a href="#servicios">Servicios</a></li><li><a href="#promos">Promociones</a></li></ul></div>
+    <div class="footer-col"><h5>Servicios</h5><ul class="footer-links"><li><a href="auth/login.html">Equipaje</a></li><li><a href="auth/login.html">Clase ejecutiva</a></li><li><a href="auth/login.html">Asistencia especial</a></li><li><a href="auth/login.html">Plan corporativo</a></li></ul></div>
+    <div class="footer-col"><h5>Proyecto</h5><ul class="footer-links"><li><a href="#">Sobre el proyecto</a></li><li><a href="#">Equipo de desarrollo</a></li><li><a href="#">Repositorio GitHub</a></li><li><a href="https://www.boa.bo" target="_blank" rel="noopener">Sitio oficial BOA</a></li></ul></div>
   </div>
+
+  <!-- Aviso académico en footer -->
+  <div class="footer-academico">
+    ⚠️ <strong>AVISO:</strong> Este es un proyecto académico universitario con fines educativos. No representa ni está afiliado al sitio oficial de BOA Boliviana de Aviación.<br/>
+    Para vuelos reales visita <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a> |
+    Desarrollado por: <strong>Juan Andrés Revollo Gutiérrez · Nazel Alexander Felipez · Olver Antonio Álvarez Oliva</strong>
+  </div>
+
   <div class="footer-bottom">
-    <div class="footer-legal">© 2025 Boliviana de Aviación – BOA. Todos los derechos reservados. | <a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></div>
-    <div class="footer-devs">Desarrollado por<br/><strong>Juan Andrés Revollo Gutiérrez · Nazel Alexander Felipez · Olver Antonio Álvarez Oliva</strong></div>
+    <div class="footer-legal">© 2025 Proyecto Académico – Infotiens43 Design. Todos los derechos reservados. | <a href="#">Aviso legal</a></div>
+    <div class="footer-devs">Proyecto universitario de práctica web</div>
   </div>
 </footer>
 
 <script>
-// Destinos estáticos — sin Supabase
 const DESTINOS = [
   {city:'La Paz',       cat:'nacional',      bg:'dest-bg-lapaz', icon:'🏔️', code:'LPB', precio:'280',  currency:'Bs.'},
   {city:'Cochabamba',   cat:'nacional',      bg:'dest-bg-cbba',  icon:'🌿', code:'CBB', precio:'240',  currency:'Bs.'},
@@ -541,7 +530,7 @@ function renderDestinos() {
         <span class="dest-route">VVI → ${d.code}</span>
         <div class="dest-bottom">
           <div class="dest-price">${d.currency} ${d.precio} <span>desde</span></div>
-          <a class="dest-book-btn" href="auth/login.html">Reservar</a>
+          <a class="dest-book-btn" href="auth/login.html">Ver más</a>
         </div>
       </div>`;
     grid.appendChild(card);
@@ -549,20 +538,17 @@ function renderDestinos() {
   });
 }
 
-// Navbar
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
   document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
 });
 
-// Menú móvil
 window.toggleMenu = function() {
   document.getElementById('hamburger').classList.toggle('active');
   document.getElementById('mobileMenu').classList.toggle('open');
 };
 
-// Starfield
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -578,7 +564,6 @@ function drawStars() {
 initStars(); drawStars();
 window.addEventListener('resize', initStars);
 
-// Buscador
 document.getElementById('dep-date').value = new Date().toISOString().split('T')[0];
 window.setTrip = function(el, type) {
   document.querySelectorAll('.trip-tab').forEach(t=>t.classList.remove('active'));
@@ -594,7 +579,6 @@ window.handleSearch = function() {
   window.location.href = `auth/login.html?origen=${encodeURIComponent(origen)}&destino=${encodeURIComponent(destino)}&fecha=${fecha}`;
 };
 
-// Filtro
 window.filterDest = function(el, cat) {
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
@@ -603,12 +587,10 @@ window.filterDest = function(el, cat) {
   });
 };
 
-// Slider
 window.slideTestimonios = function(dir) {
   document.getElementById('testimonios-slider').scrollBy({left:dir*400,behavior:'smooth'});
 };
 
-// Newsletter
 window.handleNewsletter = function() {
   const email = document.getElementById('nl-email').value;
   if (!email||!email.includes('@')) { showToast('⚠️','Correo inválido','Ingresa un correo válido.'); return; }
@@ -623,14 +605,12 @@ function showToast(icon, title, msg) {
   setTimeout(()=>t.classList.remove('show'), 4000);
 }
 
-// Contador
 function animateCount(el) {
   const target = parseInt(el.dataset.count); let c = 0;
   const step = target/60;
   const timer = setInterval(()=>{ c=Math.min(c+step,target); el.textContent=Math.round(c)+'+'; if(c>=target)clearInterval(timer); }, 25);
 }
 
-// Observers
 const revealObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
 },{threshold:0.12});

@@ -4,15 +4,13 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Proyecto Académico BOA – Agencia de Viajes | Universidad</title>
-<meta name="description" content="Proyecto académico universitario basado en BOA Boliviana de Aviación. Sitio de práctica para reserva de vuelos nacionales e internacionales. No es el sitio oficial de BOA."/>
-<meta name="keywords" content="proyecto académico BOA, agencia viajes universitaria, práctica web vuelos Bolivia, proyecto universitario aviación"/>
+<meta name="description" content="Proyecto académico universitario basado en BOA Boliviana de Aviación. Sitio de práctica para reserva de vuelos. No es el sitio oficial de BOA."/>
+<meta name="keywords" content="proyecto académico BOA, agencia viajes universitaria, práctica web vuelos Bolivia"/>
 <meta name="robots" content="index, follow"/>
 <meta name="author" content="Juan Andrés Revollo Gutiérrez, Nazel Alexander Felipez, Olver Antonio Álvarez Oliva"/>
 <meta name="theme-color" content="#002D72"/>
 <link rel="canonical" href="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
 <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg"/>
-
-<!-- Open Graph -->
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://infotiens43-design.github.io/BoaAgenciaViajes/"/>
 <meta property="og:title" content="Proyecto Académico – Agencia de Viajes BOA"/>
@@ -20,238 +18,810 @@
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"/>
 <meta property="og:site_name" content="Proyecto Académico BOA"/>
 <meta property="og:locale" content="es_BO"/>
-
-<!-- Schema.org -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Proyecto Académico – Agencia de Viajes BOA",
-  "url": "https://infotiens43-design.github.io/BoaAgenciaViajes/",
-  "description": "Proyecto universitario de práctica web. No es el sitio oficial de BOA Boliviana de Aviación.",
-  "author": {
-    "@type": "Organization",
-    "name": "Equipo Académico – Infotiens43 Design"
-  }
-}
+{"@context":"https://schema.org","@type":"WebSite","name":"Proyecto Académico – Agencia de Viajes BOA","url":"https://infotiens43-design.github.io/BoaAgenciaViajes/","description":"Proyecto universitario de práctica web. No es el sitio oficial de BOA.","author":{"@type":"Organization","name":"Infotiens43 Design"}}
 </script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
-
 <style>
-:root{--boa-navy:#002D72;--boa-blue:#004DB3;--boa-red:#C8102E;--boa-gold:#C9A84C;--boa-gold2:#E8C878;--boa-dark:#0A0F1E;--boa-dark2:#0F1828;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Barlow',sans-serif;--font-cond:'Barlow Condensed',sans-serif;--transition:all 0.35s cubic-bezier(0.4,0,0.2,1);}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);background:var(--boa-dark);color:#fff;overflow-x:hidden;}
-::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--boa-dark);}::-webkit-scrollbar-thumb{background:var(--boa-gold);border-radius:3px;}
+/* ── VARIABLES ─────────────────────────────────────────── */
+:root {
+  --navy:   #002D72;
+  --blue:   #004DB3;
+  --red:    #C8102E;
+  --gold:   #C9A84C;
+  --gold2:  #E8C878;
+  --dark:   #0A0F1E;
+  --dark2:  #0F1828;
+  --fD: 'Cormorant Garamond', Georgia, serif;
+  --fB: 'Barlow', sans-serif;
+  --fC: 'Barlow Condensed', sans-serif;
+  --ease: all 0.35s cubic-bezier(.4,0,.2,1);
+  --aviso-h: 38px;   /* altura del aviso académico */
+  --nav-h:   72px;   /* altura del navbar */
+}
 
-/* AVISO ACADÉMICO — barra superior visible */
-#aviso-academico{background:#1a3a00;border-bottom:2px solid #4caf50;padding:0.6rem 1.5rem;text-align:center;font-family:var(--font-cond);font-size:12px;font-weight:600;letter-spacing:1px;color:#b9f6ca;position:relative;z-index:1001;}
-#aviso-academico a{color:#69f0ae;text-decoration:underline;}
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--fB); background: var(--dark); color: #fff; overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; }
 
-#navbar{position:fixed;top:36px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;transition:var(--transition);}
-#navbar.scrolled{background:rgba(0,14,46,0.97);backdrop-filter:blur(14px);padding:0.8rem 4rem;border-bottom:1px solid rgba(201,168,76,0.2);box-shadow:0 4px 30px rgba(0,0,0,0.4);}
-.nav-logo img{height:44px;filter:brightness(0) invert(1);}
-.nav-badge{font-family:var(--font-cond);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:#1a3a00;color:#69f0ae;border:1px solid #4caf50;padding:2px 8px;border-radius:2px;margin-left:8px;}
-.nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none;}
-.nav-links a{color:rgba(255,255,255,0.85);text-decoration:none;font-family:var(--font-cond);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);position:relative;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--boa-gold);transition:var(--transition);}
-.nav-links a:hover{color:var(--boa-gold);}
-.nav-links a:hover::after{width:100%;}
-.nav-cta{padding:10px 26px;background:var(--boa-red);color:white!important;border-radius:2px;font-weight:700!important;letter-spacing:1.5px!important;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
-.nav-cta:hover{background:#e01535!important;}
-.nav-cta::after{display:none!important;}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.hamburger span{display:block;width:26px;height:2px;background:white;border-radius:2px;transition:var(--transition);}
-.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-.hamburger.active span:nth-child(2){opacity:0;}
-.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-.mobile-menu{display:none;position:fixed;inset:0;background:rgba(0,14,46,0.98);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{color:white;text-decoration:none;font-family:var(--font-display);font-size:2rem;font-weight:600;}
-.mobile-menu a:hover{color:var(--boa-gold);}
-#hero{position:relative;width:100%;height:100vh;min-height:650px;overflow:hidden;display:flex;align-items:center;margin-top:36px;}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(170deg,#000814 0%,#001233 18%,#002372 32%,#1a3060 48%,#7a3520 65%,#c85828 78%,#e8a050 90%,#f8d898 100%);}
-#starfield{position:absolute;inset:0;pointer-events:none;}
-.mountains-svg{position:absolute;bottom:0;left:0;width:100%;height:50%;pointer-events:none;}
-.hero-plane{position:absolute;top:28%;left:-350px;z-index:3;animation:planeFly 18s linear infinite;filter:drop-shadow(0 12px 40px rgba(0,0,0,0.6));}
-@keyframes planeFly{0%{left:-350px;top:30%;opacity:0;}4%{opacity:1;}45%{top:20%;}85%{top:15%;opacity:1;}100%{left:110%;top:12%;opacity:0;}}
-.hero-plane svg{width:320px;height:auto;}
-.contrail-line{position:absolute;top:50%;right:100%;width:260px;height:3px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.55));border-radius:2px;}
-.hero-content{position:relative;z-index:5;padding:0 5rem;max-width:760px;}
-.hero-flag-line{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem;animation:fadeUp 1s ease 0.2s both;}
-.flag-dot{width:8px;height:8px;border-radius:50%;background:var(--boa-red);}
-.flag-dot.gold{background:var(--boa-gold);}
-.hero-sub{font-family:var(--font-cond);font-size:13px;font-weight:600;letter-spacing:6px;text-transform:uppercase;color:rgba(201,168,76,0.9);}
-.hero-title{font-family:var(--font-display);font-size:clamp(52px,8vw,100px);font-weight:700;line-height:0.9;margin-bottom:1.5rem;animation:fadeUp 1s ease 0.4s both;}
-.hero-title .line1{color:white;display:block;}
-.hero-title .line2{display:block;color:var(--boa-gold);font-style:italic;font-weight:400;}
-.hero-desc{font-size:17px;font-weight:300;color:rgba(255,255,255,0.7);line-height:1.7;max-width:480px;margin-bottom:2.5rem;animation:fadeUp 1s ease 0.6s both;}
-.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp 1s ease 0.8s both;}
-.btn-primary{padding:16px 42px;background:var(--boa-red);color:white;border:none;font-family:var(--font-cond);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:var(--transition);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);text-decoration:none;display:inline-flex;align-items:center;}
-.btn-primary:hover{background:#e01535;transform:translateY(-3px);}
-.btn-outline{padding:16px 42px;background:transparent;color:white;border:1.5px solid rgba(201,168,76,0.6);font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:var(--transition);text-decoration:none;display:inline-flex;align-items:center;}
-.btn-outline:hover{background:rgba(201,168,76,0.12);border-color:var(--boa-gold);transform:translateY(-3px);}
-.stats-bar{position:absolute;bottom:0;left:0;right:0;z-index:5;background:rgba(0,14,46,0.85);backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,0.25);display:flex;justify-content:center;align-items:center;animation:slideUp 1s ease 1.2s both;}
-.stat-item{display:flex;flex-direction:column;align-items:center;padding:1.4rem 3rem;border-right:1px solid rgba(201,168,76,0.15);}
-.stat-item:last-child{border-right:none;}
-.stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--boa-gold);line-height:1;}
-.stat-label{font-family:var(--font-cond);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px;}
-#search{background:var(--boa-navy);padding:3.5rem 4rem;}
-.search-title{font-family:var(--font-display);font-size:2.2rem;font-weight:600;color:white;text-align:center;margin-bottom:0.4rem;}
-.search-sub{font-family:var(--font-cond);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--boa-gold);text-align:center;margin-bottom:2.5rem;}
-.trip-tabs{display:flex;margin:0 auto 2rem;width:fit-content;border:1px solid rgba(201,168,76,0.3);border-radius:3px;overflow:hidden;}
-.trip-tab{padding:10px 28px;background:transparent;color:rgba(255,255,255,0.6);border:none;font-family:var(--font-cond);font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);}
-.trip-tab.active{background:var(--boa-gold);color:var(--boa-navy);}
-.trip-tab:hover:not(.active){background:rgba(201,168,76,0.1);color:var(--boa-gold);}
-.search-form{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;background:rgba(0,0,0,0.3);border:1px solid rgba(201,168,76,0.2);border-radius:4px;overflow:hidden;max-width:1100px;margin:0 auto;}
-.form-field{display:flex;flex-direction:column;padding:1.2rem 1.5rem;border-right:1px solid rgba(201,168,76,0.15);transition:var(--transition);}
-.form-field:hover{background:rgba(201,168,76,0.06);}
-.field-label{font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--boa-gold);margin-bottom:0.4rem;}
-.field-input,.field-select{background:transparent;border:none;outline:none;color:white;font-family:var(--font-body);font-size:15px;font-weight:500;width:100%;}
-.field-select option{background:var(--boa-navy);color:white;}
-.form-field input[type="date"]{color-scheme:dark;}
-.search-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 2.5rem;background:var(--boa-red);border:none;color:white;font-family:var(--font-cond);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);min-width:180px;}
-.search-btn:hover{background:#e01535;}
-#destinos{background:var(--boa-dark2);padding:6rem 4rem;}
-.section-tag{font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--boa-gold);display:block;margin-bottom:0.6rem;text-align:center;}
-.section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:white;text-align:center;margin-bottom:0.5rem;}
-.section-divider{width:60px;height:2px;background:linear-gradient(90deg,var(--boa-red),var(--boa-gold));margin:1.2rem auto 3.5rem;}
-.dest-filters{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
-.filter-btn{padding:9px 24px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:var(--font-cond);font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:var(--transition);}
-.filter-btn.active,.filter-btn:hover{background:var(--boa-navy);border-color:var(--boa-gold);color:var(--boa-gold);}
-.dest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;max-width:1300px;margin:0 auto;}
-.dest-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;transition:var(--transition);border:1px solid rgba(201,168,76,0.1);aspect-ratio:4/3;}
-.dest-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,0.4);}
-.dest-card.hidden{display:none;}
-.dest-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;position:absolute;inset:0;}
-.dest-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,14,46,0.95) 0%,rgba(0,14,46,0.4) 50%,transparent 100%);transition:var(--transition);}
-.dest-card:hover .dest-overlay{background:linear-gradient(to top,rgba(0,14,46,0.98) 0%,rgba(0,14,46,0.6) 60%,rgba(0,14,46,0.2) 100%);}
-.dest-badge{position:absolute;top:1.2rem;left:1.2rem;padding:5px 14px;font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border-radius:2px;}
-.badge-nacional{background:rgba(0,77,179,0.85);color:#a0c4ff;border:1px solid rgba(0,77,179,0.6);}
-.badge-internacional{background:rgba(200,16,46,0.85);color:#ffb0bf;border:1px solid rgba(200,16,46,0.6);}
-.dest-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;}
-.dest-city{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:white;display:block;margin-bottom:0.2rem;}
-.dest-route{font-size:12px;color:rgba(255,255,255,0.5);font-weight:300;display:block;margin-bottom:0.8rem;}
-.dest-bottom{display:flex;align-items:center;justify-content:space-between;}
-.dest-price{font-family:var(--font-cond);font-size:1.3rem;font-weight:700;color:var(--boa-gold);}
-.dest-price span{font-size:11px;font-weight:400;color:rgba(255,255,255,0.4);}
-.dest-book-btn{padding:8px 20px;background:var(--boa-red);color:white;border:none;font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);border-radius:2px;opacity:0;transform:translateY(8px);text-decoration:none;display:inline-block;}
-.dest-card:hover .dest-book-btn{opacity:1;transform:translateY(0);}
-#flota{background:var(--boa-navy);padding:6rem 4rem;}
-.flota-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1300px;margin:0 auto;}
-.flota-img-block{position:relative;border-radius:4px;overflow:hidden;}
-.flota-img-block img{width:100%;height:400px;object-fit:cover;object-position:center 30%;filter:brightness(0.8) saturate(1.1);border-radius:4px;border:1px solid rgba(201,168,76,0.15);}
-.flota-img-tag{position:absolute;bottom:1.5rem;left:1.5rem;background:rgba(0,14,46,0.9);border:1px solid rgba(201,168,76,0.3);padding:0.8rem 1.2rem;border-radius:3px;}
-.flota-img-tag p{font-family:var(--font-cond);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--boa-gold);}
-.flota-img-tag h4{font-family:var(--font-display);font-size:1.3rem;color:white;font-weight:600;}
-.flota-text .section-tag,.flota-text .section-title{text-align:left;}
-.flota-text .section-divider{margin-left:0;}
-.flota-desc{font-size:15px;font-weight:300;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:2.5rem;}
-.flota-specs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem;}
-.spec-item{background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.1);border-radius:3px;padding:1rem 1.2rem;}
-.spec-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--boa-gold);line-height:1;}
-.spec-text{font-family:var(--font-cond);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
-#servicios{background:var(--boa-dark);padding:6rem 4rem;}
-.servicios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
-.servicio-card{background:rgba(0,45,114,0.12);border:1px solid rgba(201,168,76,0.12);border-radius:4px;padding:2.5rem 2rem;transition:var(--transition);position:relative;overflow:hidden;}
-.servicio-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:linear-gradient(to bottom,var(--boa-red),var(--boa-gold));transition:height 0.4s ease;}
-.servicio-card:hover{border-color:rgba(201,168,76,0.3);transform:translateY(-4px);}
-.servicio-card:hover::before{height:100%;}
-.servicio-icon{width:56px;height:56px;background:rgba(0,77,179,0.2);border:1px solid rgba(0,77,179,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:24px;}
-.servicio-name{font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:white;margin-bottom:0.75rem;}
-.servicio-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;}
-#promos{background:var(--boa-dark2);padding:6rem 4rem;}
-.promos-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;}
-.promo-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,0.15);transition:var(--transition);min-height:200px;}
-.promo-card:hover{transform:translateY(-5px);border-color:rgba(201,168,76,0.4);}
-.promo-gradient{position:absolute;inset:0;}
-.promo-body{position:relative;z-index:2;padding:2.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-end;}
-.promo-discount{display:inline-block;font-family:var(--font-cond);font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--boa-red);color:white;padding:6px 16px;border-radius:2px;margin-bottom:1rem;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
-.promo-title{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:white;margin-bottom:0.4rem;}
-.promo-detail{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:1.5rem;}
-.promo-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-cond);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--boa-gold);background:none;border:none;cursor:pointer;text-decoration:none;transition:var(--transition);}
-.promo-cta:hover{gap:14px;}
-.promo-cta span{display:inline-block;transition:transform 0.3s;}
-.promo-cta:hover span{transform:translateX(4px);}
-#porque{background:var(--boa-navy);padding:5rem 4rem;text-align:center;}
-.porque-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1100px;margin:3rem auto 0;}
-.porque-item{display:flex;flex-direction:column;align-items:center;gap:0.6rem;}
-.porque-icon{font-size:2.5rem;margin-bottom:0.5rem;}
-.porque-num{font-family:var(--font-display);font-size:3.5rem;font-weight:700;color:var(--boa-gold);line-height:1;}
-.porque-label{font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
-#testimonios{background:var(--boa-dark2);padding:6rem 4rem;}
-.testimonios-slider{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:1rem;max-width:1100px;margin:0 auto;-ms-overflow-style:none;scrollbar-width:none;}
-.testimonios-slider::-webkit-scrollbar{display:none;}
-.testimonio-card{flex:0 0 380px;scroll-snap-align:start;background:rgba(0,45,114,0.12);border:1px solid rgba(201,168,76,0.12);border-radius:4px;padding:2rem;}
-.testimonio-card:hover{border-color:rgba(201,168,76,0.3);}
-.stars-row{display:flex;gap:4px;margin-bottom:1rem;color:var(--boa-gold);font-size:14px;}
-.testimonio-text{font-family:var(--font-display);font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:1.5rem;}
-.testimonio-author{display:flex;align-items:center;gap:12px;}
-.author-avatar{width:44px;height:44px;border-radius:50%;background:var(--boa-blue);display:flex;align-items:center;justify-content:center;font-family:var(--font-cond);font-size:15px;font-weight:700;color:var(--boa-gold);border:1.5px solid rgba(201,168,76,0.3);}
-.author-name{font-weight:600;font-size:14px;color:white;}
-.author-route{font-size:12px;color:rgba(255,255,255,0.4);font-weight:300;}
-.slider-controls{display:flex;gap:0.75rem;justify-content:center;margin-top:2rem;}
-.slider-btn{width:44px;height:44px;border-radius:50%;background:rgba(0,45,114,0.3);border:1px solid rgba(201,168,76,0.25);color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;}
-.slider-btn:hover{background:var(--boa-blue);border-color:var(--boa-gold);color:white;}
-#newsletter{background:linear-gradient(135deg,var(--boa-red) 0%,#8b0d1e 100%);padding:5rem 4rem;text-align:center;}
-.newsletter-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:white;margin-bottom:0.6rem;}
-.newsletter-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,0.7);margin-bottom:2.5rem;}
-.newsletter-form{display:flex;max-width:520px;margin:0 auto;overflow:hidden;border-radius:3px;border:1px solid rgba(255,255,255,0.25);}
-.newsletter-input{flex:1;padding:16px 20px;background:rgba(0,0,0,0.25);border:none;outline:none;color:white;font-family:var(--font-body);font-size:14px;}
-.newsletter-input::placeholder{color:rgba(255,255,255,0.45);}
-.newsletter-btn{padding:16px 28px;background:var(--boa-gold);border:none;color:var(--boa-navy);font-family:var(--font-cond);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--transition);white-space:nowrap;}
-.newsletter-btn:hover{background:var(--boa-gold2);}
-footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,168,76,0.15);}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1300px;margin:0 auto 3rem;}
-.footer-brand img{height:48px;filter:brightness(0) invert(1);margin-bottom:1.2rem;}
-.footer-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:1.5rem;max-width:280px;}
-.social-links{display:flex;gap:0.75rem;}
-.social-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:var(--transition);}
-.social-btn:hover{background:var(--boa-blue);color:white;}
-.footer-col h5{font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--boa-gold);margin-bottom:1.5rem;}
-.footer-links{list-style:none;display:flex;flex-direction:column;gap:0.75rem;}
-.footer-links a{font-size:13px;font-weight:300;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:6px;}
-.footer-links a:hover{color:rgba(255,255,255,0.9);}
-.footer-links a::before{content:'›';color:var(--boa-red);font-size:16px;}
-.footer-bottom{max-width:1300px;margin:0 auto;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-.footer-legal{font-size:12px;font-weight:300;color:rgba(255,255,255,0.3);}
-.footer-legal a{color:rgba(201,168,76,0.7);text-decoration:none;}
-.footer-devs{font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);text-align:right;line-height:1.5;}
-.footer-devs strong{color:rgba(201,168,76,0.6);font-weight:500;}
-/* Aviso académico footer */
-.footer-academico{max-width:1300px;margin:1.5rem auto 0;padding:1rem 1.5rem;background:rgba(26,58,0,0.4);border:1px solid #4caf5040;border-radius:4px;text-align:center;font-size:12px;color:#b9f6ca;line-height:1.6;}
-.footer-academico a{color:#69f0ae;}
-#back-top{position:fixed;bottom:2rem;left:2rem;z-index:999;width:44px;height:44px;background:var(--boa-red);border:none;border-radius:50%;color:white;font-size:18px;cursor:pointer;transition:var(--transition);opacity:0;pointer-events:none;display:flex;align-items:center;justify-content:center;}
-#back-top.visible{opacity:1;pointer-events:all;}
-#back-top:hover{background:#e01535;transform:translateY(-3px);}
-.toast{position:fixed;bottom:2rem;right:2rem;z-index:3000;background:var(--boa-navy);border:1px solid var(--boa-gold);border-radius:4px;padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);min-width:280px;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast-icon{font-size:22px;}
-.toast-msg{font-size:14px;color:rgba(255,255,255,0.85);}
-.toast-msg strong{color:var(--boa-gold);display:block;margin-bottom:2px;}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.dest-bg-lapaz{background:linear-gradient(135deg,#1a2a4a,#2d4a6e,#8a9cb8);}
-.dest-bg-cbba{background:linear-gradient(135deg,#2a3a1a,#4a6e2d,#8ab88a);}
-.dest-bg-sucre{background:linear-gradient(135deg,#3a2a1a,#8a6e2d,#c8b870);}
-.dest-bg-ba{background:linear-gradient(135deg,#1a1a3a,#2d2d6e,#6e7ab8);}
-.dest-bg-lima{background:linear-gradient(135deg,#3a1a1a,#8a2d2d,#c88070);}
-.dest-bg-madrid{background:linear-gradient(135deg,#2a1a3a,#6e2d8a,#b870c8);}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:1100px){.flota-layout{grid-template-columns:1fr;}.servicios-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){#aviso-academico{font-size:10px;padding:0.5rem 1rem;}#navbar{top:32px;}#hero{margin-top:32px;}#navbar{padding:1rem 1.5rem;}#navbar.scrolled{padding:0.7rem 1.5rem;}.nav-links{display:none;}.hamburger{display:flex;}.hero-content{padding:0 1.5rem;}.stats-bar{display:grid;grid-template-columns:1fr 1fr;}.stat-item{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-form{grid-template-columns:1fr;}.form-field{border-right:none;border-bottom:1px solid rgba(201,168,76,0.1);}.search-btn{padding:1.2rem;min-width:auto;}#search,#destinos,#flota,#servicios,#promos,#porque,#testimonios,#newsletter,footer{padding:4rem 1.5rem;}.servicios-grid,.promos-grid,.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}.porque-grid{grid-template-columns:repeat(2,1fr);}}
+/* ── AVISO ACADÉMICO ──────────────────────────────────── */
+#aviso {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1100;
+  height: var(--aviso-h);
+  background: #0d2600;
+  border-bottom: 2px solid #4caf50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  font-family: var(--fC);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #b9f6ca;
+  text-align: center;
+  gap: 6px;
+}
+#aviso a { color: #69f0ae; text-decoration: underline; }
+
+/* ── NAVBAR ───────────────────────────────────────────── */
+#navbar {
+  position: fixed;
+  top: var(--aviso-h);
+  left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  transition: var(--ease);
+}
+#navbar.scrolled {
+  background: rgba(0,14,46,0.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand img { height: 38px; filter: brightness(0) invert(1); }
+.nav-badge {
+  font-family: var(--fC);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  background: #0d2600; color: #69f0ae;
+  border: 1px solid #4caf50;
+  padding: 2px 8px; border-radius: 2px;
+}
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  font-family: var(--fC);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  transition: var(--ease); position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: var(--gold); transition: var(--ease);
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  padding: 9px 22px;
+  background: var(--red); color: white !important;
+  border-radius: 2px; font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.nav-cta:hover { background: #e01535 !important; }
+.nav-cta::after { display: none !important; }
+
+/* Hamburger */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; transition: var(--ease); }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,14,46,0.98);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem;
+  padding-top: calc(var(--aviso-h) + var(--nav-h));
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: white; font-family: var(--fD);
+  font-size: 1.8rem; font-weight: 600;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu .m-cta { color: var(--gold) !important; font-size: 1.4rem; }
+
+/* ── HERO ─────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  width: 100%;
+  /* Desplazar por aviso + nav */
+  padding-top: calc(var(--aviso-h) + var(--nav-h));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(170deg,#000814 0%,#001233 18%,#002372 32%,#1a3060 48%,#7a3520 65%,#c85828 78%,#e8a050 90%,#f8d898 100%);
+}
+#starfield { position: absolute; inset: 0; pointer-events: none; }
+.mountains-svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; pointer-events: none; }
+
+.hero-plane {
+  position: absolute; top: 32%; left: -350px; z-index: 3;
+  animation: planeFly 18s linear infinite;
+  filter: drop-shadow(0 12px 40px rgba(0,0,0,0.6));
+}
+@keyframes planeFly {
+  0%   { left: -350px; top: 34%; opacity: 0; }
+  4%   { opacity: 1; }
+  45%  { top: 24%; }
+  85%  { top: 18%; opacity: 1; }
+  100% { left: 110%; top: 14%; opacity: 0; }
+}
+.hero-plane svg { width: 280px; height: auto; }
+.contrail-line {
+  position: absolute; top: 50%; right: 100%;
+  width: 220px; height: 3px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,0.5));
+  border-radius: 2px;
+}
+
+.hero-content {
+  position: relative; z-index: 5;
+  padding: 3rem 5rem 6rem;
+  max-width: 760px;
+}
+.hero-flag-line {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.2rem;
+  animation: fadeUp 1s ease 0.2s both;
+}
+.flag-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+.flag-dot.gold { background: var(--gold); }
+.hero-sub {
+  font-family: var(--fC); font-size: 12px; font-weight: 600;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(201,168,76,0.9);
+}
+.hero-title {
+  font-family: var(--fD);
+  font-size: clamp(48px, 8vw, 100px);
+  font-weight: 700; line-height: 0.9;
+  margin-bottom: 1.4rem;
+  animation: fadeUp 1s ease 0.4s both;
+}
+.hero-title .line1 { color: white; display: block; }
+.hero-title .line2 { display: block; color: var(--gold); font-style: italic; font-weight: 400; }
+.hero-desc {
+  font-size: 16px; font-weight: 300;
+  color: rgba(255,255,255,0.7); line-height: 1.7;
+  max-width: 460px; margin-bottom: 2rem;
+  animation: fadeUp 1s ease 0.6s both;
+}
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.8s both;
+}
+.btn-primary {
+  padding: 14px 38px;
+  background: var(--red); color: white; border: none;
+  font-family: var(--fC); font-size: 13px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; transition: var(--ease);
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  display: inline-flex; align-items: center;
+}
+.btn-primary:hover { background: #e01535; transform: translateY(-2px); }
+.btn-outline {
+  padding: 14px 38px;
+  background: transparent; color: white;
+  border: 1.5px solid rgba(201,168,76,0.6);
+  font-family: var(--fC); font-size: 13px; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; transition: var(--ease);
+  display: inline-flex; align-items: center;
+}
+.btn-outline:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); transform: translateY(-2px); }
+
+/* Stats bar */
+.stats-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+  background: rgba(0,14,46,0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  display: flex; justify-content: center; align-items: stretch;
+  animation: slideUp 1s ease 1.2s both;
+}
+.stat-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.2rem 2.5rem;
+  border-right: 1px solid rgba(201,168,76,0.12);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--fD); font-size: 2rem;
+  font-weight: 700; color: var(--gold); line-height: 1;
+}
+.stat-label {
+  font-family: var(--fC); font-size: 9px; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-top: 4px;
+}
+
+/* ── BUSCADOR ─────────────────────────────────────────── */
+#search { background: var(--navy); padding: 3rem 3rem 3.5rem; }
+.search-title {
+  font-family: var(--fD); font-size: clamp(1.6rem,4vw,2.2rem);
+  font-weight: 600; color: white; text-align: center; margin-bottom: 0.3rem;
+}
+.search-sub {
+  font-family: var(--fC); font-size: 10px; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--gold);
+  text-align: center; margin-bottom: 2rem;
+}
+.trip-tabs {
+  display: flex; margin: 0 auto 1.5rem; width: fit-content;
+  border: 1px solid rgba(201,168,76,0.3); border-radius: 3px; overflow: hidden;
+}
+.trip-tab {
+  padding: 9px 24px;
+  background: transparent; color: rgba(255,255,255,0.6); border: none;
+  font-family: var(--fC); font-size: 11px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  transition: var(--ease);
+}
+.trip-tab.active { background: var(--gold); color: var(--navy); }
+.trip-tab:hover:not(.active) { background: rgba(201,168,76,0.1); color: var(--gold); }
+
+.search-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px; overflow: hidden;
+  max-width: 1100px; margin: 0 auto;
+}
+.form-field {
+  display: flex; flex-direction: column;
+  padding: 1rem 1.2rem;
+  border-right: 1px solid rgba(201,168,76,0.12);
+  transition: var(--ease);
+}
+.form-field:last-of-type { border-right: none; }
+.form-field:hover { background: rgba(201,168,76,0.05); }
+.field-label {
+  font-family: var(--fC); font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.3rem;
+}
+.field-input, .field-select {
+  background: transparent; border: none; outline: none;
+  color: white; font-family: var(--fB); font-size: 14px; font-weight: 500; width: 100%;
+}
+.field-select option { background: var(--navy); color: white; }
+.form-field input[type="date"] { color-scheme: dark; }
+.search-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 0 2rem;
+  background: var(--red); border: none; color: white;
+  font-family: var(--fC); font-size: 13px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: var(--ease); min-width: 160px;
+}
+.search-btn:hover { background: #e01535; }
+
+/* ── SECCIONES COMUNES ────────────────────────────────── */
+.section-tag {
+  font-family: var(--fC); font-size: 10px; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); display: block;
+  margin-bottom: 0.5rem; text-align: center;
+}
+.section-title {
+  font-family: var(--fD);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 700; color: white; text-align: center; margin-bottom: 0.4rem;
+}
+.section-divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  margin: 1rem auto 3rem;
+}
+
+/* ── DESTINOS ─────────────────────────────────────────── */
+#destinos { background: var(--dark2); padding: 5rem 3rem; }
+.dest-filters {
+  display: flex; gap: 0.6rem; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.filter-btn {
+  padding: 8px 20px;
+  background: transparent; border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  font-family: var(--fC); font-size: 11px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px; transition: var(--ease);
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--navy); border-color: var(--gold); color: var(--gold);
+}
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem; max-width: 1300px; margin: 0 auto;
+}
+.dest-card {
+  position: relative; border-radius: 6px; overflow: hidden;
+  cursor: pointer; transition: var(--ease);
+  border: 1px solid rgba(201,168,76,0.1);
+  aspect-ratio: 4/3;
+}
+.dest-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.4); }
+.dest-card.hidden { display: none; }
+.dest-bg {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem; position: absolute; inset: 0;
+}
+.dest-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,14,46,0.95) 0%, rgba(0,14,46,0.35) 50%, transparent 100%);
+  transition: var(--ease);
+}
+.dest-card:hover .dest-overlay {
+  background: linear-gradient(to top, rgba(0,14,46,0.98) 0%, rgba(0,14,46,0.55) 60%, rgba(0,14,46,0.15) 100%);
+}
+.dest-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  padding: 4px 12px;
+  font-family: var(--fC); font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; border-radius: 2px;
+}
+.badge-nacional  { background: rgba(0,77,179,0.85);  color: #a0c4ff; border: 1px solid rgba(0,77,179,0.6); }
+.badge-intl      { background: rgba(200,16,46,0.85);  color: #ffb0bf; border: 1px solid rgba(200,16,46,0.6); }
+.dest-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.2rem; }
+.dest-city {
+  font-family: var(--fD); font-size: 1.6rem; font-weight: 700;
+  color: white; display: block; margin-bottom: 0.15rem;
+}
+.dest-route {
+  font-size: 11px; color: rgba(255,255,255,0.5);
+  font-weight: 300; display: block; margin-bottom: 0.6rem;
+}
+.dest-bottom { display: flex; align-items: center; justify-content: space-between; }
+.dest-price { font-family: var(--fC); font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+.dest-price span { font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.4); }
+.dest-book-btn {
+  padding: 7px 16px;
+  background: var(--red); color: white; border: none;
+  font-family: var(--fC); font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: var(--ease); border-radius: 2px;
+  opacity: 0; transform: translateY(6px);
+}
+.dest-card:hover .dest-book-btn { opacity: 1; transform: translateY(0); }
+.dest-book-btn:hover { background: #e01535; }
+
+/* BG destinos */
+.bg-lapaz  { background: linear-gradient(135deg,#1a2a4a,#2d4a6e,#8a9cb8); }
+.bg-cbba   { background: linear-gradient(135deg,#2a3a1a,#4a6e2d,#8ab88a); }
+.bg-sucre  { background: linear-gradient(135deg,#3a2a1a,#8a6e2d,#c8b870); }
+.bg-ba     { background: linear-gradient(135deg,#1a1a3a,#2d2d6e,#6e7ab8); }
+.bg-lima   { background: linear-gradient(135deg,#3a1a1a,#8a2d2d,#c88070); }
+.bg-madrid { background: linear-gradient(135deg,#2a1a3a,#6e2d8a,#b870c8); }
+
+/* ── FLOTA ────────────────────────────────────────────── */
+#flota { background: var(--navy); padding: 5rem 3rem; }
+.flota-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.flota-img-block { position: relative; border-radius: 6px; overflow: hidden; }
+.flota-img-block img {
+  width: 100%; height: 380px;
+  object-fit: cover; object-position: center 30%;
+  filter: brightness(0.8) saturate(1.1);
+  border-radius: 6px; border: 1px solid rgba(201,168,76,0.15);
+}
+.flota-tag {
+  position: absolute; bottom: 1.2rem; left: 1.2rem;
+  background: rgba(0,14,46,0.92);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 0.7rem 1rem; border-radius: 4px;
+}
+.flota-tag p { font-family: var(--fC); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.flota-tag h4 { font-family: var(--fD); font-size: 1.2rem; color: white; font-weight: 600; }
+.flota-text .section-tag,
+.flota-text .section-title { text-align: left; }
+.flota-text .section-divider { margin-left: 0; }
+.flota-desc {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 2rem;
+}
+.flota-specs {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.8rem; margin-bottom: 2rem;
+}
+.spec-item {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 4px; padding: 0.9rem 1rem;
+}
+.spec-num { font-family: var(--fD); font-size: 1.8rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.spec-text { font-family: var(--fC); font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 3px; }
+
+/* ── SERVICIOS ────────────────────────────────────────── */
+#servicios { background: var(--dark); padding: 5rem 3rem; }
+.servicios-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.2rem; max-width: 1100px; margin: 0 auto;
+}
+.serv-card {
+  background: rgba(0,45,114,0.12);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 6px; padding: 2rem 1.5rem;
+  transition: var(--ease); position: relative; overflow: hidden;
+}
+.serv-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; width: 3px; height: 0;
+  background: linear-gradient(to bottom, var(--red), var(--gold));
+  transition: height 0.4s ease;
+}
+.serv-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+.serv-card:hover::before { height: 100%; }
+.serv-icon {
+  width: 52px; height: 52px;
+  background: rgba(0,77,179,0.2); border: 1px solid rgba(0,77,179,0.3);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 1.2rem;
+}
+.serv-name { font-family: var(--fD); font-size: 1.2rem; font-weight: 600; color: white; margin-bottom: 0.6rem; }
+.serv-desc { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+/* ── PROMOS ───────────────────────────────────────────── */
+#promos { background: var(--dark2); padding: 5rem 3rem; }
+.promos-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.2rem; max-width: 1100px; margin: 0 auto;
+}
+.promo-card {
+  position: relative; border-radius: 6px; overflow: hidden;
+  cursor: pointer; border: 1px solid rgba(201,168,76,0.15);
+  transition: var(--ease); min-height: 220px;
+}
+.promo-card:hover { transform: translateY(-4px); border-color: rgba(201,168,76,0.4); }
+.promo-bg { position: absolute; inset: 0; }
+.promo-body {
+  position: relative; z-index: 2; padding: 2rem;
+  height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+}
+.promo-tag {
+  display: inline-block;
+  font-family: var(--fC); font-size: 12px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  background: var(--red); color: white;
+  padding: 5px 14px; border-radius: 2px; margin-bottom: 0.8rem;
+  clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.promo-title { font-family: var(--fD); font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+.promo-detail { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 1.2rem; }
+.promo-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--fC); font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); transition: gap 0.3s;
+}
+.promo-link:hover { gap: 14px; }
+
+/* ── POR QUÉ ──────────────────────────────────────────── */
+#porque { background: var(--navy); padding: 5rem 3rem; text-align: center; }
+.porque-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1.5rem; max-width: 1100px; margin: 2.5rem auto 0;
+}
+.porque-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.porque-icon { font-size: 2.2rem; margin-bottom: 0.4rem; }
+.porque-num { font-family: var(--fD); font-size: 3.2rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.porque-label { font-family: var(--fC); font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+/* ── TESTIMONIOS ──────────────────────────────────────── */
+#testimonios { background: var(--dark2); padding: 5rem 3rem; }
+.test-slider {
+  display: flex; gap: 1.2rem;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  padding-bottom: 0.8rem; max-width: 1100px; margin: 0 auto;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.test-slider::-webkit-scrollbar { display: none; }
+.test-card {
+  flex: 0 0 360px; scroll-snap-align: start;
+  background: rgba(0,45,114,0.12);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 6px; padding: 1.8rem;
+  transition: var(--ease);
+}
+.test-card:hover { border-color: rgba(201,168,76,0.3); }
+.stars { display: flex; gap: 3px; margin-bottom: 0.8rem; color: var(--gold); font-size: 13px; }
+.test-text {
+  font-family: var(--fD); font-size: 1rem; font-style: italic;
+  color: rgba(255,255,255,0.8); line-height: 1.7; margin-bottom: 1.2rem;
+}
+.test-author { display: flex; align-items: center; gap: 10px; }
+.test-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--blue); border: 1.5px solid rgba(201,168,76,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--fC); font-size: 14px; font-weight: 700; color: var(--gold);
+  flex-shrink: 0;
+}
+.test-name { font-weight: 600; font-size: 13px; color: white; }
+.test-route { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 300; }
+.slider-btns { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.5rem; }
+.slider-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(0,45,114,0.3); border: 1px solid rgba(201,168,76,0.25);
+  color: rgba(255,255,255,0.7); font-size: 16px;
+  cursor: pointer; transition: var(--ease);
+  display: flex; align-items: center; justify-content: center;
+}
+.slider-btn:hover { background: var(--blue); border-color: var(--gold); color: white; }
+
+/* ── NEWSLETTER ───────────────────────────────────────── */
+#newsletter {
+  background: linear-gradient(135deg, var(--red) 0%, #8b0d1e 100%);
+  padding: 4.5rem 3rem; text-align: center;
+}
+.nl-title { font-family: var(--fD); font-size: clamp(1.6rem,4vw,2.8rem); font-weight: 700; color: white; margin-bottom: 0.5rem; }
+.nl-sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.7); margin-bottom: 2rem; }
+.nl-form {
+  display: flex; max-width: 500px; margin: 0 auto;
+  border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden;
+}
+.nl-input {
+  flex: 1; padding: 14px 18px;
+  background: rgba(0,0,0,0.25); border: none; outline: none;
+  color: white; font-family: var(--fB); font-size: 14px;
+  min-width: 0;
+}
+.nl-input::placeholder { color: rgba(255,255,255,0.45); }
+.nl-btn {
+  padding: 14px 22px;
+  background: var(--gold); border: none;
+  color: var(--navy); font-family: var(--fC);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: var(--ease); white-space: nowrap;
+}
+.nl-btn:hover { background: var(--gold2); }
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer { background: #050914; padding: 4rem 3rem 2rem; border-top: 1px solid rgba(201,168,76,0.15); }
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem; max-width: 1200px; margin: 0 auto 2.5rem;
+}
+.footer-brand img { height: 42px; filter: brightness(0) invert(1); margin-bottom: 1rem; }
+.footer-desc { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1.2rem; max-width: 260px; }
+.social-row { display: flex; gap: 0.6rem; }
+.social-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: rgba(255,255,255,0.5); transition: var(--ease);
+}
+.social-btn:hover { background: var(--blue); color: white; }
+.footer-col h5 {
+  font-family: var(--fC); font-size: 10px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.2rem;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-links a {
+  font-size: 12px; font-weight: 300;
+  color: rgba(255,255,255,0.45); transition: color 0.2s;
+  display: flex; align-items: center; gap: 5px;
+}
+.footer-links a::before { content: '›'; color: var(--red); font-size: 15px; }
+.footer-links a:hover { color: rgba(255,255,255,0.9); }
+
+.footer-aviso {
+  max-width: 1200px; margin: 0 auto 1.5rem;
+  padding: 1rem 1.2rem;
+  background: rgba(13,38,0,0.5);
+  border: 1px solid rgba(76,175,80,0.25);
+  border-radius: 4px; text-align: center;
+  font-size: 11px; color: #b9f6ca; line-height: 1.6;
+}
+.footer-aviso a { color: #69f0ae; text-decoration: underline; }
+
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 0.8rem;
+}
+.footer-legal { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); }
+.footer-legal a { color: rgba(201,168,76,0.7); }
+.footer-credit { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.25); text-align: right; line-height: 1.5; }
+.footer-credit strong { color: rgba(201,168,76,0.6); font-weight: 500; }
+
+/* ── UTILS ────────────────────────────────────────────── */
+#back-top {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+  width: 42px; height: 42px;
+  background: var(--red); border: none; border-radius: 50%;
+  color: white; font-size: 17px; cursor: pointer;
+  transition: var(--ease); opacity: 0; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+#back-top.visible { opacity: 1; pointer-events: all; }
+#back-top:hover { background: #e01535; transform: translateY(-3px); }
+
+.toast {
+  position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 3000;
+  background: var(--navy); border: 1px solid var(--gold);
+  border-radius: 4px; padding: 0.9rem 1.2rem;
+  display: flex; align-items: center; gap: 10px;
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.4s cubic-bezier(.4,0,.2,1); min-width: 260px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; color: rgba(255,255,255,0.85); }
+.toast-msg strong { color: var(--gold); display: block; margin-bottom: 2px; }
+
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── ANIMACIONES ──────────────────────────────────────── */
+@keyframes fadeUp  { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── RESPONSIVE: TABLET (≤1100px) ────────────────────── */
+@media (max-width: 1100px) {
+  .flota-layout { grid-template-columns: 1fr; }
+  .servicios-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .porque-grid { grid-template-columns: repeat(2,1fr); }
+  .flota-img-block img { height: 300px; }
+  .flota-text .section-tag,
+  .flota-text .section-title { text-align: center; }
+  .flota-text .section-divider { margin: 1rem auto 3rem; }
+}
+
+/* ── RESPONSIVE: MÓVIL (≤768px) ──────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --aviso-h: 48px;  /* más alto en móvil porque el texto puede partir en dos líneas */
+    --nav-h: 60px;
+  }
+
+  /* Aviso */
+  #aviso { font-size: 10px; padding: 0 0.8rem; flex-wrap: wrap; height: auto; min-height: var(--aviso-h); }
+
+  /* Navbar */
+  #navbar { padding: 0 1.2rem; }
+  .nav-badge { display: none; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  /* Hero */
+  .hero-content { padding: 2rem 1.5rem 5rem; }
+  .hero-plane svg { width: 180px; }
+  .hero-desc { font-size: 15px; }
+  .hero-btns { flex-direction: column; }
+  .btn-primary, .btn-outline { width: 100%; justify-content: center; padding: 13px 24px; }
+
+  /* Stats */
+  .stats-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .stat-item {
+    padding: 1rem 1rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .stat-item:nth-child(odd) { border-right: 1px solid rgba(201,168,76,0.1); }
+  .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  .stat-num { font-size: 1.6rem; }
+
+  /* Buscador */
+  #search { padding: 2.5rem 1.2rem; }
+  .search-form { grid-template-columns: 1fr; }
+  .form-field { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  .search-btn { padding: 1rem; min-width: auto; width: 100%; }
+  .trip-tabs { width: 100%; }
+  .trip-tab { flex: 1; text-align: center; font-size: 10px; padding: 9px 8px; }
+
+  /* Destinos */
+  #destinos { padding: 4rem 1.2rem; }
+  .dest-grid { grid-template-columns: 1fr; }
+  .dest-city { font-size: 1.4rem; }
+
+  /* Flota */
+  #flota { padding: 4rem 1.2rem; }
+  .flota-img-block img { height: 220px; }
+  .flota-specs { grid-template-columns: 1fr 1fr; }
+
+  /* Servicios */
+  #servicios { padding: 4rem 1.2rem; }
+  .servicios-grid { grid-template-columns: 1fr; }
+
+  /* Promos */
+  #promos { padding: 4rem 1.2rem; }
+  .promos-grid { grid-template-columns: 1fr; }
+
+  /* Por qué */
+  #porque { padding: 4rem 1.2rem; }
+  .porque-grid { grid-template-columns: repeat(2,1fr); gap: 1.2rem; }
+  .porque-num { font-size: 2.6rem; }
+
+  /* Testimonios */
+  #testimonios { padding: 4rem 1.2rem; }
+  .test-card { flex: 0 0 290px; }
+
+  /* Newsletter */
+  #newsletter { padding: 3.5rem 1.2rem; }
+  .nl-form { flex-direction: column; }
+  .nl-input { border-radius: 4px 4px 0 0; }
+  .nl-btn { border-radius: 0 0 4px 4px; padding: 13px; }
+
+  /* Footer */
+  footer { padding: 3.5rem 1.2rem 2rem; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .footer-credit { text-align: center; }
+  .footer-desc { max-width: 100%; }
+
+  /* Misc */
+  #back-top { bottom: 1rem; right: 1rem; width: 38px; height: 38px; font-size: 15px; }
+  .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+}
+
+/* ── RESPONSIVE: MUY PEQUEÑO (≤400px) ────────────────── */
+@media (max-width: 400px) {
+  .hero-title { font-size: clamp(40px, 12vw, 56px); }
+  .porque-grid { grid-template-columns: 1fr 1fr; }
+  .dest-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- AVISO ACADÉMICO — visible para Google y visitantes -->
-<div id="aviso-academico">
-  ⚠️ <strong>PROYECTO ACADÉMICO</strong> — Este sitio es un trabajo universitario de práctica web. No es el sitio oficial de BOA Boliviana de Aviación.
-  El sitio oficial es <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a>
+<!-- AVISO ACADÉMICO FIJO ARRIBA -->
+<div id="aviso">
+  ⚠️ <strong>PROYECTO ACADÉMICO</strong> — No es el sitio oficial de BOA.
+  Sitio oficial: <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a>
 </div>
 
 <div class="toast" id="toast">
@@ -260,8 +830,9 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
 </div>
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<!-- NAVBAR -->
 <nav id="navbar">
-  <div class="nav-logo" style="display:flex;align-items:center;">
+  <div class="nav-brand">
     <a href="/BoaAgenciaViajes/">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA – Proyecto Académico"/>
     </a>
@@ -274,48 +845,51 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
     <li><a href="#promos">Promociones</a></li>
     <li><a href="auth/login.html" class="nav-cta">Ingresar</a></li>
   </ul>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <button class="hamburger" id="hamburger" aria-label="Menú">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
+<!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#destinos" onclick="toggleMenu()">Destinos</a>
-  <a href="#flota" onclick="toggleMenu()">Flota</a>
-  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
-  <a href="#promos" onclick="toggleMenu()">Promociones</a>
-  <a href="auth/login.html" style="color:var(--boa-gold)">Ingresar al sistema</a>
+  <a href="#destinos" class="m-link">Destinos</a>
+  <a href="#flota" class="m-link">Flota</a>
+  <a href="#servicios" class="m-link">Servicios</a>
+  <a href="#promos" class="m-link">Promociones</a>
+  <a href="auth/login.html" class="m-cta">Ingresar al sistema</a>
 </div>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <canvas id="starfield"></canvas>
   <svg class="mountains-svg" viewBox="0 0 1440 360" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#12182a"/><stop offset="100%" stop-color="#050914"/></linearGradient>
-      <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1020"/><stop offset="100%" stop-color="#030610"/></linearGradient>
+      <linearGradient id="mg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#12182a"/><stop offset="100%" stop-color="#050914"/></linearGradient>
+      <linearGradient id="mg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1020"/><stop offset="100%" stop-color="#030610"/></linearGradient>
     </defs>
-    <path d="M0 360 L0 190 L90 130 L180 170 L300 70 L420 140 L540 50 L660 120 L720 40 L840 110 L960 60 L1080 130 L1200 80 L1320 140 L1440 100 L1440 360Z" fill="url(#m1)" opacity="0.75"/>
-    <path d="M0 360 L0 270 L110 210 L220 250 L370 170 L520 240 L640 160 L760 225 L880 155 L1000 215 L1130 170 L1260 220 L1380 190 L1440 210 L1440 360Z" fill="url(#m2)"/>
-    <path d="M0 360 L0 330 L1440 320 L1440 360Z" fill="#050914"/>
+    <path d="M0 360L0 190L90 130L180 170L300 70L420 140L540 50L660 120L720 40L840 110L960 60L1080 130L1200 80L1320 140L1440 100L1440 360Z" fill="url(#mg1)" opacity="0.75"/>
+    <path d="M0 360L0 270L110 210L220 250L370 170L520 240L640 160L760 225L880 155L1000 215L1130 170L1260 220L1380 190L1440 210L1440 360Z" fill="url(#mg2)"/>
+    <path d="M0 360L0 330L1440 320L1440 360Z" fill="#050914"/>
   </svg>
   <div class="hero-plane">
     <div class="contrail-line"></div>
     <svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="210" cy="65" rx="185" ry="24" fill="#dde4f0"/>
-      <path d="M388 65 Q420 58 415 72 Q406 80 388 73Z" fill="#c8d0e0"/>
-      <path d="M60 58 Q200 52 390 60 Q395 64 390 70 Q200 78 60 72Z" fill="#002D72" opacity="0.7"/>
-      <path d="M90 52 Q220 46 392 55 Q395 58 390 60 Q220 52 90 58Z" fill="#C8102E" opacity="0.8"/>
-      <path d="M165 64 L100 4 L260 16 L276 60Z" fill="#c8d4e8"/>
-      <path d="M165 66 L100 126 L260 114 L276 70Z" fill="#bac4d8"/>
-      <path d="M28 65 L18 18 L58 42 L62 65Z" fill="#bac4d8"/>
-      <path d="M22 67 L0 85 L72 76 L76 67Z" fill="#c8d4e8"/>
-      <path d="M22 63 L0 44 L72 54 L76 63Z" fill="#c8d4e8"/>
+      <path d="M388 65Q420 58 415 72Q406 80 388 73Z" fill="#c8d0e0"/>
+      <path d="M60 58Q200 52 390 60Q395 64 390 70Q200 78 60 72Z" fill="#002D72" opacity="0.7"/>
+      <path d="M90 52Q220 46 392 55Q395 58 390 60Q220 52 90 58Z" fill="#C8102E" opacity="0.8"/>
+      <path d="M165 64L100 4L260 16L276 60Z" fill="#c8d4e8"/>
+      <path d="M165 66L100 126L260 114L276 70Z" fill="#bac4d8"/>
+      <path d="M28 65L18 18L58 42L62 65Z" fill="#bac4d8"/>
+      <path d="M22 67L0 85L72 76L76 67Z" fill="#c8d4e8"/>
+      <path d="M22 63L0 44L72 54L76 63Z" fill="#c8d4e8"/>
     </svg>
   </div>
   <div class="hero-content">
     <div class="hero-flag-line">
-      <div class="flag-dot"></div><div class="flag-dot gold"></div>
+      <div class="flag-dot"></div>
+      <div class="flag-dot gold"></div>
       <span class="hero-sub">Proyecto Académico · Basado en BOA · 2025</span>
     </div>
     <h1 class="hero-title">
@@ -330,12 +904,13 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
   <div class="stats-bar">
     <div class="stat-item"><span class="stat-num" data-count="30">0</span><span class="stat-label">Destinos</span></div>
-    <div class="stat-item"><span class="stat-num" data-count="15">0</span><span class="stat-label">Años de experiencia</span></div>
-    <div class="stat-item"><span class="stat-num" data-count="12">0</span><span class="stat-label">Aeronaves activas</span></div>
+    <div class="stat-item"><span class="stat-num" data-count="15">0</span><span class="stat-label">Años experiencia</span></div>
+    <div class="stat-item"><span class="stat-num" data-count="12">0</span><span class="stat-label">Aeronaves</span></div>
     <div class="stat-item"><span class="stat-num" data-count="98">0</span><span class="stat-label">% Puntualidad</span></div>
   </div>
 </section>
 
+<!-- BUSCADOR -->
 <section id="search">
   <p class="search-sub">Planifica tu viaje</p>
   <h2 class="search-title">Encuentra tu vuelo perfecto</h2>
@@ -347,34 +922,41 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   <div class="search-form">
     <div class="form-field">
       <span class="field-label">Origen</span>
-      <select class="field-select" id="search-origen">
-        <option>Santa Cruz (VVI)</option><option>La Paz (LPB)</option>
-        <option>Cochabamba (CBB)</option><option>Sucre (SRE)</option><option>Potosí (POI)</option>
+      <select class="field-select" id="s-origen">
+        <option>Santa Cruz (VVI)</option>
+        <option>La Paz (LPB)</option>
+        <option>Cochabamba (CBB)</option>
+        <option>Sucre (SRE)</option>
+        <option>Potosí (POI)</option>
       </select>
     </div>
     <div class="form-field">
       <span class="field-label">Destino</span>
-      <select class="field-select" id="search-destino">
-        <option>La Paz (LPB)</option><option>Buenos Aires (EZE)</option>
-        <option>Lima (LIM)</option><option>São Paulo (GRU)</option>
-        <option>Madrid (MAD)</option><option>Miami (MIA)</option>
+      <select class="field-select" id="s-destino">
+        <option>La Paz (LPB)</option>
+        <option>Buenos Aires (EZE)</option>
+        <option>Lima (LIM)</option>
+        <option>São Paulo (GRU)</option>
+        <option>Madrid (MAD)</option>
+        <option>Miami (MIA)</option>
       </select>
     </div>
     <div class="form-field">
       <span class="field-label">Fecha de salida</span>
-      <input class="field-input" type="date" id="dep-date"/>
+      <input class="field-input" type="date" id="s-fecha"/>
     </div>
     <div class="form-field" id="ret-field" style="opacity:0.4;pointer-events:none">
       <span class="field-label">Fecha de regreso</span>
-      <input class="field-input" type="date" id="ret-date"/>
+      <input class="field-input" type="date" id="s-regreso"/>
     </div>
     <button class="search-btn" onclick="handleSearch()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Buscar
     </button>
   </div>
 </section>
 
+<!-- DESTINOS -->
 <section id="destinos">
   <span class="section-tag reveal">Nuestras rutas</span>
   <h2 class="section-title reveal">Destinos que te esperan</h2>
@@ -387,11 +969,13 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   <div class="dest-grid" id="dest-grid"></div>
 </section>
 
+<!-- FLOTA -->
 <section id="flota">
   <div class="flota-layout">
     <div class="flota-img-block reveal">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg" alt="Boeing 737" loading="lazy"/>
-      <div class="flota-img-tag"><p>Aeronave referencial</p><h4>Boeing 737-300</h4></div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/737_Mexico_City_2007.jpg/1280px-737_Mexico_City_2007.jpg"
+           alt="Boeing 737 referencial" loading="lazy"/>
+      <div class="flota-tag"><p>Aeronave referencial</p><h4>Boeing 737-300</h4></div>
     </div>
     <div class="flota-text">
       <span class="section-tag reveal">Flota referencial</span>
@@ -401,7 +985,7 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
       <div class="flota-specs reveal">
         <div class="spec-item"><div class="spec-num">12</div><div class="spec-text">Aeronaves activas</div></div>
         <div class="spec-item"><div class="spec-num">189</div><div class="spec-text">Asientos por vuelo</div></div>
-        <div class="spec-item"><div class="spec-num">98%</div><div class="spec-text">Factor de regularidad</div></div>
+        <div class="spec-item"><div class="spec-num">98%</div><div class="spec-text">Regularidad</div></div>
         <div class="spec-item"><div class="spec-num">737</div><div class="spec-text">Boeing familia</div></div>
       </div>
       <a class="btn-primary reveal" href="auth/login.html">Ingresar al sistema</a>
@@ -409,113 +993,175 @@ footer{background:#050914;padding:5rem 4rem 2rem;border-top:1px solid rgba(201,1
   </div>
 </section>
 
+<!-- SERVICIOS -->
 <section id="servicios">
   <span class="section-tag reveal">Lo que ofrecemos</span>
   <h2 class="section-title reveal">Servicios a bordo y en tierra</h2>
   <div class="section-divider reveal"></div>
   <div class="servicios-grid">
-    <div class="servicio-card reveal"><div class="servicio-icon">🛋️</div><h3 class="servicio-name">Clase Ejecutiva</h3><p class="servicio-desc">Asientos reclinables, menú selecto y atención personalizada para los viajeros más exigentes.</p></div>
-    <div class="servicio-card reveal"><div class="servicio-icon">🍽️</div><h3 class="servicio-name">Servicio de Alimentos</h3><p class="servicio-desc">Gastronomía boliviana e internacional servida a bordo en todos nuestros vuelos de larga distancia.</p></div>
-    <div class="servicio-card reveal"><div class="servicio-icon">📱</div><h3 class="servicio-name">Check-in Digital</h3><p class="servicio-desc">Registra tu vuelo desde la app o web hasta 24 horas antes sin filas ni esperas.</p></div>
-    <div class="servicio-card reveal"><div class="servicio-icon">🧳</div><h3 class="servicio-name">Equipaje Flexible</h3><p class="servicio-desc">Política de equipaje adaptada a tus necesidades. Maleta de mano y bodega incluidas.</p></div>
-    <div class="servicio-card reveal"><div class="servicio-icon">♿</div><h3 class="servicio-name">Asistencia Especial</h3><p class="servicio-desc">Servicio dedicado para personas con movilidad reducida y necesidades especiales.</p></div>
-    <div class="servicio-card reveal"><div class="servicio-icon">🔒</div><h3 class="servicio-name">Máxima Seguridad</h3><p class="servicio-desc">Cumplimiento estricto de normativas DGAC e IATA. Tripulación certificada internacionalmente.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">🛋️</div><h3 class="serv-name">Clase Ejecutiva</h3><p class="serv-desc">Asientos reclinables, menú selecto y atención personalizada para los viajeros más exigentes.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">🍽️</div><h3 class="serv-name">Servicio de Alimentos</h3><p class="serv-desc">Gastronomía boliviana e internacional en todos nuestros vuelos de larga distancia.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">📱</div><h3 class="serv-name">Check-in Digital</h3><p class="serv-desc">Registra tu vuelo desde la app o web hasta 24 horas antes sin filas ni esperas.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">🧳</div><h3 class="serv-name">Equipaje Flexible</h3><p class="serv-desc">Política de equipaje adaptada a tus necesidades. Maleta de mano y bodega incluidas.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">♿</div><h3 class="serv-name">Asistencia Especial</h3><p class="serv-desc">Servicio dedicado para personas con movilidad reducida y necesidades especiales.</p></div>
+    <div class="serv-card reveal"><div class="serv-icon">🔒</div><h3 class="serv-name">Máxima Seguridad</h3><p class="serv-desc">Cumplimiento estricto de normativas DGAC e IATA. Tripulación certificada internacionalmente.</p></div>
   </div>
 </section>
 
+<!-- PROMOS -->
 <section id="promos">
   <span class="section-tag reveal">Ofertas de ejemplo</span>
   <h2 class="section-title reveal">Viaja más, paga menos</h2>
   <div class="section-divider reveal"></div>
   <div class="promos-grid">
-    <div class="promo-card reveal" style="min-height:280px"><div class="promo-gradient" style="background:linear-gradient(135deg,rgba(0,45,114,0.8),rgba(200,16,46,0.3))"></div><div class="promo-body"><span class="promo-discount">30% OFF</span><h3 class="promo-title">Rutas Nacionales</h3><p class="promo-detail">Todos los martes y miércoles. Reserva con 7 días de anticipación.</p><a class="promo-cta" href="auth/login.html">Ver oferta <span>→</span></a></div></div>
-    <div class="promo-card reveal" style="min-height:280px"><div class="promo-gradient" style="background:linear-gradient(135deg,rgba(0,45,114,0.8),rgba(201,168,76,0.3))"></div><div class="promo-body"><span class="promo-discount" style="background:var(--boa-gold);color:var(--boa-navy)">2x1</span><h3 class="promo-title">Ida y Vuelta</h3><p class="promo-detail">Buenos Aires y Lima. Válido para viajes entre mayo y junio 2025.</p><a class="promo-cta" href="auth/login.html">Ver oferta <span>→</span></a></div></div>
-    <div class="promo-card reveal" style="min-height:220px"><div class="promo-gradient" style="background:linear-gradient(135deg,rgba(200,16,46,0.7),rgba(0,14,46,0.6))"></div><div class="promo-body"><span class="promo-discount">Niños Gratis</span><h3 class="promo-title">Familia BOA</h3><p class="promo-detail">Menores de 2 años viajan sin costo. Todos los destinos nacionales.</p><a class="promo-cta" href="auth/login.html">Saber más <span>→</span></a></div></div>
-    <div class="promo-card reveal" style="min-height:220px"><div class="promo-gradient" style="background:linear-gradient(135deg,rgba(0,14,46,0.85),rgba(201,168,76,0.25))"></div><div class="promo-body"><span class="promo-discount" style="background:var(--boa-blue)">Corporativo</span><h3 class="promo-title">Plan Empresas</h3><p class="promo-detail">Tarifas preferenciales, facturación centralizada y beneficios exclusivos.</p><a class="promo-cta" href="auth/login.html">Consultar <span>→</span></a></div></div>
+    <div class="promo-card reveal">
+      <div class="promo-bg" style="background:linear-gradient(135deg,rgba(0,45,114,0.85),rgba(200,16,46,0.4))"></div>
+      <div class="promo-body">
+        <span class="promo-tag">30% OFF</span>
+        <h3 class="promo-title">Rutas Nacionales</h3>
+        <p class="promo-detail">Todos los martes y miércoles. Reserva con 7 días de anticipación.</p>
+        <a class="promo-link" href="auth/login.html">Ver oferta →</a>
+      </div>
+    </div>
+    <div class="promo-card reveal">
+      <div class="promo-bg" style="background:linear-gradient(135deg,rgba(0,45,114,0.85),rgba(201,168,76,0.4))"></div>
+      <div class="promo-body">
+        <span class="promo-tag" style="background:var(--gold);color:var(--navy)">2x1</span>
+        <h3 class="promo-title">Ida y Vuelta</h3>
+        <p class="promo-detail">Buenos Aires y Lima. Válido mayo y junio 2025.</p>
+        <a class="promo-link" href="auth/login.html">Ver oferta →</a>
+      </div>
+    </div>
+    <div class="promo-card reveal">
+      <div class="promo-bg" style="background:linear-gradient(135deg,rgba(200,16,46,0.75),rgba(0,14,46,0.7))"></div>
+      <div class="promo-body">
+        <span class="promo-tag">Niños Gratis</span>
+        <h3 class="promo-title">Familia BOA</h3>
+        <p class="promo-detail">Menores de 2 años sin costo en destinos nacionales.</p>
+        <a class="promo-link" href="auth/login.html">Saber más →</a>
+      </div>
+    </div>
+    <div class="promo-card reveal">
+      <div class="promo-bg" style="background:linear-gradient(135deg,rgba(0,14,46,0.9),rgba(201,168,76,0.3))"></div>
+      <div class="promo-body">
+        <span class="promo-tag" style="background:var(--blue)">Corporativo</span>
+        <h3 class="promo-title">Plan Empresas</h3>
+        <p class="promo-detail">Tarifas preferenciales y facturación centralizada.</p>
+        <a class="promo-link" href="auth/login.html">Consultar →</a>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- POR QUÉ -->
 <section id="porque">
   <span class="section-tag reveal">Por qué elegirnos</span>
   <h2 class="section-title reveal">El orgullo de volar boliviano</h2>
   <div class="section-divider reveal"></div>
   <div class="porque-grid">
     <div class="porque-item reveal"><div class="porque-icon">🛡️</div><div class="porque-num" data-count="15">0</div><div class="porque-label">Años de seguridad</div></div>
-    <div class="porque-item reveal"><div class="porque-icon">✈️</div><div class="porque-num" data-count="5">0</div><div class="porque-label">Millones de pasajeros</div></div>
+    <div class="porque-item reveal"><div class="porque-icon">✈️</div><div class="porque-num" data-count="5">0</div><div class="porque-label">Mill. de pasajeros</div></div>
     <div class="porque-item reveal"><div class="porque-icon">🌎</div><div class="porque-num" data-count="30">0</div><div class="porque-label">Destinos conectados</div></div>
-    <div class="porque-item reveal"><div class="porque-icon">⭐</div><div class="porque-num" data-count="4">0</div><div class="porque-label">Estrellas de calidad</div></div>
+    <div class="porque-item reveal"><div class="porque-icon">⭐</div><div class="porque-num" data-count="4">0</div><div class="porque-label">Estrellas calidad</div></div>
   </div>
 </section>
 
+<!-- TESTIMONIOS -->
 <section id="testimonios">
   <span class="section-tag reveal">Pasajeros BOA</span>
   <h2 class="section-title reveal">Lo que dicen nuestros viajeros</h2>
   <div class="section-divider reveal"></div>
-  <div class="testimonios-slider" id="testimonios-slider">
-    <div class="testimonio-card"><div class="stars-row">★★★★★</div><p class="testimonio-text">"Excelente servicio, el personal es muy amable y profesional. Mi vuelo a Buenos Aires fue puntual y cómodo."</p><div class="testimonio-author"><div class="author-avatar">MR</div><div><div class="author-name">María Revollo</div><div class="author-route">Santa Cruz → Buenos Aires</div></div></div></div>
-    <div class="testimonio-card"><div class="stars-row">★★★★★</div><p class="testimonio-text">"El check-in digital fue muy sencillo. La tripulación fue muy atenta durante todo el vuelo."</p><div class="testimonio-author"><div class="author-avatar">CF</div><div><div class="author-name">Carlos Fernández</div><div class="author-route">La Paz → Lima</div></div></div></div>
-    <div class="testimonio-card"><div class="stars-row">★★★★☆</div><p class="testimonio-text">"Viajé con mis tres hijos y el equipo de BOA nos ayudó en todo momento. Excelente atención."</p><div class="testimonio-author"><div class="author-avatar">AV</div><div><div class="author-name">Andrea Vargas</div><div class="author-route">Cochabamba → Santa Cruz</div></div></div></div>
-    <div class="testimonio-card"><div class="stars-row">★★★★★</div><p class="testimonio-text">"Como viajero frecuente de negocios, valoro la puntualidad. BOA ha cumplido en mis últimos 12 vuelos."</p><div class="testimonio-author"><div class="author-avatar">RO</div><div><div class="author-name">Roberto Ortiz</div><div class="author-route">Santa Cruz → Madrid</div></div></div></div>
-    <div class="testimonio-card"><div class="stars-row">★★★★★</div><p class="testimonio-text">"La tarifa promocional fue increíble. Viajé a Sucre por menos de 300 bolivianos. Lo recomiendo."</p><div class="testimonio-author"><div class="author-avatar">LG</div><div><div class="author-name">Lucía Gutiérrez</div><div class="author-route">Santa Cruz → Sucre</div></div></div></div>
+  <div class="test-slider" id="test-slider">
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"Excelente servicio, el personal es muy amable. Mi vuelo a Buenos Aires fue puntual y cómodo."</p><div class="test-author"><div class="test-avatar">MR</div><div><div class="test-name">María Revollo</div><div class="test-route">Santa Cruz → Buenos Aires</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"El check-in digital fue muy sencillo. La tripulación fue muy atenta durante todo el vuelo."</p><div class="test-author"><div class="test-avatar">CF</div><div><div class="test-name">Carlos Fernández</div><div class="test-route">La Paz → Lima</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★☆</div><p class="test-text">"Viajé con mis tres hijos y el equipo de BOA nos ayudó en todo momento. Excelente atención."</p><div class="test-author"><div class="test-avatar">AV</div><div><div class="test-name">Andrea Vargas</div><div class="test-route">Cochabamba → Santa Cruz</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"Como viajero frecuente de negocios, valoro la puntualidad. BOA ha cumplido en mis últimos 12 vuelos."</p><div class="test-author"><div class="test-avatar">RO</div><div><div class="test-name">Roberto Ortiz</div><div class="test-route">Santa Cruz → Madrid</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"La tarifa promocional fue increíble. Viajé a Sucre por menos de 300 bolivianos. Lo recomiendo."</p><div class="test-author"><div class="test-avatar">LG</div><div><div class="test-name">Lucía Gutiérrez</div><div class="test-route">Santa Cruz → Sucre</div></div></div></div>
   </div>
-  <div class="slider-controls">
-    <button class="slider-btn" onclick="slideTestimonios(-1)">←</button>
-    <button class="slider-btn" onclick="slideTestimonios(1)">→</button>
+  <div class="slider-btns">
+    <button class="slider-btn" onclick="document.getElementById('test-slider').scrollBy({left:-380,behavior:'smooth'})">←</button>
+    <button class="slider-btn" onclick="document.getElementById('test-slider').scrollBy({left:380,behavior:'smooth'})">→</button>
   </div>
 </section>
 
+<!-- NEWSLETTER -->
 <section id="newsletter">
-  <h2 class="newsletter-title reveal">Recibe las mejores ofertas</h2>
-  <p class="newsletter-sub reveal">Suscríbete y sé el primero en conocer nuestras promociones exclusivas</p>
-  <div class="newsletter-form reveal">
-    <input class="newsletter-input" type="email" placeholder="Tu correo electrónico" id="nl-email"/>
-    <button class="newsletter-btn" onclick="handleNewsletter()">Suscribirme</button>
+  <h2 class="nl-title reveal">Recibe las mejores ofertas</h2>
+  <p class="nl-sub reveal">Suscríbete y sé el primero en conocer nuestras promociones exclusivas</p>
+  <div class="nl-form reveal">
+    <input class="nl-input" type="email" placeholder="Tu correo electrónico" id="nl-email"/>
+    <button class="nl-btn" onclick="handleNewsletter()">Suscribirme</button>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand">
+    <div>
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA – Proyecto Académico" loading="lazy"/>
       <p class="footer-desc">Proyecto académico universitario basado en BOA Boliviana de Aviación. Desarrollado con fines educativos. No es el sitio oficial.</p>
-      <div class="social-links">
+      <div class="social-row">
         <a class="social-btn" href="#">f</a>
         <a class="social-btn" href="#">𝕏</a>
         <a class="social-btn" href="#">ig</a>
         <a class="social-btn" href="#">▶</a>
       </div>
     </div>
-    <div class="footer-col"><h5>Navegación</h5><ul class="footer-links"><li><a href="auth/login.html">Ingresar</a></li><li><a href="auth/register.html">Registrarse</a></li><li><a href="#destinos">Destinos</a></li><li><a href="#servicios">Servicios</a></li><li><a href="#promos">Promociones</a></li></ul></div>
-    <div class="footer-col"><h5>Servicios</h5><ul class="footer-links"><li><a href="auth/login.html">Equipaje</a></li><li><a href="auth/login.html">Clase ejecutiva</a></li><li><a href="auth/login.html">Asistencia especial</a></li><li><a href="auth/login.html">Plan corporativo</a></li></ul></div>
-    <div class="footer-col"><h5>Proyecto</h5><ul class="footer-links"><li><a href="#">Sobre el proyecto</a></li><li><a href="#">Equipo de desarrollo</a></li><li><a href="#">Repositorio GitHub</a></li><li><a href="https://www.boa.bo" target="_blank" rel="noopener">Sitio oficial BOA</a></li></ul></div>
+    <div class="footer-col">
+      <h5>Navegación</h5>
+      <ul class="footer-links">
+        <li><a href="auth/login.html">Ingresar</a></li>
+        <li><a href="auth/register.html">Registrarse</a></li>
+        <li><a href="#destinos">Destinos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#promos">Promociones</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Servicios</h5>
+      <ul class="footer-links">
+        <li><a href="auth/login.html">Equipaje</a></li>
+        <li><a href="auth/login.html">Clase ejecutiva</a></li>
+        <li><a href="auth/login.html">Asistencia especial</a></li>
+        <li><a href="auth/login.html">Plan corporativo</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Proyecto</h5>
+      <ul class="footer-links">
+        <li><a href="#">Sobre el proyecto</a></li>
+        <li><a href="#">Equipo de desarrollo</a></li>
+        <li><a href="#">Repositorio GitHub</a></li>
+        <li><a href="https://www.boa.bo" target="_blank" rel="noopener">Sitio oficial BOA ↗</a></li>
+      </ul>
+    </div>
   </div>
 
-  <!-- Aviso académico en footer -->
-  <div class="footer-academico">
+  <div class="footer-aviso">
     ⚠️ <strong>AVISO:</strong> Este es un proyecto académico universitario con fines educativos. No representa ni está afiliado al sitio oficial de BOA Boliviana de Aviación.<br/>
-    Para vuelos reales visita <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a> |
-    Desarrollado por: <strong>Juan Andrés Revollo Gutiérrez · Nazel Alexander Felipez · Olver Antonio Álvarez Oliva</strong>
+    Para vuelos reales visita <a href="https://www.boa.bo" target="_blank" rel="noopener">www.boa.bo</a>
   </div>
 
   <div class="footer-bottom">
-    <div class="footer-legal">© 2025 Proyecto Académico – Infotiens43 Design. Todos los derechos reservados. | <a href="#">Aviso legal</a></div>
-    <div class="footer-devs">Proyecto universitario de práctica web</div>
+    <div class="footer-legal">© 2025 Proyecto Académico – Infotiens43 Design | <a href="#">Aviso legal</a></div>
+    <div class="footer-credit">Desarrollado por<br/><strong>Juan Andrés Revollo · Nazel Felipez · Olver Álvarez</strong></div>
   </div>
 </footer>
 
 <script>
+/* ── DESTINOS ESTÁTICOS ─────────────────────────────── */
 const DESTINOS = [
-  {city:'La Paz',       cat:'nacional',      bg:'dest-bg-lapaz', icon:'🏔️', code:'LPB', precio:'280',  currency:'Bs.'},
-  {city:'Cochabamba',   cat:'nacional',      bg:'dest-bg-cbba',  icon:'🌿', code:'CBB', precio:'240',  currency:'Bs.'},
-  {city:'Sucre',        cat:'nacional',      bg:'dest-bg-sucre', icon:'🏛️', code:'SRE', precio:'260',  currency:'Bs.'},
-  {city:'Buenos Aires', cat:'internacional', bg:'dest-bg-ba',    icon:'🌆', code:'EZE', precio:'180',  currency:'$'},
-  {city:'Lima',         cat:'internacional', bg:'dest-bg-lima',  icon:'🏯', code:'LIM', precio:'150',  currency:'$'},
-  {city:'Madrid',       cat:'internacional', bg:'dest-bg-madrid',icon:'🏰', code:'MAD', precio:'550',  currency:'$'},
+  { city:'La Paz',       cat:'nacional',      bg:'bg-lapaz',  icon:'🏔️', code:'LPB', precio:'280', cur:'Bs.' },
+  { city:'Cochabamba',   cat:'nacional',      bg:'bg-cbba',   icon:'🌿', code:'CBB', precio:'240', cur:'Bs.' },
+  { city:'Sucre',        cat:'nacional',      bg:'bg-sucre',  icon:'🏛️', code:'SRE', precio:'260', cur:'Bs.' },
+  { city:'Buenos Aires', cat:'internacional', bg:'bg-ba',     icon:'🌆', code:'EZE', precio:'180', cur:'$'   },
+  { city:'Lima',         cat:'internacional', bg:'bg-lima',   icon:'🏯', code:'LIM', precio:'150', cur:'$'   },
+  { city:'Madrid',       cat:'internacional', bg:'bg-madrid', icon:'🏰', code:'MAD', precio:'550', cur:'$'   },
 ];
 
 function renderDestinos() {
-  const grid = document.getElementById('dest-grid');
-  grid.innerHTML = '';
+  const g = document.getElementById('dest-grid');
+  g.innerHTML = '';
   DESTINOS.forEach(d => {
     const intl = d.cat === 'internacional';
     const card = document.createElement('div');
@@ -524,102 +1170,137 @@ function renderDestinos() {
     card.innerHTML = `
       <div class="dest-bg ${d.bg}">${d.icon}</div>
       <div class="dest-overlay"></div>
-      <div class="dest-badge ${intl?'badge-internacional':'badge-nacional'}">${intl?'Internacional':'Nacional'}</div>
+      <div class="dest-badge ${intl ? 'badge-intl' : 'badge-nacional'}">${intl ? 'Internacional' : 'Nacional'}</div>
       <div class="dest-info">
         <span class="dest-city">${d.city}</span>
         <span class="dest-route">VVI → ${d.code}</span>
         <div class="dest-bottom">
-          <div class="dest-price">${d.currency} ${d.precio} <span>desde</span></div>
+          <div class="dest-price">${d.cur} ${d.precio} <span>desde</span></div>
           <a class="dest-book-btn" href="auth/login.html">Ver más</a>
         </div>
       </div>`;
-    grid.appendChild(card);
+    g.appendChild(card);
     revealObs.observe(card);
   });
 }
 
+/* ── NAVBAR ─────────────────────────────────────────── */
 const navbar = document.getElementById('navbar');
+const avisoH = () => document.getElementById('aviso').offsetHeight;
+
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
   document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
 });
 
-window.toggleMenu = function() {
-  document.getElementById('hamburger').classList.toggle('active');
+/* ── HAMBURGER ──────────────────────────────────────── */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
-};
+});
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+  });
+});
 
+/* ── STARFIELD ──────────────────────────────────────── */
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let stars = [];
 function initStars() {
-  canvas.width = window.innerWidth; canvas.height = window.innerHeight; stars = [];
-  for (let i=0;i<160;i++) stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height*0.55,r:Math.random()*1.4+0.2,alpha:Math.random(),delta:(Math.random()*0.008+0.003)*(Math.random()<0.5?1:-1)});
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = [];
+  for (let i = 0; i < 160; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.6,
+      r: Math.random() * 1.4 + 0.2,
+      alpha: Math.random(),
+      delta: (Math.random() * 0.008 + 0.003) * (Math.random() < 0.5 ? 1 : -1)
+    });
+  }
 }
 function drawStars() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  stars.forEach(s=>{s.alpha+=s.delta;if(s.alpha>1||s.alpha<0)s.delta*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${Math.max(0,s.alpha)})`;ctx.fill();});
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.alpha += s.delta;
+    if (s.alpha > 1 || s.alpha < 0) s.delta *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.max(0, s.alpha)})`;
+    ctx.fill();
+  });
   requestAnimationFrame(drawStars);
 }
 initStars(); drawStars();
 window.addEventListener('resize', initStars);
 
-document.getElementById('dep-date').value = new Date().toISOString().split('T')[0];
+/* ── BUSCADOR ───────────────────────────────────────── */
+document.getElementById('s-fecha').value = new Date().toISOString().split('T')[0];
 window.setTrip = function(el, type) {
-  document.querySelectorAll('.trip-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.trip-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   const r = document.getElementById('ret-field');
-  r.style.opacity = type==='ida'?'0.4':'1';
-  r.style.pointerEvents = type==='ida'?'none':'auto';
+  r.style.opacity = type === 'ida' ? '0.4' : '1';
+  r.style.pointerEvents = type === 'ida' ? 'none' : 'auto';
 };
 window.handleSearch = function() {
-  const origen  = document.getElementById('search-origen').value;
-  const destino = document.getElementById('search-destino').value;
-  const fecha   = document.getElementById('dep-date').value;
-  window.location.href = `auth/login.html?origen=${encodeURIComponent(origen)}&destino=${encodeURIComponent(destino)}&fecha=${fecha}`;
+  const o = encodeURIComponent(document.getElementById('s-origen').value);
+  const d = encodeURIComponent(document.getElementById('s-destino').value);
+  const f = document.getElementById('s-fecha').value;
+  window.location.href = `auth/login.html?origen=${o}&destino=${d}&fecha=${f}`;
 };
 
+/* ── FILTRO DESTINOS ────────────────────────────────── */
 window.filterDest = function(el, cat) {
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.dest-card').forEach(c=>{
-    c.classList.toggle('hidden', cat!=='todos' && c.dataset.cat!==cat);
+  document.querySelectorAll('.dest-card').forEach(c => {
+    c.classList.toggle('hidden', cat !== 'todos' && c.dataset.cat !== cat);
   });
 };
 
-window.slideTestimonios = function(dir) {
-  document.getElementById('testimonios-slider').scrollBy({left:dir*400,behavior:'smooth'});
-};
-
+/* ── NEWSLETTER ─────────────────────────────────────── */
 window.handleNewsletter = function() {
   const email = document.getElementById('nl-email').value;
-  if (!email||!email.includes('@')) { showToast('⚠️','Correo inválido','Ingresa un correo válido.'); return; }
+  if (!email || !email.includes('@')) { showToast('⚠️','Correo inválido','Ingresa un correo válido.'); return; }
   document.getElementById('nl-email').value = '';
-  showToast('📧','¡Suscripción exitosa!','Recibirás nuestras mejores ofertas pronto.');
+  showToast('📧','¡Listo!','Recibirás nuestras mejores ofertas pronto.');
 };
 function showToast(icon, title, msg) {
   const t = document.getElementById('toast');
   t.querySelector('.toast-icon').textContent = icon;
   t.querySelector('.toast-msg').innerHTML = `<strong>${title}</strong>${msg}`;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 4000);
+  setTimeout(() => t.classList.remove('show'), 4000);
 }
 
+/* ── CONTADOR ───────────────────────────────────────── */
 function animateCount(el) {
-  const target = parseInt(el.dataset.count); let c = 0;
-  const step = target/60;
-  const timer = setInterval(()=>{ c=Math.min(c+step,target); el.textContent=Math.round(c)+'+'; if(c>=target)clearInterval(timer); }, 25);
+  const target = parseInt(el.dataset.count);
+  let c = 0; const step = target / 60;
+  const t = setInterval(() => {
+    c = Math.min(c + step, target);
+    el.textContent = Math.round(c) + '+';
+    if (c >= target) clearInterval(t);
+  }, 25);
 }
 
-const revealObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
-},{threshold:0.12});
-const counterObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){animateCount(e.target);counterObs.unobserve(e.target);}});
-},{threshold:0.5});
-document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
-document.querySelectorAll('[data-count]').forEach(el=>counterObs.observe(el));
+/* ── OBSERVERS ──────────────────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCount(e.target); counterObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
 
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+
+/* ── INIT ───────────────────────────────────────────── */
 renderDestinos();
 </script>
 </body>

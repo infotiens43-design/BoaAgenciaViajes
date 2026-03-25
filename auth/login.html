@@ -57,7 +57,6 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
 .error-msg.show{display:block;}
 .success-msg{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:3px;padding:10px 14px;font-size:13px;color:#4ade80;margin-bottom:1rem;display:none;}
 .success-msg.show{display:block;}
-/* Loading overlay mientras detecta rol */
 .role-loading{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .role-loading.show{opacity:1;pointer-events:all;}
 .role-loading img{height:48px;filter:brightness(0) invert(1);animation:pulse 1.4s ease-in-out infinite;}
@@ -155,7 +154,6 @@ import { supabase } from '../assets/js/supabase.js';
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 
-// Consulta el rol del usuario en user_roles
 async function getUserRole(userId) {
   try {
     const { data } = await supabase
@@ -169,7 +167,6 @@ async function getUserRole(userId) {
   }
 }
 
-// Redirige según rol
 function redirectByRole(role, searchParams) {
   const base = '../';
   if (searchParams?.get('redirect') === 'buscar') {
@@ -188,7 +185,6 @@ function redirectByRole(role, searchParams) {
   }
 }
 
-// Asegura que exista perfil (para OAuth / Google)
 async function ensureProfile(user) {
   const { data: existing } = await supabase
     .from('users_profile').select('id').eq('id', user.id).single();
@@ -201,7 +197,6 @@ async function ensureProfile(user) {
       apellido: meta.apellido || parts.slice(1).join(' ') || '',
     }, { onConflict: 'id' });
   }
-  // Asegurar fila de rol
   await supabase.from('user_roles').upsert(
     { user_id: user.id, role: 'user' },
     { onConflict: 'user_id', ignoreDuplicates: true }
@@ -213,26 +208,46 @@ function showLoading(msg) {
   document.getElementById('role-loading').classList.add('show');
 }
 
-// ── VERIFICAR SESIÓN EXISTENTE ────────────────────────────────────────────────
-(async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return; // no hay sesión, mostrar form normal
+// ── DETECTAR SI ES REDIRECT DE OAUTH ─────────────────────────────────────────
+// Supabase pone los tokens en el hash (#) o como query params (?code=) al volver de Google.
+// Solo en ese caso debemos procesar el callback automáticamente.
+const isOAuthCallback =
+  window.location.hash.includes('access_token') ||
+  window.location.hash.includes('error_description') ||
+  new URLSearchParams(window.location.search).has('code');
 
-  showLoading('Identificando tu perfil...');
-  const role = await getUserRole(user.id);
-  const params = new URLSearchParams(window.location.search);
-  redirectByRole(role, params);
-})();
+// ── VERIFICAR SESIÓN EXISTENTE (solo si NO es callback OAuth) ─────────────────
+// Si el usuario navega manualmente a /login con sesión activa → redirigir.
+// Si llega por redirect de Google → dejar que onAuthStateChange lo maneje.
+if (!isOAuthCallback) {
+  (async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return; // sin sesión, mostrar formulario normalmente
 
-// ── CALLBACK OAUTH (Google redirige aquí con hash) ───────────────────────────
-supabase.auth.onAuthStateChange(async (event, session) => {
-  if (event === 'SIGNED_IN' && session?.user) {
-    showLoading('Configurando tu cuenta...');
-    await ensureProfile(session.user);
-    const role = await getUserRole(session.user.id);
+    showLoading('Identificando tu perfil...');
+    const role = await getUserRole(user.id);
     const params = new URLSearchParams(window.location.search);
     redirectByRole(role, params);
-  }
+  })();
+}
+
+// ── CALLBACK OAUTH ────────────────────────────────────────────────────────────
+// Solo actúa cuando la página cargó con tokens en la URL (redirect de Google).
+// El flag `oauthHandled` evita doble ejecución si el evento se dispara más de una vez.
+let oauthHandled = false;
+
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (!isOAuthCallback) return;           // no es callback → ignorar
+  if (oauthHandled) return;               // ya procesado → ignorar
+  if (event !== 'SIGNED_IN') return;      // solo nos interesa SIGNED_IN
+  if (!session?.user) return;
+
+  oauthHandled = true;
+  showLoading('Configurando tu cuenta...');
+  await ensureProfile(session.user);
+  const role = await getUserRole(session.user.id);
+  const params = new URLSearchParams(window.location.search);
+  redirectByRole(role, params);
 });
 
 // ── LOGIN EMAIL / CONTRASEÑA ──────────────────────────────────────────────────
@@ -257,7 +272,6 @@ window.handleLogin = async function(e) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      // Mensajes de error claros en español
       let msg = 'Correo o contraseña incorrectos.';
       const m = error.message?.toLowerCase() || '';
       if (m.includes('email not confirmed'))
@@ -269,7 +283,6 @@ window.handleLogin = async function(e) {
       throw new Error(msg);
     }
 
-    // ── Obtener rol y redirigir ──
     showLoading('Accediendo a tu panel...');
     const role = await getUserRole(data.user.id);
     const params = new URLSearchParams(window.location.search);
@@ -289,11 +302,10 @@ window.handleLogin = async function(e) {
 window.handleGoogle = async function() {
   const btn = document.getElementById('btn-google');
   btn.disabled = true;
-  // Google redirigirá de vuelta aquí → onAuthStateChange lo maneja
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.href, // vuelve a esta misma página
+      redirectTo: window.location.href,
       queryParams: { prompt: 'select_account' }
     }
   });

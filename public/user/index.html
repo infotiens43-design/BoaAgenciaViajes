@@ -5,840 +5,1086 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mi Cuenta — BOA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════ */
 :root {
-  --navy: #001F5B;
-  --navy-light: #002D72;
-  --blue: #003DA5;
-  --blue-soft: #1a56c4;
-  --red: #C8102E;
-  --red-soft: #e01535;
-  --gold: #B8860B;
-  --gold-light: #DAA520;
-  --bg: #F4F6FB;
-  --bg2: #EAECF5;
-  --surface: #FFFFFF;
-  --surface2: #F8F9FE;
-  --sidebar-bg: #001F5B;
-  --sidebar-active: rgba(255,255,255,0.12);
-  --sidebar-hover: rgba(255,255,255,0.07);
-  --topbar-bg: rgba(255,255,255,0.95);
-  --card-bg: #FFFFFF;
-  --border: rgba(0,31,91,0.1);
-  --border-strong: rgba(0,31,91,0.18);
-  --text: #0A1628;
-  --text-muted: #4A5568;
-  --text-dim: #9AA5B4;
-  --success: #059669;
-  --warning: #D97706;
-  --danger: #DC2626;
-  --info: #2563EB;
-  --sidebar-w: 256px;
-  --font-head: 'Sora', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 16px rgba(0,31,91,0.08);
-  --shadow-md: 0 4px 24px rgba(0,31,91,0.12);
-  --transition: all 0.2s ease;
+  --navy:        #0B1F4B;
+  --navy-mid:    #152D6B;
+  --navy-light:  #1E3A87;
+  --red:         #C8102E;
+  --red-hover:   #A50D25;
+  --gold:        #C9952A;
+  --gold-light:  #F0C060;
+
+  --bg:          #F0F3FA;
+  --bg2:         #E4E9F5;
+  --surface:     #FFFFFF;
+  --surface2:    #F7F9FE;
+
+  --border:      rgba(11,31,75,0.09);
+  --border-md:   rgba(11,31,75,0.15);
+
+  --text:        #0C1628;
+  --text-2:      #3D4F72;
+  --text-3:      #8A99B8;
+
+  --success:     #0C9E6A;
+  --warning:     #D48A0C;
+  --danger:      #D42020;
+  --info:        #1A5CCC;
+
+  --sidebar-w:   260px;
+  --topbar-h:    60px;
+  --bottom-nav-h:64px;
+
+  --font-head:   'DM Serif Display', Georgia, serif;
+  --font-body:   'DM Sans', system-ui, sans-serif;
+
+  --r:           14px;
+  --r-sm:        9px;
+  --r-xs:        6px;
+
+  --shadow-sm:   0 1px 4px rgba(11,31,75,0.07);
+  --shadow:      0 3px 16px rgba(11,31,75,0.09);
+  --shadow-lg:   0 8px 32px rgba(11,31,75,0.14);
+  --shadow-xl:   0 20px 60px rgba(11,31,75,0.18);
+
+  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --t:           0.18s;
 }
 
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 15px; }
-body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: rgba(0,31,91,0.15); border-radius: 4px; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.55;
+  font-size: 15px;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; }
+button { font-family: var(--font-body); }
 
-.app { display: flex; min-height: 100vh; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(11,31,75,0.18); border-radius: 99px; }
 
-/* SIDEBAR */
+/* ════════════════════════════════════════
+   LAYOUT SHELL
+════════════════════════════════════════ */
+.shell { display: flex; min-height: 100vh; }
+
+/* ════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════ */
 .sidebar {
   width: var(--sidebar-w);
-  position: fixed; top: 0; left: 0; bottom: 0;
-  background: var(--sidebar-bg);
+  position: fixed; inset: 0 auto 0 0;
+  background: var(--navy);
   display: flex; flex-direction: column;
-  z-index: 200;
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 4px 0 24px rgba(0,31,91,0.15);
+  z-index: 300;
+  transition: transform 0.28s var(--ease);
+  overflow: hidden;
 }
+/* Decorative lines */
+.sidebar::before {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(255,255,255,0.012) 40px, rgba(255,255,255,0.012) 41px
+  );
+  pointer-events: none;
+}
+.sidebar::after {
+  content: '';
+  position: absolute; top: -120px; right: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(201,149,42,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .sidebar-backdrop {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5); z-index: 199;
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 299;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
-.sidebar-backdrop.show { display: block; backdrop-filter: blur(2px); }
-.sidebar-brand {
-  padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; gap: 12px;
+.sidebar-backdrop.show { display: block; }
+
+/* Brand */
+.sb-brand {
+  padding: 20px 22px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 10px;
+  position: relative; z-index: 1;
 }
-.sidebar-brand img { height: 28px; filter: brightness(0) invert(1); }
-.sidebar-brand-tag {
-  font-family: var(--font-head); font-size: 9px; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.35);
+.sb-brand img { height: 26px; filter: brightness(0) invert(1); }
+.sb-brand-tag {
+  font-size: 8.5px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-top: 2px;
 }
-.sidebar-user {
-  padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; gap: 12px;
-}
-.user-avatar {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head); font-size: 14px; font-weight: 700;
-  color: white; flex-shrink: 0;
-}
-.user-name { font-size: 13px; font-weight: 700; color: white; line-height: 1.2; }
-.user-role { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 1px; }
-.nav { flex: 1; padding: 12px 0; overflow-y: auto; }
-.nav-label {
-  font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(255,255,255,0.35); padding: 8px 20px 4px;
-}
-.nav-item {
+
+/* User block */
+.sb-user {
+  padding: 14px 22px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   display: flex; align-items: center; gap: 11px;
-  padding: 10px 20px; margin: 1px 8px;
-  color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500;
-  cursor: pointer; border-radius: var(--radius-sm);
-  transition: var(--transition); text-decoration: none; position: relative;
+  position: relative; z-index: 1;
 }
-.nav-item i { font-size: 17px; width: 20px; text-align: center; flex-shrink: 0; }
-.nav-item:hover { color: white; background: var(--sidebar-hover); }
-.nav-item.active { color: white; background: var(--sidebar-active); font-weight: 600; }
-.nav-badge {
-  margin-left: auto; background: var(--red); color: white;
-  font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
+.sb-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 14px; font-weight: 400;
+  color: white; flex-shrink: 0; letter-spacing: 0.5px;
 }
-.sidebar-foot { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+.sb-user-name { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.25; }
+.sb-user-email { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+
+/* Nav */
+.sb-nav { flex: 1; padding: 10px 0 8px; overflow-y: auto; position: relative; z-index: 1; }
+.sb-nav-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.28);
+  padding: 10px 22px 4px;
+}
+.sb-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px 10px 22px; margin: 1px 10px;
+  color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500;
+  border-radius: var(--r-sm); cursor: pointer;
+  transition: color var(--t), background var(--t);
+  position: relative;
+}
+.sb-nav-item i { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
+.sb-nav-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.06); }
+.sb-nav-item.active {
+  color: #fff; background: rgba(255,255,255,0.11);
+  font-weight: 600;
+}
+.sb-nav-item.active::before {
+  content: '';
+  position: absolute; left: -10px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%; background: var(--gold-light);
+  border-radius: 0 3px 3px 0;
+}
+.sb-badge {
+  margin-left: auto;
+  background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 99px;
+  min-width: 20px; text-align: center;
+}
+
+/* Logout */
+.sb-foot { padding: 14px 22px 18px; border-top: 1px solid rgba(255,255,255,0.07); position: relative; z-index: 1; }
 .btn-logout {
   width: 100%; padding: 10px 16px;
-  background: rgba(200,16,46,0.15); border: 1px solid rgba(200,16,46,0.3);
-  border-radius: var(--radius-sm); color: #fca5a5; font-family: var(--font-body);
-  font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition);
+  background: rgba(200,16,46,0.13); border: 1px solid rgba(200,16,46,0.25);
+  border-radius: var(--r-sm); color: rgba(255,150,150,0.9);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background var(--t), color var(--t);
   display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-.btn-logout:hover { background: rgba(200,16,46,0.3); color: white; }
+.btn-logout:hover { background: rgba(200,16,46,0.28); color: #fff; }
 
-/* MAIN */
-.main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-
-/* TOPBAR */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--topbar-bg); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px; height: 60px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  box-shadow: 0 1px 8px rgba(0,31,91,0.07);
+/* ════════════════════════════════════════
+   MAIN AREA
+════════════════════════════════════════ */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1; display: flex; flex-direction: column;
+  min-height: 100vh;
 }
-.topbar-left { display: flex; align-items: center; gap: 12px; }
+
+/* ════════════════════════════════════════
+   TOPBAR
+════════════════════════════════════════ */
+.topbar {
+  position: sticky; top: 0; z-index: 200;
+  height: var(--topbar-h);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .hamburger {
-  display: none; background: none; border: none;
-  color: var(--text); font-size: 20px; cursor: pointer; padding: 4px;
-  border-radius: 6px; transition: var(--transition);
+  display: none; background: none; border: none; cursor: pointer;
+  color: var(--text); font-size: 22px; padding: 4px 6px;
+  border-radius: var(--r-xs); transition: background var(--t);
+  flex-shrink: 0;
 }
 .hamburger:hover { background: var(--bg2); }
-.topbar-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); }
-.topbar-right { display: flex; align-items: center; gap: 8px; }
+.topbar-title {
+  font-family: var(--font-head); font-size: 19px;
+  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-/* BUTTONS */
+/* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 9px 18px; border-radius: var(--radius-sm);
-  font-family: var(--font-body); font-size: 13px; font-weight: 600;
-  cursor: pointer; border: none; transition: var(--transition);
-  text-decoration: none; white-space: nowrap;
+  padding: 9px 18px; border-radius: var(--r-sm);
+  font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+  cursor: pointer; border: none; transition: all var(--t);
+  white-space: nowrap; line-height: 1;
 }
-.btn-primary { background: var(--red); color: white; }
-.btn-primary:hover { background: var(--red-soft); box-shadow: 0 4px 12px rgba(200,16,46,0.25); }
-.btn-secondary { background: var(--bg2); color: var(--text-muted); border: 1px solid var(--border); }
-.btn-secondary:hover { background: var(--border); color: var(--text); }
-.btn-navy { background: var(--navy); color: white; font-weight: 700; }
-.btn-navy:hover { background: var(--navy-light); }
-.btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--navy); }
-.btn-outline:hover { background: var(--bg2); }
-.btn-sm { padding: 7px 14px; font-size: 12px; }
-.btn-lg { padding: 12px 24px; font-size: 14px; }
+.btn-primary { background: var(--red); color: #fff; }
+.btn-primary:hover { background: var(--red-hover); box-shadow: 0 4px 14px rgba(200,16,46,0.3); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy-mid); box-shadow: 0 4px 14px rgba(11,31,75,0.3); transform: translateY(-1px); }
+.btn-navy:active { transform: translateY(0); }
+.btn-outline {
+  background: transparent; color: var(--navy);
+  border: 1.5px solid var(--border-md);
+}
+.btn-outline:hover { background: var(--bg2); border-color: var(--navy); }
+.btn-ghost {
+  background: var(--bg2); color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-sm { padding: 7px 13px; font-size: 12.5px; }
+.btn-lg { padding: 12px 26px; font-size: 15px; }
 .btn-block { width: 100%; justify-content: center; }
-.btn:disabled { opacity: 0.5; pointer-events: none; }
+.btn:disabled { opacity: 0.45; pointer-events: none; cursor: not-allowed; }
 
-/* PAGES */
-.page { display: none; padding: 24px; animation: fadeUp 0.3s ease; }
+/* ════════════════════════════════════════
+   PAGES
+════════════════════════════════════════ */
+.page { display: none; padding: 28px 24px; animation: fadeUp 0.28s var(--ease) both; }
 .page.active { display: block; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-.page-header { margin-bottom: 24px; }
-.page-header-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--red); margin-bottom: 4px;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.page-header h1 { font-family: var(--font-head); font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.2; }
-.page-header h1 span { color: var(--navy); }
 
-/* NEXT FLIGHT */
-.next-flight-card {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-  border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px;
+.page-eyebrow {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: 5px;
+}
+.page-title {
+  font-family: var(--font-head); font-size: 28px; line-height: 1.15;
+  color: var(--text); margin-bottom: 24px;
+}
+.page-title span { color: var(--navy-mid); }
+
+/* ════════════════════════════════════════
+   CARDS & SURFACES
+════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+  display: flex; align-items: center; gap: 9px;
+}
+.card-head-title { font-weight: 700; font-size: 14px; color: var(--text); }
+.card-body { padding: 20px; }
+
+/* ════════════════════════════════════════
+   STAT CARDS
+════════════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+  position: relative; overflow: hidden;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-md); }
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card.c-navy::before  { background: var(--navy); }
+.stat-card.c-green::before { background: var(--success); }
+.stat-card.c-amber::before { background: var(--warning); }
+.stat-card.c-blue::before  { background: var(--info); }
+
+.stat-icon {
+  width: 38px; height: 38px; border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; margin-bottom: 12px;
+}
+.stat-icon.c-navy  { background: rgba(11,31,75,0.07);  color: var(--navy); }
+.stat-icon.c-green { background: rgba(12,158,106,0.1); color: var(--success); }
+.stat-icon.c-amber { background: rgba(212,138,12,0.1); color: var(--warning); }
+.stat-icon.c-blue  { background: rgba(26,92,204,0.1);  color: var(--info); }
+
+.stat-val { font-family: var(--font-head); font-size: 30px; line-height: 1; color: var(--text); }
+.stat-lbl { font-size: 12px; color: var(--text-3); font-weight: 500; margin-top: 4px; }
+
+/* ════════════════════════════════════════
+   NEXT FLIGHT BANNER
+════════════════════════════════════════ */
+.next-flight {
+  background: linear-gradient(120deg, var(--navy) 0%, #1A3E9A 100%);
+  border-radius: var(--r); padding: 20px 24px;
+  margin-bottom: 26px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   flex-wrap: wrap; overflow: hidden; position: relative;
-  box-shadow: 0 4px 20px rgba(0,31,91,0.2);
+  box-shadow: 0 6px 24px rgba(11,31,75,0.22);
 }
-.next-flight-card::after {
+.next-flight::after {
   content: '\F1D9'; font-family: 'Bootstrap-icons';
-  position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
-  font-size: 80px; opacity: 0.06; color: white; pointer-events: none;
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  font-size: 96px; opacity: 0.05; color: #fff; pointer-events: none;
+  line-height: 1;
 }
-.nfc-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
-.nfc-route { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: white; }
-.nfc-info { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
-
-/* STATS */
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-.stat-card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px;
-  transition: var(--transition); box-shadow: var(--shadow);
+.nf-eyebrow {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold-light); opacity: 0.8;
+  margin-bottom: 5px;
 }
-.stat-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.stat-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.stat-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 19px; }
-.stat-icon.gold { background: rgba(0,31,91,0.08); color: var(--navy); }
-.stat-icon.green { background: rgba(5,150,105,0.1); color: var(--success); }
-.stat-icon.amber { background: rgba(217,119,6,0.1); color: var(--warning); }
-.stat-icon.blue { background: rgba(37,99,235,0.1); color: var(--info); }
-.stat-value { font-family: var(--font-head); font-size: 28px; font-weight: 800; color: var(--text); line-height: 1; }
-.stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
-
-/* SECTION HEADER */
-.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.section-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); }
-.section-link {
-  font-size: 12px; font-weight: 600; color: var(--navy);
-  background: none; border: none; cursor: pointer;
-  display: flex; align-items: center; gap: 4px; transition: var(--transition);
-}
-.section-link:hover { color: var(--red); }
-
-/* CARD */
-.card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
-}
-.card-body { padding: 20px; }
-.card-header {
-  padding: 16px 20px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px; background: var(--surface2);
-}
-.card-header-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--text); }
-
-/* TABLE */
-.table-responsive { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-thead th {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--text-dim); padding: 12px 16px; text-align: left;
-  border-bottom: 1px solid var(--border); background: var(--surface2);
-}
-tbody td { padding: 14px 16px; font-size: 13px; color: var(--text-muted); border-bottom: 1px solid var(--border); vertical-align: middle; }
-tbody tr:hover td { background: var(--bg2); }
-tbody tr:last-child td { border-bottom: none; }
-.td-route { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); }
-.td-price { font-weight: 700; color: var(--navy); font-size: 14px; }
-
-/* BADGES */
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-}
-.badge-success { background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; }
-.badge-warning { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
-.badge-danger { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
-.badge-info { background: #DBEAFE; color: #1E40AF; border: 1px solid #BFDBFE; }
-.badge-muted { background: var(--bg2); color: var(--text-muted); border: 1px solid var(--border); }
-
-/* EMPTY STATE */
-.empty-state { text-align: center; padding: 48px 24px; }
-.empty-state i { font-size: 48px; color: var(--text-dim); margin-bottom: 12px; display: block; }
-.empty-state p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
-
-/* SEARCH BAR */
-.search-bar {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px;
-  display: grid; grid-template-columns: 1fr 1fr 160px 160px auto;
-  gap: 10px; margin-bottom: 20px; align-items: end; box-shadow: var(--shadow);
-}
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; }
-.form-control {
-  padding: 10px 14px;
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text);
-  font-family: var(--font-body); font-size: 13px;
-  outline: none; transition: var(--transition); width: 100%;
-}
-.form-control:focus { border-color: var(--navy); background: white; box-shadow: 0 0 0 3px rgba(0,31,91,0.07); }
-.form-control::placeholder { color: var(--text-dim); }
-select.form-control { cursor: pointer; }
-.form-control:disabled { opacity: 0.5; cursor: not-allowed; background: var(--bg2); }
-
-/* FLIGHT CARDS */
-.flights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
-.flight-card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px;
-  transition: var(--transition); box-shadow: var(--shadow);
-}
-.flight-card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.fc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.fc-route { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.fc-route i { font-size: 14px; color: var(--red); }
-.fc-body { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 14px; }
-.fc-times { font-size: 12px; color: var(--text-muted); line-height: 1.9; }
-.fc-times i { margin-right: 5px; color: var(--text-dim); }
-.fc-right { text-align: right; }
-.fc-price { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--navy); }
-.fc-seats { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-.estado-programado { background: #DBEAFE; color: #1E40AF; border: 1px solid #BFDBFE; }
-.estado-abordando { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
-.estado-en_vuelo { background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; }
-.estado-cancelado { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
-
-/* MODAL */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: transparent;
-  z-index: 500; display: flex; align-items: center; justify-content: center;
-  padding: 16px; opacity: 0; pointer-events: none;
-  transition: opacity 0.25s, background 0.25s;
-  visibility: hidden;
-}
-.modal-overlay.show {
-  opacity: 1; pointer-events: all; visibility: visible;
-  background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
-}
-.modal {
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--radius); width: 100%; max-width: 820px;
-  max-height: 92vh; overflow-y: auto;
-  transform: translateY(16px) scale(0.98);
-  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 0 20px 60px rgba(0,31,91,0.2);
-}
-.modal-overlay.show .modal { transform: translateY(0) scale(1); }
-.modal-stripe { height: 4px; background: linear-gradient(90deg, var(--navy), var(--red)); }
-.modal-header {
-  padding: 20px 24px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.modal-title { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--text); }
-.modal-close {
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--text-muted); width: 32px; height: 32px;
-  border-radius: 8px; cursor: pointer; font-size: 16px;
-  display: flex; align-items: center; justify-content: center; transition: var(--transition);
-}
-.modal-close:hover { background: var(--bg); color: var(--text); }
-.modal-body { padding: 20px 24px; }
-.modal-footer {
-  padding: 16px 24px; border-top: 1px solid var(--border);
-  display: flex; justify-content: flex-end; gap: 10px; background: var(--surface2);
-}
-
-/* MODAL TWO-COLUMN */
-.modal-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-@media (max-width: 640px) { .modal-two-col { grid-template-columns: 1fr; } }
-
-/* QR PANEL */
-.qr-panel {
-  background: linear-gradient(160deg, #f0f4ff 0%, #e8effd 100%);
-  border: 1px solid rgba(0,31,91,0.12);
-  border-radius: var(--radius); padding: 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  position: sticky; top: 0;
-}
-.qr-panel-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--navy); text-align: center; }
-.qr-img { width: 140px; height: 140px; border-radius: var(--radius-sm); border: 3px solid white; box-shadow: 0 4px 16px rgba(0,31,91,0.15); object-fit: contain; background: white; }
-.qr-bank-info {
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 14px; width: 100%;
-  font-size: 12px; color: var(--text-muted);
-}
-.qr-bank-info strong { display: block; font-size: 13px; color: var(--text); font-weight: 700; margin-bottom: 6px; }
-.qr-bank-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border); }
-.qr-bank-row:last-child { border-bottom: none; }
-.qr-note {
-  font-size: 11px; color: var(--text-dim); text-align: center; line-height: 1.5;
-  padding: 8px; background: rgba(184,134,11,0.08); border-radius: 6px;
-  border: 1px solid rgba(184,134,11,0.2);
-}
-.qr-amount {
-  font-family: var(--font-head); font-size: 22px; font-weight: 800;
-  color: var(--navy); text-align: center;
-}
-
-/* FLIGHT SUMMARY */
-.flight-summary {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-  border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px;
-}
-.fs-route { font-family: var(--font-head); font-size: 20px; font-weight: 800; color: white; margin-bottom: 4px; }
-.fs-info { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.7; }
-.fs-price { font-family: var(--font-head); font-size: 24px; font-weight: 800; color: white; margin-top: 8px; }
-
-.section-divider {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--navy); margin: 16px 0 12px;
+.nf-route {
+  font-family: var(--font-head); font-size: 22px; color: #fff;
   display: flex; align-items: center; gap: 10px;
 }
-.section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.form-group-modal { margin-bottom: 12px; }
-.form-group-modal .form-label { color: var(--text-muted); }
-.form-group-modal .form-control { background: var(--bg); }
+.nf-route i { font-size: 15px; color: var(--gold-light); }
+.nf-meta { font-size: 12.5px; color: rgba(255,255,255,0.6); margin-top: 5px; }
+.nf-meta i { margin-right: 4px; }
 
-/* SPECIAL ASSISTANCE */
+/* ════════════════════════════════════════
+   SECTION HEADER
+════════════════════════════════════════ */
+.sec-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.sec-title { font-weight: 700; font-size: 16px; color: var(--text); }
+.sec-link {
+  font-size: 12.5px; font-weight: 600; color: var(--navy);
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 4px;
+  transition: color var(--t); padding: 0;
+}
+.sec-link:hover { color: var(--red); }
+
+/* ════════════════════════════════════════
+   TABLE
+════════════════════════════════════════ */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; min-width: 540px; }
+thead th {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-3);
+  padding: 11px 16px; text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2); white-space: nowrap;
+}
+tbody td {
+  padding: 13px 16px; font-size: 13.5px; color: var(--text-2);
+  border-bottom: 1px solid var(--border); vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background var(--t); }
+tbody tr:hover td { background: var(--bg); }
+.td-route { font-weight: 700; color: var(--text); font-size: 14px; }
+.td-price { font-weight: 700; color: var(--navy); }
+.td-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ════════════════════════════════════════
+   BADGES
+════════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.badge-success { background: #DCFBEF; color: #086B49; border: 1px solid #A7F3D0; }
+.badge-warn    { background: #FEF7E0; color: #8A5C00; border: 1px solid #FDDFA0; }
+.badge-danger  { background: #FEE4E4; color: #8B1212; border: 1px solid #FECACA; }
+.badge-info    { background: #E0ECFF; color: #1040A0; border: 1px solid #BFDBFE; }
+.badge-muted   { background: var(--bg2); color: var(--text-3); border: 1px solid var(--border); }
+
+/* ════════════════════════════════════════
+   EMPTY STATE
+════════════════════════════════════════ */
+.empty {
+  text-align: center; padding: 52px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.empty-icon { font-size: 44px; color: var(--text-3); }
+.empty p { color: var(--text-2); font-size: 14px; max-width: 260px; }
+
+/* ════════════════════════════════════════
+   SEARCH BAR
+════════════════════════════════════════ */
+.search-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 150px 150px auto;
+  gap: 10px; margin-bottom: 20px;
+  align-items: end; box-shadow: var(--shadow-sm);
+}
+
+/* ════════════════════════════════════════
+   FORMS
+════════════════════════════════════════ */
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg-lbl {
+  font-size: 11px; font-weight: 600; color: var(--text-3);
+  letter-spacing: 0.4px; text-transform: uppercase;
+}
+.fc {
+  padding: 10px 13px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); color: var(--text);
+  font-family: var(--font-body); font-size: 13.5px;
+  outline: none; transition: border-color var(--t), box-shadow var(--t), background var(--t);
+  width: 100%; -webkit-appearance: none;
+}
+.fc:focus {
+  border-color: var(--navy); background: #fff;
+  box-shadow: 0 0 0 3px rgba(11,31,75,0.08);
+}
+.fc::placeholder { color: var(--text-3); }
+select.fc { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238A99B8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+.fc:disabled { opacity: 0.5; cursor: not-allowed; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* ════════════════════════════════════════
+   FLIGHT CARDS
+════════════════════════════════════════ */
+.flights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.flight-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.flight-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-md); }
+.fc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.fc-route-name {
+  font-family: var(--font-head); font-size: 17px; color: var(--text);
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+}
+.fc-route-name i { font-size: 12px; color: var(--red); }
+.fc-meta { display: flex; justify-content: space-between; align-items: flex-end; }
+.fc-times { font-size: 12.5px; color: var(--text-2); line-height: 1.9; }
+.fc-times i { color: var(--text-3); margin-right: 4px; }
+.fc-price-block { text-align: right; }
+.fc-price { font-family: var(--font-head); font-size: 22px; color: var(--navy); }
+.fc-seats { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+/* estado badges */
+.estado-programado { background: #E0ECFF; color: #1040A0; border: 1px solid #BFDBFE; }
+.estado-abordando  { background: #FEF7E0; color: #8A5C00; border: 1px solid #FDDFA0; }
+.estado-en_vuelo   { background: #DCFBEF; color: #086B49; border: 1px solid #A7F3D0; }
+.estado-cancelado  { background: #FEE4E4; color: #8B1212; border: 1px solid #FECACA; }
+
+/* ════════════════════════════════════════
+   MODAL
+════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.22s var(--ease), visibility 0.22s;
+  background: transparent;
+}
+.modal-overlay.show {
+  opacity: 1; visibility: visible; pointer-events: all;
+  background: rgba(5,15,40,0.5);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--r); width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  transform: translateY(14px) scale(0.985);
+  transition: transform 0.22s var(--ease);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border);
+}
+.modal-overlay.show .modal-box { transform: translateY(0) scale(1); }
+.modal-stripe { height: 4px; background: linear-gradient(90deg, var(--navy), var(--red)); }
+.modal-hd {
+  padding: 18px 22px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface2); position: sticky; top: 0; z-index: 10;
+}
+.modal-ttl { font-family: var(--font-head); font-size: 18px; color: var(--text); }
+.modal-x {
+  width: 32px; height: 32px; border-radius: var(--r-xs);
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text-2); cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--t), color var(--t);
+}
+.modal-x:hover { background: var(--bg); color: var(--text); }
+.modal-bd { padding: 22px; }
+.modal-ft {
+  padding: 14px 22px; border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+  background: var(--surface2); position: sticky; bottom: 0; z-index: 10;
+}
+
+/* Modal two-col */
+.m2col { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+
+/* ════════════════════════════════════════
+   BOOKING FORM SECTIONS
+════════════════════════════════════════ */
+.sec-div {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--navy);
+  display: flex; align-items: center; gap: 8px;
+  margin: 18px 0 12px;
+}
+.sec-div i { font-size: 13px; }
+.sec-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Flight summary bar */
+.fsumm {
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 100%);
+  border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 20px;
+}
+.fsumm-route { font-family: var(--font-head); font-size: 19px; color: #fff; margin-bottom: 4px; }
+.fsumm-route i { font-size: 13px; color: var(--gold-light); }
+.fsumm-meta { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+.fsumm-price { font-family: var(--font-head); font-size: 23px; color: #fff; margin-top: 8px; }
+
+/* Special assistance */
 .assist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .assist-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--bg);
-  cursor: pointer; transition: var(--transition); font-size: 12px; color: var(--text-muted);
+  padding: 9px 12px; border-radius: var(--r-sm);
+  border: 1.5px solid var(--border); background: var(--bg);
+  cursor: pointer; transition: all var(--t); font-size: 12.5px; color: var(--text-2);
 }
-.assist-item:has(input:checked) { border-color: var(--navy); background: rgba(0,31,91,0.05); color: var(--navy); font-weight: 600; }
-.assist-item input { width: 15px; height: 15px; accent-color: var(--navy); }
+.assist-item:has(input:checked) {
+  border-color: var(--navy-mid); background: rgba(11,31,75,0.05);
+  color: var(--navy); font-weight: 600;
+}
+.assist-item input { accent-color: var(--navy); width: 15px; height: 15px; flex-shrink: 0; }
 
-/* SEAT MAP */
+/* Seat map */
 .seat-map-wrap {
   background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; margin-top: 12px;
+  border-radius: var(--r-sm); padding: 14px; margin-top: 4px;
 }
-.seat-map-legend {
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-  margin-bottom: 12px; font-size: 11px; color: var(--text-muted);
+.seat-legend {
+  display: flex; gap: 14px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 12px;
+  font-size: 11px; color: var(--text-2);
 }
-.legend-dot { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
-.seat-plane { max-width: 320px; margin: 0 auto; }
-.seat-nose { width: 50px; height: 30px; background: var(--navy); border-radius: 50% 50% 0 0 / 100% 100% 0 0; margin: 0 auto 8px; opacity: 0.3; }
-.seat-row { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 4px; }
-.seat-row-num { font-size: 10px; color: var(--text-dim); width: 16px; text-align: center; }
-.seat-aisle { width: 20px; }
+.leg-dot { width: 13px; height: 13px; border-radius: 3px; display: inline-block; margin-right: 4px; vertical-align: middle; }
+.seat-plane { max-width: 300px; margin: 0 auto; }
+.seat-nose { width: 44px; height: 26px; background: var(--navy); border-radius: 50% 50% 0 0 / 100% 100% 0 0; margin: 0 auto 6px; opacity: 0.25; }
+.seat-row { display: flex; align-items: center; justify-content: center; gap: 3px; margin-bottom: 3px; }
+.seat-rnum { font-size: 9.5px; color: var(--text-3); width: 15px; text-align: center; }
+.seat-aisle { width: 18px; }
 .seat {
-  width: 28px; height: 28px; border-radius: 5px 5px 3px 3px;
-  cursor: pointer; transition: var(--transition); border: 1.5px solid transparent;
+  width: 27px; height: 27px; border-radius: 5px 5px 3px 3px;
+  cursor: pointer; transition: transform 0.1s, background 0.1s;
+  border: 1.5px solid transparent;
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 700;
+  font-size: 8.5px; font-weight: 700;
 }
-.seat.available { background: #DBEAFE; border-color: #BFDBFE; color: #1E40AF; }
-.seat.available:hover { background: #93C5FD; transform: scale(1.1); }
-.seat.occupied { background: #F3F4F6; border-color: #E5E7EB; color: #D1D5DB; cursor: not-allowed; }
-.seat.selected { background: var(--navy); border-color: var(--navy); color: white; transform: scale(1.1); }
-.seat.first { background: #FEF3C7; border-color: #FDE68A; color: #92400E; }
-.seat.first.selected { background: var(--gold); border-color: var(--gold); color: white; }
-.seat.first.available:hover { background: #FCD34D; }
-.seat-wing-label {
-  font-size: 9px; color: var(--text-dim); text-align: center;
-  letter-spacing: 2px; text-transform: uppercase; margin: 4px 0;
+.seat.av   { background: #DBEAFE; border-color: #93C5FD; color: #1D4ED8; }
+.seat.av:hover { background: #93C5FD; transform: scale(1.12); }
+.seat.occ  { background: #F1F5F9; border-color: #E2E8F0; color: #CBD5E1; cursor: not-allowed; }
+.seat.sel  { background: var(--navy); border-color: var(--navy); color: #fff; transform: scale(1.12); }
+.seat.first-av  { background: #FEF3C7; border-color: #FCD34D; color: #92400E; }
+.seat.first-av:hover { background: #FCD34D; transform: scale(1.12); }
+.seat.first-sel { background: var(--gold); border-color: var(--gold); color: #fff; transform: scale(1.12); }
+.seat-wing-lbl {
+  text-align: center; font-size: 8.5px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-3); margin: 5px 0;
 }
-.selected-seat-info {
-  text-align: center; margin-top: 12px;
-  font-size: 13px; color: var(--text-muted);
+.seat-selected-info {
+  text-align: center; margin-top: 10px;
+  font-size: 13px; color: var(--text-2);
 }
-.selected-seat-info strong { color: var(--navy); font-size: 15px; }
 
-/* UPLOAD */
+/* QR Panel */
+.qr-panel {
+  background: linear-gradient(160deg, #EEF4FF 0%, #E4EDFB 100%);
+  border: 1px solid rgba(11,31,75,0.1);
+  border-radius: var(--r); padding: 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  position: sticky; top: 70px;
+}
+.qr-panel-ttl { font-weight: 700; font-size: 13px; color: var(--navy); text-align: center; }
+.qr-img {
+  width: 136px; height: 136px; border-radius: var(--r-sm);
+  border: 3px solid #fff; box-shadow: var(--shadow);
+  object-fit: contain; background: #fff;
+}
+.qr-amount { font-family: var(--font-head); font-size: 22px; color: var(--navy); text-align: center; }
+.qr-bank {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 13px 14px; width: 100%;
+  font-size: 12px; color: var(--text-2);
+}
+.qr-bank strong { display: block; font-size: 12.5px; color: var(--text); font-weight: 700; margin-bottom: 7px; }
+.qr-bank-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+.qr-bank-row:last-child { border-bottom: none; }
+.qr-bank-row span:last-child { font-weight: 600; color: var(--text); }
+.qr-note {
+  font-size: 11px; color: var(--text-3); text-align: center; line-height: 1.55;
+  padding: 9px 10px; background: rgba(201,149,42,0.07); border-radius: var(--r-xs);
+  border: 1px solid rgba(201,149,42,0.18); width: 100%;
+}
+
+/* Upload */
 .upload-box {
-  background: #F0F7FF; border: 1px dashed #BFDBFE;
-  border-radius: var(--radius-sm); padding: 16px; margin-top: 14px;
+  background: #EFF6FF; border: 1.5px dashed #93C5FD;
+  border-radius: var(--r-sm); padding: 14px; margin-top: 14px;
 }
-.upload-label-sm { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--navy); margin-bottom: 8px; display: block; }
-.upload-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
-.upload-row { display: flex; align-items: center; gap: 10px; }
-.upload-trigger {
-  padding: 8px 16px; background: white; border: 1px solid var(--navy);
-  border-radius: var(--radius-sm); color: var(--navy);
-  font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition);
-  display: flex; align-items: center; gap: 7px; white-space: nowrap;
+.upload-lbl {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--navy); margin-bottom: 6px; display: block;
 }
-.upload-trigger:hover { background: var(--navy); color: white; }
-.upload-filename { font-size: 12px; color: var(--text-dim); }
+.upload-desc { font-size: 12px; color: var(--text-2); margin-bottom: 10px; line-height: 1.5; }
+.upload-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.upload-btn {
+  padding: 8px 14px; background: #fff; border: 1.5px solid var(--navy);
+  border-radius: var(--r-sm); color: var(--navy);
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+  transition: background var(--t), color var(--t); white-space: nowrap;
+}
+.upload-btn:hover { background: var(--navy); color: #fff; }
+.upload-fname { font-size: 12px; color: var(--text-3); }
 
-/* BOARDING PASS */
-.boarding-pass {
-  background: white; border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,31,91,0.18);
-  overflow: hidden; max-width: 480px; margin: 0 auto;
-  font-family: var(--font-body);
+/* Profile warn */
+.profile-warn {
+  background: #FFFBEB; border: 1px solid #FDDFA0;
+  border-radius: var(--r-sm); padding: 11px 14px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+  flex-wrap: wrap;
 }
-.bp-header {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  padding: 20px 24px; color: white;
+
+/* ════════════════════════════════════════
+   BOARDING PASS
+════════════════════════════════════════ */
+.bp {
+  background: #fff; border-radius: 16px;
+  box-shadow: var(--shadow-xl); overflow: hidden;
+  max-width: 460px; margin: 0 auto;
+}
+.bp-head {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 18px 22px; color: #fff;
   display: flex; justify-content: space-between; align-items: flex-start;
 }
-.bp-airline { font-family: var(--font-head); font-size: 18px; font-weight: 800; }
-.bp-type { font-size: 10px; letter-spacing: 2px; opacity: 0.6; text-transform: uppercase; margin-top: 2px; }
-.bp-route-block { display: flex; align-items: center; gap: 12px; padding: 20px 24px; background: var(--bg2); }
+.bp-airline { font-family: var(--font-head); font-size: 17px; }
+.bp-type { font-size: 9.5px; letter-spacing: 2px; opacity: 0.55; text-transform: uppercase; margin-top: 2px; }
+.bp-route {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 22px; background: var(--bg2);
+}
 .bp-city { text-align: center; }
-.bp-iata { font-family: var(--font-head); font-size: 32px; font-weight: 800; color: var(--navy); }
-.bp-cityname { font-size: 11px; color: var(--text-muted); }
-.bp-arrow { flex: 1; text-align: center; }
-.bp-arrow i { font-size: 24px; color: var(--red); }
-.bp-details { padding: 16px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.bp-detail-label { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
-.bp-detail-value { font-size: 14px; font-weight: 700; color: var(--text); }
-.bp-divider { border: none; border-top: 2px dashed var(--border); margin: 0 24px; }
-.bp-bottom { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.bp-qr-small { width: 60px; height: 60px; border-radius: 8px; background: white; border: 2px solid var(--border); object-fit: contain; }
-.bp-barcode { flex: 1; height: 40px; background: repeating-linear-gradient(90deg, #333 0px, #333 2px, white 2px, white 5px); border-radius: 4px; opacity: 0.8; }
-.bp-status-banner {
-  background: linear-gradient(90deg, #D1FAE5, #A7F3D0);
-  border-top: 1px solid #6EE7B7; padding: 8px 24px;
+.bp-iata { font-family: var(--font-head); font-size: 30px; color: var(--navy); }
+.bp-cname { font-size: 10.5px; color: var(--text-2); margin-top: 1px; }
+.bp-arr { flex: 1; text-align: center; color: var(--red); font-size: 22px; }
+.bp-details { padding: 14px 22px; display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.bp-dl { font-size: 9.5px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.bp-dv { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.bp-sep { border: none; border-top: 2px dashed var(--border-md); margin: 0 22px; }
+.bp-bot { padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.bp-barcode { flex: 1; height: 38px; background: repeating-linear-gradient(90deg,#222 0,#222 2px,#fff 2px,#fff 5px); border-radius: 3px; opacity: 0.8; }
+.bp-qr { width: 54px; height: 54px; border-radius: 7px; border: 2px solid var(--border); object-fit: contain; }
+.bp-confirmed {
+  background: linear-gradient(90deg,#DCFBEF,#A7F3D0);
+  border-top: 1px solid #6EE7B7; padding: 8px 22px;
   font-size: 12px; color: #065F46; font-weight: 700;
   display: flex; align-items: center; gap: 8px;
 }
 
-/* PROFILE */
-.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.profile-incomplete {
-  background: #FFFBEB; border: 1px solid #FDE68A;
-  border-radius: var(--radius); padding: 16px; margin-bottom: 20px;
-  display: flex; align-items: center; gap: 12px;
-}
+/* ════════════════════════════════════════
+   PROFILE PAGE
+════════════════════════════════════════ */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 
-/* SNACK */
+/* ════════════════════════════════════════
+   SNACK
+════════════════════════════════════════ */
 .snack {
   position: fixed; bottom: 24px; right: 24px; z-index: 9000;
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px 18px;
-  display: flex; align-items: center; gap: 12px;
-  min-width: 260px; max-width: 360px; box-shadow: var(--shadow-md);
-  transform: translateY(80px); opacity: 0;
-  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--r); padding: 13px 17px;
+  display: flex; align-items: center; gap: 11px;
+  min-width: 250px; max-width: 350px; box-shadow: var(--shadow-lg);
+  transform: translateY(72px); opacity: 0;
+  transition: all 0.3s var(--ease);
 }
 .snack.show { transform: translateY(0); opacity: 1; }
-.snack.success { border-left: 4px solid var(--success); }
-.snack.error { border-left: 4px solid var(--danger); }
-.snack i { font-size: 20px; }
-.snack.success i { color: var(--success); }
-.snack.error i { color: var(--danger); }
-.snack-content strong { display: block; font-size: 14px; font-weight: 700; color: var(--text); }
-.snack-content span { font-size: 12px; color: var(--text-muted); }
+.snack.ok  { border-left: 4px solid var(--success); }
+.snack.err { border-left: 4px solid var(--danger); }
+.snack i { font-size: 19px; }
+.snack.ok  i { color: var(--success); }
+.snack.err i { color: var(--danger); }
+.snack strong { display: block; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.snack span   { font-size: 12px; color: var(--text-2); }
 
-/* LOADING */
-.loading-screen {
+/* ════════════════════════════════════════
+   LOADING
+════════════════════════════════════════ */
+.loading {
   position: fixed; inset: 0; background: var(--navy); z-index: 9999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
   transition: opacity 0.5s;
 }
-.loading-screen.done { opacity: 0; pointer-events: none; }
-.loading-logo img { height: 44px; filter: brightness(0) invert(1); }
-.loading-progress { width: 160px; height: 2px; background: rgba(255,255,255,0.15); border-radius: 2px; overflow: hidden; }
-.loading-bar { height: 100%; background: linear-gradient(90deg, white, #CBD5E1); width: 0; animation: loadbar 1.4s ease forwards; }
-@keyframes loadbar { to { width: 100%; } }
-.loading-text { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 3px; font-family: var(--font-head); }
+.loading.done { opacity: 0; pointer-events: none; }
+.loading img { height: 40px; filter: brightness(0) invert(1); }
+.loading-bar-track { width: 150px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 99px; overflow: hidden; }
+.loading-bar { height: 100%; background: linear-gradient(90deg,#fff,rgba(255,255,255,0.6)); animation: lbar 1.5s ease forwards; }
+@keyframes lbar { to { width: 100%; } }
+.loading-txt { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: var(--font-head); }
 
-/* ── PERFIL INCOMPLETO BANNER (inside booking modal) ── */
-.profile-warn-banner {
-  background: #FFFBEB; border: 1px solid #FDE68A;
-  border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-
-/* SWAL */
-.swal2-popup { background: white !important; border: 1px solid var(--border) !important; color: var(--text) !important; font-family: var(--font-body) !important; border-radius: var(--radius) !important; box-shadow: 0 20px 60px rgba(0,31,91,0.15) !important; }
-.swal2-title { color: var(--text) !important; font-family: var(--font-head) !important; font-size: 20px !important; font-weight: 800 !important; }
-.swal2-html-container { color: var(--text-muted) !important; font-size: 14px !important; }
-.swal2-confirm { background: var(--red) !important; font-family: var(--font-body) !important; font-weight: 600 !important; border-radius: var(--radius-sm) !important; }
-.swal2-cancel { background: var(--bg2) !important; color: var(--text-muted) !important; font-family: var(--font-body) !important; border-radius: var(--radius-sm) !important; border: 1px solid var(--border) !important; }
-
-/* MOBILE BOTTOM NAV */
-.mobile-bottom-nav {
+/* ════════════════════════════════════════
+   MOBILE BOTTOM NAV
+════════════════════════════════════════ */
+.bottom-nav {
   display: none;
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
-  background: white; border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 20px rgba(0,31,91,0.1);
-  padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  background: rgba(255,255,255,0.97);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(11,31,75,0.09);
+  padding: 6px 4px max(8px, env(safe-area-inset-bottom)) 4px;
 }
-.mobile-bottom-nav .nav-tabs-wrap { display: flex; justify-content: space-around; }
-.mobile-nav-tab {
+.bn-wrap { display: flex; justify-content: space-around; }
+.bn-tab {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 6px 4px; cursor: pointer; transition: var(--transition);
-  border: none; background: none; color: var(--text-dim);
+  padding: 5px 4px; cursor: pointer;
+  border: none; background: none; color: var(--text-3);
   font-family: var(--font-body); font-size: 10px; font-weight: 600;
+  transition: color var(--t); position: relative;
 }
-.mobile-nav-tab i { font-size: 20px; }
-.mobile-nav-tab.active { color: var(--navy); }
-.mobile-nav-tab .mnav-badge {
-  position: absolute; top: 2px; right: 8px;
-  background: var(--red); color: white;
+.bn-tab i { font-size: 21px; }
+.bn-tab.active { color: var(--navy); }
+.bn-tab.active i { position: relative; }
+.bn-badge {
+  position: absolute; top: 0; right: 18%;
+  background: var(--red); color: #fff;
   font-size: 9px; font-weight: 700;
-  padding: 1px 5px; border-radius: 20px;
+  padding: 1px 5px; border-radius: 99px; min-width: 16px; text-align: center;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .profile-grid { grid-template-columns: 1fr; }
+/* ════════════════════════════════════════
+   SWEETALERT THEME
+════════════════════════════════════════ */
+.swal2-popup {
+  background: #fff !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--r) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-xl) !important;
+  color: var(--text) !important;
 }
+.swal2-title { font-family: var(--font-head) !important; font-size: 20px !important; font-weight: 400 !important; color: var(--text) !important; }
+.swal2-html-container { font-size: 14px !important; color: var(--text-2) !important; }
+.swal2-confirm { background: var(--red) !important; border-radius: var(--r-sm) !important; font-family: var(--font-body) !important; font-weight: 600 !important; }
+.swal2-cancel { background: var(--bg2) !important; color: var(--text-2) !important; border: 1px solid var(--border) !important; border-radius: var(--r-sm) !important; font-family: var(--font-body) !important; }
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TABLET 1024
+════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .stats-grid   { grid-template-columns: repeat(2, 1fr); }
+  .profile-grid { grid-template-columns: 1fr; }
+  .m2col        { grid-template-columns: 1fr; }
+  .qr-panel     { position: static; }
+  .search-bar   { grid-template-columns: 1fr 1fr 1fr; }
+  .search-bar .btn { grid-column: 1/-1; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — MOBILE 768
+════════════════════════════════════════ */
 @media (max-width: 768px) {
+  /* Sidebar hidden offscreen */
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
+
   .main { margin-left: 0; }
   .hamburger { display: flex; }
-  .search-bar { grid-template-columns: 1fr 1fr; }
-  .search-bar > .btn { grid-column: 1/-1; }
-  .form-row { grid-template-columns: 1fr; }
-  .page { padding: 16px; padding-bottom: 80px; }
-  .topbar { padding: 0 16px; }
-  .topbar-right .btn span { display: none; }
-  .mobile-bottom-nav { display: block; }
-  .assist-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 480px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .search-bar { grid-template-columns: 1fr; }
+
+  .page { padding: 16px 14px calc(var(--bottom-nav-h) + 20px); }
+  .topbar { padding: 0 14px; }
+  .topbar-right .btn-txt { display: none; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-val   { font-size: 24px; }
+
+  .search-bar {
+    grid-template-columns: 1fr 1fr;
+    padding: 12px;
+    gap: 8px;
+  }
+  .search-bar .fg:nth-child(3),
+  .search-bar .fg:nth-child(4) { grid-column: span 1; }
+  .search-bar .btn { grid-column: 1/-1; }
+
   .flights-grid { grid-template-columns: 1fr; }
-  .page-header h1 { font-size: 22px; }
-  .modal { border-radius: 0; max-height: 100vh; }
+
+  .form-row-2 { grid-template-columns: 1fr; }
+  .form-row-3 { grid-template-columns: 1fr; }
+
+  .assist-grid { grid-template-columns: 1fr; }
+
+  .bottom-nav { display: block; }
+
   .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal-stripe { border-radius: 0; }
+  .modal-box {
+    border-radius: var(--r) var(--r) 0 0;
+    max-height: 92vh;
+    transform: translateY(24px);
+  }
+  .modal-overlay.show .modal-box { transform: translateY(0); }
+
+  .snack { bottom: calc(var(--bottom-nav-h) + 12px); right: 12px; left: 12px; min-width: 0; max-width: none; }
+
+  .next-flight { padding: 16px 18px; }
+  .nf-route { font-size: 18px; }
+  .page-title { font-size: 23px; }
+
+  .bp-details { grid-template-columns: repeat(2,1fr); }
+  .profile-grid { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — MOBILE 480
+════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card  { padding: 14px 15px; }
+  .stat-icon  { width: 33px; height: 33px; font-size: 15px; }
+  .stat-val   { font-size: 22px; }
+
+  .search-bar { grid-template-columns: 1fr; }
+
+  .flight-card { padding: 14px 15px; }
+
+  .page-title { font-size: 21px; }
+
+  .topbar-title { font-size: 16px; }
 }
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<div class="loading-screen" id="loading">
-  <div class="loading-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/></div>
-  <div class="loading-progress"><div class="loading-bar"></div></div>
-  <div class="loading-text">CARGANDO PORTAL</div>
+<div class="loading" id="loading">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
+  <div class="loading-bar-track"><div class="loading-bar" style="width:0"></div></div>
+  <div class="loading-txt">Cargando portal</div>
 </div>
 
 <!-- SNACK -->
 <div class="snack" id="snack">
   <i class="bi bi-check-circle-fill"></i>
-  <div class="snack-content"><strong id="snack-title">Título</strong><span id="snack-msg"></span></div>
+  <div><strong id="snack-title"></strong><span id="snack-msg"></span></div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      BOOKING MODAL
-═══════════════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modal">
+  <div class="modal-box" style="max-width:900px">
     <div class="modal-stripe"></div>
-    <div class="modal-header">
-      <span class="modal-title"><i class="bi bi-airplane me-2" style="color:var(--red)"></i>Reservar vuelo</span>
-      <button class="modal-close" onclick="closeModal()"><i class="bi bi-x"></i></button>
+    <div class="modal-hd">
+      <span class="modal-ttl"><i class="bi bi-airplane me-2" style="color:var(--red)"></i>Reservar vuelo</span>
+      <button class="modal-x" onclick="closeModal()"><i class="bi bi-x"></i></button>
     </div>
-    <div class="modal-body">
-      <div id="profile-incomplete-banner" style="display:none" class="profile-warn-banner">
-        <i class="bi bi-exclamation-triangle-fill" style="color:var(--warning);font-size:20px;flex-shrink:0"></i>
-        <div>
-          <strong style="font-size:13px;display:block;">Completa tu perfil primero</strong>
-          <span style="font-size:12px;color:var(--text-muted);">Necesitamos tus datos para agilizar la reserva.</span>
+    <div class="modal-bd">
+      <div id="profile-incomplete-banner" style="display:none" class="profile-warn">
+        <i class="bi bi-exclamation-triangle-fill" style="color:var(--warning);font-size:18px;flex-shrink:0"></i>
+        <div style="flex:1">
+          <strong style="font-size:13px;display:block">Perfil incompleto</strong>
+          <span style="font-size:12px;color:var(--text-2)">Completa tus datos para una reserva más rápida.</span>
         </div>
-        <button class="btn btn-sm btn-navy ms-auto" onclick="closeModal();showPage('perfil',null)">Ir a perfil</button>
+        <button class="btn btn-sm btn-navy" onclick="closeModal();showPage('perfil',null)">Ir a perfil</button>
       </div>
 
-      <div class="modal-two-col">
+      <div class="m2col">
+        <!-- LEFT -->
         <div>
-          <div class="flight-summary" id="modal-flight-info"></div>
+          <div class="fsumm" id="modal-flight-info"></div>
 
-          <div class="section-divider"><i class="bi bi-person-fill" style="color:var(--gold)"></i> Pasajero principal</div>
-          <div class="form-row">
-            <div class="form-group-modal">
-              <label class="form-label">Nombre *</label>
-              <input class="form-control" id="p-nombre" placeholder="Tu nombre"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Apellido *</label>
-              <input class="form-control" id="p-apellido" placeholder="Tu apellido"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Tipo de documento *</label>
-              <select class="form-control" id="p-tipo-doc">
+          <div class="sec-div"><i class="bi bi-person-fill" style="color:var(--gold)"></i> Pasajero principal</div>
+          <div class="form-row-2">
+            <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="p-nombre" placeholder="Tu nombre"/></div>
+            <div class="fg"><label class="fg-lbl">Apellido *</label><input class="fc" id="p-apellido" placeholder="Tu apellido"/></div>
+            <div class="fg"><label class="fg-lbl">Tipo de documento *</label>
+              <select class="fc" id="p-tipo-doc">
                 <option value="documento_identidad">Cédula de identidad</option>
                 <option value="pasaporte">Pasaporte</option>
               </select>
             </div>
-            <div class="form-group-modal">
-              <label class="form-label">Nº documento *</label>
-              <input class="form-control" id="p-num-doc" placeholder="Ej: 12345678"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Correo electrónico</label>
-              <input class="form-control" type="email" id="p-correo" placeholder="tu@correo.com"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Celular</label>
-              <input class="form-control" id="p-celular" placeholder="+591 7XXXXXXX"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Fecha de nacimiento</label>
-              <input class="form-control" type="date" id="p-nacimiento"/>
-            </div>
-            <div class="form-group-modal">
-              <label class="form-label">Género</label>
-              <select class="form-control" id="p-genero">
+            <div class="fg"><label class="fg-lbl">Nº documento *</label><input class="fc" id="p-num-doc" placeholder="12345678"/></div>
+            <div class="fg"><label class="fg-lbl">Correo</label><input class="fc" type="email" id="p-correo" placeholder="tu@correo.com"/></div>
+            <div class="fg"><label class="fg-lbl">Celular</label><input class="fc" id="p-celular" placeholder="+591 7XXXXXXX"/></div>
+            <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="p-nacimiento"/></div>
+            <div class="fg"><label class="fg-lbl">Género</label>
+              <select class="fc" id="p-genero">
                 <option value="masculino">Masculino</option>
                 <option value="femenino">Femenino</option>
               </select>
             </div>
           </div>
 
-          <div class="section-divider"><i class="bi bi-heart-pulse" style="color:var(--red)"></i> Asistencia especial</div>
+          <div class="sec-div"><i class="bi bi-heart-pulse" style="color:var(--red)"></i> Asistencia especial</div>
           <div class="assist-grid">
-            <label class="assist-item"><input type="checkbox" id="a-auditiva"> <i class="bi bi-ear-fill"></i> Discapacidad auditiva</label>
-            <label class="assist-item"><input type="checkbox" id="a-movilidad"> <i class="bi bi-person-wheelchair"></i> Movilidad reducida</label>
-            <label class="assist-item"><input type="checkbox" id="a-visual"> <i class="bi bi-eye-slash-fill"></i> Discapacidad visual</label>
-            <label class="assist-item"><input type="checkbox" id="a-aeropuerto"> <i class="bi bi-building"></i> Asistencia en aeropuerto</label>
+            <label class="assist-item"><input type="checkbox" id="a-auditiva"><i class="bi bi-ear-fill"></i> Discapacidad auditiva</label>
+            <label class="assist-item"><input type="checkbox" id="a-movilidad"><i class="bi bi-person-wheelchair"></i> Movilidad reducida</label>
+            <label class="assist-item"><input type="checkbox" id="a-visual"><i class="bi bi-eye-slash-fill"></i> Discapacidad visual</label>
+            <label class="assist-item"><input type="checkbox" id="a-aeropuerto"><i class="bi bi-building"></i> Asistencia aeropuerto</label>
           </div>
 
-          <div class="section-divider"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i> Elige tu asiento</div>
+          <div class="sec-div"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i> Elige tu asiento</div>
           <div class="seat-map-wrap">
-            <div class="seat-map-legend">
-              <span><span class="legend-dot" style="background:#DBEAFE;border:1px solid #BFDBFE"></span> Disponible</span>
-              <span><span class="legend-dot" style="background:#F3F4F6;border:1px solid #E5E7EB"></span> Ocupado</span>
-              <span><span class="legend-dot" style="background:var(--navy)"></span> Seleccionado</span>
-              <span><span class="legend-dot" style="background:#FEF3C7;border:1px solid #FDE68A"></span> Primera clase</span>
+            <div class="seat-legend">
+              <span><span class="leg-dot" style="background:#DBEAFE;border:1px solid #93C5FD"></span>Disponible</span>
+              <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
+              <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
+              <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>1ª clase</span>
             </div>
-            <div class="seat-plane" id="seat-map-container">
-              <div class="seat-nose"></div>
-            </div>
-            <div class="selected-seat-info" id="selected-seat-info">
-              <i class="bi bi-cursor text-muted"></i> Toca un asiento para seleccionarlo
+            <div class="seat-plane" id="seat-map-container"></div>
+            <div class="seat-selected-info" id="selected-seat-info">
+              <i class="bi bi-cursor" style="color:var(--text-3)"></i> Toca un asiento para seleccionarlo
             </div>
           </div>
 
           <div class="upload-box">
-            <span class="upload-label-sm"><i class="bi bi-qr-code-scan"></i> Comprobante de pago</span>
+            <span class="upload-lbl"><i class="bi bi-qr-code-scan"></i> Comprobante de pago</span>
             <p class="upload-desc">Escanea el QR y adjunta tu comprobante de transferencia. El boleto se emite cuando el admin confirme el pago.</p>
             <div class="upload-row">
               <input type="file" id="comprobante" accept="image/*,.pdf" style="display:none"/>
-              <label class="upload-trigger" for="comprobante"><i class="bi bi-upload"></i> Adjuntar archivo</label>
-              <span class="upload-filename" id="file-name">Sin archivo seleccionado</span>
+              <label class="upload-btn" for="comprobante"><i class="bi bi-upload"></i> Adjuntar archivo</label>
+              <span class="upload-fname" id="file-name">Sin archivo seleccionado</span>
             </div>
           </div>
         </div>
 
+        <!-- RIGHT: QR -->
         <div>
           <div class="qr-panel">
-            <div class="qr-panel-title"><i class="bi bi-qr-code me-1"></i>Pago por transferencia</div>
-            <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR de pago BOA"/>
+            <div class="qr-panel-ttl"><i class="bi bi-qr-code me-1"></i>Pago por transferencia</div>
+            <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR BOA"/>
             <div class="qr-amount" id="qr-amount">Bs. —</div>
-            <div class="qr-bank-info">
+            <div class="qr-bank">
               <strong><i class="bi bi-bank me-1"></i>Datos bancarios</strong>
-              <div class="qr-bank-row"><span>Banco</span><span style="font-weight:600">Banco Unión S.A.</span></div>
-              <div class="qr-bank-row"><span>Cuenta</span><span style="font-weight:600">1-1234567</span></div>
-              <div class="qr-bank-row"><span>Titular</span><span style="font-weight:600">Boliviana de Aviación</span></div>
-              <div class="qr-bank-row"><span>Moneda</span><span style="font-weight:600">BOB</span></div>
+              <div class="qr-bank-row"><span>Banco</span><span>Banco Unión S.A.</span></div>
+              <div class="qr-bank-row"><span>Cuenta</span><span>1-1234567</span></div>
+              <div class="qr-bank-row"><span>Titular</span><span>Boliviana de Aviación</span></div>
+              <div class="qr-bank-row"><span>Moneda</span><span>BOB</span></div>
             </div>
-            <div class="qr-note">
-              <i class="bi bi-info-circle me-1"></i>
-              Escanea el QR con tu app bancaria o transfiere a los datos de arriba. Adjunta el comprobante al reservar. El boleto se emitirá al confirmar el pago.
-            </div>
-            <div style="text-align:center;font-size:11px;color:var(--text-dim);padding-top:4px;">
-              <i class="bi bi-shield-check me-1" style="color:var(--success)"></i>Pago 100% seguro y verificado
-            </div>
+            <div class="qr-note"><i class="bi bi-info-circle me-1"></i>Escanea el QR con tu app bancaria o transfiere a los datos de arriba. Adjunta el comprobante. El boleto se emitirá al confirmar el pago.</div>
+            <div style="font-size:11px;color:var(--text-3);text-align:center"><i class="bi bi-shield-check me-1" style="color:var(--success)"></i>Pago 100% seguro</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
       <button class="btn btn-primary" id="btn-confirm" onclick="confirmReservation()">
-        <i class="bi bi-check-circle"></i>
-        <span id="confirm-text">Confirmar reserva</span>
+        <i class="bi bi-check-circle"></i><span id="confirm-text">Confirmar reserva</span>
       </button>
     </div>
   </div>
 </div>
 
 <!-- BOARDING PASS MODAL -->
-<div class="modal-overlay" id="bp-overlay" onclick="if(event.target.id==='bp-overlay') document.getElementById('bp-overlay').classList.remove('show')">
-  <div class="modal" style="max-width:520px">
+<div class="modal-overlay" id="bp-overlay" onclick="if(event.target.id==='bp-overlay')document.getElementById('bp-overlay').classList.remove('show')">
+  <div class="modal-box" style="max-width:500px">
     <div class="modal-stripe"></div>
-    <div class="modal-header">
-      <span class="modal-title"><i class="bi bi-ticket-perforated me-2" style="color:var(--navy)"></i>Tu Boleto de Embarque</span>
-      <button class="modal-close" onclick="document.getElementById('bp-overlay').classList.remove('show')"><i class="bi bi-x"></i></button>
+    <div class="modal-hd">
+      <span class="modal-ttl"><i class="bi bi-ticket-perforated me-2" style="color:var(--navy)"></i>Boleto de embarque</span>
+      <button class="modal-x" onclick="document.getElementById('bp-overlay').classList.remove('show')"><i class="bi bi-x"></i></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-bd">
       <div id="boarding-pass-content"></div>
-      <div class="d-flex gap-2 mt-3">
+      <div style="margin-top:14px">
         <button class="btn btn-navy btn-block" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     PROFILE MODAL — solo para usuarios de Google sin perfil
-     CORRECCIÓN: no bloquea la app, tiene botón de cerrar,
-     y solo se activa cuando realmente faltan datos críticos
-═══════════════════════════════════════════════════════ -->
+<!-- PROFILE MODAL (Google users) -->
 <div class="modal-overlay" id="profile-modal-overlay">
-  <div class="modal" style="max-width:480px">
+  <div class="modal-box" style="max-width:460px">
     <div class="modal-stripe"></div>
-    <div class="modal-header">
-      <span class="modal-title"><i class="bi bi-person-plus me-2" style="color:var(--navy)"></i>Completa tu perfil</span>
-      <!-- CORRECCIÓN: botón X para cerrar sin bloquear -->
-      <button class="modal-close" onclick="dismissProfileModal()" title="Cerrar y continuar después"><i class="bi bi-x"></i></button>
+    <div class="modal-hd">
+      <span class="modal-ttl"><i class="bi bi-person-plus me-2" style="color:var(--navy)"></i>Completa tu perfil</span>
+      <button class="modal-x" onclick="dismissProfileModal()" title="Completar después"><i class="bi bi-x"></i></button>
     </div>
-    <div class="modal-body">
-      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1E40AF;">
-        <i class="bi bi-google me-2"></i>Iniciaste sesión con Google. Completa tus datos para reservar vuelos más fácilmente. <strong>Puedes hacerlo después en Mi Perfil.</strong>
+    <div class="modal-bd">
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:var(--r-sm);padding:11px 14px;margin-bottom:16px;font-size:13px;color:#1040A0">
+        <i class="bi bi-google me-2"></i>Iniciaste con Google. Completa tus datos para reservar más fácilmente. <strong>Puedes hacerlo después en Mi Perfil.</strong>
       </div>
-      <div class="form-row">
-        <div class="form-group-modal">
-          <label class="form-label">Nombre *</label>
-          <input class="form-control" id="pm-nombre" placeholder="Tu nombre"/>
-        </div>
-        <div class="form-group-modal">
-          <label class="form-label">Apellido *</label>
-          <input class="form-control" id="pm-apellido" placeholder="Tu apellido"/>
-        </div>
-      </div>
-      <div class="form-row" style="margin-top:4px">
-        <div class="form-group-modal">
-          <label class="form-label">Tipo de documento *</label>
-          <select class="form-control" id="pm-tipo-doc">
+      <div class="form-row-2">
+        <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="pm-nombre" placeholder="Tu nombre"/></div>
+        <div class="fg"><label class="fg-lbl">Apellido *</label><input class="fc" id="pm-apellido" placeholder="Tu apellido"/></div>
+        <div class="fg"><label class="fg-lbl">Tipo de documento *</label>
+          <select class="fc" id="pm-tipo-doc">
             <option value="documento_identidad">Cédula de identidad</option>
             <option value="pasaporte">Pasaporte</option>
           </select>
         </div>
-        <div class="form-group-modal">
-          <label class="form-label">Nº documento *</label>
-          <input class="form-control" id="pm-num-doc" placeholder="Ej: 12345678"/>
-        </div>
+        <div class="fg"><label class="fg-lbl">Nº documento *</label><input class="fc" id="pm-num-doc" placeholder="12345678"/></div>
+        <div class="fg"><label class="fg-lbl">Teléfono</label><input class="fc" id="pm-tel" placeholder="+591 7XXXXXXX"/></div>
+        <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="pm-nacimiento"/></div>
       </div>
-      <div class="form-row" style="margin-top:4px">
-        <div class="form-group-modal">
-          <label class="form-label">Teléfono</label>
-          <input class="form-control" id="pm-tel" placeholder="+591 7XXXXXXX"/>
-        </div>
-        <div class="form-group-modal">
-          <label class="form-label">Fecha de nacimiento</label>
-          <input class="form-control" type="date" id="pm-nacimiento"/>
-        </div>
-      </div>
-      <div class="form-group-modal" style="margin-top:4px">
-        <label class="form-label">Género</label>
-        <select class="form-control" id="pm-genero">
-          <option value="masculino">Masculino</option>
-          <option value="femenino">Femenino</option>
-        </select>
+      <div class="fg" style="margin-top:10px"><label class="fg-lbl">Género</label>
+        <select class="fc" id="pm-genero"><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select>
       </div>
     </div>
-    <div class="modal-footer" style="justify-content:space-between;">
-      <!-- CORRECCIÓN: botón para omitir y continuar sin completar -->
-      <button class="btn btn-secondary" onclick="dismissProfileModal()">
-        <i class="bi bi-skip-forward"></i> Completar después
-      </button>
-      <button class="btn btn-primary" onclick="saveProfileModal()">
-        <i class="bi bi-floppy"></i> Guardar y continuar
-      </button>
+    <div class="modal-ft" style="justify-content:space-between">
+      <button class="btn btn-ghost" onclick="dismissProfileModal()"><i class="bi bi-skip-forward"></i> Después</button>
+      <button class="btn btn-primary" onclick="saveProfileModal()"><i class="bi bi-floppy"></i> Guardar y continuar</button>
     </div>
   </div>
 </div>
@@ -846,229 +1092,190 @@ select.form-control { cursor: pointer; }
 <!-- SIDEBAR BACKDROP -->
 <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
-<div class="app">
+<div class="shell">
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
+    <div class="sb-brand">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
-      <span class="sidebar-brand-tag">Portal cliente</span>
+      <span class="sb-brand-tag">Portal cliente</span>
     </div>
-    <div class="sidebar-user">
-      <div class="user-avatar" id="avatar-initials">??</div>
-      <div>
-        <div class="user-name" id="sidebar-name">Cargando...</div>
-        <div class="user-role" id="sidebar-email">–</div>
+    <div class="sb-user">
+      <div class="sb-avatar" id="avatar-initials">??</div>
+      <div style="min-width:0">
+        <div class="sb-user-name" id="sidebar-name">Cargando…</div>
+        <div class="sb-user-email" id="sidebar-email">–</div>
       </div>
     </div>
-    <nav class="nav">
-      <div class="nav-label">Principal</div>
-      <a class="nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)">
+    <nav class="sb-nav">
+      <div class="sb-nav-label">Principal</div>
+      <a class="sb-nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)">
         <i class="bi bi-house-door"></i> Inicio
       </a>
-      <a class="nav-item" data-page="mis-reservas" onclick="showPage('mis-reservas',this)">
+      <a class="sb-nav-item" data-page="mis-reservas" onclick="showPage('mis-reservas',this)">
         <i class="bi bi-ticket-perforated"></i> Mis reservas
-        <span class="nav-badge" id="badge-reservas" style="display:none">0</span>
+        <span class="sb-badge" id="badge-reservas" style="display:none">0</span>
       </a>
-      <a class="nav-item" data-page="buscar-vuelos" onclick="showPage('buscar-vuelos',this)">
+      <a class="sb-nav-item" data-page="buscar-vuelos" onclick="showPage('buscar-vuelos',this)">
         <i class="bi bi-airplane"></i> Buscar vuelos
       </a>
-      <div class="nav-label">Cuenta</div>
-      <a class="nav-item" data-page="perfil" onclick="showPage('perfil',this)">
+      <div class="sb-nav-label">Cuenta</div>
+      <a class="sb-nav-item" data-page="perfil" onclick="showPage('perfil',this)">
         <i class="bi bi-person-circle"></i> Mi perfil
       </a>
-      <div class="nav-label">Más</div>
-      <a class="nav-item" href="../../index.html">
+      <div class="sb-nav-label">Más</div>
+      <a class="sb-nav-item" href="../../index.html">
         <i class="bi bi-globe"></i> Inicio BOA
       </a>
     </nav>
-    <div class="sidebar-foot">
-      <button class="btn-logout" onclick="handleLogout()">
-        <i class="bi bi-box-arrow-left"></i> Cerrar sesión
-      </button>
+    <div class="sb-foot">
+      <button class="btn-logout" onclick="handleLogout()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</button>
     </div>
   </aside>
 
   <!-- MAIN -->
   <main class="main">
-    <div class="topbar">
+    <!-- TOPBAR -->
+    <header class="topbar">
       <div class="topbar-left">
         <button class="hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
         <span class="topbar-title" id="topbar-title">Inicio</span>
       </div>
       <div class="topbar-right">
         <button class="btn btn-primary btn-sm" onclick="showPage('buscar-vuelos',null)">
-          <i class="bi bi-search"></i><span>Buscar vuelo</span>
+          <i class="bi bi-search"></i><span class="btn-txt">Buscar vuelo</span>
         </button>
-        <a class="btn btn-secondary btn-sm" href="../../index.html">
-          <i class="bi bi-arrow-left"></i><span>BOA</span>
+        <a class="btn btn-ghost btn-sm" href="../../index.html">
+          <i class="bi bi-arrow-left"></i><span class="btn-txt">BOA</span>
         </a>
       </div>
-    </div>
+    </header>
 
-    <!-- DASHBOARD -->
+    <!-- ── DASHBOARD ── -->
     <div class="page active" id="page-dashboard">
-      <div class="page-header">
-        <div class="page-header-label">Panel de usuario</div>
-        <h1>Bienvenido, <span id="welcome-name">…</span></h1>
-      </div>
+      <div class="page-eyebrow">Panel de usuario</div>
+      <h1 class="page-title">Bienvenido, <span id="welcome-name">…</span></h1>
+
       <div id="next-flight-container"></div>
+
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon gold"><i class="bi bi-ticket-perforated-fill"></i></div></div>
-          <div class="stat-value" id="stat-reservas">0</div>
-          <div class="stat-label">Reservas totales</div>
+        <div class="stat-card c-navy">
+          <div class="stat-icon c-navy"><i class="bi bi-ticket-perforated-fill"></i></div>
+          <div class="stat-val" id="stat-reservas">0</div>
+          <div class="stat-lbl">Reservas totales</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div></div>
-          <div class="stat-value" id="stat-confirmadas">0</div>
-          <div class="stat-label">Confirmadas</div>
+        <div class="stat-card c-green">
+          <div class="stat-icon c-green"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="stat-val" id="stat-confirmadas">0</div>
+          <div class="stat-lbl">Confirmadas</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div></div>
-          <div class="stat-value" id="stat-pendientes">0</div>
-          <div class="stat-label">Pendientes</div>
+        <div class="stat-card c-amber">
+          <div class="stat-icon c-amber"><i class="bi bi-hourglass-split"></i></div>
+          <div class="stat-val" id="stat-pendientes">0</div>
+          <div class="stat-lbl">Pendientes</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-icon blue"><i class="bi bi-airplane-fill"></i></div></div>
-          <div class="stat-value" id="stat-completados">0</div>
-          <div class="stat-label">Vuelos completados</div>
+        <div class="stat-card c-blue">
+          <div class="stat-icon c-blue"><i class="bi bi-airplane-fill"></i></div>
+          <div class="stat-val" id="stat-completados">0</div>
+          <div class="stat-lbl">Vuelos completados</div>
         </div>
       </div>
-      <div class="section-header">
-        <span class="section-title">Últimas reservas</span>
-        <button class="section-link" onclick="showPage('mis-reservas',null)">Ver todas <i class="bi bi-arrow-right"></i></button>
+
+      <div class="sec-header">
+        <span class="sec-title">Últimas reservas</span>
+        <button class="sec-link" onclick="showPage('mis-reservas',null)">Ver todas <i class="bi bi-arrow-right"></i></button>
       </div>
-      <div class="card mb-4" id="recent-reservas-wrap">
-        <div class="empty-state"><i class="bi bi-hourglass-split"></i><p>Cargando reservas...</p></div>
+      <div class="card" id="recent-reservas-wrap" style="margin-bottom:28px">
+        <div class="empty"><i class="bi bi-hourglass-split empty-icon"></i><p>Cargando reservas…</p></div>
       </div>
-      <div class="section-header" style="margin-top:28px;">
-        <span class="section-title">Vuelos recomendados</span>
-        <button class="section-link" onclick="showPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button>
+
+      <div class="sec-header">
+        <span class="sec-title">Vuelos recomendados</span>
+        <button class="sec-link" onclick="showPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button>
       </div>
       <div class="flights-grid" id="recommended-flights"></div>
     </div>
 
-    <!-- MIS RESERVAS -->
+    <!-- ── MIS RESERVAS ── -->
     <div class="page" id="page-mis-reservas">
-      <div class="page-header">
-        <div class="page-header-label">Historial</div>
-        <h1>Mis <span>Reservas</span></h1>
-      </div>
+      <div class="page-eyebrow">Historial</div>
+      <h1 class="page-title">Mis <span>Reservas</span></h1>
       <div class="card" id="all-reservas-wrap">
-        <div class="empty-state"><i class="bi bi-hourglass-split"></i><p>Cargando...</p></div>
+        <div class="empty"><i class="bi bi-hourglass-split empty-icon"></i><p>Cargando…</p></div>
       </div>
     </div>
 
-    <!-- BUSCAR VUELOS -->
+    <!-- ── BUSCAR VUELOS ── -->
     <div class="page" id="page-buscar-vuelos">
-      <div class="page-header">
-        <div class="page-header-label">Disponibilidad</div>
-        <h1>Buscar <span>Vuelos</span></h1>
-      </div>
+      <div class="page-eyebrow">Disponibilidad</div>
+      <h1 class="page-title">Buscar <span>Vuelos</span></h1>
       <div class="search-bar">
-        <div class="form-group">
-          <label class="form-label">Origen</label>
-          <input class="form-control" id="filter-origen" placeholder="Ej: Santa Cruz"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Destino</label>
-          <input class="form-control" id="filter-destino" placeholder="Ej: La Paz"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Fecha</label>
-          <input class="form-control" type="date" id="filter-fecha"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Estado</label>
-          <select class="form-control" id="filter-estado">
+        <div class="fg"><label class="fg-lbl">Origen</label><input class="fc" id="filter-origen" placeholder="Santa Cruz"/></div>
+        <div class="fg"><label class="fg-lbl">Destino</label><input class="fc" id="filter-destino" placeholder="La Paz"/></div>
+        <div class="fg"><label class="fg-lbl">Fecha</label><input class="fc" type="date" id="filter-fecha"/></div>
+        <div class="fg"><label class="fg-lbl">Estado</label>
+          <select class="fc" id="filter-estado">
             <option value="">Todos</option>
             <option value="programado">Programado</option>
             <option value="abordando">Abordando</option>
             <option value="en_vuelo">En vuelo</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="loadFlights()" style="align-self:flex-end;">
+        <button class="btn btn-primary" onclick="loadFlights()" style="align-self:flex-end">
           <i class="bi bi-search"></i> Buscar
         </button>
       </div>
       <div class="flights-grid" id="flights-grid">
-        <div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-dim);">
-          <i class="bi bi-airplane" style="font-size:40px;display:block;margin-bottom:12px;"></i>
-          Cargando vuelos disponibles...
+        <div style="grid-column:1/-1;text-align:center;padding:52px;color:var(--text-3)">
+          <i class="bi bi-airplane" style="font-size:40px;display:block;margin-bottom:12px"></i>
+          Cargando vuelos disponibles…
         </div>
       </div>
     </div>
 
-    <!-- PERFIL -->
+    <!-- ── PERFIL ── -->
     <div class="page" id="page-perfil">
-      <div class="page-header">
-        <div class="page-header-label">Configuración</div>
-        <h1>Mi <span>Perfil</span></h1>
-      </div>
+      <div class="page-eyebrow">Configuración</div>
+      <h1 class="page-title">Mi <span>Perfil</span></h1>
       <div class="profile-grid">
         <div class="card">
-          <div class="card-header"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-header-title">Datos personales</span></div>
+          <div class="card-head"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-head-title">Datos personales</span></div>
           <div class="card-body">
-            <div class="form-group">
-              <label class="form-label">Correo electrónico</label>
-              <input class="form-control" id="prof-email" disabled/>
+            <div class="fg"><label class="fg-lbl">Correo electrónico</label><input class="fc" id="prof-email" disabled/></div>
+            <div class="form-row-2" style="margin-top:12px">
+              <div class="fg"><label class="fg-lbl">Nombre</label><input class="fc" id="prof-nombre" placeholder="Tu nombre"/></div>
+              <div class="fg"><label class="fg-lbl">Apellido</label><input class="fc" id="prof-apellido" placeholder="Tu apellido"/></div>
             </div>
-            <div class="form-row" style="margin-top:12px">
-              <div class="form-group">
-                <label class="form-label">Nombre</label>
-                <input class="form-control" id="prof-nombre" placeholder="Tu nombre"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Apellido</label>
-                <input class="form-control" id="prof-apellido" placeholder="Tu apellido"/>
-              </div>
-            </div>
-            <div class="form-group" style="margin-top:12px;">
-              <label class="form-label">Teléfono</label>
-              <input class="form-control" id="prof-telefono" placeholder="+591 7XXXXXXX"/>
-            </div>
-            <div class="form-row" style="margin-top:12px;">
-              <div class="form-group">
-                <label class="form-label">Fecha de nacimiento</label>
-                <input class="form-control" type="date" id="prof-nacimiento"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Género</label>
-                <select class="form-control" id="prof-genero">
+            <div class="fg" style="margin-top:12px"><label class="fg-lbl">Teléfono</label><input class="fc" id="prof-telefono" placeholder="+591 7XXXXXXX"/></div>
+            <div class="form-row-2" style="margin-top:12px">
+              <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="prof-nacimiento"/></div>
+              <div class="fg"><label class="fg-lbl">Género</label>
+                <select class="fc" id="prof-genero">
                   <option value="">Seleccionar</option>
                   <option value="masculino">Masculino</option>
                   <option value="femenino">Femenino</option>
                 </select>
               </div>
             </div>
-            <button class="btn btn-navy btn-block" style="margin-top:20px;" onclick="saveProfile()">
-              <i class="bi bi-floppy"></i> Guardar cambios
-            </button>
+            <button class="btn btn-navy btn-block" style="margin-top:18px" onclick="saveProfile()"><i class="bi bi-floppy"></i> Guardar cambios</button>
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><i class="bi bi-card-text" style="color:var(--gold)"></i><span class="card-header-title">Documento de identidad</span></div>
+          <div class="card-head"><i class="bi bi-card-text" style="color:var(--gold)"></i><span class="card-head-title">Documento de identidad</span></div>
           <div class="card-body">
-            <div class="form-group">
-              <label class="form-label">Tipo de documento</label>
-              <select class="form-control" id="prof-tipo-doc">
+            <div class="fg"><label class="fg-lbl">Tipo de documento</label>
+              <select class="fc" id="prof-tipo-doc">
                 <option value="">Seleccionar</option>
                 <option value="documento_identidad">Cédula de identidad</option>
                 <option value="pasaporte">Pasaporte</option>
               </select>
             </div>
-            <div class="form-group" style="margin-top:12px;">
-              <label class="form-label">Número de documento</label>
-              <input class="form-control" id="prof-num-doc" placeholder="Ej: 12345678"/>
-            </div>
-            <hr style="border:none;border-top:1px solid var(--border);margin:24px 0 20px;"/>
-            <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">
-              <i class="bi bi-shield-lock" style="color:var(--gold);margin-right:6px;"></i>
-              Para cambiar tu contraseña, recibirás un enlace seguro en tu correo.
+            <div class="fg" style="margin-top:12px"><label class="fg-lbl">Número de documento</label><input class="fc" id="prof-num-doc" placeholder="12345678"/></div>
+            <hr style="border:none;border-top:1px solid var(--border);margin:22px 0 18px"/>
+            <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">
+              <i class="bi bi-shield-lock" style="color:var(--gold);margin-right:5px"></i>
+              Para cambiar tu contraseña recibirás un enlace seguro en tu correo.
             </p>
-            <button class="btn btn-outline btn-block" onclick="sendPasswordReset()">
-              <i class="bi bi-envelope-at"></i> Cambiar contraseña
-            </button>
+            <button class="btn btn-outline btn-block" onclick="sendPasswordReset()"><i class="bi bi-envelope-at"></i> Cambiar contraseña</button>
           </div>
         </div>
       </div>
@@ -1077,19 +1284,19 @@ select.form-control { cursor: pointer; }
 </div>
 
 <!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-bottom-nav">
-  <div class="nav-tabs-wrap">
-    <button class="mobile-nav-tab active" id="mnav-dashboard" onclick="showPage('dashboard',null);setMobileNav('dashboard')">
+<nav class="bottom-nav">
+  <div class="bn-wrap">
+    <button class="bn-tab active" id="mnav-dashboard" onclick="showPage('dashboard',null);setMobileNav('dashboard')">
       <i class="bi bi-house-door"></i>Inicio
     </button>
-    <button class="mobile-nav-tab" id="mnav-buscar-vuelos" onclick="showPage('buscar-vuelos',null);setMobileNav('buscar-vuelos')">
+    <button class="bn-tab" id="mnav-buscar-vuelos" onclick="showPage('buscar-vuelos',null);setMobileNav('buscar-vuelos')">
       <i class="bi bi-airplane"></i>Vuelos
     </button>
-    <button class="mobile-nav-tab" id="mnav-mis-reservas" onclick="showPage('mis-reservas',null);setMobileNav('mis-reservas')" style="position:relative">
+    <button class="bn-tab" id="mnav-mis-reservas" onclick="showPage('mis-reservas',null);setMobileNav('mis-reservas')" style="position:relative">
       <i class="bi bi-ticket-perforated"></i>Reservas
-      <span class="mnav-badge" id="mnav-badge" style="display:none">0</span>
+      <span class="bn-badge" id="mnav-badge" style="display:none">0</span>
     </button>
-    <button class="mobile-nav-tab" id="mnav-perfil" onclick="showPage('perfil',null);setMobileNav('perfil')">
+    <button class="bn-tab" id="mnav-perfil" onclick="showPage('perfil',null);setMobileNav('perfil')">
       <i class="bi bi-person-circle"></i>Perfil
     </button>
   </div>
@@ -1098,16 +1305,10 @@ select.form-control { cursor: pointer; }
 <script type="module">
 import { supabase } from '../../assets/js/supabase.js';
 
-let currentUser = null;
-let selectedFlight = null;
-let selectedSeat = null;
-let userProfile = null;
-
+let currentUser = null, selectedFlight = null, selectedSeat = null, userProfile = null;
 const MySwal = Swal.mixin({ buttonsStyling: true });
 
-// ═══════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════
+// ── INIT ──
 async function init() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = '../../auth/login.html'; return; }
@@ -1116,38 +1317,22 @@ async function init() {
   const { data: profile } = await supabase.from('users_profile').select('*').eq('id', user.id).single();
   userProfile = profile;
 
-  // ── CORRECCIÓN PRINCIPAL ──
-  // Solo mostrar modal de perfil si:
-  // 1. El usuario inició con Google
-  // 2. Le faltan datos CRÍTICOS (nombre + documento)
-  // 3. No lo ha descartado ya en esta sesión
   const provider = user.app_metadata?.provider;
-  const isGoogleUser = provider === 'google' || provider === 'google_oauth2';
-  const hasCompleteName = !!(profile?.nombre && profile?.apellido);
-  const hasDocument = !!profile?.numero_documento;
-  const hasFullProfile = hasCompleteName && hasDocument;
+  const isGoogle = provider === 'google' || provider === 'google_oauth2';
+  const hasFullProfile = !!(profile?.nombre && profile?.apellido && profile?.numero_documento);
   const dismissed = sessionStorage.getItem('profile-modal-dismissed');
 
-  if (isGoogleUser && !hasFullProfile && !dismissed) {
-    // Pre-llenar con datos de Google disponibles
-    const googleName = user.user_metadata?.full_name || user.user_metadata?.name || '';
-    const parts = googleName.trim().split(' ');
+  if (isGoogle && !hasFullProfile && !dismissed) {
+    const gName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+    const parts = gName.trim().split(' ');
     document.getElementById('pm-nombre').value = parts[0] || user.user_metadata?.given_name || '';
     document.getElementById('pm-apellido').value = parts.slice(1).join(' ') || user.user_metadata?.family_name || '';
-    // NO bloquear el fondo — el modal aparece pero la app sigue funcionando si lo cierran
     document.getElementById('profile-modal-overlay').classList.add('show');
   }
 
-  // Nombre a mostrar: prioridad profile > google metadata > email
-  const nombre = profile?.nombre
-    || user.user_metadata?.given_name
-    || user.user_metadata?.full_name?.split(' ')[0]
-    || user.email.split('@')[0];
-  const apellido = profile?.apellido
-    || user.user_metadata?.family_name
-    || user.user_metadata?.full_name?.split(' ').slice(1).join(' ')
-    || '';
-  const initials = ((nombre[0] || '') + (apellido[0] || '')).toUpperCase() || '??';
+  const nombre = profile?.nombre || user.user_metadata?.given_name || user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0];
+  const apellido = profile?.apellido || user.user_metadata?.family_name || user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '';
+  const initials = ((nombre[0]||'') + (apellido[0]||'')).toUpperCase() || '??';
 
   document.getElementById('avatar-initials').textContent = initials;
   document.getElementById('sidebar-name').textContent = `${nombre} ${apellido}`.trim();
@@ -1163,7 +1348,6 @@ async function init() {
     document.getElementById('prof-genero').value = profile.genero || '';
     document.getElementById('prof-tipo-doc').value = profile.tipo_documento || '';
     document.getElementById('prof-num-doc').value = profile.numero_documento || '';
-    // Pre-fill booking modal
     document.getElementById('p-nombre').value = profile.nombre || nombre;
     document.getElementById('p-apellido').value = profile.apellido || apellido;
     document.getElementById('p-num-doc').value = profile.numero_documento || '';
@@ -1171,22 +1355,17 @@ async function init() {
     document.getElementById('p-nacimiento').value = profile.fecha_nacimiento || '';
     document.getElementById('p-genero').value = profile.genero || 'masculino';
   } else {
-    // Sin perfil en DB, al menos pre-llenar nombre del modal de reserva con datos de Google
     document.getElementById('p-nombre').value = nombre;
     document.getElementById('p-apellido').value = apellido;
   }
   document.getElementById('p-correo').value = user.email;
 
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('origen')) document.getElementById('filter-origen').value = urlParams.get('origen');
-  if (urlParams.get('destino')) document.getElementById('filter-destino').value = urlParams.get('destino');
-  if (urlParams.get('fecha')) document.getElementById('filter-fecha').value = urlParams.get('fecha');
-
-  if (urlParams.get('flight')) {
-    await openBookingModal(urlParams.get('flight'));
-  } else if (urlParams.get('origen') || urlParams.get('destino') || urlParams.get('fecha')) {
-    showPage('buscar-vuelos', null);
-  }
+  const q = new URLSearchParams(window.location.search);
+  if (q.get('origen'))  document.getElementById('filter-origen').value = q.get('origen');
+  if (q.get('destino')) document.getElementById('filter-destino').value = q.get('destino');
+  if (q.get('fecha'))   document.getElementById('filter-fecha').value = q.get('fecha');
+  if (q.get('flight'))  await openBookingModal(q.get('flight'));
+  else if (q.get('origen')||q.get('destino')||q.get('fecha')) showPage('buscar-vuelos', null);
 
   await loadDashboard();
   await loadFlights();
@@ -1194,354 +1373,278 @@ async function init() {
   setTimeout(() => {
     document.getElementById('loading').classList.add('done');
     setTimeout(() => document.getElementById('loading').remove(), 600);
-  }, 1300);
+  }, 1200);
 }
 
-// ═══════════════════════════════════════
-// DISMISS PROFILE MODAL (sin guardar)
-// CORRECCIÓN: permite seguir usando la app
-// ═══════════════════════════════════════
 window.dismissProfileModal = function() {
   document.getElementById('profile-modal-overlay').classList.remove('show');
-  // Marcar en sessionStorage para no volver a mostrar en esta sesión
   sessionStorage.setItem('profile-modal-dismissed', '1');
 };
 
-// ═══════════════════════════════════════
-// PROFILE MODAL SAVE (Google users)
-// ═══════════════════════════════════════
 window.saveProfileModal = async function() {
   const nombre = document.getElementById('pm-nombre').value.trim();
   const apellido = document.getElementById('pm-apellido').value.trim();
   const numDoc = document.getElementById('pm-num-doc').value.trim();
-  if (!nombre || !apellido || !numDoc) {
-    MySwal.fire({ icon: 'warning', title: 'Campos requeridos', text: 'Completa nombre, apellido y número de documento.' });
-    return;
-  }
+  if (!nombre || !apellido || !numDoc) { MySwal.fire({ icon:'warning', title:'Campos requeridos', text:'Nombre, apellido y documento son obligatorios.' }); return; }
   const { error } = await supabase.from('users_profile').upsert({
-    id: currentUser.id,
-    nombre, apellido,
+    id: currentUser.id, nombre, apellido,
     tipo_documento: document.getElementById('pm-tipo-doc').value,
     numero_documento: numDoc,
     telefono: document.getElementById('pm-tel').value.trim() || null,
     fecha_nacimiento: document.getElementById('pm-nacimiento').value || null,
     genero: document.getElementById('pm-genero').value || null,
   });
-  if (error) { MySwal.fire({ icon: 'error', title: 'Error', text: error.message }); return; }
+  if (error) { MySwal.fire({ icon:'error', title:'Error', text: error.message }); return; }
   document.getElementById('profile-modal-overlay').classList.remove('show');
   sessionStorage.setItem('profile-modal-dismissed', '1');
-  await MySwal.fire({ icon: 'success', title: '¡Perfil guardado!', text: 'Ya puedes reservar vuelos fácilmente.', confirmButtonText: 'Entendido' });
+  await MySwal.fire({ icon:'success', title:'¡Perfil guardado!', text:'Ya puedes reservar vuelos fácilmente.', confirmButtonText:'Entendido' });
   await init();
 };
 
-// ═══════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════
+// ── DASHBOARD ──
 async function loadDashboard() {
-  const { data: reservas } = await supabase
-    .from('reservations').select('*, flights(*)')
-    .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
-
+  const { data: reservas } = await supabase.from('reservations').select('*, flights(*)')
+    .eq('user_id', currentUser.id).order('created_at', { ascending: false });
   const list = reservas || [];
-  const total = list.length;
+  const total       = list.length;
   const confirmadas = list.filter(r => r.estado === 'confirmado').length;
-  const pendientes = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
+  const pendientes  = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
   const completados = list.filter(r => r.estado === 'completado').length;
 
-  document.getElementById('stat-reservas').textContent = total;
+  document.getElementById('stat-reservas').textContent   = total;
   document.getElementById('stat-confirmadas').textContent = confirmadas;
-  document.getElementById('stat-pendientes').textContent = pendientes;
+  document.getElementById('stat-pendientes').textContent  = pendientes;
   document.getElementById('stat-completados').textContent = completados;
 
   const badge = document.getElementById('badge-reservas');
-  const mbadge = document.getElementById('mnav-badge');
+  const mb    = document.getElementById('mnav-badge');
   if (pendientes > 0) {
     badge.textContent = pendientes; badge.style.display = 'inline-block';
-    mbadge.textContent = pendientes; mbadge.style.display = 'inline-block';
-  } else {
-    badge.style.display = 'none'; mbadge.style.display = 'none';
-  }
+    mb.textContent    = pendientes; mb.style.display    = 'inline-block';
+  } else { badge.style.display = 'none'; mb.style.display = 'none'; }
 
   const next = list.find(r => r.flights && new Date(r.flights.fecha_salida) > new Date() && r.estado !== 'cancelado');
   const nfc = document.getElementById('next-flight-container');
   if (next) {
-    const f = next.flights;
-    const d = new Date(f.fecha_salida);
-    nfc.innerHTML = `
-      <div class="next-flight-card">
-        <div>
-          <div class="nfc-label"><i class="bi bi-airplane-fill"></i> Tu próximo vuelo</div>
-          <div class="nfc-route">${city(f.origen)} <i class="bi bi-arrow-right" style="font-size:16px;color:#FCD34D;vertical-align:middle;"></i> ${city(f.destino)}</div>
-          <div class="nfc-info">
-            <i class="bi bi-calendar3"></i> ${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-            &nbsp;&nbsp;<i class="bi bi-clock"></i> ${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
-          </div>
+    const f = next.flights, d = new Date(f.fecha_salida);
+    nfc.innerHTML = `<div class="next-flight">
+      <div>
+        <div class="nf-eyebrow"><i class="bi bi-airplane-fill me-1"></i>Tu próximo vuelo</div>
+        <div class="nf-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
+        <div class="nf-meta">
+          <i class="bi bi-calendar3"></i>${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+          &nbsp;&nbsp;<i class="bi bi-clock"></i>${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
         </div>
-        <div class="d-flex flex-column align-items-end gap-2">
-          <span class="badge ${badgeClass(next.estado)}">${fmtEstado(next.estado)}</span>
-          ${next.estado === 'confirmado' ? `<button class="btn btn-sm" style="background:white;color:var(--navy);font-weight:700;" onclick="showBoardingPass('${next.id}')"><i class="bi bi-ticket-perforated"></i> Ver boleto</button>` : ''}
-        </div>
-      </div>`;
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:9px">
+        <span class="badge ${badgeClass(next.estado)}">${fmtEstado(next.estado)}</span>
+        ${next.estado==='confirmado'?`<button class="btn btn-sm" style="background:#fff;color:var(--navy);font-weight:700" onclick="showBoardingPass('${next.id}')"><i class="bi bi-ticket-perforated"></i> Ver boleto</button>`:''}
+      </div>
+    </div>`;
   } else { nfc.innerHTML = ''; }
 
-  renderTable('recent-reservas-wrap', list.slice(0, 5));
+  renderTable('recent-reservas-wrap', list.slice(0,5));
   renderTable('all-reservas-wrap', list);
   loadRecommended();
 }
 
 async function loadRecommended() {
   const { data: flights } = await supabase.from('flights').select('*')
-    .in('estado', ['programado','abordando']).gt('asientos_disponibles', 0)
-    .order('fecha_salida', { ascending: true }).limit(4);
+    .in('estado',['programado','abordando']).gt('asientos_disponibles',0)
+    .order('fecha_salida',{ascending:true}).limit(4);
   const grid = document.getElementById('recommended-flights');
-  if (!flights?.length) { grid.innerHTML = `<p style="color:var(--text-dim);grid-column:1/-1;padding:24px;">No hay vuelos disponibles.</p>`; return; }
+  if (!flights?.length) { grid.innerHTML = `<p style="color:var(--text-3);grid-column:1/-1;padding:20px">No hay vuelos disponibles.</p>`; return; }
   grid.innerHTML = flights.map(flightCard).join('');
 }
 
 function renderTable(wrapperId, list) {
   const wrap = document.getElementById(wrapperId);
   if (!list.length) {
-    wrap.innerHTML = `<div class="empty-state">
-      <i class="bi bi-ticket-perforated"></i>
+    wrap.innerHTML = `<div class="empty">
+      <i class="bi bi-ticket-perforated empty-icon"></i>
       <p>No tienes reservas aún. ¡Planifica tu próximo vuelo!</p>
       <button class="btn btn-primary" onclick="showPage('buscar-vuelos',null)"><i class="bi bi-search"></i> Buscar vuelos</button>
-    </div>`;
-    return;
+    </div>`; return;
   }
-  wrap.innerHTML = `
-    <div class="table-responsive">
-    <table>
-      <thead><tr>
-        <th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th>
-      </tr></thead>
-      <tbody>${list.map(r => {
-        const f = r.flights;
-        const d = f ? new Date(f.fecha_salida) : null;
-        const canCancel = !['cancelado','completado'].includes(r.estado);
-        const isConfirmed = r.estado === 'confirmado';
-        return `<tr>
-          <td class="td-route">${f ? city(f.origen)+' → '+city(f.destino) : '—'}</td>
-          <td>${d ? d.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
-          <td style="font-weight:600;color:var(--navy)">${r.asiento || '—'}</td>
-          <td class="td-price">${r.precio_total ? 'Bs. '+r.precio_total : '—'}</td>
-          <td><span class="badge ${badgeClass(r.estado)}">${fmtEstado(r.estado)}</span></td>
-          <td style="display:flex;gap:6px;flex-wrap:wrap;">
-            ${isConfirmed ? `<button onclick="showBoardingPass('${r.id}')" class="btn btn-sm btn-navy"><i class="bi bi-ticket-perforated"></i> Boleto</button>` : ''}
-            <button onclick="cancelReservation('${r.id}','${r.estado}')"
-              class="btn btn-sm ${canCancel ? 'btn-secondary' : ''}"
-              style="${canCancel ? 'border-color:rgba(239,68,68,0.25);color:#f87171;' : 'opacity:0.3;cursor:default;'}"
-              ${!canCancel ? 'disabled' : ''}>
-              <i class="bi bi-x-circle"></i> Cancelar
-            </button>
-          </td>
-        </tr>`;
-      }).join('')}</tbody>
-    </table></div>`;
+  wrap.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th>
+    </tr></thead>
+    <tbody>${list.map(r => {
+      const f = r.flights, d = f ? new Date(f.fecha_salida) : null;
+      const canCancel = !['cancelado','completado'].includes(r.estado);
+      return `<tr>
+        <td class="td-route">${f ? city(f.origen)+' → '+city(f.destino) : '—'}</td>
+        <td>${d ? d.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
+        <td style="font-weight:700;color:var(--navy)">${r.asiento||'—'}</td>
+        <td class="td-price">${r.precio_total ? 'Bs. '+r.precio_total : '—'}</td>
+        <td><span class="badge ${badgeClass(r.estado)}">${fmtEstado(r.estado)}</span></td>
+        <td><div class="td-actions">
+          ${r.estado==='confirmado'?`<button onclick="showBoardingPass('${r.id}')" class="btn btn-sm btn-navy"><i class="bi bi-ticket-perforated"></i> Boleto</button>`:''}
+          <button onclick="cancelReservation('${r.id}','${r.estado}')"
+            class="btn btn-sm btn-ghost"
+            style="${canCancel?'border-color:rgba(212,32,32,0.25);color:#D42020':'opacity:0.3;cursor:default'}"
+            ${!canCancel?'disabled':''}>
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
 }
 
-// ═══════════════════════════════════════
-// BOARDING PASS
-// ═══════════════════════════════════════
+// ── BOARDING PASS ──
 window.showBoardingPass = async function(reservationId) {
   const { data: r } = await supabase.from('reservations').select('*, flights(*), passengers(*)').eq('id', reservationId).single();
   if (!r) return;
-  const f = r.flights;
-  const p = r.passengers?.[0];
-  const salida = new Date(f.fecha_salida);
-  const llegada = new Date(f.fecha_llegada);
-
-  const iataMap = {
-    'Santa Cruz': 'VVI','La Paz': 'LPB','Cochabamba': 'CBB','Sucre': 'SRE',
-    'Trinidad': 'TDD','Cobija': 'CIJ','Oruro': 'ORU','Potosí': 'POI',
-    'Tarija': 'TJA','Riberalta': 'RIB','Buenos Aires': 'EZE','Lima': 'LIM',
-  };
-  const getIata = (s) => { for (const [k,v] of Object.entries(iataMap)) { if (s.includes(k)) return v; } return s.slice(0,3).toUpperCase(); };
-
+  const f = r.flights, p = r.passengers?.[0];
+  const salida = new Date(f.fecha_salida), llegada = new Date(f.fecha_llegada);
+  const iataMap = { 'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM' };
+  const getIata = s => { for (const [k,v] of Object.entries(iataMap)) if (s.includes(k)) return v; return s.slice(0,3).toUpperCase(); };
   document.getElementById('boarding-pass-content').innerHTML = `
-    <div class="boarding-pass">
-      <div class="bp-header">
-        <div>
-          <div class="bp-airline">Boliviana de Aviación</div>
-          <div class="bp-type">Tarjeta de embarque</div>
-        </div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:28px;filter:brightness(0) invert(1);opacity:0.8" alt="BOA"/>
+    <div class="bp">
+      <div class="bp-head">
+        <div><div class="bp-airline">Boliviana de Aviación</div><div class="bp-type">Tarjeta de embarque</div></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:26px;filter:brightness(0) invert(1);opacity:0.75" alt="BOA"/>
       </div>
-      <div class="bp-route-block">
-        <div class="bp-city"><div class="bp-iata">${getIata(f.origen)}</div><div class="bp-cityname">${city(f.origen)}</div></div>
-        <div class="bp-arrow"><i class="bi bi-airplane"></i></div>
-        <div class="bp-city"><div class="bp-iata">${getIata(f.destino)}</div><div class="bp-cityname">${city(f.destino)}</div></div>
+      <div class="bp-route">
+        <div class="bp-city"><div class="bp-iata">${getIata(f.origen)}</div><div class="bp-cname">${city(f.origen)}</div></div>
+        <div class="bp-arr"><i class="bi bi-airplane"></i></div>
+        <div class="bp-city"><div class="bp-iata">${getIata(f.destino)}</div><div class="bp-cname">${city(f.destino)}</div></div>
       </div>
       <div class="bp-details">
-        <div class="bp-detail-item"><div class="bp-detail-label">Pasajero</div><div class="bp-detail-value">${p ? p.nombre+' '+p.apellido : '—'}</div></div>
-        <div class="bp-detail-item"><div class="bp-detail-label">Fecha</div><div class="bp-detail-value">${salida.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
-        <div class="bp-detail-item"><div class="bp-detail-label">Salida</div><div class="bp-detail-value">${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div class="bp-detail-item"><div class="bp-detail-label">Llegada</div><div class="bp-detail-value">${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div class="bp-detail-item"><div class="bp-detail-label">Asiento</div><div class="bp-detail-value" style="font-size:20px;color:var(--navy)">${r.asiento || '—'}</div></div>
-        <div class="bp-detail-item"><div class="bp-detail-label">Documento</div><div class="bp-detail-value">${p?.numero_documento || '—'}</div></div>
+        <div><div class="bp-dl">Pasajero</div><div class="bp-dv">${p?p.nombre+' '+p.apellido:'—'}</div></div>
+        <div><div class="bp-dl">Fecha</div><div class="bp-dv">${salida.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+        <div><div class="bp-dl">Salida</div><div class="bp-dv">${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="bp-dl">Llegada</div><div class="bp-dv">${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="bp-dl">Asiento</div><div class="bp-dv" style="font-size:19px;color:var(--navy)">${r.asiento||'—'}</div></div>
+        <div><div class="bp-dl">Documento</div><div class="bp-dv">${p?.numero_documento||'—'}</div></div>
       </div>
-      <hr class="bp-divider"/>
-      <div class="bp-bottom">
-        <div>
-          <div style="font-size:10px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Reserva ID</div>
-          <div style="font-family:monospace;font-size:12px;font-weight:700;color:var(--navy)">${reservationId.slice(0,8).toUpperCase()}</div>
-        </div>
+      <hr class="bp-sep"/>
+      <div class="bp-bot">
+        <div><div style="font-size:9.5px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Reserva ID</div>
+        <div style="font-family:monospace;font-size:12px;font-weight:700;color:var(--navy)">${reservationId.slice(0,8).toUpperCase()}</div></div>
         <div class="bp-barcode"></div>
-        <img class="bp-qr-small" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR"/>
+        <img class="bp-qr" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR"/>
       </div>
-      <div class="bp-status-banner"><i class="bi bi-check-circle-fill"></i> Reserva CONFIRMADA — Preséntese 2 horas antes del vuelo</div>
+      <div class="bp-confirmed"><i class="bi bi-check-circle-fill"></i> Reserva CONFIRMADA — Preséntese 2 horas antes</div>
     </div>`;
   document.getElementById('bp-overlay').classList.add('show');
 };
 
-// ═══════════════════════════════════════
-// SEAT MAP
-// ═══════════════════════════════════════
-function buildSeatMap(occupiedSeats = []) {
+// ── SEAT MAP ──
+function buildSeatMap(occupied = []) {
   selectedSeat = null;
-  const container = document.getElementById('seat-map-container');
-  const rows = 20;
+  const c = document.getElementById('seat-map-container');
   const cols = ['A','B','C','D','E','F'];
   let html = '<div class="seat-nose"></div>';
-
-  html += `<div class="seat-row"><div class="seat-row-num"></div>`;
-  cols.forEach((c, i) => {
-    if (i === 3) html += '<div class="seat-aisle"></div>';
-    html += `<div style="width:28px;text-align:center;font-size:10px;color:var(--text-dim);font-weight:700">${c}</div>`;
-  });
+  html += `<div class="seat-row"><div class="seat-rnum"></div>`;
+  cols.forEach((col, i) => { if (i===3) html+='<div class="seat-aisle"></div>'; html+=`<div style="width:27px;text-align:center;font-size:9.5px;color:var(--text-3);font-weight:700">${col}</div>`; });
   html += '</div>';
-
-  for (let r = 1; r <= rows; r++) {
-    const isFirstClass = r <= 3;
-    if (r === 4) html += `<div class="seat-wing-label">— Clase turista —</div>`;
-    if (r === 10) html += `<div class="seat-wing-label">✈ Zona de alas</div>`;
-    html += `<div class="seat-row"><div class="seat-row-num">${r}</div>`;
-    cols.forEach((c, i) => {
-      if (i === 3) html += '<div class="seat-aisle"></div>';
-      const seatId = `${r}${c}`;
-      const isOccupied = occupiedSeats.includes(seatId);
-      const cls = isOccupied ? 'occupied' : (isFirstClass ? 'first available' : 'available');
-      html += `<div class="seat ${cls}" data-seat="${seatId}" onclick="selectSeat('${seatId}',${isOccupied})" title="Asiento ${seatId}">${seatId}</div>`;
+  for (let r = 1; r <= 20; r++) {
+    const fc = r <= 3;
+    if (r===4) html += '<div class="seat-wing-lbl">— Clase turista —</div>';
+    if (r===10) html += '<div class="seat-wing-lbl">✈ Zona de alas</div>';
+    html += `<div class="seat-row"><div class="seat-rnum">${r}</div>`;
+    cols.forEach((col, i) => {
+      if (i===3) html += '<div class="seat-aisle"></div>';
+      const id = `${r}${col}`, occ = occupied.includes(id);
+      const cls = occ ? 'occ' : (fc ? 'first-av' : 'av');
+      html += `<div class="seat ${cls}" data-seat="${id}" onclick="selectSeat('${id}',${occ})" title="${id}">${id}</div>`;
     });
     html += '</div>';
   }
-  container.innerHTML = html;
-  document.getElementById('selected-seat-info').innerHTML = '<i class="bi bi-cursor text-muted"></i> Toca un asiento para seleccionarlo';
+  c.innerHTML = html;
+  document.getElementById('selected-seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--text-3)"></i> Toca un asiento para seleccionarlo';
 }
 
-window.selectSeat = function(seatId, isOccupied) {
-  if (isOccupied) return;
-  document.querySelectorAll('.seat.selected').forEach(s => {
-    s.classList.remove('selected');
-    s.classList.add('available');
+window.selectSeat = function(id, occ) {
+  if (occ) return;
+  document.querySelectorAll('.seat.sel,.seat.first-sel').forEach(s => {
+    s.classList.remove('sel','first-sel');
+    s.classList.add(parseInt(s.dataset.seat)<=3 ? 'first-av' : 'av');
   });
-  const el = document.querySelector(`.seat[data-seat="${seatId}"]`);
-  if (el) { el.classList.remove('available'); el.classList.add('selected'); }
-  selectedSeat = seatId;
-  const row = parseInt(seatId);
-  const isFirst = row <= 3;
-  document.getElementById('selected-seat-info').innerHTML = `
-    <i class="bi bi-check-circle-fill" style="color:var(--navy)"></i>
-    Asiento seleccionado: <strong>${seatId}</strong>
-    <span class="badge ms-2 ${isFirst ? 'badge-warning' : 'badge-info'}">${isFirst ? 'Primera clase' : 'Turista'}</span>`;
+  const el = document.querySelector(`.seat[data-seat="${id}"]`);
+  const isFirst = parseInt(id) <= 3;
+  if (el) { el.classList.remove('first-av','av'); el.classList.add(isFirst?'first-sel':'sel'); }
+  selectedSeat = id;
+  document.getElementById('selected-seat-info').innerHTML =
+    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i>
+     Asiento <strong>${id}</strong> — <span class="badge ${isFirst?'badge-warn':'badge-info'}">${isFirst?'Primera clase':'Turista'}</span>`;
 };
 
-// ═══════════════════════════════════════
-// FLIGHTS
-// ═══════════════════════════════════════
+// ── FLIGHTS ──
 async function loadFlights() {
-  const origen = document.getElementById('filter-origen')?.value.trim() || '';
-  const destino = document.getElementById('filter-destino')?.value.trim() || '';
-  const fecha = document.getElementById('filter-fecha')?.value || '';
-  const estado = document.getElementById('filter-estado')?.value || '';
-
-  let q = supabase.from('flights').select('*').gt('asientos_disponibles', 0).order('fecha_salida', { ascending: true });
-  if (origen) q = q.ilike('origen', `%${origen}%`);
-  if (destino) q = q.ilike('destino', `%${destino}%`);
-  if (estado) q = q.eq('estado', estado);
-  else q = q.in('estado', ['programado','abordando','en_vuelo']);
-  if (fecha) {
-    const s = new Date(fecha); s.setHours(0,0,0,0);
-    const e = new Date(fecha); e.setHours(23,59,59,999);
-    q = q.gte('fecha_salida', s.toISOString()).lte('fecha_salida', e.toISOString());
-  }
+  const origen = document.getElementById('filter-origen')?.value.trim()||'';
+  const destino = document.getElementById('filter-destino')?.value.trim()||'';
+  const fecha = document.getElementById('filter-fecha')?.value||'';
+  const estado = document.getElementById('filter-estado')?.value||'';
+  let q = supabase.from('flights').select('*').gt('asientos_disponibles',0).order('fecha_salida',{ascending:true});
+  if (origen) q = q.ilike('origen',`%${origen}%`);
+  if (destino) q = q.ilike('destino',`%${destino}%`);
+  if (estado) q = q.eq('estado',estado); else q = q.in('estado',['programado','abordando','en_vuelo']);
+  if (fecha) { const s=new Date(fecha);s.setHours(0,0,0,0);const e=new Date(fecha);e.setHours(23,59,59,999); q=q.gte('fecha_salida',s.toISOString()).lte('fecha_salida',e.toISOString()); }
   q = q.limit(24);
   const { data: flights } = await q;
   const grid = document.getElementById('flights-grid');
   if (!flights?.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-dim);">
-      <i class="bi bi-search" style="font-size:36px;display:block;margin-bottom:12px;"></i>
-      No se encontraron vuelos con esos criterios.
-    </div>`;
-    return;
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:52px;color:var(--text-3)">
+      <i class="bi bi-search" style="font-size:36px;display:block;margin-bottom:12px"></i>No se encontraron vuelos.</div>`; return;
   }
   grid.innerHTML = flights.map(flightCard).join('');
 }
 window.loadFlights = loadFlights;
 
 function flightCard(f) {
-  const salida = new Date(f.fecha_salida);
-  const llegada = new Date(f.fecha_llegada);
-  const durMin = Math.round((llegada - salida) / 60000);
+  const salida = new Date(f.fecha_salida), llegada = new Date(f.fecha_llegada);
+  const durMin = Math.round((llegada-salida)/60000);
   const h = Math.floor(durMin/60), m = durMin%60;
-  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => f.destino.includes(c));
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
   const canBook = ['programado','abordando'].includes(f.estado) && f.asientos_disponibles > 0;
-
   return `<div class="flight-card">
-    <div class="fc-top">
-      <div class="fc-route">${city(f.origen)} <i class="bi bi-airplane"></i> ${city(f.destino)}</div>
+    <div class="fc-header">
+      <div class="fc-route-name">${city(f.origen)} <i class="bi bi-airplane"></i> ${city(f.destino)}</div>
       <span class="badge estado-${f.estado}">${f.estado.replace('_',' ')}</span>
     </div>
-    <div class="fc-body">
+    <div class="fc-meta">
       <div class="fc-times">
         <div><i class="bi bi-calendar3"></i>${salida.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})}</div>
         <div><i class="bi bi-clock"></i>${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
         <div><i class="bi bi-hourglass-split"></i>${h}h ${m}min</div>
       </div>
-      <div class="fc-right">
+      <div class="fc-price-block">
         <div class="fc-price">${cur} ${f.precio}</div>
-        <div class="fc-seats"><i class="bi bi-people"></i> ${f.asientos_disponibles} disponibles</div>
+        <div class="fc-seats"><i class="bi bi-people"></i> ${f.asientos_disponibles} disp.</div>
       </div>
     </div>
-    <button class="btn btn-primary btn-block" onclick="openBookingModal('${f.id}')" ${!canBook ? 'disabled' : ''}>
-      ${canBook ? '<i class="bi bi-check-circle"></i> Reservar este vuelo' : '<i class="bi bi-x-circle"></i> No disponible'}
+    <button class="btn btn-primary btn-block" onclick="openBookingModal('${f.id}')" ${!canBook?'disabled':''}>
+      ${canBook?'<i class="bi bi-check-circle"></i> Reservar':'<i class="bi bi-x-circle"></i> No disponible'}
     </button>
   </div>`;
 }
 
-// ═══════════════════════════════════════
-// BOOKING MODAL
-// ═══════════════════════════════════════
+// ── BOOKING MODAL ──
 window.openBookingModal = async function(flightId) {
   const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
   if (!f) return;
   selectedFlight = f;
-
   const salida = new Date(f.fecha_salida);
-  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => f.destino.includes(c));
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
-
   document.getElementById('modal-flight-info').innerHTML = `
-    <div class="fs-route">${city(f.origen)} <i class="bi bi-arrow-right" style="font-size:16px;color:#FCD34D;"></i> ${city(f.destino)}</div>
-    <div class="fs-info">
-      <i class="bi bi-calendar3"></i> ${salida.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}&nbsp;&nbsp;
-      <i class="bi bi-clock"></i> ${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}&nbsp;&nbsp;
-      <i class="bi bi-people"></i> ${f.asientos_disponibles} asientos disponibles
+    <div class="fsumm-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
+    <div class="fsumm-meta">
+      <i class="bi bi-calendar3"></i>${salida.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+      &nbsp;<i class="bi bi-clock"></i>${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+      &nbsp;<i class="bi bi-people"></i>${f.asientos_disponibles} asientos
     </div>
-    <div class="fs-price">${cur} ${f.precio}</div>`;
-
+    <div class="fsumm-price">${cur} ${f.precio}</div>`;
   document.getElementById('qr-amount').textContent = `${cur} ${f.precio}`;
-
-  // Mostrar advertencia si perfil incompleto (sin bloquear)
-  const hasProfile = userProfile && userProfile.nombre && userProfile.numero_documento;
+  const hasProfile = userProfile?.nombre && userProfile?.numero_documento;
   document.getElementById('profile-incomplete-banner').style.display = hasProfile ? 'none' : 'flex';
-
-  const { data: passengers } = await supabase
-    .from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
-  const occupied = (passengers || []).map(p => p.asiento).filter(Boolean);
-  buildSeatMap(occupied);
-
+  const { data: pax } = await supabase.from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
+  buildSeatMap((pax||[]).map(p=>p.asiento).filter(Boolean));
   document.getElementById('modal-overlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 };
@@ -1550,240 +1653,134 @@ window.closeModal = function() {
   document.getElementById('modal-overlay').classList.remove('show');
   document.body.style.overflow = '';
 };
-window.closeModalOutside = function(e) { if (e.target.id === 'modal-overlay') closeModal(); };
+window.closeModalOutside = function(e) { if (e.target.id==='modal-overlay') closeModal(); };
 
-// ═══════════════════════════════════════
-// CONFIRM RESERVATION
-// ═══════════════════════════════════════
+// ── CONFIRM RESERVATION ──
 window.confirmReservation = async function() {
   const nombre = document.getElementById('p-nombre').value.trim();
   const apellido = document.getElementById('p-apellido').value.trim();
   const numDoc = document.getElementById('p-num-doc').value.trim();
-
-  if (!nombre || !apellido || !numDoc) {
-    MySwal.fire({ icon: 'warning', title: 'Campos requeridos', text: 'Por favor completa nombre, apellido y número de documento antes de continuar.' });
-    return;
-  }
-  if (!selectedSeat) {
-    MySwal.fire({ icon: 'info', title: 'Selecciona un asiento', text: 'Por favor elige tu asiento en el mapa de asientos.' });
-    return;
-  }
-
-  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c => selectedFlight.destino.includes(c));
-  const cur = intl ? 'USD $' : 'Bs.';
-
-  const result = await MySwal.fire({
-    icon: 'question',
-    title: '¿Confirmar reserva?',
-    html: `Estás reservando el vuelo <b>${city(selectedFlight.origen)} → ${city(selectedFlight.destino)}</b><br>
-           Asiento: <b>${selectedSeat}</b><br>
-           Total: <b>${cur} ${selectedFlight.precio}</b><br><br>
-           El estado será <b>pendiente</b> hasta confirmar el pago con el QR.`,
-    showCancelButton: true,
-    confirmButtonText: 'Sí, reservar',
-    cancelButtonText: 'Revisar datos',
-  });
-  if (!result.isConfirmed) return;
-
-  const btn = document.getElementById('btn-confirm');
-  const txt = document.getElementById('confirm-text');
-  btn.disabled = true; txt.textContent = 'Procesando...';
-
+  if (!nombre||!apellido||!numDoc) { MySwal.fire({icon:'warning',title:'Campos requeridos',text:'Nombre, apellido y documento son obligatorios.'}); return; }
+  if (!selectedSeat) { MySwal.fire({icon:'info',title:'Selecciona un asiento',text:'Elige tu asiento en el mapa antes de continuar.'}); return; }
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selectedFlight.destino.includes(c));
+  const cur = intl?'USD $':'Bs.';
+  const res = await MySwal.fire({ icon:'question', title:'¿Confirmar reserva?',
+    html:`Vuelo <b>${city(selectedFlight.origen)} → ${city(selectedFlight.destino)}</b><br>Asiento: <b>${selectedSeat}</b><br>Total: <b>${cur} ${selectedFlight.precio}</b><br><br>Estado inicial: <b>pendiente</b> (hasta confirmar pago).`,
+    showCancelButton:true, confirmButtonText:'Sí, reservar', cancelButtonText:'Revisar' });
+  if (!res.isConfirmed) return;
+  const btn = document.getElementById('btn-confirm'), txt = document.getElementById('confirm-text');
+  btn.disabled=true; txt.textContent='Procesando…';
   try {
     const { data: reservation, error: rErr } = await supabase.from('reservations').insert({
-      user_id: currentUser.id,
-      flight_id: selectedFlight.id,
-      estado: 'pendiente',
-      precio_total: selectedFlight.precio,
-      asiento: selectedSeat,
+      user_id: currentUser.id, flight_id: selectedFlight.id,
+      estado: 'pendiente', precio_total: selectedFlight.precio, asiento: selectedSeat,
     }).select().single();
     if (rErr) throw rErr;
-
     const { data: passenger, error: pErr } = await supabase.from('passengers').insert({
-      reservation_id: reservation.id,
-      nombre, apellido,
+      reservation_id: reservation.id, nombre, apellido,
       tipo_documento: document.getElementById('p-tipo-doc').value,
       numero_documento: numDoc,
       correo: document.getElementById('p-correo').value,
       celular: document.getElementById('p-celular').value,
-      fecha_nacimiento: document.getElementById('p-nacimiento').value || null,
+      fecha_nacimiento: document.getElementById('p-nacimiento').value||null,
       genero: document.getElementById('p-genero').value,
     }).select().single();
     if (pErr) throw pErr;
-
-    const asistencia = {
-      discapacidad_auditiva: document.getElementById('a-auditiva').checked,
-      movilidad_reducida: document.getElementById('a-movilidad').checked,
-      discapacidad_visual: document.getElementById('a-visual').checked,
-      asistencia_aeropuerto: document.getElementById('a-aeropuerto').checked,
-    };
-    if (Object.values(asistencia).some(v => v)) {
-      await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asistencia });
-    }
-
-    const fileInput = document.getElementById('comprobante');
+    const asist = { discapacidad_auditiva: document.getElementById('a-auditiva').checked, movilidad_reducida: document.getElementById('a-movilidad').checked, discapacidad_visual: document.getElementById('a-visual').checked, asistencia_aeropuerto: document.getElementById('a-aeropuerto').checked };
+    if (Object.values(asist).some(v=>v)) await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
+    const fi = document.getElementById('comprobante');
     let comprobanteUrl = null;
-    if (fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const ext = file.name.split('.').pop();
-      const path = `comprobantes/${reservation.id}.${ext}`;
+    if (fi.files[0]) {
+      const file = fi.files[0], ext = file.name.split('.').pop(), path = `comprobantes/${reservation.id}.${ext}`;
       const { error: upErr } = await supabase.storage.from('payments').upload(path, file);
-      if (!upErr) {
-        const { data: urlData } = supabase.storage.from('payments').getPublicUrl(path);
-        comprobanteUrl = urlData.publicUrl;
-      }
+      if (!upErr) { const { data: ud } = supabase.storage.from('payments').getPublicUrl(path); comprobanteUrl = ud.publicUrl; }
     }
-
-    await supabase.from('payments').insert({
-      reservation_id: reservation.id,
-      monto: selectedFlight.precio,
-      metodo: 'transferencia_qr',
-      comprobante_url: comprobanteUrl,
-      estado: comprobanteUrl ? 'revisando' : 'pendiente',
-    });
-
-    await supabase.from('flights').update({
-      asientos_disponibles: selectedFlight.asientos_disponibles - 1
-    }).eq('id', selectedFlight.id);
-
+    await supabase.from('payments').insert({ reservation_id: reservation.id, monto: selectedFlight.precio, metodo:'transferencia_qr', comprobante_url: comprobanteUrl, estado: comprobanteUrl?'revisando':'pendiente' });
+    await supabase.from('flights').update({ asientos_disponibles: selectedFlight.asientos_disponibles-1 }).eq('id', selectedFlight.id);
     closeModal();
-
-    await MySwal.fire({
-      icon: 'success',
-      title: '¡Reserva creada! ✈️',
-      html: `
-        <p>Tu reserva está <b>pendiente de confirmación</b>.</p>
-        <p style="margin-top:8px">Asiento reservado: <b style="color:#001F5B;font-size:18px">${selectedSeat}</b></p>
-        <p style="margin-top:8px;font-size:13px;color:#888">Recibirás tu boleto de embarque cuando el pago sea verificado por el equipo BOA.</p>`,
-      confirmButtonText: 'Ver mis reservas',
-    });
-
-    await loadDashboard();
-    await loadFlights();
-    showPage('mis-reservas', null);
-
-  } catch (err) {
-    MySwal.fire({ icon: 'error', title: 'Error', text: err.message || 'No se pudo crear la reserva.' });
-  } finally {
-    btn.disabled = false; txt.textContent = 'Confirmar reserva';
-  }
+    await MySwal.fire({ icon:'success', title:'¡Reserva creada! ✈️',
+      html:`<p>Tu reserva está <b>pendiente de confirmación</b>.</p><p style="margin-top:8px">Asiento: <b style="color:var(--navy);font-size:18px">${selectedSeat}</b></p><p style="margin-top:8px;font-size:13px;color:#888">El boleto se emite cuando el equipo BOA verifique el pago.</p>`,
+      confirmButtonText:'Ver mis reservas' });
+    await loadDashboard(); await loadFlights(); showPage('mis-reservas', null);
+  } catch(err) {
+    MySwal.fire({ icon:'error', title:'Error', text: err.message||'No se pudo crear la reserva.' });
+  } finally { btn.disabled=false; txt.textContent='Confirmar reserva'; }
 };
 
-// ═══════════════════════════════════════
-// CANCEL RESERVATION
-// ═══════════════════════════════════════
 window.cancelReservation = async function(id, estado) {
   if (['cancelado','completado'].includes(estado)) return;
-  const res = await MySwal.fire({
-    icon: 'warning', title: '¿Cancelar reserva?',
-    text: 'Esta acción no se puede deshacer.',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, cancelar',
-    cancelButtonText: 'Volver',
-  });
+  const res = await MySwal.fire({ icon:'warning', title:'¿Cancelar reserva?', text:'Esta acción no se puede deshacer.', showCancelButton:true, confirmButtonText:'Sí, cancelar', cancelButtonText:'Volver' });
   if (!res.isConfirmed) return;
-  await supabase.from('reservations').update({ estado: 'cancelado' }).eq('id', id);
-  snack('success', 'Reserva cancelada', 'La reserva fue cancelada correctamente.');
+  await supabase.from('reservations').update({ estado:'cancelado' }).eq('id', id);
+  snack('ok','Reserva cancelada','La reserva fue cancelada correctamente.');
   await loadDashboard();
 };
 
-// ═══════════════════════════════════════
-// PROFILE
-// ═══════════════════════════════════════
 window.saveProfile = async function() {
   const { error } = await supabase.from('users_profile').upsert({
     id: currentUser.id,
     nombre: document.getElementById('prof-nombre').value.trim(),
     apellido: document.getElementById('prof-apellido').value.trim(),
-    telefono: document.getElementById('prof-telefono').value.trim() || null,
-    fecha_nacimiento: document.getElementById('prof-nacimiento').value || null,
-    genero: document.getElementById('prof-genero').value || null,
-    tipo_documento: document.getElementById('prof-tipo-doc').value || null,
-    numero_documento: document.getElementById('prof-num-doc').value.trim() || null,
+    telefono: document.getElementById('prof-telefono').value.trim()||null,
+    fecha_nacimiento: document.getElementById('prof-nacimiento').value||null,
+    genero: document.getElementById('prof-genero').value||null,
+    tipo_documento: document.getElementById('prof-tipo-doc').value||null,
+    numero_documento: document.getElementById('prof-num-doc').value.trim()||null,
   });
-  if (error) {
-    MySwal.fire({ icon: 'error', title: 'Error', text: error.message });
-  } else {
-    await MySwal.fire({ icon: 'success', title: 'Perfil actualizado', text: 'Tus datos fueron guardados.', confirmButtonText: 'Listo' });
-    await init();
-  }
+  if (error) MySwal.fire({ icon:'error', title:'Error', text: error.message });
+  else { await MySwal.fire({ icon:'success', title:'Perfil actualizado', text:'Tus datos fueron guardados.', confirmButtonText:'Listo' }); await init(); }
 };
 
 window.sendPasswordReset = async function() {
-  const { error } = await supabase.auth.resetPasswordForEmail(currentUser.email, {
-    redirectTo: window.location.origin + '/auth/login.html'
-  });
-  if (error) MySwal.fire({ icon: 'error', title: 'Error', text: error.message });
-  else MySwal.fire({ icon: 'success', title: 'Correo enviado', text: 'Revisa tu bandeja de entrada.' });
+  const { error } = await supabase.auth.resetPasswordForEmail(currentUser.email, { redirectTo: window.location.origin+'/auth/login.html' });
+  if (error) MySwal.fire({ icon:'error', title:'Error', text: error.message });
+  else MySwal.fire({ icon:'success', title:'Correo enviado', text:'Revisa tu bandeja de entrada.' });
 };
 
-// ═══════════════════════════════════════
-// LOGOUT
-// ═══════════════════════════════════════
 window.handleLogout = async function() {
-  const res = await MySwal.fire({
-    icon: 'question', title: '¿Cerrar sesión?',
-    showCancelButton: true, confirmButtonText: 'Sí, salir', cancelButtonText: 'Cancelar',
-  });
+  const res = await MySwal.fire({ icon:'question', title:'¿Cerrar sesión?', showCancelButton:true, confirmButtonText:'Sí, salir', cancelButtonText:'Cancelar' });
   if (!res.isConfirmed) return;
   await supabase.auth.signOut();
   window.location.href = '../../index.html';
 };
 
-// ═══════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════
 window.showPage = function(page, navEl) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const el = document.getElementById('page-' + page);
+  document.querySelectorAll('.sb-nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('page-'+page);
   if (el) el.classList.add('active');
   if (navEl) navEl.classList.add('active');
-  else {
-    const found = document.querySelector(`.nav-item[data-page="${page}"]`);
-    if (found) found.classList.add('active');
-  }
+  else { const f = document.querySelector(`.sb-nav-item[data-page="${page}"]`); if (f) f.classList.add('active'); }
   const titles = { dashboard:'Inicio', 'mis-reservas':'Mis Reservas', 'buscar-vuelos':'Buscar Vuelos', perfil:'Mi Perfil' };
-  document.getElementById('topbar-title').textContent = titles[page] || 'Portal';
+  document.getElementById('topbar-title').textContent = titles[page]||'Portal';
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-backdrop').classList.remove('show');
   document.body.style.overflow = '';
 };
 
 window.setMobileNav = function(page) {
-  document.querySelectorAll('.mobile-nav-tab').forEach(t => t.classList.remove('active'));
-  const tab = document.getElementById('mnav-' + page);
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('mnav-'+page);
   if (tab) tab.classList.add('active');
 };
 
 window.toggleSidebar = function() {
-  const s = document.getElementById('sidebar');
-  const b = document.getElementById('sidebar-backdrop');
-  s.classList.toggle('open'); b.classList.toggle('show');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('show');
 };
 
-// ═══════════════════════════════════════
-// SNACK
-// ═══════════════════════════════════════
 function snack(type, title, msg) {
   const el = document.getElementById('snack');
-  el.querySelector('i').className = type === 'success' ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-circle-fill';
+  el.querySelector('i').className = type==='ok' ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-circle-fill';
   document.getElementById('snack-title').textContent = title;
   document.getElementById('snack-msg').textContent = msg;
   el.className = `snack ${type} show`;
   setTimeout(() => el.classList.remove('show'), 4000);
 }
 
-// ═══════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════
-function city(s) { return (s || '').replace(/\s*\([^)]*\)/, '').trim(); }
-function fmtEstado(e) {
-  return { pendiente:'Pendiente', confirmado:'Confirmado', cancelado:'Cancelado', completado:'Completado', pago_en_revision:'En revisión' }[e] || e;
-}
-function badgeClass(e) {
-  return { confirmado:'badge-success', pendiente:'badge-warning', pago_en_revision:'badge-info', cancelado:'badge-danger', completado:'badge-muted' }[e] || 'badge-muted';
-}
+function city(s) { return (s||'').replace(/\s*\([^)]*\)/,'').trim(); }
+function fmtEstado(e) { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
+function badgeClass(e) { return {confirmado:'badge-success',pendiente:'badge-warn',pago_en_revision:'badge-info',cancelado:'badge-danger',completado:'badge-muted'}[e]||'badge-muted'; }
 
 document.getElementById('comprobante')?.addEventListener('change', function() {
   document.getElementById('file-name').textContent = this.files[0]?.name || 'Sin archivo seleccionado';

@@ -209,11 +209,15 @@ div.dt-button-collection { background:white; border:1px solid var(--border); bor
 
 /* ─── MODAL ─── */
 .modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.35); backdrop-filter:blur(6px);
+  position:fixed; inset:0; background:transparent;
   z-index:600; display:flex; align-items:center; justify-content:center; padding:16px;
-  opacity:0; pointer-events:none; transition:opacity 0.22s;
+  opacity:0; pointer-events:none; visibility:hidden;
+  transition:opacity 0.22s, background 0.22s;
 }
-.modal-overlay.show { opacity:1; pointer-events:all; }
+.modal-overlay.show {
+  opacity:1; pointer-events:all; visibility:visible;
+  background:rgba(0,0,0,0.35); backdrop-filter:blur(6px);
+}
 .modal-box {
   background:white; border:1px solid var(--border); border-radius:var(--radius);
   width:100%; max-height:92vh; overflow-y:auto;

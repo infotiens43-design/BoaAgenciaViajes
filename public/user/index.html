@@ -70,9 +70,8 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .sidebar-backdrop {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.5); z-index: 199;
-  backdrop-filter: blur(2px);
 }
-.sidebar-backdrop.show { display: block; }
+.sidebar-backdrop.show { display: block; backdrop-filter: blur(2px); }
 .sidebar-brand {
   padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; gap: 12px;
@@ -312,11 +311,16 @@ select.form-control { cursor: pointer; }
 /* ── MODAL ── */
 .modal-overlay {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
+  background: transparent;
   z-index: 500; display: flex; align-items: center; justify-content: center;
-  padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  padding: 16px; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, background 0.25s;
+  visibility: hidden;
 }
-.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal-overlay.show {
+  opacity: 1; pointer-events: all; visibility: visible;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
+}
 .modal {
   background: white; border: 1px solid var(--border);
   border-radius: var(--radius); width: 100%; max-width: 820px;

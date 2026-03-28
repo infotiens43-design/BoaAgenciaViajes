@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-<!-- Bootstrap 5 for responsive grid -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
@@ -54,10 +53,9 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: rgba(0,31,91,0.15); border-radius: 4px; }
 
-/* ── LAYOUT ── */
 .app { display: flex; min-height: 100vh; }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar {
   width: var(--sidebar-w);
   position: fixed; top: 0; left: 0; bottom: 0;
@@ -123,10 +121,10 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 }
 .btn-logout:hover { background: rgba(200,16,46,0.3); color: white; }
 
-/* ── MAIN ── */
+/* MAIN */
 .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ── TOPBAR ── */
+/* TOPBAR */
 .topbar {
   position: sticky; top: 0; z-index: 100;
   background: var(--topbar-bg); backdrop-filter: blur(16px);
@@ -145,7 +143,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .topbar-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); }
 .topbar-right { display: flex; align-items: center; gap: 8px; }
 
-/* ── BUTTONS ── */
+/* BUTTONS */
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 18px; border-radius: var(--radius-sm);
@@ -166,7 +164,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .btn-block { width: 100%; justify-content: center; }
 .btn:disabled { opacity: 0.5; pointer-events: none; }
 
-/* ── PAGES ── */
+/* PAGES */
 .page { display: none; padding: 24px; animation: fadeUp 0.3s ease; }
 .page.active { display: block; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -178,7 +176,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .page-header h1 { font-family: var(--font-head); font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.2; }
 .page-header h1 span { color: var(--navy); }
 
-/* ── NEXT FLIGHT BANNER ── */
+/* NEXT FLIGHT */
 .next-flight-card {
   background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
   border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px;
@@ -195,7 +193,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .nfc-route { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: white; }
 .nfc-info { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
 
-/* ── STATS ── */
+/* STATS */
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
 .stat-card {
   background: var(--card-bg); border: 1px solid var(--border);
@@ -212,7 +210,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .stat-value { font-family: var(--font-head); font-size: 28px; font-weight: 800; color: var(--text); line-height: 1; }
 .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
 
-/* ── SECTION HEADER ── */
+/* SECTION HEADER */
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .section-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); }
 .section-link {
@@ -222,7 +220,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 }
 .section-link:hover { color: var(--red); }
 
-/* ── CARD ── */
+/* CARD */
 .card {
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
@@ -234,7 +232,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 }
 .card-header-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--text); }
 
-/* ── TABLE ── */
+/* TABLE */
 .table-responsive { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 thead th {
@@ -248,7 +246,7 @@ tbody tr:last-child td { border-bottom: none; }
 .td-route { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); }
 .td-price { font-weight: 700; color: var(--navy); font-size: 14px; }
 
-/* ── BADGES ── */
+/* BADGES */
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 4px 10px; border-radius: 20px;
@@ -260,12 +258,12 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-info { background: #DBEAFE; color: #1E40AF; border: 1px solid #BFDBFE; }
 .badge-muted { background: var(--bg2); color: var(--text-muted); border: 1px solid var(--border); }
 
-/* ── EMPTY STATE ── */
+/* EMPTY STATE */
 .empty-state { text-align: center; padding: 48px 24px; }
 .empty-state i { font-size: 48px; color: var(--text-dim); margin-bottom: 12px; display: block; }
 .empty-state p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
 
-/* ── SEARCH BAR ── */
+/* SEARCH BAR */
 .search-bar {
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px;
@@ -286,7 +284,7 @@ tbody tr:last-child td { border-bottom: none; }
 select.form-control { cursor: pointer; }
 .form-control:disabled { opacity: 0.5; cursor: not-allowed; background: var(--bg2); }
 
-/* ── FLIGHT CARDS ── */
+/* FLIGHT CARDS */
 .flights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
 .flight-card {
   background: var(--card-bg); border: 1px solid var(--border);
@@ -308,7 +306,7 @@ select.form-control { cursor: pointer; }
 .estado-en_vuelo { background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; }
 .estado-cancelado { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-overlay {
   position: fixed; inset: 0;
   background: transparent;
@@ -349,11 +347,11 @@ select.form-control { cursor: pointer; }
   display: flex; justify-content: flex-end; gap: 10px; background: var(--surface2);
 }
 
-/* ── MODAL TWO-COLUMN ── */
+/* MODAL TWO-COLUMN */
 .modal-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 @media (max-width: 640px) { .modal-two-col { grid-template-columns: 1fr; } }
 
-/* ── QR PANEL ── */
+/* QR PANEL */
 .qr-panel {
   background: linear-gradient(160deg, #f0f4ff 0%, #e8effd 100%);
   border: 1px solid rgba(0,31,91,0.12);
@@ -381,7 +379,7 @@ select.form-control { cursor: pointer; }
   color: var(--navy); text-align: center;
 }
 
-/* ── FLIGHT SUMMARY ── */
+/* FLIGHT SUMMARY */
 .flight-summary {
   background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
   border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px;
@@ -401,7 +399,7 @@ select.form-control { cursor: pointer; }
 .form-group-modal .form-label { color: var(--text-muted); }
 .form-group-modal .form-control { background: var(--bg); }
 
-/* ── SPECIAL ASSISTANCE ── */
+/* SPECIAL ASSISTANCE */
 .assist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .assist-item {
   display: flex; align-items: center; gap: 8px;
@@ -412,7 +410,7 @@ select.form-control { cursor: pointer; }
 .assist-item:has(input:checked) { border-color: var(--navy); background: rgba(0,31,91,0.05); color: var(--navy); font-weight: 600; }
 .assist-item input { width: 15px; height: 15px; accent-color: var(--navy); }
 
-/* ── SEAT MAP ── */
+/* SEAT MAP */
 .seat-map-wrap {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px; margin-top: 12px;
@@ -450,7 +448,7 @@ select.form-control { cursor: pointer; }
 }
 .selected-seat-info strong { color: var(--navy); font-size: 15px; }
 
-/* ── UPLOAD ── */
+/* UPLOAD */
 .upload-box {
   background: #F0F7FF; border: 1px dashed #BFDBFE;
   border-radius: var(--radius-sm); padding: 16px; margin-top: 14px;
@@ -467,7 +465,7 @@ select.form-control { cursor: pointer; }
 .upload-trigger:hover { background: var(--navy); color: white; }
 .upload-filename { font-size: 12px; color: var(--text-dim); }
 
-/* ── BOARDING PASS ── */
+/* BOARDING PASS */
 .boarding-pass {
   background: white; border-radius: 16px;
   box-shadow: 0 8px 40px rgba(0,31,91,0.18);
@@ -488,7 +486,6 @@ select.form-control { cursor: pointer; }
 .bp-arrow { flex: 1; text-align: center; }
 .bp-arrow i { font-size: 24px; color: var(--red); }
 .bp-details { padding: 16px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.bp-detail-item {}
 .bp-detail-label { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
 .bp-detail-value { font-size: 14px; font-weight: 700; color: var(--text); }
 .bp-divider { border: none; border-top: 2px dashed var(--border); margin: 0 24px; }
@@ -502,7 +499,7 @@ select.form-control { cursor: pointer; }
   display: flex; align-items: center; gap: 8px;
 }
 
-/* ── PROFILE ── */
+/* PROFILE */
 .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .profile-incomplete {
   background: #FFFBEB; border: 1px solid #FDE68A;
@@ -510,7 +507,7 @@ select.form-control { cursor: pointer; }
   display: flex; align-items: center; gap: 12px;
 }
 
-/* ── SNACK ── */
+/* SNACK */
 .snack {
   position: fixed; bottom: 24px; right: 24px; z-index: 9000;
   background: white; border: 1px solid var(--border);
@@ -529,7 +526,7 @@ select.form-control { cursor: pointer; }
 .snack-content strong { display: block; font-size: 14px; font-weight: 700; color: var(--text); }
 .snack-content span { font-size: 12px; color: var(--text-muted); }
 
-/* ── LOADING ── */
+/* LOADING */
 .loading-screen {
   position: fixed; inset: 0; background: var(--navy); z-index: 9999;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
@@ -542,14 +539,21 @@ select.form-control { cursor: pointer; }
 @keyframes loadbar { to { width: 100%; } }
 .loading-text { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 3px; font-family: var(--font-head); }
 
-/* ── SWAL THEME ── */
+/* ── PERFIL INCOMPLETO BANNER (inside booking modal) ── */
+.profile-warn-banner {
+  background: #FFFBEB; border: 1px solid #FDE68A;
+  border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+
+/* SWAL */
 .swal2-popup { background: white !important; border: 1px solid var(--border) !important; color: var(--text) !important; font-family: var(--font-body) !important; border-radius: var(--radius) !important; box-shadow: 0 20px 60px rgba(0,31,91,0.15) !important; }
 .swal2-title { color: var(--text) !important; font-family: var(--font-head) !important; font-size: 20px !important; font-weight: 800 !important; }
 .swal2-html-container { color: var(--text-muted) !important; font-size: 14px !important; }
 .swal2-confirm { background: var(--red) !important; font-family: var(--font-body) !important; font-weight: 600 !important; border-radius: var(--radius-sm) !important; }
 .swal2-cancel { background: var(--bg2) !important; color: var(--text-muted) !important; font-family: var(--font-body) !important; border-radius: var(--radius-sm) !important; border: 1px solid var(--border) !important; }
 
-/* ── MOBILE BOTTOM NAV ── */
+/* MOBILE BOTTOM NAV */
 .mobile-bottom-nav {
   display: none;
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
@@ -573,7 +577,7 @@ select.form-control { cursor: pointer; }
   padding: 1px 5px; border-radius: 20px;
 }
 
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media (max-width: 1024px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .profile-grid { grid-template-columns: 1fr; }
@@ -619,7 +623,7 @@ select.form-control { cursor: pointer; }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════
-     BOOKING MODAL — two-column: form left, QR right
+     BOOKING MODAL
 ═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
   <div class="modal" id="modal">
@@ -629,7 +633,7 @@ select.form-control { cursor: pointer; }
       <button class="modal-close" onclick="closeModal()"><i class="bi bi-x"></i></button>
     </div>
     <div class="modal-body">
-      <div id="profile-incomplete-banner" style="display:none" class="profile-incomplete mb-3">
+      <div id="profile-incomplete-banner" style="display:none" class="profile-warn-banner">
         <i class="bi bi-exclamation-triangle-fill" style="color:var(--warning);font-size:20px;flex-shrink:0"></i>
         <div>
           <strong style="font-size:13px;display:block;">Completa tu perfil primero</strong>
@@ -639,7 +643,6 @@ select.form-control { cursor: pointer; }
       </div>
 
       <div class="modal-two-col">
-        <!-- LEFT: form -->
         <div>
           <div class="flight-summary" id="modal-flight-info"></div>
 
@@ -685,24 +688,14 @@ select.form-control { cursor: pointer; }
             </div>
           </div>
 
-          <!-- ASISTENCIA ESPECIAL -->
           <div class="section-divider"><i class="bi bi-heart-pulse" style="color:var(--red)"></i> Asistencia especial</div>
           <div class="assist-grid">
-            <label class="assist-item">
-              <input type="checkbox" id="a-auditiva"> <i class="bi bi-ear-fill"></i> Discapacidad auditiva
-            </label>
-            <label class="assist-item">
-              <input type="checkbox" id="a-movilidad"> <i class="bi bi-person-wheelchair"></i> Movilidad reducida
-            </label>
-            <label class="assist-item">
-              <input type="checkbox" id="a-visual"> <i class="bi bi-eye-slash-fill"></i> Discapacidad visual
-            </label>
-            <label class="assist-item">
-              <input type="checkbox" id="a-aeropuerto"> <i class="bi bi-building"></i> Asistencia en aeropuerto
-            </label>
+            <label class="assist-item"><input type="checkbox" id="a-auditiva"> <i class="bi bi-ear-fill"></i> Discapacidad auditiva</label>
+            <label class="assist-item"><input type="checkbox" id="a-movilidad"> <i class="bi bi-person-wheelchair"></i> Movilidad reducida</label>
+            <label class="assist-item"><input type="checkbox" id="a-visual"> <i class="bi bi-eye-slash-fill"></i> Discapacidad visual</label>
+            <label class="assist-item"><input type="checkbox" id="a-aeropuerto"> <i class="bi bi-building"></i> Asistencia en aeropuerto</label>
           </div>
 
-          <!-- SEAT MAP -->
           <div class="section-divider"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i> Elige tu asiento</div>
           <div class="seat-map-wrap">
             <div class="seat-map-legend">
@@ -713,14 +706,12 @@ select.form-control { cursor: pointer; }
             </div>
             <div class="seat-plane" id="seat-map-container">
               <div class="seat-nose"></div>
-              <!-- generated by JS -->
             </div>
             <div class="selected-seat-info" id="selected-seat-info">
               <i class="bi bi-cursor text-muted"></i> Toca un asiento para seleccionarlo
             </div>
           </div>
 
-          <!-- COMPROBANTE -->
           <div class="upload-box">
             <span class="upload-label-sm"><i class="bi bi-qr-code-scan"></i> Comprobante de pago</span>
             <p class="upload-desc">Escanea el QR y adjunta tu comprobante de transferencia. El boleto se emite cuando el admin confirme el pago.</p>
@@ -732,7 +723,6 @@ select.form-control { cursor: pointer; }
           </div>
         </div>
 
-        <!-- RIGHT: QR & bank info -->
         <div>
           <div class="qr-panel">
             <div class="qr-panel-title"><i class="bi bi-qr-code me-1"></i>Pago por transferencia</div>
@@ -783,16 +773,22 @@ select.form-control { cursor: pointer; }
   </div>
 </div>
 
-<!-- PROFILE MODAL (for Google users without profile) -->
+<!-- ═══════════════════════════════════════════════════════
+     PROFILE MODAL — solo para usuarios de Google sin perfil
+     CORRECCIÓN: no bloquea la app, tiene botón de cerrar,
+     y solo se activa cuando realmente faltan datos críticos
+═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="profile-modal-overlay">
   <div class="modal" style="max-width:480px">
     <div class="modal-stripe"></div>
     <div class="modal-header">
       <span class="modal-title"><i class="bi bi-person-plus me-2" style="color:var(--navy)"></i>Completa tu perfil</span>
+      <!-- CORRECCIÓN: botón X para cerrar sin bloquear -->
+      <button class="modal-close" onclick="dismissProfileModal()" title="Cerrar y continuar después"><i class="bi bi-x"></i></button>
     </div>
     <div class="modal-body">
-      <div class="alert" style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1E40AF;">
-        <i class="bi bi-google me-2"></i>Iniciaste sesión con Google. Por favor completa tus datos personales para continuar.
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1E40AF;">
+        <i class="bi bi-google me-2"></i>Iniciaste sesión con Google. Completa tus datos para reservar vuelos más fácilmente. <strong>Puedes hacerlo después en Mi Perfil.</strong>
       </div>
       <div class="form-row">
         <div class="form-group-modal">
@@ -835,8 +831,12 @@ select.form-control { cursor: pointer; }
         </select>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary btn-block" onclick="saveProfileModal()">
+    <div class="modal-footer" style="justify-content:space-between;">
+      <!-- CORRECCIÓN: botón para omitir y continuar sin completar -->
+      <button class="btn btn-secondary" onclick="dismissProfileModal()">
+        <i class="bi bi-skip-forward"></i> Completar después
+      </button>
+      <button class="btn btn-primary" onclick="saveProfileModal()">
         <i class="bi bi-floppy"></i> Guardar y continuar
       </button>
     </div>
@@ -905,7 +905,7 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- ─── DASHBOARD ─── -->
+    <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
       <div class="page-header">
         <div class="page-header-label">Panel de usuario</div>
@@ -948,7 +948,7 @@ select.form-control { cursor: pointer; }
       <div class="flights-grid" id="recommended-flights"></div>
     </div>
 
-    <!-- ─── MIS RESERVAS ─── -->
+    <!-- MIS RESERVAS -->
     <div class="page" id="page-mis-reservas">
       <div class="page-header">
         <div class="page-header-label">Historial</div>
@@ -959,7 +959,7 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- ─── BUSCAR VUELOS ─── -->
+    <!-- BUSCAR VUELOS -->
     <div class="page" id="page-buscar-vuelos">
       <div class="page-header">
         <div class="page-header-label">Disponibilidad</div>
@@ -999,7 +999,7 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
 
-    <!-- ─── PERFIL ─── -->
+    <!-- PERFIL -->
     <div class="page" id="page-perfil">
       <div class="page-header">
         <div class="page-header-label">Configuración</div>
@@ -1116,18 +1116,37 @@ async function init() {
   const { data: profile } = await supabase.from('users_profile').select('*').eq('id', user.id).single();
   userProfile = profile;
 
-  // Google user with no profile → show profile modal
-  const isGoogleUser = user.app_metadata?.provider === 'google';
-  const hasProfile = profile && profile.nombre && profile.numero_documento;
+  // ── CORRECCIÓN PRINCIPAL ──
+  // Solo mostrar modal de perfil si:
+  // 1. El usuario inició con Google
+  // 2. Le faltan datos CRÍTICOS (nombre + documento)
+  // 3. No lo ha descartado ya en esta sesión
+  const provider = user.app_metadata?.provider;
+  const isGoogleUser = provider === 'google' || provider === 'google_oauth2';
+  const hasCompleteName = !!(profile?.nombre && profile?.apellido);
+  const hasDocument = !!profile?.numero_documento;
+  const hasFullProfile = hasCompleteName && hasDocument;
+  const dismissed = sessionStorage.getItem('profile-modal-dismissed');
 
-  if (isGoogleUser && !hasProfile) {
-    document.getElementById('pm-nombre').value = user.user_metadata?.full_name?.split(' ')[0] || '';
-    document.getElementById('pm-apellido').value = user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '';
+  if (isGoogleUser && !hasFullProfile && !dismissed) {
+    // Pre-llenar con datos de Google disponibles
+    const googleName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+    const parts = googleName.trim().split(' ');
+    document.getElementById('pm-nombre').value = parts[0] || user.user_metadata?.given_name || '';
+    document.getElementById('pm-apellido').value = parts.slice(1).join(' ') || user.user_metadata?.family_name || '';
+    // NO bloquear el fondo — el modal aparece pero la app sigue funcionando si lo cierran
     document.getElementById('profile-modal-overlay').classList.add('show');
   }
 
-  const nombre = profile?.nombre || user.user_metadata?.nombre || user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0];
-  const apellido = profile?.apellido || user.user_metadata?.apellido || user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '';
+  // Nombre a mostrar: prioridad profile > google metadata > email
+  const nombre = profile?.nombre
+    || user.user_metadata?.given_name
+    || user.user_metadata?.full_name?.split(' ')[0]
+    || user.email.split('@')[0];
+  const apellido = profile?.apellido
+    || user.user_metadata?.family_name
+    || user.user_metadata?.full_name?.split(' ').slice(1).join(' ')
+    || '';
   const initials = ((nombre[0] || '') + (apellido[0] || '')).toUpperCase() || '??';
 
   document.getElementById('avatar-initials').textContent = initials;
@@ -1145,12 +1164,16 @@ async function init() {
     document.getElementById('prof-tipo-doc').value = profile.tipo_documento || '';
     document.getElementById('prof-num-doc').value = profile.numero_documento || '';
     // Pre-fill booking modal
-    document.getElementById('p-nombre').value = profile.nombre || '';
-    document.getElementById('p-apellido').value = profile.apellido || '';
+    document.getElementById('p-nombre').value = profile.nombre || nombre;
+    document.getElementById('p-apellido').value = profile.apellido || apellido;
     document.getElementById('p-num-doc').value = profile.numero_documento || '';
     document.getElementById('p-tipo-doc').value = profile.tipo_documento || 'documento_identidad';
     document.getElementById('p-nacimiento').value = profile.fecha_nacimiento || '';
     document.getElementById('p-genero').value = profile.genero || 'masculino';
+  } else {
+    // Sin perfil en DB, al menos pre-llenar nombre del modal de reserva con datos de Google
+    document.getElementById('p-nombre').value = nombre;
+    document.getElementById('p-apellido').value = apellido;
   }
   document.getElementById('p-correo').value = user.email;
 
@@ -1175,6 +1198,16 @@ async function init() {
 }
 
 // ═══════════════════════════════════════
+// DISMISS PROFILE MODAL (sin guardar)
+// CORRECCIÓN: permite seguir usando la app
+// ═══════════════════════════════════════
+window.dismissProfileModal = function() {
+  document.getElementById('profile-modal-overlay').classList.remove('show');
+  // Marcar en sessionStorage para no volver a mostrar en esta sesión
+  sessionStorage.setItem('profile-modal-dismissed', '1');
+};
+
+// ═══════════════════════════════════════
 // PROFILE MODAL SAVE (Google users)
 // ═══════════════════════════════════════
 window.saveProfileModal = async function() {
@@ -1182,7 +1215,7 @@ window.saveProfileModal = async function() {
   const apellido = document.getElementById('pm-apellido').value.trim();
   const numDoc = document.getElementById('pm-num-doc').value.trim();
   if (!nombre || !apellido || !numDoc) {
-    MySwal.fire({ icon: 'warning', title: 'Campos requeridos', text: 'Completa nombre, apellido y documento.' });
+    MySwal.fire({ icon: 'warning', title: 'Campos requeridos', text: 'Completa nombre, apellido y número de documento.' });
     return;
   }
   const { error } = await supabase.from('users_profile').upsert({
@@ -1196,6 +1229,7 @@ window.saveProfileModal = async function() {
   });
   if (error) { MySwal.fire({ icon: 'error', title: 'Error', text: error.message }); return; }
   document.getElementById('profile-modal-overlay').classList.remove('show');
+  sessionStorage.setItem('profile-modal-dismissed', '1');
   await MySwal.fire({ icon: 'success', title: '¡Perfil guardado!', text: 'Ya puedes reservar vuelos fácilmente.', confirmButtonText: 'Entendido' });
   await init();
 };
@@ -1357,7 +1391,6 @@ window.showBoardingPass = async function(reservationId) {
       </div>
       <div class="bp-status-banner"><i class="bi bi-check-circle-fill"></i> Reserva CONFIRMADA — Preséntese 2 horas antes del vuelo</div>
     </div>`;
-
   document.getElementById('bp-overlay').classList.add('show');
 };
 
@@ -1371,7 +1404,6 @@ function buildSeatMap(occupiedSeats = []) {
   const cols = ['A','B','C','D','E','F'];
   let html = '<div class="seat-nose"></div>';
 
-  // Column header
   html += `<div class="seat-row"><div class="seat-row-num"></div>`;
   cols.forEach((c, i) => {
     if (i === 3) html += '<div class="seat-aisle"></div>';
@@ -1399,9 +1431,7 @@ function buildSeatMap(occupiedSeats = []) {
 
 window.selectSeat = function(seatId, isOccupied) {
   if (isOccupied) return;
-  // deselect previous
   document.querySelectorAll('.seat.selected').forEach(s => {
-    const wasFirst = s.dataset.seat && parseInt(s.dataset.seat) <= 3;
     s.classList.remove('selected');
     s.classList.add('available');
   });
@@ -1484,16 +1514,6 @@ function flightCard(f) {
 // BOOKING MODAL
 // ═══════════════════════════════════════
 window.openBookingModal = async function(flightId) {
-  // Check profile completion
-  const hasProfile = userProfile && userProfile.nombre && userProfile.numero_documento;
-  const isGoogle = currentUser.app_metadata?.provider === 'google';
-
-  if (isGoogle && !hasProfile) {
-    // Show inline profile banner + profile modal
-    document.getElementById('profile-modal-overlay').classList.add('show');
-    return;
-  }
-
   const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
   if (!f) return;
   selectedFlight = f;
@@ -1513,11 +1533,10 @@ window.openBookingModal = async function(flightId) {
 
   document.getElementById('qr-amount').textContent = `${cur} ${f.precio}`;
 
-  // Show profile incomplete banner if not Google but missing data
-  const banner = document.getElementById('profile-incomplete-banner');
-  if (!hasProfile) { banner.style.display = 'flex'; } else { banner.style.display = 'none'; }
+  // Mostrar advertencia si perfil incompleto (sin bloquear)
+  const hasProfile = userProfile && userProfile.nombre && userProfile.numero_documento;
+  document.getElementById('profile-incomplete-banner').style.display = hasProfile ? 'none' : 'flex';
 
-  // Load occupied seats for this flight
   const { data: passengers } = await supabase
     .from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
   const occupied = (passengers || []).map(p => p.asiento).filter(Boolean);
@@ -1592,7 +1611,6 @@ window.confirmReservation = async function() {
     }).select().single();
     if (pErr) throw pErr;
 
-    // Special assistance
     const asistencia = {
       discapacidad_auditiva: document.getElementById('a-auditiva').checked,
       movilidad_reducida: document.getElementById('a-movilidad').checked,
@@ -1603,7 +1621,6 @@ window.confirmReservation = async function() {
       await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asistencia });
     }
 
-    // Upload comprobante
     const fileInput = document.getElementById('comprobante');
     let comprobanteUrl = null;
     if (fileInput.files[0]) {

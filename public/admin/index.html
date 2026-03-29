@@ -13,173 +13,105 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <style>
 :root{
-  --navy:#0B1E4A;
-  --navy2:#152B6B;
-  --blue:#1A3A8C;
-  --red:#C8102E;
-  --red2:#A50E26;
-  --gold:#C9A84C;
-  --sw:240px;
-  --th:56px;
-  --fh:Outfit,sans-serif;
-  --fb:'DM Sans',sans-serif;
-  --fm:'DM Mono',monospace;
-  --bg:#EEF1F8;
-  --sur:#FFFFFF;
-  --bdr:#D8DEED;
-  --bdr2:#BFC8DC;
-  --tx:#0D1B33;
-  --txm:#5A6A85;
-  --txd:#9AAAC0;
-  --r:10px;
-  --r2:6px;
-  --sh:0 1px 10px rgba(11,30,74,.06);
-  --shm:0 4px 24px rgba(11,30,74,.1);
-  --ok:#059669;
-  --warn:#D97706;
-  --err:#DC2626;
-  --inf:#2563EB;
+  --navy:#0B1E4A;--navy2:#152B6B;--blue:#1A3A8C;
+  --red:#C8102E;--red2:#A50E26;--gold:#C9A84C;
+  --sw:240px;--th:56px;
+  --fh:Outfit,sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+  --bg:#EEF1F8;--sur:#FFFFFF;--bdr:#D8DEED;--bdr2:#BFC8DC;
+  --tx:#0D1B33;--txm:#5A6A85;--txd:#9AAAC0;
+  --r:10px;--r2:6px;
+  --sh:0 1px 10px rgba(11,30,74,.06);--shm:0 4px 24px rgba(11,30,74,.1);
+  --ok:#059669;--warn:#D97706;--err:#DC2626;--inf:#2563EB;
   --ease:all .15s ease;
+  --drawer-w:520px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{font-size:14px}
-body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+html,body{height:100%;font-size:14px}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);overflow:hidden}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:rgba(11,30,74,.12);border-radius:4px}
 a{text-decoration:none}
 
+/* ── LAYOUT WRAPPER ── */
+.app-wrap{display:flex;height:100vh;width:100vw;overflow:hidden}
+
 /* ── SIDEBAR ── */
 .sb{
-  width:var(--sw);position:fixed;top:0;left:0;bottom:0;
+  width:var(--sw);flex-shrink:0;
   background:var(--navy);display:flex;flex-direction:column;
-  z-index:400;
+  height:100vh;overflow:hidden;
+  position:relative;z-index:100;
 }
-.sb-logo{
-  padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07);
-  display:flex;align-items:center;gap:10px;
-}
+.sb-logo{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .sb-logo img{height:22px;filter:brightness(0) invert(1)}
 .sb-logo-tag{font-family:var(--fh);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.sb-user{
-  margin:10px 12px;background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);
-  padding:10px 12px;display:flex;align-items:center;gap:10px;
-}
-.sb-av{
-  width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,var(--red),var(--red2));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fh);font-size:12px;font-weight:800;color:white;flex-shrink:0;
-}
+.sb-user{margin:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sb-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--red2));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:12px;font-weight:800;color:white;flex-shrink:0}
 .sb-un{font-size:13px;font-weight:600;color:white;line-height:1.2}
 .sb-ur{font-size:10px;color:rgba(200,16,46,.7);font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .sb-nav{flex:1;padding:6px 0;overflow-y:auto}
-.sb-sec{
-  font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(255,255,255,.25);padding:12px 18px 4px;
-}
-.sb-link{
-  display:flex;align-items:center;gap:10px;padding:9px 10px 9px 18px;
-  margin:1px 8px;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;
-  cursor:pointer;border-radius:var(--r2);transition:var(--ease);
-}
+.sb-sec{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:12px 18px 4px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 10px 9px 18px;margin:1px 8px;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--r2);transition:var(--ease)}
 .sb-link i{font-size:16px;width:18px;text-align:center;flex-shrink:0}
 .sb-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06)}
 .sb-link.active{color:white;background:rgba(255,255,255,.1);font-weight:600}
-.sb-link .nb{
-  margin-left:auto;background:var(--red);color:white;
-  font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;
-}
-.sb-ft{padding:12px;border-top:1px solid rgba(255,255,255,.07)}
-.btn-out{
-  width:100%;padding:9px;background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);
-  color:rgba(255,255,255,.5);font-family:var(--fb);font-size:12px;
-  font-weight:600;cursor:pointer;transition:var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+.sb-link .nb{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px}
+.sb-ft{padding:12px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.btn-out{width:100%;padding:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);color:rgba(255,255,255,.5);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:var(--ease);display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-out:hover{background:rgba(200,16,46,.2);color:white;border-color:rgba(200,16,46,.4)}
 
-/* ── MAIN ── */
-.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column}
+/* ── MAIN AREA ── */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0}
 
 /* ── TOPBAR ── */
-.tb{
-  position:sticky;top:0;z-index:200;
-  background:rgba(255,255,255,.97);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--bdr);height:var(--th);
-  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 1px 6px rgba(11,30,74,.05);
-}
+.tb{flex-shrink:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);height:var(--th);padding:0 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(11,30,74,.05);z-index:50}
 .tb-title{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--tx)}
 .tb-r{display:flex;align-items:center;gap:8px}
 .tb-clk{font-size:12px;color:var(--txm);font-weight:600;font-family:var(--fm)}
-.nb-btn{
-  position:relative;background:none;border:none;cursor:pointer;
-  padding:6px;border-radius:var(--r2);color:var(--txm);transition:var(--ease);
-}
+.nb-btn{position:relative;background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r2);color:var(--txm);transition:var(--ease)}
 .nb-btn:hover{background:var(--bg);color:var(--tx)}
-.nb-btn .nd{
-  position:absolute;top:5px;right:5px;width:7px;height:7px;
-  background:var(--red);border-radius:50%;border:2px solid white;
-}
+.nb-btn .nd{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid white}
+
+/* ── CONTENT SCROLL AREA ── */
+.content-scroll{flex:1;overflow-y:auto;overflow-x:hidden}
 
 /* ── PAGE ── */
-.page{display:none;padding:20px 24px;animation:fu .2s ease}
+.page{display:none;padding:22px 28px;animation:fu .2s ease}
 .page.active{display:block}
-@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.ph{margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .ph-lbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:2px}
 .ph h1{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--tx)}
 .ph h1 span{color:var(--navy)}
 
 /* ── STAT CARDS ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.sc{
-  background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);
-  padding:16px 18px;display:flex;align-items:center;gap:14px;
-  transition:var(--ease);box-shadow:var(--sh);
-}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.sc{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:var(--ease);box-shadow:var(--sh)}
 .sc:hover{transform:translateY(-1px);box-shadow:var(--shm)}
 .si{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.si.navy{background:rgba(11,30,74,.08);color:var(--navy)}
-.si.grn{background:rgba(5,150,105,.1);color:var(--ok)}
-.si.amb{background:rgba(217,119,6,.1);color:var(--warn)}
-.si.red{background:rgba(200,16,46,.1);color:var(--red)}
-.si.blu{background:rgba(37,99,235,.1);color:var(--inf)}
-.si.gld{background:rgba(201,168,76,.1);color:var(--gold)}
+.si.navy{background:rgba(11,30,74,.08);color:var(--navy)}.si.grn{background:rgba(5,150,105,.1);color:var(--ok)}
+.si.amb{background:rgba(217,119,6,.1);color:var(--warn)}.si.red{background:rgba(200,16,46,.1);color:var(--red)}
+.si.blu{background:rgba(37,99,235,.1);color:var(--inf)}.si.gld{background:rgba(201,168,76,.1);color:var(--gold)}
 .sv{font-family:var(--fh);font-size:24px;font-weight:800;color:var(--tx);line-height:1}
 .sl{font-size:11px;color:var(--txm);margin-top:2px;font-weight:500}
 
 /* ── CARD ── */
 .card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:18px}
-.ch{
-  padding:12px 18px;background:var(--sur);border-bottom:1px solid var(--bdr);
-  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-}
+.ch{padding:13px 18px;background:var(--sur);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .ct{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px}
 .cb{padding:18px}
 
 /* ── BTN ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r2);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:var(--ease);white-space:nowrap}
-.btn-p{background:var(--red);color:white}
-.btn-p:hover{background:var(--red2)}
-.btn-n{background:var(--navy);color:white}
-.btn-n:hover{background:var(--navy2)}
-.btn-g{background:var(--ok);color:white}
-.btn-g:hover{background:#047857}
-.btn-w{background:var(--warn);color:white}
-.btn-w:hover{background:#B45309}
-.btn-d{background:var(--err);color:white}
-.btn-d:hover{background:#B91C1C}
-.btn-s{background:#F1F5F9;color:var(--txm);border:1px solid var(--bdr)}
-.btn-s:hover{background:var(--bdr);color:var(--tx)}
-.btn-o{background:transparent;border:1px solid var(--bdr2);color:var(--navy)}
-.btn-o:hover{background:var(--bg)}
-.btn-sm{padding:5px 10px;font-size:11px}
-.btn-xs{padding:3px 8px;font-size:11px;border-radius:5px}
+.btn-p{background:var(--red);color:white}.btn-p:hover{background:var(--red2)}
+.btn-n{background:var(--navy);color:white}.btn-n:hover{background:var(--navy2)}
+.btn-g{background:var(--ok);color:white}.btn-g:hover{background:#047857}
+.btn-w{background:var(--warn);color:white}.btn-w:hover{background:#B45309}
+.btn-d{background:var(--err);color:white}.btn-d:hover{background:#B91C1C}
+.btn-s{background:#F1F5F9;color:var(--txm);border:1px solid var(--bdr)}.btn-s:hover{background:var(--bdr);color:var(--tx)}
+.btn-o{background:transparent;border:1px solid var(--bdr2);color:var(--navy)}.btn-o:hover{background:var(--bg)}
+.btn-sm{padding:6px 12px;font-size:12px}.btn-xs{padding:4px 9px;font-size:11px;border-radius:5px}
 .btn:disabled{opacity:.4;pointer-events:none}
-.btn-ic{padding:6px}
 
 /* ── BADGES ── */
 .bp{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px}
@@ -193,87 +125,129 @@ a{text-decoration:none}
 
 /* ── FORM ── */
 .fl{font-size:11px;font-weight:600;color:var(--txm);letter-spacing:.3px;display:block;margin-bottom:4px}
-.fc{
-  width:100%;padding:8px 11px;background:#F8FAFF;border:1px solid var(--bdr);
-  border-radius:var(--r2);color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;transition:var(--ease);
-}
+.fc{width:100%;padding:8px 11px;background:#F8FAFF;border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;transition:var(--ease)}
 .fc:focus{border-color:var(--navy);background:white;box-shadow:0 0 0 3px rgba(11,30,74,.06)}
 .fc::placeholder{color:var(--txd)}
 select.fc{cursor:pointer}
 .fc:disabled{opacity:.5;cursor:not-allowed}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.fg{margin-bottom:10px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fg{margin-bottom:12px}
+
+/* ── QUICK ACTIONS ── */
+.qg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.qc{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:var(--ease);box-shadow:var(--sh);display:flex;align-items:center;gap:10px}
+.qc:hover{transform:translateY(-1px);box-shadow:var(--shm);border-color:var(--bdr2)}
+.qi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ql{font-size:12px;font-weight:700;color:var(--tx)}.qs{font-size:10px;color:var(--txd)}
 
 /* ── DATATABLES ── */
-.dataTables_wrapper .dataTables_filter input{background:#F8FAFF;border:1px solid var(--bdr);border-radius:var(--r2);padding:6px 11px;font-family:var(--fb);font-size:12px;color:var(--tx);outline:none;transition:var(--ease)}
+.dataTables_wrapper .dataTables_filter input{background:#F8FAFF;border:1px solid var(--bdr);border-radius:var(--r2);padding:7px 12px;font-family:var(--fb);font-size:12px;color:var(--tx);outline:none;transition:var(--ease)}
 .dataTables_wrapper .dataTables_filter input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,74,.06)}
 .dataTables_wrapper .dataTables_length select{background:#F8FAFF;border:1px solid var(--bdr);border-radius:var(--r2);padding:5px 9px;font-family:var(--fb);font-size:12px;color:var(--tx)}
 .dataTables_wrapper .dataTables_paginate .paginate_button{font-family:var(--fb)!important;font-size:12px!important;border-radius:5px!important;margin:0 2px!important}
 .dataTables_wrapper .dataTables_paginate .paginate_button.current{background:var(--navy)!important;border-color:var(--navy)!important;color:white!important}
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover{background:var(--bg)!important;border-color:var(--bdr)!important;color:var(--tx)!important}
 .dataTables_wrapper .dataTables_info{font-size:11px;color:var(--txm)}
-table.dataTable thead th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)!important;border-top:none!important;padding:10px 12px!important;white-space:nowrap}
-table.dataTable tbody td{font-size:12px;color:var(--txm);border-bottom:1px solid var(--bdr)!important;padding:10px 12px!important;vertical-align:middle!important}
+table.dataTable thead th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)!important;border-top:none!important;padding:11px 13px!important;white-space:nowrap}
+table.dataTable tbody td{font-size:13px;color:var(--txm);border-bottom:1px solid var(--bdr)!important;padding:11px 13px!important;vertical-align:middle!important}
 table.dataTable tbody tr:hover td{background:#F8FAFF}
 table.dataTable{border-collapse:collapse!important}
-.dt-buttons .btn{margin-right:3px}
+.dt-buttons .btn{margin-right:4px}
 
-/* ── MODAL ── */
-.mo{
-  position:fixed;inset:0;background:transparent;z-index:700;
-  display:flex;align-items:center;justify-content:center;padding:14px;
-  opacity:0;pointer-events:none;visibility:hidden;transition:opacity .2s,background .2s;
+/* ══════════════════════════════════════
+   DRAWER (reemplaza a todos los modales)
+══════════════════════════════════════ */
+/* Overlay oscuro detrás del drawer */
+.drawer-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,0);
+  z-index:500;pointer-events:none;transition:background .3s ease;
 }
-.mo.show{opacity:1;pointer-events:all;visibility:visible;background:rgba(0,0,0,.4);backdrop-filter:blur(8px)}
-.mb{
-  background:white;border:1px solid var(--bdr);border-radius:var(--r);
-  width:100%;max-height:92vh;overflow-y:auto;
-  transform:translateY(12px) scale(.98);
-  transition:transform .2s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 20px 60px rgba(11,30,74,.18);
+.drawer-backdrop.open{background:rgba(5,14,40,.45);backdrop-filter:blur(4px);pointer-events:all}
+
+/* Drawer base */
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:var(--drawer-w);max-width:96vw;
+  background:white;
+  display:flex;flex-direction:column;
+  z-index:600;
+  transform:translateX(100%);
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+  box-shadow:-8px 0 40px rgba(11,30,74,.14);
 }
-.mo.show .mb{transform:translateY(0) scale(1)}
-.mst{height:3px;background:linear-gradient(90deg,var(--navy),var(--red))}
-.mhd{padding:14px 18px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
-.mtt{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--tx)}
-.mcl{background:#F1F5F9;border:1px solid var(--bdr);color:var(--txm);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:var(--ease)}
-.mcl:hover{background:var(--bg);color:var(--tx)}
-.mbd{padding:18px}
-.mft{padding:12px 18px;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end;gap:8px;background:#F8FAFF}
+.drawer.open{transform:translateX(0)}
 
-/* ── QUICK ACTIONS ── */
-.qg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
-.qc{
-  background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);
-  padding:14px 16px;cursor:pointer;transition:var(--ease);box-shadow:var(--sh);
-  display:flex;align-items:center;gap:10px;
+/* Drawer stripe top */
+.drawer-stripe{height:3px;flex-shrink:0;background:linear-gradient(90deg,var(--navy),var(--red))}
+
+/* Drawer header */
+.drawer-hd{
+  flex-shrink:0;padding:16px 20px;
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;background:white;
 }
-.qc:hover{transform:translateY(-1px);box-shadow:var(--shm);border-color:var(--bdr2)}
-.qi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.ql{font-size:12px;font-weight:700;color:var(--tx)}
-.qs{font-size:10px;color:var(--txd)}
+.drawer-title{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--tx);display:flex;align-items:center;gap:8px}
+.drawer-close{
+  width:30px;height:30px;border-radius:7px;border:1px solid var(--bdr);
+  background:#F1F5F9;color:var(--txm);cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center;transition:var(--ease);flex-shrink:0;
+}
+.drawer-close:hover{background:var(--bdr);color:var(--tx)}
 
-/* ── COMP VIEWER ── */
-.cv{background:#F8FAFF;border:1px solid var(--bdr);border-radius:var(--r2);padding:14px;text-align:center}
-.cv img{max-width:100%;max-height:320px;border-radius:6px;box-shadow:var(--shm)}
-.cv .nc{color:var(--txd);font-size:12px;padding:28px}
+/* Drawer body scroll */
+.drawer-body{flex:1;overflow-y:auto;padding:20px}
 
-/* ── BOARDING PASS ── */
-.bp-card{background:white;border-radius:12px;box-shadow:0 6px 30px rgba(11,30,74,.13);overflow:hidden;max-width:480px;margin:0 auto;font-family:var(--fb)}
-.bpc-hd{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 20px;color:white;display:flex;justify-content:space-between;align-items:center}
-.bpc-al{font-family:var(--fh);font-size:15px;font-weight:800}
-.bpc-rt{display:flex;align-items:center;gap:8px;padding:16px 20px;background:#EFF6FF}
-.bpc-ia{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--navy)}
-.bpc-cn{font-size:10px;color:var(--txm)}
-.bpc-ar{flex:1;text-align:center;color:var(--red);font-size:20px}
-.bpc-dt{padding:12px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.bpc-dl{font-size:9px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:1px}
-.bpc-dv{font-size:12px;font-weight:700;color:var(--tx)}
-.bpc-div{border:none;border-top:2px dashed var(--bdr);margin:0 20px}
-.bpc-bt{padding:12px 20px;display:flex;align-items:center;gap:12px}
-.bpc-bc{flex:1;height:32px;background:repeating-linear-gradient(90deg,#1a1a1a 0,#1a1a1a 2px,white 2px,white 5px);border-radius:3px;opacity:.7}
-.bpc-st{background:#D1FAE5;border-top:1px solid #6EE7B7;padding:7px 20px;font-size:11px;color:#065F46;font-weight:700;display:flex;align-items:center;gap:7px}
+/* Drawer footer */
+.drawer-ft{
+  flex-shrink:0;padding:14px 20px;
+  border-top:1px solid var(--bdr);
+  display:flex;justify-content:flex-end;gap:8px;
+  background:#F8FAFF;
+}
+
+/* ── INFO ROW helper ── */
+.ir{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--bdr);font-size:12.5px}
+.ir:last-child{border-bottom:none}
+.ir-lbl{color:var(--txd);font-weight:500}
+.ir-val{color:var(--tx);font-weight:600;text-align:right}
+
+/* ── FLIGHT ROUTE HEADER ── */
+.route-hd{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);border-radius:10px;padding:16px 20px;color:white;margin-bottom:14px}
+.route-cities{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.route-iata{font-family:var(--fh);font-size:30px;font-weight:900;line-height:1}
+.route-arrow{color:rgba(255,255,255,.5);font-size:16px}
+.route-name{font-size:11px;opacity:.6;margin-top:2px}
+.route-meta{font-size:11px;opacity:.65;margin-top:4px}
+
+/* ── SECTION TITLE inside drawer ── */
+.dr-sec{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txd);margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.dr-sec::after{content:'';flex:1;height:1px;background:var(--bdr)}
+
+/* ── PASSENGER BOX ── */
+.pax-box{background:#F8FAFF;border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:14px}
+
+/* ── COMPROBANTE VIEWER ── */
+.cv{background:#F8FAFF;border:1px solid var(--bdr);border-radius:8px;padding:12px;text-align:center;min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.cv img{max-width:100%;max-height:260px;border-radius:7px;box-shadow:var(--shm)}
+.cv .nc{color:var(--txd);font-size:12px}
+
+/* ── BOARDING PASS card ── */
+.bpcard{background:white;border-radius:12px;box-shadow:0 6px 30px rgba(11,30,74,.13);overflow:hidden;font-family:var(--fb)}
+.bpcard-hd{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 20px;color:white;display:flex;justify-content:space-between;align-items:center}
+.bpcard-al{font-family:var(--fh);font-size:14px;font-weight:800}
+.bpcard-rt{display:flex;align-items:center;gap:8px;padding:14px 20px;background:#EFF6FF}
+.bpcard-ia{font-family:var(--fh);font-size:26px;font-weight:900;color:var(--navy)}
+.bpcard-cn{font-size:10px;color:var(--txm);margin-top:2px}
+.bpcard-ar{flex:1;text-align:center;color:var(--red);font-size:18px}
+.bpcard-dt{padding:12px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.bpcard-dl{font-size:9px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.bpcard-dv{font-size:12px;font-weight:700;color:var(--tx)}
+.bpcard-div{border:none;border-top:2px dashed var(--bdr);margin:0 20px}
+.bpcard-bt{padding:12px 20px;display:flex;align-items:center;gap:12px}
+.bpcard-bc{flex:1;height:30px;background:repeating-linear-gradient(90deg,#1a1a1a 0,#1a1a1a 2px,white 2px,white 5px);border-radius:3px;opacity:.7}
+.bpcard-st{background:#D1FAE5;border-top:1px solid #6EE7B7;padding:8px 20px;font-size:11px;color:#065F46;font-weight:700;display:flex;align-items:center;gap:7px}
 
 /* ── TIMELINE ── */
 .tl{position:relative;padding-left:18px}
@@ -300,22 +274,30 @@ table.dataTable{border-collapse:collapse!important}
 
 /* ── TOAST ── */
 #toast-cont{position:fixed;bottom:20px;right:20px;z-index:9500;display:flex;flex-direction:column;gap:8px}
-.toast-item{
-  background:white;border:1px solid var(--bdr);border-radius:var(--r);
-  padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:240px;max-width:320px;
-  box-shadow:var(--shm);animation:ti .25s ease;
-}
+.toast-item{background:white;border:1px solid var(--bdr);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:240px;max-width:320px;box-shadow:var(--shm);animation:ti .25s ease}
 @keyframes ti{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.toast-item.out{animation:to .25s ease forwards}
-@keyframes to{to{opacity:0;transform:translateY(8px)}}
-.toast-item.ok{border-left:3px solid var(--ok)}
-.toast-item.er{border-left:3px solid var(--err)}
-.toast-item.wn{border-left:3px solid var(--warn)}
-.toast-tt{font-size:12px;font-weight:700;color:var(--tx)}
-.toast-sb{font-size:11px;color:var(--txm)}
+.toast-item.out{animation:tio .25s ease forwards}
+@keyframes tio{to{opacity:0;transform:translateY(8px)}}
+.toast-item.ok{border-left:3px solid var(--ok)}.toast-item.er{border-left:3px solid var(--err)}.toast-item.wn{border-left:3px solid var(--warn)}
+.toast-tt{font-size:12px;font-weight:700;color:var(--tx)}.toast-sb{font-size:11px;color:var(--txm)}
 
-@media(max-width:1200px){.stats{grid-template-columns:repeat(2,1fr)}.qg{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.main{margin-left:0}.page{padding:14px}.stats{grid-template-columns:1fr 1fr}.fr,.fr3{grid-template-columns:1fr}}
+/* ── STATE BUTTONS row ── */
+.state-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+
+/* ── Responsive ── */
+@media(max-width:1280px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.qg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  body{overflow:auto}
+  .app-wrap{flex-direction:column;height:auto}
+  .sb{width:100%;height:auto}
+  .main{height:auto}
+  .content-scroll{overflow:visible}
+  .page{padding:14px 16px}
+  .stats{grid-template-columns:1fr 1fr}
+  .fr,.fr3{grid-template-columns:1fr}
+  .drawer{width:100vw}
+}
 </style>
 </head>
 <body>
@@ -329,125 +311,123 @@ table.dataTable{border-collapse:collapse!important}
   <div class="ls-t">CARGANDO PANEL ADMINISTRATIVO</div>
 </div>
 
-<!-- ═════ MODAL: VUELO ═════ -->
-<div class="mo" id="m-flight" onclick="if(event.target.id==='m-flight')closeFM()">
-  <div class="mb" style="max-width:580px">
-    <div class="mst"></div>
-    <div class="mhd">
-      <span class="mtt" id="fm-ttl">Nuevo vuelo</span>
-      <button class="mcl" onclick="closeFM()"><i class="bi bi-x"></i></button>
+<!-- ═══════════════ BACKDROP ═══════════════ -->
+<div class="drawer-backdrop" id="backdrop" onclick="closeAllDrawers()"></div>
+
+<!-- ══════════ DRAWER: NUEVO / EDITAR VUELO ══════════ -->
+<div class="drawer" id="dr-flight">
+  <div class="drawer-stripe"></div>
+  <div class="drawer-hd">
+    <div class="drawer-title"><i class="bi bi-airplane" style="color:var(--navy)"></i><span id="dr-flight-ttl">Nuevo vuelo</span></div>
+    <button class="drawer-close" onclick="closeDrFlight()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="drawer-body">
+    <input type="hidden" id="f-id"/>
+    <div class="dr-sec">Ruta</div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Origen *</label><input class="fc" id="f-ori" placeholder="Ej: Santa Cruz (VVI)"/></div>
+      <div class="fg"><label class="fl">Destino *</label><input class="fc" id="f-des" placeholder="Ej: La Paz (LPB)"/></div>
     </div>
-    <div class="mbd">
-      <input type="hidden" id="f-id"/>
-      <div class="fr">
-        <div class="fg"><label class="fl">Origen *</label><input class="fc" id="f-ori" placeholder="Ej: Santa Cruz (VVI)"/></div>
-        <div class="fg"><label class="fl">Destino *</label><input class="fc" id="f-des" placeholder="Ej: La Paz (LPB)"/></div>
-        <div class="fg"><label class="fl">Salida *</label><input class="fc" type="datetime-local" id="f-sal"/></div>
-        <div class="fg"><label class="fl">Llegada *</label><input class="fc" type="datetime-local" id="f-lle"/></div>
-        <div class="fg"><label class="fl">Precio (Bs.) *</label><input class="fc" type="number" id="f-pre" placeholder="450"/></div>
-        <div class="fg"><label class="fl">Asientos totales *</label><input class="fc" type="number" id="f-tot" placeholder="120"/></div>
-        <div class="fg"><label class="fl">Asientos disponibles *</label><input class="fc" type="number" id="f-dis" placeholder="120"/></div>
-        <div class="fg"><label class="fl">Estado</label>
-          <select class="fc" id="f-est">
-            <option value="programado">Programado</option>
-            <option value="abordando">Abordando</option>
-            <option value="en_vuelo">En vuelo</option>
-            <option value="aterrizado">Aterrizado</option>
-            <option value="cancelado">Cancelado</option>
-          </select>
-        </div>
-      </div>
+    <div class="dr-sec">Horario</div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Salida *</label><input class="fc" type="datetime-local" id="f-sal"/></div>
+      <div class="fg"><label class="fl">Llegada *</label><input class="fc" type="datetime-local" id="f-lle"/></div>
     </div>
-    <div class="mft">
-      <button class="btn btn-s" onclick="closeFM()">Cancelar</button>
-      <button class="btn btn-n" onclick="saveFlight()"><i class="bi bi-floppy"></i> Guardar vuelo</button>
+    <div class="dr-sec">Capacidad y tarifa</div>
+    <div class="fr3">
+      <div class="fg"><label class="fl">Precio (Bs.) *</label><input class="fc" type="number" id="f-pre" placeholder="450"/></div>
+      <div class="fg"><label class="fl">Total asientos *</label><input class="fc" type="number" id="f-tot" placeholder="120"/></div>
+      <div class="fg"><label class="fl">Disponibles *</label><input class="fc" type="number" id="f-dis" placeholder="120"/></div>
+    </div>
+    <div class="dr-sec">Estado</div>
+    <div class="fg">
+      <select class="fc" id="f-est">
+        <option value="programado">Programado</option>
+        <option value="abordando">Abordando</option>
+        <option value="en_vuelo">En vuelo</option>
+        <option value="aterrizado">Aterrizado</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+    </div>
+  </div>
+  <div class="drawer-ft">
+    <button class="btn btn-s" onclick="closeDrFlight()">Cancelar</button>
+    <button class="btn btn-n" onclick="saveFlight()"><i class="bi bi-floppy"></i> Guardar vuelo</button>
+  </div>
+</div>
+
+<!-- ══════════ DRAWER: VERIFICAR PAGO ══════════ -->
+<div class="drawer" id="dr-pay">
+  <div class="drawer-stripe"></div>
+  <div class="drawer-hd">
+    <div class="drawer-title"><i class="bi bi-receipt" style="color:var(--warn)"></i> Verificar pago</div>
+    <button class="drawer-close" onclick="closeDrPay()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="drawer-body" id="dr-pay-body"></div>
+  <div class="drawer-ft">
+    <button class="btn btn-s" onclick="closeDrPay()">Cerrar</button>
+    <button class="btn btn-d" id="btn-rej" onclick="reviewPay('rechazado')"><i class="bi bi-x-circle"></i> Rechazar</button>
+    <button class="btn btn-g" id="btn-apr" onclick="reviewPay('aprobado')"><i class="bi bi-check-circle"></i> Aprobar</button>
+  </div>
+</div>
+
+<!-- ══════════ DRAWER: DETALLE RESERVA ══════════ -->
+<div class="drawer" id="dr-res">
+  <div class="drawer-stripe"></div>
+  <div class="drawer-hd">
+    <div class="drawer-title"><i class="bi bi-ticket-perforated" style="color:var(--navy)"></i> Detalle de reserva</div>
+    <button class="drawer-close" onclick="closeDrRes()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="drawer-body" id="dr-res-body"></div>
+  <div class="drawer-ft" id="dr-res-ft"></div>
+</div>
+
+<!-- ══════════ DRAWER: BOARDING PASS ══════════ -->
+<div class="drawer" id="dr-bp">
+  <div class="drawer-stripe"></div>
+  <div class="drawer-hd">
+    <div class="drawer-title"><i class="bi bi-ticket-perforated" style="color:var(--ok)"></i> Boleto de embarque</div>
+    <button class="drawer-close" onclick="closeDrBP()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="drawer-body">
+    <div id="bp-content"></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-n" style="flex:1;justify-content:center" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir</button>
     </div>
   </div>
 </div>
 
-<!-- ═════ MODAL: PAGO ═════ -->
-<div class="mo" id="m-pay" onclick="if(event.target.id==='m-pay')closePM()">
-  <div class="mb" style="max-width:660px">
-    <div class="mst"></div>
-    <div class="mhd">
-      <span class="mtt"><i class="bi bi-receipt" style="color:var(--navy);margin-right:6px"></i>Verificar pago</span>
-      <button class="mcl" onclick="closePM()"><i class="bi bi-x"></i></button>
+<!-- ══════════ DRAWER: USUARIO ══════════ -->
+<div class="drawer" id="dr-user" style="--drawer-w:400px">
+  <div class="drawer-stripe"></div>
+  <div class="drawer-hd">
+    <div class="drawer-title"><i class="bi bi-person-gear" style="color:var(--navy)"></i> Editar usuario</div>
+    <button class="drawer-close" onclick="closeDrUser()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="drawer-body">
+    <input type="hidden" id="u-id"/>
+    <div class="dr-sec">Datos personales</div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Nombre</label><input class="fc" id="u-nom"/></div>
+      <div class="fg"><label class="fl">Apellido</label><input class="fc" id="u-ape"/></div>
     </div>
-    <div class="mbd">
-      <div class="row g-3">
-        <div class="col-md-6"><div id="pay-info"></div></div>
-        <div class="col-md-6"><div class="cv" id="cv"><div class="nc"><i class="bi bi-image" style="font-size:32px;display:block;margin-bottom:6px;color:var(--txd)"></i>Sin comprobante</div></div></div>
-      </div>
+    <div class="fg"><label class="fl">Teléfono</label><input class="fc" id="u-tel"/></div>
+    <div class="dr-sec">Permisos</div>
+    <div class="fg"><label class="fl">Rol</label>
+      <select class="fc" id="u-rol">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
     </div>
-    <div class="mft">
-      <button class="btn btn-s" onclick="closePM()">Cerrar</button>
-      <button class="btn btn-d" id="btn-rej" onclick="reviewPay('rechazado')"><i class="bi bi-x-circle"></i> Rechazar</button>
-      <button class="btn btn-g" id="btn-apr" onclick="reviewPay('aprobado')"><i class="bi bi-check-circle"></i> Aprobar</button>
-    </div>
+  </div>
+  <div class="drawer-ft">
+    <button class="btn btn-s" onclick="closeDrUser()">Cancelar</button>
+    <button class="btn btn-n" onclick="saveUser()"><i class="bi bi-floppy"></i> Guardar</button>
   </div>
 </div>
 
-<!-- ═════ MODAL: RESERVA ═════ -->
-<div class="mo" id="m-res" onclick="if(event.target.id==='m-res')closeRM()">
-  <div class="mb" style="max-width:620px">
-    <div class="mst"></div>
-    <div class="mhd">
-      <span class="mtt"><i class="bi bi-ticket-perforated" style="color:var(--navy);margin-right:6px"></i>Detalle de reserva</span>
-      <button class="mcl" onclick="closeRM()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="mbd" id="res-body"></div>
-    <div class="mft" id="res-footer"></div>
-  </div>
-</div>
-
-<!-- ═════ MODAL: BOARDING PASS ═════ -->
-<div class="mo" id="m-bp" onclick="if(event.target.id==='m-bp')closeBP()">
-  <div class="mb" style="max-width:520px">
-    <div class="mst"></div>
-    <div class="mhd">
-      <span class="mtt"><i class="bi bi-ticket-perforated" style="color:var(--navy);margin-right:6px"></i>Boleto de embarque</span>
-      <button class="mcl" onclick="closeBP()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="mbd">
-      <div id="bp-content"></div>
-      <div class="d-flex gap-2 mt-3">
-        <button class="btn btn-n" style="width:100%;justify-content:center" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═════ MODAL: USUARIO ═════ -->
-<div class="mo" id="m-user" onclick="if(event.target.id==='m-user')closeUM()">
-  <div class="mb" style="max-width:500px">
-    <div class="mst"></div>
-    <div class="mhd">
-      <span class="mtt"><i class="bi bi-person-gear" style="color:var(--navy);margin-right:6px"></i>Editar usuario</span>
-      <button class="mcl" onclick="closeUM()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="mbd">
-      <input type="hidden" id="u-id"/>
-      <div class="fr">
-        <div class="fg"><label class="fl">Nombre</label><input class="fc" id="u-nom"/></div>
-        <div class="fg"><label class="fl">Apellido</label><input class="fc" id="u-ape"/></div>
-        <div class="fg"><label class="fl">Teléfono</label><input class="fc" id="u-tel"/></div>
-        <div class="fg"><label class="fl">Rol</label>
-          <select class="fc" id="u-rol">
-            <option value="user">Usuario</option>
-            <option value="admin">Administrador</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="mft">
-      <button class="btn btn-s" onclick="closeUM()">Cancelar</button>
-      <button class="btn btn-n" onclick="saveUser()"><i class="bi bi-floppy"></i> Guardar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═════════════════ LAYOUT ═════════════════ -->
-<div style="display:flex;min-height:100vh">
+<!-- ═══════════════ APP LAYOUT ═══════════════ -->
+<div class="app-wrap">
 
   <!-- SIDEBAR -->
   <aside class="sb" id="sb">
@@ -492,211 +472,204 @@ table.dataTable{border-collapse:collapse!important}
           <i class="bi bi-bell" style="font-size:16px"></i>
           <span class="nd" id="nd" style="display:none"></span>
         </button>
-        <button class="btn btn-p btn-sm" onclick="openFM()"><i class="bi bi-plus-lg"></i> Nuevo vuelo</button>
+        <button class="btn btn-p btn-sm" onclick="openDrFlight()"><i class="bi bi-plus-lg"></i> Nuevo vuelo</button>
       </div>
     </div>
 
-    <!-- ─ DASHBOARD ─ -->
-    <div class="page active" id="page-dash">
-      <div class="ph">
-        <div>
-          <div class="ph-lbl">Panel de control</div>
-          <h1>Dashboard <span>Administrativo</span></h1>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span id="last-ref" style="font-size:11px;color:var(--txd)"></span>
-          <button class="btn btn-s btn-sm" onclick="refreshAll()"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
-        </div>
-      </div>
+    <div class="content-scroll">
 
-      <div class="stats">
-        <div class="sc"><div class="si navy"><i class="bi bi-airplane-fill"></i></div><div><div class="sv" id="d-vl">—</div><div class="sl">Vuelos activos</div></div></div>
-        <div class="sc"><div class="si grn"><i class="bi bi-ticket-perforated-fill"></i></div><div><div class="sv" id="d-rs">—</div><div class="sl">Reservas totales</div></div></div>
-        <div class="sc"><div class="si amb"><i class="bi bi-hourglass-split"></i></div><div><div class="sv" id="d-pe">—</div><div class="sl">Pagos pendientes</div></div></div>
-        <div class="sc"><div class="si gld"><i class="bi bi-cash-coin"></i></div><div><div class="sv" id="d-in">—</div><div class="sl">Ingresos (Bs.)</div></div></div>
-        <div class="sc"><div class="si red"><i class="bi bi-x-circle-fill"></i></div><div><div class="sv" id="d-ca">—</div><div class="sl">Canceladas</div></div></div>
-        <div class="sc"><div class="si blu"><i class="bi bi-people-fill"></i></div><div><div class="sv" id="d-us">—</div><div class="sl">Usuarios registrados</div></div></div>
-        <div class="sc"><div class="si grn"><i class="bi bi-check-circle-fill"></i></div><div><div class="sv" id="d-co">—</div><div class="sl">Confirmadas</div></div></div>
-        <div class="sc"><div class="si amb"><i class="bi bi-eye"></i></div><div><div class="sv" id="d-rv">—</div><div class="sl">En revisión</div></div></div>
-      </div>
+      <!-- ─ DASHBOARD ─ -->
+      <div class="page active" id="page-dash">
+        <div class="ph">
+          <div>
+            <div class="ph-lbl">Panel de control</div>
+            <h1>Dashboard <span>Administrativo</span></h1>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span id="last-ref" style="font-size:11px;color:var(--txd)"></span>
+            <button class="btn btn-s btn-sm" onclick="refreshAll()"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
+          </div>
+        </div>
 
-      <div class="qg">
-        <div class="qc" onclick="sp('pagos',null)">
-          <div class="qi" style="background:rgba(217,119,6,.1)"><i class="bi bi-credit-card-2-front" style="color:var(--warn)"></i></div>
-          <div><div class="ql">Verificar pagos</div><div class="qs">Aprobar / rechazar</div></div>
+        <div class="stats">
+          <div class="sc"><div class="si navy"><i class="bi bi-airplane-fill"></i></div><div><div class="sv" id="d-vl">—</div><div class="sl">Vuelos activos</div></div></div>
+          <div class="sc"><div class="si grn"><i class="bi bi-ticket-perforated-fill"></i></div><div><div class="sv" id="d-rs">—</div><div class="sl">Reservas totales</div></div></div>
+          <div class="sc"><div class="si amb"><i class="bi bi-hourglass-split"></i></div><div><div class="sv" id="d-pe">—</div><div class="sl">Pagos pendientes</div></div></div>
+          <div class="sc"><div class="si gld"><i class="bi bi-cash-coin"></i></div><div><div class="sv" id="d-in">—</div><div class="sl">Ingresos (Bs.)</div></div></div>
+          <div class="sc"><div class="si red"><i class="bi bi-x-circle-fill"></i></div><div><div class="sv" id="d-ca">—</div><div class="sl">Canceladas</div></div></div>
+          <div class="sc"><div class="si blu"><i class="bi bi-people-fill"></i></div><div><div class="sv" id="d-us">—</div><div class="sl">Usuarios registrados</div></div></div>
+          <div class="sc"><div class="si grn"><i class="bi bi-check-circle-fill"></i></div><div><div class="sv" id="d-co">—</div><div class="sl">Confirmadas</div></div></div>
+          <div class="sc"><div class="si amb"><i class="bi bi-eye"></i></div><div><div class="sv" id="d-rv">—</div><div class="sl">En revisión</div></div></div>
         </div>
-        <div class="qc" onclick="openFM()">
-          <div class="qi" style="background:rgba(11,30,74,.08)"><i class="bi bi-airplane" style="color:var(--navy)"></i></div>
-          <div><div class="ql">Nuevo vuelo</div><div class="qs">Programar ruta</div></div>
-        </div>
-        <div class="qc" onclick="sp('reservas',null)">
-          <div class="qi" style="background:rgba(5,150,105,.1)"><i class="bi bi-ticket-perforated" style="color:var(--ok)"></i></div>
-          <div><div class="ql">Gestionar reservas</div><div class="qs">Ver y editar estados</div></div>
-        </div>
-        <div class="qc" onclick="sp('reportes',null)">
-          <div class="qi" style="background:rgba(37,99,235,.1)"><i class="bi bi-bar-chart-line" style="color:var(--inf)"></i></div>
-          <div><div class="ql">Reportes</div><div class="qs">Exportar datos</div></div>
-        </div>
-      </div>
 
-      <div class="row g-3">
-        <div class="col-lg-7">
-          <div class="card">
-            <div class="ch">
-              <span class="ct"><i class="bi bi-clock-history" style="color:var(--warn)"></i> Pagos pendientes de revisión</span>
-              <button class="btn btn-s btn-sm" onclick="sp('pagos',null)">Ver todos</button>
+        <div class="qg">
+          <div class="qc" onclick="sp('pagos',null)">
+            <div class="qi" style="background:rgba(217,119,6,.1)"><i class="bi bi-credit-card-2-front" style="color:var(--warn)"></i></div>
+            <div><div class="ql">Verificar pagos</div><div class="qs">Aprobar / rechazar</div></div>
+          </div>
+          <div class="qc" onclick="openDrFlight()">
+            <div class="qi" style="background:rgba(11,30,74,.08)"><i class="bi bi-airplane" style="color:var(--navy)"></i></div>
+            <div><div class="ql">Nuevo vuelo</div><div class="qs">Programar ruta</div></div>
+          </div>
+          <div class="qc" onclick="sp('reservas',null)">
+            <div class="qi" style="background:rgba(5,150,105,.1)"><i class="bi bi-ticket-perforated" style="color:var(--ok)"></i></div>
+            <div><div class="ql">Gestionar reservas</div><div class="qs">Ver y editar estados</div></div>
+          </div>
+          <div class="qc" onclick="sp('reportes',null)">
+            <div class="qi" style="background:rgba(37,99,235,.1)"><i class="bi bi-bar-chart-line" style="color:var(--inf)"></i></div>
+            <div><div class="ql">Reportes</div><div class="qs">Exportar datos</div></div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-lg-7">
+            <div class="card">
+              <div class="ch">
+                <span class="ct"><i class="bi bi-clock-history" style="color:var(--warn)"></i> Pagos pendientes de revisión</span>
+                <button class="btn btn-s btn-sm" onclick="sp('pagos',null)">Ver todos</button>
+              </div>
+              <div style="overflow-x:auto">
+                <table style="width:100%;border-collapse:collapse">
+                  <thead><tr>
+                    <th style="padding:10px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Pasajero</th>
+                    <th style="padding:10px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Ruta</th>
+                    <th style="padding:10px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Monto</th>
+                    <th style="padding:10px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Acción</th>
+                  </tr></thead>
+                  <tbody id="dash-pend-body"><tr><td colspan="4" style="text-align:center;padding:20px;color:var(--txd)">Cargando...</td></tr></tbody>
+                </table>
+              </div>
             </div>
-            <div style="overflow-x:auto">
-              <table style="width:100%;border-collapse:collapse">
-                <thead><tr>
-                  <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Pasajero</th>
-                  <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Ruta</th>
-                  <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Monto</th>
-                  <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);background:#F8FAFF;border-bottom:1px solid var(--bdr)">Acción</th>
-                </tr></thead>
-                <tbody id="dash-pend-body"><tr><td colspan="4" style="text-align:center;padding:20px;color:var(--txd)">Cargando...</td></tr></tbody>
-              </table>
+          </div>
+          <div class="col-lg-5">
+            <div class="card">
+              <div class="ch"><span class="ct"><i class="bi bi-activity" style="color:var(--ok)"></i> Actividad reciente</span></div>
+              <div class="cb"><div class="tl" id="act-tl"><div style="text-align:center;padding:16px;color:var(--txd)">Cargando...</div></div></div>
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
-          <div class="card">
-            <div class="ch"><span class="ct"><i class="bi bi-activity" style="color:var(--ok)"></i> Actividad reciente</span></div>
-            <div class="cb"><div class="tl" id="act-tl"><div style="text-align:center;padding:16px;color:var(--txd)">Cargando...</div></div></div>
+      </div>
+
+      <!-- ─ PAGOS ─ -->
+      <div class="page" id="page-pagos">
+        <div class="ph"><div><div class="ph-lbl">Verificación</div><h1>Pagos <span>Pendientes</span></h1></div></div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct"><i class="bi bi-credit-card" style="color:var(--warn)"></i> Todos los pagos</span>
+            <select class="fc" id="fp-est" style="width:160px" onchange="initPT()">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="revisando">Revisando</option>
+              <option value="aprobado">Aprobado</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </div>
+          <div class="cb">
+            <table id="dt-pay" class="table table-hover" style="width:100%">
+              <thead><tr><th>ID Reserva</th><th>Pasajero</th><th>Ruta</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th><th>Fecha</th><th>Acción</th></tr></thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ─ PAGOS ─ -->
-    <div class="page" id="page-pagos">
-      <div class="ph">
-        <div><div class="ph-lbl">Verificación</div><h1>Pagos <span>Pendientes</span></h1></div>
-      </div>
-      <div class="card">
-        <div class="ch">
-          <span class="ct"><i class="bi bi-credit-card" style="color:var(--warn)"></i> Todos los pagos</span>
-          <select class="fc" id="fp-est" style="width:150px" onchange="initPT()">
-            <option value="">Todos</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="revisando">Revisando</option>
-            <option value="aprobado">Aprobado</option>
-            <option value="rechazado">Rechazado</option>
-          </select>
-        </div>
-        <div class="cb">
-          <table id="dt-pay" class="table table-hover" style="width:100%">
-            <thead><tr><th>ID Reserva</th><th>Pasajero</th><th>Ruta</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th><th>Fecha</th><th>Acción</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ RESERVAS ─ -->
-    <div class="page" id="page-reservas">
-      <div class="ph">
-        <div><div class="ph-lbl">Gestión</div><h1>Reservas <span>& Boletos</span></h1></div>
-      </div>
-      <div class="card">
-        <div class="ch">
-          <span class="ct"><i class="bi bi-ticket-perforated" style="color:var(--navy)"></i> Todas las reservas</span>
-          <select class="fc" id="fr-est" style="width:150px" onchange="initRT()">
-            <option value="">Todos</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="pago_en_revision">En revisión</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="cancelado">Cancelado</option>
-            <option value="completado">Completado</option>
-          </select>
-        </div>
-        <div class="cb">
-          <table id="dt-res" class="table table-hover" style="width:100%">
-            <thead><tr><th>ID</th><th>Pasajero</th><th>Ruta</th><th>Fecha vuelo</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Creada</th><th>Acciones</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ VUELOS ─ -->
-    <div class="page" id="page-vuelos">
-      <div class="ph">
-        <div><div class="ph-lbl">Programación</div><h1>Gestión de <span>Vuelos</span></h1></div>
-        <button class="btn btn-n" onclick="openFM()"><i class="bi bi-plus-lg"></i> Nuevo vuelo</button>
-      </div>
-      <div class="card">
-        <div class="ch"><span class="ct"><i class="bi bi-airplane" style="color:var(--navy)"></i> Todos los vuelos</span></div>
-        <div class="cb">
-          <table id="dt-fly" class="table table-hover" style="width:100%">
-            <thead><tr><th>Origen</th><th>Destino</th><th>Salida</th><th>Llegada</th><th>Precio</th><th>Asientos</th><th>Estado</th><th>Acciones</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ USUARIOS ─ -->
-    <div class="page" id="page-usuarios">
-      <div class="ph">
-        <div><div class="ph-lbl">Administración</div><h1>Usuarios <span>Registrados</span></h1></div>
-      </div>
-      <div class="card">
-        <div class="ch"><span class="ct"><i class="bi bi-people" style="color:var(--navy)"></i> Todos los usuarios</span></div>
-        <div class="cb">
-          <table id="dt-usr" class="table table-hover" style="width:100%">
-            <thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Rol</th><th>Registrado</th><th>Acciones</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ PASAJEROS ─ -->
-    <div class="page" id="page-pasajeros">
-      <div class="ph">
-        <div><div class="ph-lbl">Registro</div><h1>Pasajeros <span>& Asistencia</span></h1></div>
-      </div>
-      <div class="card">
-        <div class="ch"><span class="ct"><i class="bi bi-person-vcard" style="color:var(--navy)"></i> Todos los pasajeros</span></div>
-        <div class="cb">
-          <table id="dt-pas" class="table table-hover" style="width:100%">
-            <thead><tr><th>Nombre</th><th>Apellido</th><th>Documento</th><th>Correo</th><th>Celular</th><th>Género</th><th>Asistencia especial</th><th>Reserva ID</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ REPORTES ─ -->
-    <div class="page" id="page-reportes">
-      <div class="ph">
-        <div><div class="ph-lbl">Análisis</div><h1>Reportes <span>& Exportación</span></h1></div>
-      </div>
-      <div class="row g-3 mb-3">
-        <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('reservas')"><div class="si navy"><i class="bi bi-file-earmark-spreadsheet"></i></div><div class="sl">Exportar reservas (CSV)</div></div></div>
-        <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('vuelos')"><div class="si blu"><i class="bi bi-file-earmark-bar-graph"></i></div><div class="sl">Exportar vuelos (CSV)</div></div></div>
-        <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('pagos')"><div class="si gld"><i class="bi bi-file-earmark-text"></i></div><div class="sl">Exportar pagos (CSV)</div></div></div>
-        <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('pasajeros')"><div class="si grn"><i class="bi bi-file-earmark-person"></i></div><div class="sl">Exportar pasajeros (CSV)</div></div></div>
-      </div>
-      <div class="row g-3">
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="ch"><span class="ct"><i class="bi bi-pie-chart" style="color:var(--navy)"></i> Reservas por estado</span></div>
-            <div class="cb" id="rpt-est" style="font-size:13px"></div>
+      <!-- ─ RESERVAS ─ -->
+      <div class="page" id="page-reservas">
+        <div class="ph"><div><div class="ph-lbl">Gestión</div><h1>Reservas <span>& Boletos</span></h1></div></div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct"><i class="bi bi-ticket-perforated" style="color:var(--navy)"></i> Todas las reservas</span>
+            <select class="fc" id="fr-est" style="width:160px" onchange="initRT()">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="pago_en_revision">En revisión</option>
+              <option value="confirmado">Confirmado</option>
+              <option value="cancelado">Cancelado</option>
+              <option value="completado">Completado</option>
+            </select>
           </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="ch"><span class="ct"><i class="bi bi-geo-alt" style="color:var(--red)"></i> Rutas más reservadas</span></div>
-            <div class="cb" id="rpt-rut" style="font-size:13px"></div>
+          <div class="cb">
+            <table id="dt-res" class="table table-hover" style="width:100%">
+              <thead><tr><th>ID</th><th>Pasajero</th><th>Ruta</th><th>Fecha vuelo</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Creada</th><th>Acciones</th></tr></thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
 
+      <!-- ─ VUELOS ─ -->
+      <div class="page" id="page-vuelos">
+        <div class="ph">
+          <div><div class="ph-lbl">Programación</div><h1>Gestión de <span>Vuelos</span></h1></div>
+          <button class="btn btn-n" onclick="openDrFlight()"><i class="bi bi-plus-lg"></i> Nuevo vuelo</button>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct"><i class="bi bi-airplane" style="color:var(--navy)"></i> Todos los vuelos</span></div>
+          <div class="cb">
+            <table id="dt-fly" class="table table-hover" style="width:100%">
+              <thead><tr><th>Origen</th><th>Destino</th><th>Salida</th><th>Llegada</th><th>Precio</th><th>Asientos</th><th>Estado</th><th>Acciones</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ USUARIOS ─ -->
+      <div class="page" id="page-usuarios">
+        <div class="ph"><div><div class="ph-lbl">Administración</div><h1>Usuarios <span>Registrados</span></h1></div></div>
+        <div class="card">
+          <div class="ch"><span class="ct"><i class="bi bi-people" style="color:var(--navy)"></i> Todos los usuarios</span></div>
+          <div class="cb">
+            <table id="dt-usr" class="table table-hover" style="width:100%">
+              <thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Rol</th><th>Registrado</th><th>Acciones</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ PASAJEROS ─ -->
+      <div class="page" id="page-pasajeros">
+        <div class="ph"><div><div class="ph-lbl">Registro</div><h1>Pasajeros <span>& Asistencia</span></h1></div></div>
+        <div class="card">
+          <div class="ch"><span class="ct"><i class="bi bi-person-vcard" style="color:var(--navy)"></i> Todos los pasajeros</span></div>
+          <div class="cb">
+            <table id="dt-pas" class="table table-hover" style="width:100%">
+              <thead><tr><th>Nombre</th><th>Apellido</th><th>Documento</th><th>Correo</th><th>Celular</th><th>Género</th><th>Asistencia especial</th><th>Reserva ID</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ REPORTES ─ -->
+      <div class="page" id="page-reportes">
+        <div class="ph"><div><div class="ph-lbl">Análisis</div><h1>Reportes <span>& Exportación</span></h1></div></div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('reservas')"><div class="si navy"><i class="bi bi-file-earmark-spreadsheet"></i></div><div class="sl">Exportar reservas (CSV)</div></div></div>
+          <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('vuelos')"><div class="si blu"><i class="bi bi-file-earmark-bar-graph"></i></div><div class="sl">Exportar vuelos (CSV)</div></div></div>
+          <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('pagos')"><div class="si gld"><i class="bi bi-file-earmark-text"></i></div><div class="sl">Exportar pagos (CSV)</div></div></div>
+          <div class="col-md-3"><div class="sc" style="cursor:pointer;flex-direction:column;align-items:flex-start;gap:8px" onclick="exportCSV('pasajeros')"><div class="si grn"><i class="bi bi-file-earmark-person"></i></div><div class="sl">Exportar pasajeros (CSV)</div></div></div>
+        </div>
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="ch"><span class="ct"><i class="bi bi-pie-chart" style="color:var(--navy)"></i> Reservas por estado</span></div>
+              <div class="cb" id="rpt-est" style="font-size:13px"></div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="ch"><span class="ct"><i class="bi bi-geo-alt" style="color:var(--red)"></i> Rutas más reservadas</span></div>
+              <div class="cb" id="rpt-rut" style="font-size:13px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content-scroll -->
   </main>
-</div>
+</div><!-- /app-wrap -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -712,83 +685,117 @@ table.dataTable{border-collapse:collapse!important}
 import { supabase } from '../../assets/js/supabase.js';
 
 /* ── STATE ── */
-let dtP=null, dtR=null, dtF=null, dtU=null, dtPas=null;
-let curPay=null, curRes=null, curPayRes=null;
+let dtP=null,dtR=null,dtF=null,dtU=null,dtPas=null;
+let curPay=null,curRes=null,curPayRes=null;
 
 /* ── CLOCK ── */
-const clkEl = document.getElementById('clk');
-const tick = () => clkEl.textContent = new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' BO';
-setInterval(tick,1000); tick();
+const clkEl=document.getElementById('clk');
+const tick=()=>clkEl.textContent=new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' BO';
+setInterval(tick,1000);tick();
 
 /* ── TOAST ── */
-window.toast = function(type='ok', title='', sub='') {
-  const icons = {ok:'check-circle-fill',er:'exclamation-circle-fill',wn:'exclamation-triangle-fill'};
-  const colors = {ok:'var(--ok)',er:'var(--err)',wn:'var(--warn)'};
-  const el = document.createElement('div');
-  el.className = `toast-item ${type}`;
-  el.innerHTML = `<i class="bi bi-${icons[type]}" style="font-size:18px;color:${colors[type]};flex-shrink:0"></i><div><div class="toast-tt">${title}</div>${sub?`<div class="toast-sb">${sub}</div>`:''}</div>`;
+window.toast=function(type='ok',title='',sub=''){
+  const icons={ok:'check-circle-fill',er:'exclamation-circle-fill',wn:'exclamation-triangle-fill'};
+  const colors={ok:'var(--ok)',er:'var(--err)',wn:'var(--warn)'};
+  const el=document.createElement('div');
+  el.className=`toast-item ${type}`;
+  el.innerHTML=`<i class="bi bi-${icons[type]}" style="font-size:18px;color:${colors[type]};flex-shrink:0"></i><div><div class="toast-tt">${title}</div>${sub?`<div class="toast-sb">${sub}</div>`:''}</div>`;
   document.getElementById('toast-cont').appendChild(el);
   setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),280)},3500);
 };
 
+/* ── DRAWER CONTROLLER ── */
+const backdrop=document.getElementById('backdrop');
+let activeDrawer=null;
+
+function openDrawer(id){
+  if(activeDrawer&&activeDrawer!==id) closeDrawerEl(activeDrawer);
+  document.getElementById(id).classList.add('open');
+  backdrop.classList.add('open');
+  document.body.style.overflow='hidden';
+  activeDrawer=id;
+}
+function closeDrawerEl(id){
+  document.getElementById(id).classList.remove('open');
+  backdrop.classList.remove('open');
+  document.body.style.overflow='';
+  activeDrawer=null;
+}
+window.closeAllDrawers=()=>{if(activeDrawer)closeDrawerEl(activeDrawer);};
+
+/* Drawer: Vuelo */
+window.openDrFlight=async function(fid){
+  ['f-id','f-ori','f-des','f-sal','f-lle','f-pre','f-tot','f-dis'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-est').value='programado';
+  document.getElementById('dr-flight-ttl').textContent='Nuevo vuelo';
+  if(fid){
+    const{data:f}=await supabase.from('flights').select('*').eq('id',fid).single();
+    if(f){
+      document.getElementById('dr-flight-ttl').textContent='Editar vuelo';
+      document.getElementById('f-id').value=f.id;
+      document.getElementById('f-ori').value=f.origen;
+      document.getElementById('f-des').value=f.destino;
+      document.getElementById('f-sal').value=dtL(f.fecha_salida);
+      document.getElementById('f-lle').value=dtL(f.fecha_llegada);
+      document.getElementById('f-pre').value=f.precio;
+      document.getElementById('f-tot').value=f.asientos_totales;
+      document.getElementById('f-dis').value=f.asientos_disponibles;
+      document.getElementById('f-est').value=f.estado;
+    }
+  }
+  openDrawer('dr-flight');
+};
+window.closeDrFlight=()=>closeDrawerEl('dr-flight');
+
+/* Drawer: Pago */
+window.closeDrPay=()=>closeDrawerEl('dr-pay');
+/* Drawer: Reserva */
+window.closeDrRes=()=>closeDrawerEl('dr-res');
+/* Drawer: Boarding pass */
+window.closeDrBP=()=>closeDrawerEl('dr-bp');
+/* Drawer: Usuario */
+window.closeDrUser=()=>closeDrawerEl('dr-user');
+
 /* ── HELPERS ── */
-const city = s => (s||'').replace(/\s*\([^)]*\)/,'').trim();
-const fmtE = e => ({pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e);
-const bpC = e => ({confirmado:'bp-ok',pendiente:'bp-wn',pago_en_revision:'bp-in',cancelado:'bp-er',completado:'bp-mu'}[e]||'bp-mu');
-const ppC = e => ({pendiente:'bp-wn',revisando:'bp-in',aprobado:'bp-ok',rechazado:'bp-er'}[e]||'bp-mu');
-const fpC = e => ({programado:'bp-in',abordando:'bp-wn',en_vuelo:'bp-ok',aterrizado:'bp-mu',cancelado:'bp-er'}[e]||'bp-mu');
-const dtL = dt => { const d=new Date(dt); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,16); };
-const iR = (l,v) => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--bdr);font-size:12px"><span style="color:var(--txd)">${l}</span><span style="color:var(--tx)">${v}</span></div>`;
-const esLang = () => ({
-  search:'',searchPlaceholder:'Buscar...',
-  lengthMenu:'Mostrar _MENU_ registros',info:'_START_–_END_ de _TOTAL_',
-  infoEmpty:'Sin registros',zeroRecords:'Sin resultados',
-  paginate:{first:'«',last:'»',next:'›',previous:'‹'},emptyTable:'Sin datos'
-});
-const dtBtns = () => [
-  {extend:'excelHtml5',text:'<i class="bi bi-file-earmark-excel me-1"></i>Excel',className:'btn btn-sm btn-s'},
-  {extend:'csvHtml5',text:'<i class="bi bi-filetype-csv me-1"></i>CSV',className:'btn btn-sm btn-s'},
-  {extend:'print',text:'<i class="bi bi-printer me-1"></i>Imprimir',className:'btn btn-sm btn-s'},
-];
-const iataMap = {'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Buenos Aires':'EZE','Lima':'LIM'};
-const getIata = s => { for(const[k,v] of Object.entries(iataMap)) if(s.includes(k)) return v; return s.slice(0,3).toUpperCase(); };
-const fmtDt = d => new Date(d).toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'});
+const city=s=>(s||'').replace(/\s*\([^)]*\)/,'').trim();
+const fmtE=e=>({pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e);
+const bpC=e=>({confirmado:'bp-ok',pendiente:'bp-wn',pago_en_revision:'bp-in',cancelado:'bp-er',completado:'bp-mu'}[e]||'bp-mu');
+const ppC=e=>({pendiente:'bp-wn',revisando:'bp-in',aprobado:'bp-ok',rechazado:'bp-er'}[e]||'bp-mu');
+const fpC=e=>({programado:'bp-in',abordando:'bp-wn',en_vuelo:'bp-ok',aterrizado:'bp-mu',cancelado:'bp-er'}[e]||'bp-mu');
+const dtL=dt=>{const d=new Date(dt);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16);};
+const ir=(l,v)=>`<div class="ir"><span class="ir-lbl">${l}</span><span class="ir-val">${v}</span></div>`;
+const fmtDt=d=>new Date(d).toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'});
+const esLang=()=>({search:'',searchPlaceholder:'Buscar...',lengthMenu:'Mostrar _MENU_ registros',info:'_START_–_END_ de _TOTAL_',infoEmpty:'Sin registros',zeroRecords:'Sin resultados',paginate:{first:'«',last:'»',next:'›',previous:'‹'},emptyTable:'Sin datos'});
+const dtBtns=()=>[{extend:'excelHtml5',text:'<i class="bi bi-file-earmark-excel me-1"></i>Excel',className:'btn btn-sm btn-s'},{extend:'csvHtml5',text:'<i class="bi bi-filetype-csv me-1"></i>CSV',className:'btn btn-sm btn-s'},{extend:'print',text:'<i class="bi bi-printer me-1"></i>Imprimir',className:'btn btn-sm btn-s'}];
+const iataMap={'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Buenos Aires':'EZE','Lima':'LIM','Madrid':'MAD','Miami':'MIA'};
+const getIata=s=>{for(const[k,v] of Object.entries(iataMap))if(s.includes(k))return v;return s.slice(0,3).toUpperCase();};
 
 /* ── INIT ── */
-async function init() {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { location.href='../../auth/login.html'; return; }
-
-  const { data: role } = await supabase.from('user_roles').select('role').eq('user_id',user.id).single();
-  if (!role || !['admin','superadmin'].includes(role.role)) {
+async function init(){
+  const{data:{user}}=await supabase.auth.getUser();
+  if(!user){location.href='../../auth/login.html';return;}
+  const{data:role}=await supabase.from('user_roles').select('role').eq('user_id',user.id).single();
+  if(!role||!['admin','superadmin'].includes(role.role)){
     await Swal.fire({icon:'error',title:'Acceso denegado',text:'Sin permisos de administrador.',confirmButtonText:'OK'});
-    location.href='../portal/index.html'; return;
+    location.href='../portal/index.html';return;
   }
-
-  const { data: prof } = await supabase.from('users_profile').select('nombre,apellido').eq('id',user.id).single();
-  const nom = prof?.nombre || user.email.split('@')[0];
-  const ape = prof?.apellido || '';
-  document.getElementById('sb-av').textContent = ((nom[0]||'')+(ape[0]||'')).toUpperCase();
-  document.getElementById('sb-un').textContent = `${nom} ${ape}`.trim();
-
+  const{data:prof}=await supabase.from('users_profile').select('nombre,apellido').eq('id',user.id).single();
+  const nom=prof?.nombre||user.email.split('@')[0];
+  const ape=prof?.apellido||'';
+  document.getElementById('sb-av').textContent=((nom[0]||'')+(ape[0]||'')).toUpperCase();
+  document.getElementById('sb-un').textContent=`${nom} ${ape}`.trim();
   await refreshAll();
-  setTimeout(()=>{
-    document.getElementById('ls').classList.add('done');
-    setTimeout(()=>document.getElementById('ls').remove(),600);
-  },1200);
+  setTimeout(()=>{document.getElementById('ls').classList.add('done');setTimeout(()=>document.getElementById('ls').remove(),600);},1200);
 }
 
-/* ── REFRESH ── */
-window.refreshAll = async function() {
-  document.getElementById('last-ref').textContent = 'Actualizado: '+new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'});
-  await Promise.all([loadStats(), loadDashPending(), loadTimeline(), loadReports()]);
+window.refreshAll=async function(){
+  document.getElementById('last-ref').textContent='Actualizado: '+new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'});
+  await Promise.all([loadStats(),loadDashPending(),loadTimeline(),loadReports()]);
 };
 
 /* ── STATS ── */
-async function loadStats() {
-  const [
-    {count:vl},{count:rs},{data:pays},{data:conf},{count:ca},{count:us},{count:rv}
-  ] = await Promise.all([
+async function loadStats(){
+  const[{count:vl},{count:rs},{data:pays},{data:conf},{count:ca},{count:us},{count:rv}]=await Promise.all([
     supabase.from('flights').select('*',{count:'exact',head:true}).in('estado',['programado','abordando','en_vuelo']),
     supabase.from('reservations').select('*',{count:'exact',head:true}),
     supabase.from('payments').select('monto,estado').in('estado',['pendiente','revisando']),
@@ -797,101 +804,96 @@ async function loadStats() {
     supabase.from('users_profile').select('*',{count:'exact',head:true}),
     supabase.from('payments').select('*',{count:'exact',head:true}).eq('estado','revisando'),
   ]);
-  const pe = (pays||[]).length;
-  const ing = (conf||[]).reduce((a,r)=>a+(parseFloat(r.precio_total)||0),0);
-  document.getElementById('d-vl').textContent = vl??'—';
-  document.getElementById('d-rs').textContent = rs??'—';
-  document.getElementById('d-pe').textContent = pe;
-  document.getElementById('d-in').textContent = ing.toLocaleString('es-BO',{maximumFractionDigits:0});
-  document.getElementById('d-ca').textContent = ca??'—';
-  document.getElementById('d-us').textContent = us??'—';
-  document.getElementById('d-co').textContent = (conf||[]).length;
-  document.getElementById('d-rv').textContent = rv??'—';
-  const nb = document.getElementById('nb-pagos');
-  const nd = document.getElementById('nd');
-  if (pe>0) { nb.textContent=pe; nb.style.display='inline-block'; nd.style.display='block'; }
-  else { nb.style.display='none'; nd.style.display='none'; }
+  const pe=(pays||[]).length;
+  const ing=(conf||[]).reduce((a,r)=>a+(parseFloat(r.precio_total)||0),0);
+  document.getElementById('d-vl').textContent=vl??'—';
+  document.getElementById('d-rs').textContent=rs??'—';
+  document.getElementById('d-pe').textContent=pe;
+  document.getElementById('d-in').textContent=ing.toLocaleString('es-BO',{maximumFractionDigits:0});
+  document.getElementById('d-ca').textContent=ca??'—';
+  document.getElementById('d-us').textContent=us??'—';
+  document.getElementById('d-co').textContent=(conf||[]).length;
+  document.getElementById('d-rv').textContent=rv??'—';
+  const nb=document.getElementById('nb-pagos'),nd=document.getElementById('nd');
+  if(pe>0){nb.textContent=pe;nb.style.display='inline-block';nd.style.display='block';}
+  else{nb.style.display='none';nd.style.display='none';}
 }
 
-async function loadDashPending() {
-  const { data } = await supabase.from('payments')
+async function loadDashPending(){
+  const{data}=await supabase.from('payments')
     .select('id,monto,reservation_id,reservations(id,asiento,flights(origen,destino),passengers(nombre,apellido))')
-    .in('estado',['pendiente','revisando'])
-    .order('fecha',{ascending:false}).limit(8);
-  const tb = document.getElementById('dash-pend-body');
-  if (!data?.length) {
-    tb.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:18px;color:var(--txd)"><i class="bi bi-check-circle me-1"></i>Sin pagos pendientes</td></tr>`;
-    return;
-  }
-  tb.innerHTML = data.map(p=>{
-    const r=p.reservations, f=r?.flights;
-    const ps = Array.isArray(r?.passengers)?r.passengers[0]:null;
+    .in('estado',['pendiente','revisando']).order('fecha',{ascending:false}).limit(8);
+  const tb=document.getElementById('dash-pend-body');
+  if(!data?.length){tb.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:18px;color:var(--txd)"><i class="bi bi-check-circle me-1"></i>Sin pagos pendientes</td></tr>`;return;}
+  tb.innerHTML=data.map(p=>{
+    const r=p.reservations,f=r?.flights;
+    const ps=Array.isArray(r?.passengers)?r.passengers[0]:null;
     return `<tr>
-      <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--tx)">${ps?ps.nombre+' '+ps.apellido:'—'}</td>
-      <td style="padding:10px 12px;font-size:12px;color:var(--txm)">${f?city(f.origen)+'→'+city(f.destino):'—'}</td>
-      <td style="padding:10px 12px;font-size:12px;font-weight:700;color:var(--navy)">Bs. ${p.monto}</td>
-      <td style="padding:10px 12px"><button class="btn btn-xs btn-w" onclick="openPM('${p.id}','${r?.id||''}')"><i class="bi bi-eye"></i> Revisar</button></td>
+      <td style="padding:10px 13px;font-size:13px;font-weight:600;color:var(--tx)">${ps?ps.nombre+' '+ps.apellido:'—'}</td>
+      <td style="padding:10px 13px;font-size:12px;color:var(--txm)">${f?city(f.origen)+' → '+city(f.destino):'—'}</td>
+      <td style="padding:10px 13px;font-size:13px;font-weight:700;color:var(--navy)">Bs. ${p.monto}</td>
+      <td style="padding:10px 13px"><button class="btn btn-xs btn-w" onclick="openDrPay('${p.id}','${r?.id||''}')"><i class="bi bi-eye"></i> Revisar</button></td>
     </tr>`;
   }).join('');
 }
 
-async function loadTimeline() {
-  const { data } = await supabase.from('reservations')
+async function loadTimeline(){
+  const{data}=await supabase.from('reservations')
     .select('id,estado,created_at,flights(origen,destino),passengers(nombre,apellido)')
     .order('created_at',{ascending:false}).limit(8);
-  const el = document.getElementById('act-tl');
-  if (!data?.length) { el.innerHTML='<p style="color:var(--txd);font-size:12px">Sin actividad.</p>'; return; }
+  const el=document.getElementById('act-tl');
+  if(!data?.length){el.innerHTML='<p style="color:var(--txd);font-size:12px">Sin actividad.</p>';return;}
   const colors={pendiente:'#D97706',confirmado:'#059669',cancelado:'#DC2626',completado:'#2563EB',pago_en_revision:'#7C3AED'};
-  el.innerHTML = data.map(r=>{
-    const p=Array.isArray(r.passengers)?r.passengers[0]:null, f=r.flights;
+  el.innerHTML=data.map(r=>{
+    const p=Array.isArray(r.passengers)?r.passengers[0]:null,f=r.flights;
     const d=new Date(r.created_at);
     return `<div class="tl-item">
       <div class="tl-dot" style="background:${colors[r.estado]||'#94A3B8'}"></div>
       <div class="tl-time">${d.toLocaleDateString('es-BO',{day:'numeric',month:'short'})} ${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
-      <div class="tl-txt"><strong>${p?p.nombre+' '+p.apellido:'Usuario'}</strong> reservó ${f?city(f.origen)+'→'+city(f.destino):''} <span class="bp ${bpC(r.estado)}" style="margin-left:4px">${fmtE(r.estado)}</span></div>
+      <div class="tl-txt"><strong>${p?p.nombre+' '+p.apellido:'Usuario'}</strong> reservó ${f?city(f.origen)+' → '+city(f.destino):''} <span class="bp ${bpC(r.estado)}" style="margin-left:4px">${fmtE(r.estado)}</span></div>
     </div>`;
   }).join('');
 }
 
 /* ── PAYMENTS TABLE ── */
-window.initPT = async function() {
-  const est = document.getElementById('fp-est')?.value||'';
-  let q = supabase.from('payments')
+window.initPT=async function(){
+  const est=document.getElementById('fp-est')?.value||'';
+  let q=supabase.from('payments')
     .select('id,monto,metodo,comprobante_url,estado,fecha,reservation_id,reservations(id,asiento,flights(origen,destino),passengers(nombre,apellido))')
     .order('fecha',{ascending:false});
-  if (est) q=q.eq('estado',est);
-  const {data} = await q;
-  if (dtP) dtP.destroy();
-  dtP = $('#dt-pay').DataTable({
-    data:data||[], destroy:true, language:esLang(),
+  if(est)q=q.eq('estado',est);
+  const{data}=await q;
+  if(dtP)dtP.destroy();
+  dtP=$('#dt-pay').DataTable({
+    data:data||[],destroy:true,language:esLang(),
     dom:"<'d-flex align-items-center justify-content-between mb-3'<'d-flex align-items-center gap-2'lB><f>>rtip",
     buttons:dtBtns(),
     columns:[
       {data:null,render:d=>d.reservations?.id?`<code style="font-size:10px">${d.reservations.id.slice(0,8).toUpperCase()}</code>`:'—'},
-      {data:null,render:d=>{const p=d.reservations?.passengers?.[0];return p?`<span style="font-weight:600">${p.nombre} ${p.apellido}`:'—';}},
+      {data:null,render:d=>{const p=d.reservations?.passengers?.[0];return p?`<span style="font-weight:600">${p.nombre} ${p.apellido}</span>`:'—';}},
       {data:null,render:d=>{const f=d.reservations?.flights;return f?city(f.origen)+' → '+city(f.destino):'—';}},
       {data:'monto',render:d=>`<span style="font-weight:700;color:var(--navy)">Bs. ${d}</span>`},
       {data:'metodo',render:d=>d||'—'},
       {data:'estado',render:d=>`<span class="bp ${ppC(d)}">${d}</span>`},
       {data:'comprobante_url',render:d=>d?`<a href="${d}" target="_blank" class="btn btn-xs btn-o"><i class="bi bi-eye"></i> Ver</a>`:`<span style="color:var(--txd);font-size:11px">Sin archivo</span>`},
       {data:'fecha',render:d=>fmtDt(d)},
-      {data:null,render:d=>`<button onclick="openPM('${d.id}','${d.reservation_id||''}')" class="btn btn-xs btn-w"><i class="bi bi-eye"></i> Revisar</button>`},
+      {data:null,render:d=>`<button onclick="openDrPay('${d.id}','${d.reservation_id||''}')" class="btn btn-xs btn-w"><i class="bi bi-eye"></i> Revisar</button>`},
     ],
     columnDefs:[{orderable:false,targets:[8]}]
   });
 };
 
 /* ── RESERVATIONS TABLE ── */
-window.initRT = async function() {
-  const est = document.getElementById('fr-est')?.value||'';
-  let q = supabase.from('reservations')
+window.initRT=async function(){
+  const est=document.getElementById('fr-est')?.value||'';
+  let q=supabase.from('reservations')
     .select('id,estado,asiento,precio_total,created_at,flights(origen,destino,fecha_salida),passengers(nombre,apellido)')
     .order('created_at',{ascending:false});
-  if (est) q=q.eq('estado',est);
-  const {data} = await q;
-  if (dtR) dtR.destroy();
-  dtR = $('#dt-res').DataTable({
-    data:data||[], destroy:true, language:esLang(),
+  if(est)q=q.eq('estado',est);
+  const{data}=await q;
+  if(dtR)dtR.destroy();
+  dtR=$('#dt-res').DataTable({
+    data:data||[],destroy:true,language:esLang(),
     dom:"<'d-flex align-items-center justify-content-between mb-3'<'d-flex align-items-center gap-2'lB><f>>rtip",
     buttons:dtBtns(),
     columns:[
@@ -904,7 +906,7 @@ window.initRT = async function() {
       {data:'estado',render:d=>`<span class="bp ${bpC(d)}">${fmtE(d)}</span>`},
       {data:'created_at',render:d=>fmtDt(d)},
       {data:null,render:d=>`<div class="d-flex gap-1">
-        <button onclick="openRM('${d.id}')" class="btn btn-xs btn-n"><i class="bi bi-eye"></i></button>
+        <button onclick="openDrRes('${d.id}')" class="btn btn-xs btn-n"><i class="bi bi-eye"></i></button>
         ${d.estado==='confirmado'?`<button onclick="showBP('${d.id}')" class="btn btn-xs btn-g"><i class="bi bi-ticket-perforated"></i></button>`:''}
       </div>`},
     ],
@@ -913,11 +915,11 @@ window.initRT = async function() {
 };
 
 /* ── FLIGHTS TABLE ── */
-async function initFT() {
-  const {data} = await supabase.from('flights').select('*').order('fecha_salida',{ascending:false});
-  if (dtF) dtF.destroy();
-  dtF = $('#dt-fly').DataTable({
-    data:data||[], destroy:true, language:esLang(),
+async function initFT(){
+  const{data}=await supabase.from('flights').select('*').order('fecha_salida',{ascending:false});
+  if(dtF)dtF.destroy();
+  dtF=$('#dt-fly').DataTable({
+    data:data||[],destroy:true,language:esLang(),
     dom:"<'d-flex align-items-center justify-content-between mb-3'<'d-flex align-items-center gap-2'lB><f>>rtip",
     buttons:dtBtns(),
     columns:[
@@ -928,11 +930,14 @@ async function initFT() {
       {data:'precio',render:d=>`<span style="font-weight:700;color:var(--navy)">Bs. ${d}</span>`},
       {data:null,render:d=>{
         const pct=Math.round((d.asientos_disponibles/d.asientos_totales)*100);
-        return `<div style="display:flex;align-items:center;gap:6px"><div style="width:52px;height:5px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="width:${pct}%;height:100%;background:var(--ok)"></div></div><span style="font-size:11px;color:var(--txm)">${d.asientos_disponibles}/${d.asientos_totales}</span></div>`;
+        return `<div style="display:flex;align-items:center;gap:7px">
+          <div style="width:56px;height:5px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="width:${pct}%;height:100%;background:var(--ok)"></div></div>
+          <span style="font-size:11px;color:var(--txm)">${d.asientos_disponibles}/${d.asientos_totales}</span>
+        </div>`;
       }},
       {data:'estado',render:d=>`<span class="bp ${fpC(d)}">${d.replace('_',' ')}</span>`},
       {data:null,render:d=>`<div class="d-flex gap-1">
-        <button onclick="openFM('${d.id}')" class="btn btn-xs btn-n"><i class="bi bi-pencil"></i></button>
+        <button onclick="openDrFlight('${d.id}')" class="btn btn-xs btn-n"><i class="bi bi-pencil"></i></button>
         <button onclick="delFlight('${d.id}')" class="btn btn-xs btn-d"><i class="bi bi-trash"></i></button>
       </div>`},
     ],
@@ -941,38 +946,37 @@ async function initFT() {
 }
 
 /* ── USERS TABLE ── */
-async function initUT() {
-  const [{data:profs},{data:roles}] = await Promise.all([
+async function initUT(){
+  const[{data:profs},{data:roles}]=await Promise.all([
     supabase.from('users_profile').select('*').order('created_at',{ascending:false}),
     supabase.from('user_roles').select('user_id,role'),
   ]);
-  const rm={};
-  (roles||[]).forEach(r=>rm[r.user_id]=r.role);
+  const rm={};(roles||[]).forEach(r=>rm[r.user_id]=r.role);
   const data=(profs||[]).map(p=>({...p,rol:rm[p.id]||'user'}));
-  if (dtU) dtU.destroy();
-  dtU = $('#dt-usr').DataTable({
-    data, destroy:true, language:esLang(),
+  if(dtU)dtU.destroy();
+  dtU=$('#dt-usr').DataTable({
+    data,destroy:true,language:esLang(),
     dom:"<'d-flex align-items-center justify-content-between mb-3'<'d-flex align-items-center gap-2'lB><f>>rtip",
     buttons:dtBtns(),
     columns:[
       {data:null,render:d=>`<span style="font-weight:600">${d.nombre} ${d.apellido}</span>`},
-      {data:'email',render:d=>`<span style="font-size:11px;color:var(--txm)">${d||'—'}</span>`},
+      {data:'email',render:d=>`<span style="font-size:12px;color:var(--txm)">${d||'—'}</span>`},
       {data:'telefono',render:d=>d||'—'},
       {data:null,render:d=>d.numero_documento?(d.tipo_documento==='pasaporte'?'🛂 ':'🪪 ')+d.numero_documento:'—'},
       {data:'rol',render:d=>`<span class="bp ${['admin','superadmin'].includes(d)?'bp-er':'bp-nv'}">${d}</span>`},
       {data:'created_at',render:d=>fmtDt(d)},
-      {data:null,render:d=>`<button onclick="openUM('${d.id}','${d.nombre}','${d.apellido}','${d.telefono||''}','${d.rol}')" class="btn btn-xs btn-n"><i class="bi bi-pencil"></i> Editar</button>`},
+      {data:null,render:d=>`<button onclick="openDrUser('${d.id}','${d.nombre}','${d.apellido}','${d.telefono||''}','${d.rol}')" class="btn btn-xs btn-n"><i class="bi bi-pencil"></i> Editar</button>`},
     ],
     columnDefs:[{orderable:false,targets:[6]}]
   });
 }
 
 /* ── PASSENGERS TABLE ── */
-async function initPasT() {
-  const {data} = await supabase.from('passengers').select('*,special_assistance(*)').order('created_at',{ascending:false});
-  if (dtPas) dtPas.destroy();
-  dtPas = $('#dt-pas').DataTable({
-    data:data||[], destroy:true, language:esLang(),
+async function initPasT(){
+  const{data}=await supabase.from('passengers').select('*,special_assistance(*)').order('created_at',{ascending:false});
+  if(dtPas)dtPas.destroy();
+  dtPas=$('#dt-pas').DataTable({
+    data:data||[],destroy:true,language:esLang(),
     dom:"<'d-flex align-items-center justify-content-between mb-3'<'d-flex align-items-center gap-2'lB><f>>rtip",
     buttons:dtBtns(),
     columns:[
@@ -981,12 +985,10 @@ async function initPasT() {
       {data:'correo',render:d=>d||'—'},{data:'celular',render:d=>d||'—'},
       {data:'genero',render:d=>d?d.charAt(0).toUpperCase()+d.slice(1):'—'},
       {data:'special_assistance',render:d=>{
-        const a=d?.[0]; if(!a) return '<span style="color:var(--txd);font-size:11px">—</span>';
+        const a=d?.[0];if(!a)return '<span style="color:var(--txd);font-size:11px">—</span>';
         const tags=[];
-        if(a.discapacidad_auditiva) tags.push('🦻');
-        if(a.movilidad_reducida) tags.push('♿');
-        if(a.discapacidad_visual) tags.push('👁️');
-        if(a.asistencia_aeropuerto) tags.push('🏢');
+        if(a.discapacidad_auditiva)tags.push('🦻');if(a.movilidad_reducida)tags.push('♿');
+        if(a.discapacidad_visual)tags.push('👁️');if(a.asistencia_aeropuerto)tags.push('🏢');
         return tags.length?tags.join(' '):'—';
       }},
       {data:'reservation_id',render:d=>`<code style="font-size:10px">${(d||'').slice(0,8).toUpperCase()}</code>`},
@@ -994,205 +996,191 @@ async function initPasT() {
   });
 }
 
-/* ── PAYMENT MODAL ── */
-window.openPM = async function(payId, resId) {
-  curPay=payId; curPayRes=resId;
-  const [{data:pay},{data:res}] = await Promise.all([
+/* ── PAYMENT DRAWER ── */
+window.openDrPay=async function(payId,resId){
+  curPay=payId;curPayRes=resId;
+  const[{data:pay},{data:res}]=await Promise.all([
     supabase.from('payments').select('*').eq('id',payId).single(),
     supabase.from('reservations').select('*,flights(origen,destino,fecha_salida),passengers(nombre,apellido,numero_documento,celular,correo)').eq('id',resId).single(),
   ]);
-  const p=res?.passengers?.[0], f=res?.flights;
+  const p=res?.passengers?.[0],f=res?.flights;
   const d=f?new Date(f.fecha_salida):null;
-  document.getElementById('pay-info').innerHTML=`
-    <div>
-      <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:8px;padding:14px;margin-bottom:12px;color:white">
-        <div style="font-size:9px;opacity:.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Vuelo</div>
-        <div style="font-family:var(--fh);font-size:18px;font-weight:800">${f?city(f.origen)+' → '+city(f.destino):'—'}</div>
-        <div style="font-size:11px;opacity:.7;margin-top:3px">${d?d.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'long',year:'numeric'}):''}</div>
-      </div>
-      <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:7px;padding:12px;margin-bottom:10px">
-        <div style="font-size:9px;font-weight:700;color:var(--txd);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px">Pasajero</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:3px">${p?p.nombre+' '+p.apellido:'—'}</div>
-        <div style="font-size:11px;color:var(--txm)">${p?.correo||''} ${p?.celular?'· '+p.celular:''}</div>
-        <div style="font-size:11px;color:var(--txm)">Doc: ${p?.numero_documento||'—'} · Asiento: <strong>${res?.asiento||'—'}</strong></div>
-      </div>
-      <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:7px;padding:12px">
-        <div style="font-size:9px;font-weight:700;color:var(--txd);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px">Pago</div>
-        ${iR('Monto',`<span style="font-size:13px;font-weight:800;color:var(--navy)">Bs. ${pay?.monto||0}</span>`)}
-        ${iR('Método',pay?.metodo||'—')}
-        ${iR('Estado',`<span class="bp ${ppC(pay?.estado)}">${pay?.estado||'—'}</span>`)}
-      </div>
-    </div>`;
-  const cv = document.getElementById('cv');
-  if (pay?.comprobante_url) {
-    const isImg=/\.(png|jpg|jpeg|gif|webp)$/i.test(pay.comprobante_url);
-    cv.innerHTML = isImg ? `<img src="${pay.comprobante_url}" alt="Comprobante"/>` : `<a href="${pay.comprobante_url}" target="_blank" class="btn btn-n"><i class="bi bi-file-earmark-pdf"></i> Ver PDF</a>`;
-  } else {
-    cv.innerHTML=`<div class="nc"><i class="bi bi-image" style="font-size:32px;display:block;margin-bottom:6px;color:var(--txd)"></i>Sin comprobante</div>`;
-  }
   const done=['aprobado','rechazado'].includes(pay?.estado);
   document.getElementById('btn-apr').disabled=done;
   document.getElementById('btn-rej').disabled=done;
-  document.getElementById('m-pay').classList.add('show');
-};
-window.closePM=()=>document.getElementById('m-pay').classList.remove('show');
 
-window.reviewPay = async function(dec) {
-  const ok = dec==='aprobado';
-  const conf = await Swal.fire({
+  document.getElementById('dr-pay-body').innerHTML=`
+    <div class="route-hd">
+      <div class="route-cities">
+        <div><div class="route-iata">${f?getIata(f.origen):'—'}</div><div class="route-name">${f?city(f.origen):'—'}</div></div>
+        <div class="route-arrow"><i class="bi bi-arrow-right"></i></div>
+        <div><div class="route-iata">${f?getIata(f.destino):'—'}</div><div class="route-name">${f?city(f.destino):'—'}</div></div>
+      </div>
+      <div class="route-meta">${d?d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):''}</div>
+    </div>
+
+    <div class="dr-sec">Pasajero</div>
+    <div class="pax-box">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">${p?p.nombre+' '+p.apellido:'—'}</div>
+      <div style="font-size:12px;color:var(--txm)">${p?.correo||''}${p?.celular?' · '+p.celular:''}</div>
+      <div style="font-size:12px;color:var(--txm);margin-top:3px">Doc: ${p?.numero_documento||'—'} · Asiento: <strong>${res?.asiento||'—'}</strong></div>
+    </div>
+
+    <div class="dr-sec">Información de pago</div>
+    <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:14px">
+      ${ir('Monto',`<span style="font-size:14px;font-weight:800;color:var(--navy)">Bs. ${pay?.monto||0}</span>`)}
+      ${ir('Método',pay?.metodo||'—')}
+      ${ir('Estado',`<span class="bp ${ppC(pay?.estado)}">${pay?.estado||'—'}</span>`)}
+    </div>
+
+    <div class="dr-sec">Comprobante de pago</div>
+    <div class="cv" id="cv-pay">
+      ${pay?.comprobante_url
+        ? (/\.(png|jpg|jpeg|gif|webp)$/i.test(pay.comprobante_url)
+            ? `<img src="${pay.comprobante_url}" alt="Comprobante" style="max-width:100%;max-height:280px;border-radius:8px;box-shadow:var(--shm)"/>`
+            : `<a href="${pay.comprobante_url}" target="_blank" class="btn btn-n"><i class="bi bi-file-earmark-pdf"></i> Ver PDF</a>`)
+        : `<i class="bi bi-image" style="font-size:36px;color:var(--txd)"></i><div class="nc">Sin comprobante adjunto</div>`
+      }
+    </div>
+  `;
+  openDrawer('dr-pay');
+};
+
+window.reviewPay=async function(dec){
+  const ok=dec==='aprobado';
+  const conf=await Swal.fire({
     icon:ok?'question':'warning',
     title:ok?'¿Aprobar pago?':'¿Rechazar pago?',
     html:ok?'El pago se <b>aprobará</b> y la reserva quedará <b>CONFIRMADA</b>.':'El pago se <b>rechazará</b> y la reserva quedará <b>CANCELADA</b>.',
-    showCancelButton:true,
-    confirmButtonText:ok?'Sí, aprobar':'Sí, rechazar',
-    cancelButtonText:'Cancelar',
+    showCancelButton:true,confirmButtonText:ok?'Sí, aprobar':'Sí, rechazar',cancelButtonText:'Cancelar',
   });
-  if (!conf.isConfirmed) return;
+  if(!conf.isConfirmed)return;
   await Promise.all([
     supabase.from('payments').update({estado:dec}).eq('id',curPay),
     supabase.from('reservations').update({estado:ok?'confirmado':'cancelado'}).eq('id',curPayRes),
   ]);
-  closePM();
-  toast(ok?'ok':'wn', ok?'¡Pago aprobado!':'Pago rechazado', ok?'Reserva confirmada correctamente.':'Reserva cancelada.');
-  await Promise.all([refreshAll(), initPT(), initRT()]);
-  if (ok) {
-    const show = await Swal.fire({icon:'question',title:'¿Ver boleto?',text:'¿Deseas ver el boleto de embarque emitido?',showCancelButton:true,confirmButtonText:'Ver boleto',cancelButtonText:'No'});
-    if (show.isConfirmed) showBP(curPayRes);
+  closeDrPay();
+  toast(ok?'ok':'wn',ok?'¡Pago aprobado!':'Pago rechazado',ok?'Reserva confirmada correctamente.':'Reserva cancelada.');
+  await Promise.all([refreshAll(),initPT(),initRT()]);
+  if(ok){
+    const show=await Swal.fire({icon:'question',title:'¿Ver boleto?',text:'¿Deseas ver el boleto de embarque?',showCancelButton:true,confirmButtonText:'Ver boleto',cancelButtonText:'No'});
+    if(show.isConfirmed)showBP(curPayRes);
   }
 };
 
-/* ── RESERVATION MODAL ── */
-window.openRM = async function(resId) {
+/* ── RESERVATION DRAWER ── */
+window.openDrRes=async function(resId){
   curRes=resId;
-  const {data:r} = await supabase.from('reservations')
+  const{data:r}=await supabase.from('reservations')
     .select('*,flights(*),passengers(*,special_assistance(*))')
     .eq('id',resId).single();
-  const p=r?.passengers?.[0], f=r?.flights, sa=p?.special_assistance?.[0];
-  const sal=f?new Date(f.fecha_salida):null, lle=f?new Date(f.fecha_llegada):null;
+  const p=r?.passengers?.[0],f=r?.flights,sa=p?.special_assistance?.[0];
+  const sal=f?new Date(f.fecha_salida):null,lle=f?new Date(f.fecha_llegada):null;
   const dur=sal&&lle?Math.round((lle-sal)/60000):0;
 
-  document.getElementById('res-body').innerHTML=`
-    <div class="row g-3">
-      <div class="col-md-6">
-        <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:8px;padding:14px;color:white;margin-bottom:10px">
-          <div style="font-size:9px;opacity:.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px">Vuelo</div>
-          <div style="font-family:var(--fh);font-size:20px;font-weight:800">${f?city(f.origen)+' → '+city(f.destino):'—'}</div>
-          <div style="font-size:11px;opacity:.7;margin-top:3px">${sal?sal.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'long'}):''} · ${sal?sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'}):''} → ${lle?lle.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'}):''} (${Math.floor(dur/60)}h ${dur%60}min)</div>
-        </div>
-        <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:7px;padding:12px">
-          ${iR('Asiento',`<strong style="color:var(--navy);font-size:15px">${r?.asiento||'—'}</strong>`)}
-          ${iR('Precio',`Bs. ${r?.precio_total||0}`)}
-          ${iR('Estado',`<span class="bp ${bpC(r?.estado)}">${fmtE(r?.estado)}</span>`)}
-          ${iR('Creada',new Date(r?.created_at).toLocaleString('es-BO',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}))}
-          ${iR('Asientos disp.', (f?.asientos_disponibles||0)+'/'+(f?.asientos_totales||0))}
-        </div>
+  document.getElementById('dr-res-body').innerHTML=`
+    <div class="route-hd">
+      <div class="route-cities">
+        <div><div class="route-iata">${f?getIata(f.origen):'—'}</div><div class="route-name">${f?city(f.origen):'—'}</div></div>
+        <div class="route-arrow"><i class="bi bi-arrow-right"></i></div>
+        <div><div class="route-iata">${f?getIata(f.destino):'—'}</div><div class="route-name">${f?city(f.destino):'—'}</div></div>
       </div>
-      <div class="col-md-6">
-        <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:7px;padding:12px;margin-bottom:10px">
-          <div style="font-size:9px;font-weight:700;color:var(--txd);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px">Pasajero</div>
-          ${iR('Nombre',p?`<strong>${p.nombre} ${p.apellido}</strong>`:'—')}
-          ${iR('Documento',p?.numero_documento||'—')}
-          ${iR('Correo',p?.correo||'—')}
-          ${iR('Celular',p?.celular||'—')}
-          ${iR('Nacimiento',p?.fecha_nacimiento||'—')}
-          ${iR('Género',p?.genero||'—')}
-        </div>
-        ${sa&&(sa.discapacidad_auditiva||sa.movilidad_reducida||sa.discapacidad_visual||sa.asistencia_aeropuerto)?`
-        <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:7px;padding:12px">
-          <div style="font-size:9px;font-weight:700;color:var(--txd);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">♿ Asistencia especial</div>
-          ${sa.discapacidad_auditiva?'<div style="font-size:12px;margin-bottom:3px">🦻 Discapacidad auditiva</div>':''}
-          ${sa.movilidad_reducida?'<div style="font-size:12px;margin-bottom:3px">♿ Movilidad reducida</div>':''}
-          ${sa.discapacidad_visual?'<div style="font-size:12px;margin-bottom:3px">👁️ Discapacidad visual</div>':''}
-          ${sa.asistencia_aeropuerto?'<div style="font-size:12px;margin-bottom:3px">🏢 Asistencia en aeropuerto</div>':''}
-        </div>`:''}
+      <div class="route-meta">
+        ${sal?sal.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):''}
+        · ${sal?sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'}):''} → ${lle?lle.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'}):''}
+        (${Math.floor(dur/60)}h ${dur%60}min)
       </div>
     </div>
-    <div style="margin-top:14px">
-      <label class="fl">Cambiar estado</label>
-      <div class="d-flex gap-2 flex-wrap" style="margin-top:5px">
-        ${['pendiente','pago_en_revision','confirmado','completado','cancelado'].map(s=>
-          `<button class="btn btn-sm ${s===r?.estado?'btn-n':'btn-s'}" onclick="changeResState('${resId}','${s}')">${fmtE(s)}</button>`
-        ).join('')}
-      </div>
-    </div>`;
 
-  document.getElementById('res-footer').innerHTML=`
-    <button class="btn btn-s" onclick="closeRM()">Cerrar</button>
+    <div class="dr-sec">Detalle de la reserva</div>
+    <div style="background:#F8FAFF;border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:14px">
+      ${ir('Código',`<code style="font-size:11px">${resId.slice(0,8).toUpperCase()}</code>`)}
+      ${ir('Asiento',`<strong style="color:var(--navy);font-size:15px">${r?.asiento||'—'}</strong>`)}
+      ${ir('Precio',`<strong>Bs. ${r?.precio_total||0}</strong>`)}
+      ${ir('Estado',`<span class="bp ${bpC(r?.estado)}">${fmtE(r?.estado)}</span>`)}
+      ${ir('Creada',new Date(r?.created_at).toLocaleString('es-BO',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}))}
+      ${ir('Asientos disp.',(f?.asientos_disponibles||0)+'/'+(f?.asientos_totales||0))}
+    </div>
+
+    <div class="dr-sec">Pasajero</div>
+    <div class="pax-box">
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px">${p?p.nombre+' '+p.apellido:'—'}</div>
+      ${ir('Documento',p?.numero_documento||'—')}
+      ${ir('Correo',p?.correo||'—')}
+      ${ir('Celular',p?.celular||'—')}
+      ${ir('Nacimiento',p?.fecha_nacimiento||'—')}
+      ${ir('Género',p?.genero||'—')}
+    </div>
+
+    ${sa&&(sa.discapacidad_auditiva||sa.movilidad_reducida||sa.discapacidad_visual||sa.asistencia_aeropuerto)?`
+    <div class="dr-sec">Asistencia especial</div>
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:14px;margin-bottom:14px">
+      ${sa.discapacidad_auditiva?'<div style="font-size:12px;margin-bottom:5px">🦻 Discapacidad auditiva</div>':''}
+      ${sa.movilidad_reducida?'<div style="font-size:12px;margin-bottom:5px">♿ Movilidad reducida</div>':''}
+      ${sa.discapacidad_visual?'<div style="font-size:12px;margin-bottom:5px">👁️ Discapacidad visual</div>':''}
+      ${sa.asistencia_aeropuerto?'<div style="font-size:12px;margin-bottom:5px">🏢 Asistencia en aeropuerto</div>':''}
+    </div>`:''}
+
+    <div class="dr-sec">Cambiar estado</div>
+    <div class="state-btns">
+      ${['pendiente','pago_en_revision','confirmado','completado','cancelado'].map(s=>
+        `<button class="btn btn-sm ${s===r?.estado?'btn-n':'btn-s'}" onclick="changeResState('${resId}','${s}')">${fmtE(s)}</button>`
+      ).join('')}
+    </div>
+  `;
+
+  document.getElementById('dr-res-ft').innerHTML=`
+    <button class="btn btn-s" onclick="closeDrRes()">Cerrar</button>
     ${r?.estado==='confirmado'?`<button class="btn btn-g" onclick="showBP('${resId}')"><i class="bi bi-ticket-perforated"></i> Ver boleto</button>`:''}
   `;
-  document.getElementById('m-res').classList.add('show');
+  openDrawer('dr-res');
 };
-window.closeRM=()=>document.getElementById('m-res').classList.remove('show');
 
-window.changeResState = async function(resId, newState) {
+window.changeResState=async function(resId,newState){
   await supabase.from('reservations').update({estado:newState}).eq('id',resId);
-  closeRM();
+  closeDrRes();
   toast('ok','Estado actualizado',`Reserva marcada como ${fmtE(newState)}.`);
-  await Promise.all([initRT(), refreshAll()]);
+  await Promise.all([initRT(),refreshAll()]);
 };
 
-/* ── BOARDING PASS ── */
-window.showBP = async function(resId) {
-  const {data:r} = await supabase.from('reservations').select('*,flights(*),passengers(*)').eq('id',resId).single();
-  if (!r) return;
-  const f=r.flights, p=r.passengers?.[0];
-  const sal=new Date(f.fecha_salida), lle=new Date(f.fecha_llegada);
+/* ── BOARDING PASS DRAWER ── */
+window.showBP=async function(resId){
+  const{data:r}=await supabase.from('reservations').select('*,flights(*),passengers(*)').eq('id',resId).single();
+  if(!r)return;
+  const f=r.flights,p=r.passengers?.[0];
+  const sal=new Date(f.fecha_salida),lle=new Date(f.fecha_llegada);
   document.getElementById('bp-content').innerHTML=`
-    <div class="bp-card">
-      <div class="bpc-hd">
-        <div><div class="bpc-al">Boliviana de Aviación</div><div style="font-size:9px;opacity:.6;letter-spacing:2px;text-transform:uppercase;margin-top:2px">Tarjeta de embarque</div></div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:22px;filter:brightness(0) invert(1);opacity:.8" alt="BOA"/>
+    <div class="bpcard">
+      <div class="bpcard-hd">
+        <div><div class="bpcard-al">Boliviana de Aviación</div><div style="font-size:9px;opacity:.6;letter-spacing:2px;text-transform:uppercase;margin-top:2px">Tarjeta de embarque</div></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:20px;filter:brightness(0) invert(1);opacity:.8" alt="BOA"/>
       </div>
-      <div class="bpc-rt">
-        <div style="text-align:center"><div class="bpc-ia">${getIata(f.origen)}</div><div class="bpc-cn">${city(f.origen)}</div></div>
-        <div class="bpc-ar"><i class="bi bi-airplane"></i></div>
-        <div style="text-align:center"><div class="bpc-ia">${getIata(f.destino)}</div><div class="bpc-cn">${city(f.destino)}</div></div>
+      <div class="bpcard-rt">
+        <div style="text-align:center"><div class="bpcard-ia">${getIata(f.origen)}</div><div class="bpcard-cn">${city(f.origen)}</div></div>
+        <div class="bpcard-ar"><i class="bi bi-airplane"></i></div>
+        <div style="text-align:center"><div class="bpcard-ia">${getIata(f.destino)}</div><div class="bpcard-cn">${city(f.destino)}</div></div>
       </div>
-      <div class="bpc-dt">
-        <div><div class="bpc-dl">Pasajero</div><div class="bpc-dv" style="font-size:11px">${p?p.nombre+' '+p.apellido:'—'}</div></div>
-        <div><div class="bpc-dl">Fecha</div><div class="bpc-dv">${sal.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
-        <div><div class="bpc-dl">Salida</div><div class="bpc-dv">${sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div><div class="bpc-dl">Llegada</div><div class="bpc-dv">${lle.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div><div class="bpc-dl">Asiento</div><div class="bpc-dv" style="font-size:20px;color:var(--navy)">${r.asiento||'—'}</div></div>
-        <div><div class="bpc-dl">Documento</div><div class="bpc-dv">${p?.numero_documento||'—'}</div></div>
+      <div class="bpcard-dt">
+        <div><div class="bpcard-dl">Pasajero</div><div class="bpcard-dv" style="font-size:11px">${p?p.nombre+' '+p.apellido:'—'}</div></div>
+        <div><div class="bpcard-dl">Fecha</div><div class="bpcard-dv">${sal.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+        <div><div class="bpcard-dl">Salida</div><div class="bpcard-dv">${sal.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="bpcard-dl">Llegada</div><div class="bpcard-dv">${lle.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="bpcard-dl">Asiento</div><div class="bpcard-dv" style="font-size:20px;color:var(--navy)">${r.asiento||'—'}</div></div>
+        <div><div class="bpcard-dl">Documento</div><div class="bpcard-dv">${p?.numero_documento||'—'}</div></div>
       </div>
-      <hr class="bpc-div"/>
-      <div class="bpc-bt">
+      <hr class="bpcard-div"/>
+      <div class="bpcard-bt">
         <div><div style="font-size:9px;color:var(--txd);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Código</div><div style="font-family:var(--fm);font-size:12px;font-weight:700;color:var(--navy)">${resId.slice(0,8).toUpperCase()}</div></div>
-        <div class="bpc-bc"></div>
+        <div class="bpcard-bc"></div>
         <img src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" style="width:48px;height:48px;border-radius:7px;border:1.5px solid var(--bdr);object-fit:contain" alt="QR"/>
       </div>
-      <div class="bpc-st"><i class="bi bi-check-circle-fill"></i> CONFIRMADA — Preséntese 2 horas antes</div>
+      <div class="bpcard-st"><i class="bi bi-check-circle-fill"></i> CONFIRMADA — Preséntese 2 horas antes</div>
     </div>`;
-  document.getElementById('m-bp').classList.add('show');
+  openDrawer('dr-bp');
 };
-window.closeBP=()=>document.getElementById('m-bp').classList.remove('show');
 
-/* ── FLIGHT MODAL ── */
-window.openFM = async function(fid) {
-  ['f-id','f-ori','f-des','f-sal','f-lle','f-pre','f-tot','f-dis'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-est').value='programado';
-  document.getElementById('fm-ttl').textContent='Nuevo vuelo';
-  if (fid) {
-    const {data:f} = await supabase.from('flights').select('*').eq('id',fid).single();
-    if (f) {
-      document.getElementById('fm-ttl').textContent='Editar vuelo';
-      document.getElementById('f-id').value=f.id;
-      document.getElementById('f-ori').value=f.origen;
-      document.getElementById('f-des').value=f.destino;
-      document.getElementById('f-sal').value=dtL(f.fecha_salida);
-      document.getElementById('f-lle').value=dtL(f.fecha_llegada);
-      document.getElementById('f-pre').value=f.precio;
-      document.getElementById('f-tot').value=f.asientos_totales;
-      document.getElementById('f-dis').value=f.asientos_disponibles;
-      document.getElementById('f-est').value=f.estado;
-    }
-  }
-  document.getElementById('m-flight').classList.add('show');
-};
-window.closeFM=()=>document.getElementById('m-flight').classList.remove('show');
-
-window.saveFlight = async function() {
+/* ── FLIGHT SAVE / DELETE ── */
+window.saveFlight=async function(){
   const id=document.getElementById('f-id').value;
   const ori=document.getElementById('f-ori').value.trim();
   const des=document.getElementById('f-des').value.trim();
@@ -1202,81 +1190,73 @@ window.saveFlight = async function() {
   const tot=parseInt(document.getElementById('f-tot').value);
   const dis=parseInt(document.getElementById('f-dis').value);
   const est=document.getElementById('f-est').value;
-  if (!ori||!des||!sal||!lle||!pre||!tot||!dis) {
-    Swal.fire({icon:'warning',title:'Campos requeridos',text:'Completa todos los campos.',timer:2000,showConfirmButton:false}); return;
+  if(!ori||!des||!sal||!lle||!pre||!tot||!dis){
+    Swal.fire({icon:'warning',title:'Campos requeridos',text:'Completa todos los campos obligatorios.',timer:2200,showConfirmButton:false});return;
   }
   const payload={origen:ori,destino:des,fecha_salida:new Date(sal).toISOString(),fecha_llegada:new Date(lle).toISOString(),precio:pre,asientos_totales:tot,asientos_disponibles:dis,estado:est};
-  if (id) {
-    const {error}=await supabase.from('flights').update(payload).eq('id',id);
-    if (error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
-    toast('ok','Vuelo actualizado','Los cambios fueron guardados.');
-  } else {
-    const {error}=await supabase.from('flights').insert(payload);
-    if (error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
+  if(id){
+    const{error}=await supabase.from('flights').update(payload).eq('id',id);
+    if(error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
+    toast('ok','Vuelo actualizado','Los cambios fueron guardados correctamente.');
+  }else{
+    const{error}=await supabase.from('flights').insert(payload);
+    if(error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
     toast('ok','Vuelo creado','El vuelo fue programado correctamente.');
   }
-  closeFM();
-  await Promise.all([initFT(), refreshAll()]);
+  closeDrFlight();
+  await Promise.all([initFT(),refreshAll()]);
 };
 
-window.delFlight = async function(fid) {
-  const conf = await Swal.fire({
-    icon:'warning',title:'¿Eliminar vuelo?',
-    text:'Se eliminarán también las reservas asociadas. Irreversible.',
-    showCancelButton:true,confirmButtonText:'Sí, eliminar',cancelButtonText:'Cancelar',
-  });
-  if (!conf.isConfirmed) return;
+window.delFlight=async function(fid){
+  const conf=await Swal.fire({icon:'warning',title:'¿Eliminar vuelo?',text:'Se eliminarán también las reservas asociadas. Irreversible.',showCancelButton:true,confirmButtonText:'Sí, eliminar',cancelButtonText:'Cancelar'});
+  if(!conf.isConfirmed)return;
   await supabase.from('flights').delete().eq('id',fid);
   toast('wn','Vuelo eliminado','El vuelo fue eliminado.');
-  await Promise.all([initFT(), refreshAll()]);
+  await Promise.all([initFT(),refreshAll()]);
 };
 
-/* ── USER MODAL ── */
-window.openUM = function(id,nom,ape,tel,rol) {
+/* ── USER DRAWER ── */
+window.openDrUser=function(id,nom,ape,tel,rol){
   document.getElementById('u-id').value=id;
   document.getElementById('u-nom').value=nom;
   document.getElementById('u-ape').value=ape;
   document.getElementById('u-tel').value=tel;
   document.getElementById('u-rol').value=rol;
-  document.getElementById('m-user').classList.add('show');
+  openDrawer('dr-user');
 };
-window.closeUM=()=>document.getElementById('m-user').classList.remove('show');
-
-window.saveUser = async function() {
+window.saveUser=async function(){
   const id=document.getElementById('u-id').value;
   const nom=document.getElementById('u-nom').value.trim();
   const ape=document.getElementById('u-ape').value.trim();
   const tel=document.getElementById('u-tel').value.trim();
   const rol=document.getElementById('u-rol').value;
-  const {error}=await supabase.from('users_profile').update({nombre:nom,apellido:ape,telefono:tel||null}).eq('id',id);
-  if (error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
+  const{error}=await supabase.from('users_profile').update({nombre:nom,apellido:ape,telefono:tel||null}).eq('id',id);
+  if(error){Swal.fire({icon:'error',title:'Error',text:error.message});return;}
   await supabase.from('user_roles').upsert({user_id:id,role:rol},{onConflict:'user_id'});
-  closeUM();
-  toast('ok','Usuario actualizado','Los datos fueron guardados.');
+  closeDrUser();
+  toast('ok','Usuario actualizado','Los datos fueron guardados correctamente.');
   await initUT();
 };
 
 /* ── REPORTS ── */
-async function loadReports() {
-  const {data:res}=await supabase.from('reservations').select('estado,precio_total,flights(origen,destino)');
-  if (!res) return;
-  const ec={};
-  res.forEach(r=>{ec[r.estado]=(ec[r.estado]||0)+1;});
+async function loadReports(){
+  const{data:res}=await supabase.from('reservations').select('estado,precio_total,flights(origen,destino)');
+  if(!res)return;
+  const ec={};res.forEach(r=>{ec[r.estado]=(ec[r.estado]||0)+1;});
   document.getElementById('rpt-est').innerHTML=Object.entries(ec).map(([k,v])=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr)">
       <span class="bp ${bpC(k)}">${fmtE(k)}</span>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div style="display:flex;align-items:center;gap:9px">
         <div style="width:90px;height:5px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="width:${Math.round((v/res.length)*100)}%;height:100%;background:var(--navy)"></div></div>
         <span style="font-weight:700;font-size:13px">${v}</span>
       </div>
     </div>`).join('');
-  const rc={};
-  res.forEach(r=>{if(r.flights){const k=city(r.flights.origen)+' → '+city(r.flights.destino);rc[k]=(rc[k]||0)+1;}});
+  const rc={};res.forEach(r=>{if(r.flights){const k=city(r.flights.origen)+' → '+city(r.flights.destino);rc[k]=(rc[k]||0)+1;}});
   const sorted=Object.entries(rc).sort((a,b)=>b[1]-a[1]).slice(0,8);
   const mx=sorted[0]?.[1]||1;
   document.getElementById('rpt-rut').innerHTML=sorted.map(([k,v],i)=>`
-    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr)">
-      <span style="font-size:11px;color:var(--txd);width:14px;font-weight:700">${i+1}</span>
+    <div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr)">
+      <span style="font-size:11px;color:var(--txd);width:16px;font-weight:700">${i+1}</span>
       <span style="font-size:12px;flex:1;font-weight:500">${k}</span>
       <div style="width:70px;height:5px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="width:${Math.round((v/mx)*100)}%;height:100%;background:var(--red)"></div></div>
       <span style="font-weight:700;font-size:12px;color:var(--navy);width:22px;text-align:right">${v}</span>
@@ -1284,57 +1264,56 @@ async function loadReports() {
 }
 
 /* ── EXPORT CSV ── */
-window.exportCSV = async function(type) {
-  let data, fn;
-  if (type==='reservas') {
+window.exportCSV=async function(type){
+  let data,fn;
+  if(type==='reservas'){
     const r=await supabase.from('reservations').select('*,flights(origen,destino,fecha_salida),passengers(nombre,apellido)');
-    data=(r.data||[]).map(d=>({ID:d.id.slice(0,8),Pasajero:d.passengers?.[0]?d.passengers[0].nombre+' '+d.passengers[0].apellido:'—',Origen:d.flights?.origen||'—',Destino:d.flights?.destino||'—',Fecha:d.flights?.fecha_salida?new Date(d.flights.fecha_salida).toLocaleDateString():'—',Asiento:d.asiento||'—',Precio:d.precio_total,Estado:d.estado,Creada:new Date(d.created_at).toLocaleDateString()}));
-    fn='reservas_boa.csv';
-  } else if (type==='vuelos') {
+    data=(r.data||[]).map(d=>({ID:d.id.slice(0,8),Pasajero:d.passengers?.[0]?d.passengers[0].nombre+' '+d.passengers[0].apellido:'—',Origen:d.flights?.origen||'—',Destino:d.flights?.destino||'—',Fecha:d.flights?.fecha_salida?new Date(d.flights.fecha_salida).toLocaleDateString():'—',Asiento:d.asiento||'—',Precio:d.precio_total,Estado:d.estado,Creada:new Date(d.created_at).toLocaleDateString()}));fn='reservas_boa.csv';
+  }else if(type==='vuelos'){
     const r=await supabase.from('flights').select('*');
-    data=(r.data||[]).map(d=>({Origen:d.origen,Destino:d.destino,Salida:new Date(d.fecha_salida).toLocaleString(),Llegada:new Date(d.fecha_llegada).toLocaleString(),Precio:d.precio,Total:d.asientos_totales,Disponibles:d.asientos_disponibles,Estado:d.estado}));
-    fn='vuelos_boa.csv';
-  } else if (type==='pagos') {
+    data=(r.data||[]).map(d=>({Origen:d.origen,Destino:d.destino,Salida:new Date(d.fecha_salida).toLocaleString(),Llegada:new Date(d.fecha_llegada).toLocaleString(),Precio:d.precio,Total:d.asientos_totales,Disponibles:d.asientos_disponibles,Estado:d.estado}));fn='vuelos_boa.csv';
+  }else if(type==='pagos'){
     const r=await supabase.from('payments').select('*');
-    data=(r.data||[]).map(d=>({ID:d.id.slice(0,8),Reserva:d.reservation_id?.slice(0,8),Monto:d.monto,Metodo:d.metodo,Estado:d.estado,Fecha:new Date(d.fecha).toLocaleDateString()}));
-    fn='pagos_boa.csv';
-  } else {
+    data=(r.data||[]).map(d=>({ID:d.id.slice(0,8),Reserva:d.reservation_id?.slice(0,8),Monto:d.monto,Metodo:d.metodo,Estado:d.estado,Fecha:new Date(d.fecha).toLocaleDateString()}));fn='pagos_boa.csv';
+  }else{
     const r=await supabase.from('passengers').select('*');
-    data=(r.data||[]).map(d=>({Nombre:d.nombre,Apellido:d.apellido,Documento:d.numero_documento,Tipo:d.tipo_documento,Correo:d.correo,Celular:d.celular,Genero:d.genero}));
-    fn='pasajeros_boa.csv';
+    data=(r.data||[]).map(d=>({Nombre:d.nombre,Apellido:d.apellido,Documento:d.numero_documento,Tipo:d.tipo_documento,Correo:d.correo,Celular:d.celular,Genero:d.genero}));fn='pasajeros_boa.csv';
   }
-  if (!data?.length){toast('wn','Sin datos','No hay datos para exportar.');return;}
+  if(!data?.length){toast('wn','Sin datos','No hay datos para exportar.');return;}
   const cols=Object.keys(data[0]);
   const csv=[cols.join(','),...data.map(r=>cols.map(c=>JSON.stringify(r[c]??'')).join(','))].join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=fn; a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=fn;a.click();
   toast('ok','Exportado',`${fn} descargado.`);
 };
 
 /* ── LOGOUT ── */
-window.handleLogout = async function() {
+window.handleLogout=async function(){
   const conf=await Swal.fire({icon:'question',title:'¿Cerrar sesión?',showCancelButton:true,confirmButtonText:'Sí, salir',cancelButtonText:'Cancelar'});
-  if (!conf.isConfirmed) return;
+  if(!conf.isConfirmed)return;
   await supabase.auth.signOut();
   location.href='../../index.html';
 };
 
 /* ── PAGE NAV ── */
-window.sp = function(page, navEl) {
+window.sp=function(page,navEl){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.sb-link').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+page)?.classList.add('active');
-  if (navEl) navEl.classList.add('active');
+  if(navEl)navEl.classList.add('active');
   else document.querySelector(`.sb-link[data-page="${page}"]`)?.classList.add('active');
   const titles={dash:'Dashboard',pagos:'Pagos Pendientes',reservas:'Reservas & Boletos',vuelos:'Gestión de Vuelos',usuarios:'Usuarios',pasajeros:'Pasajeros',reportes:'Reportes'};
   document.getElementById('tb-ttl').textContent=titles[page]||page;
-  if (page==='pagos'&&!dtP) initPT();
-  if (page==='reservas'&&!dtR) initRT();
-  if (page==='vuelos'&&!dtF) initFT();
-  if (page==='usuarios'&&!dtU) initUT();
-  if (page==='pasajeros'&&!dtPas) initPasT();
+  // Scroll content area al top al cambiar página
+  document.querySelector('.content-scroll').scrollTop=0;
+  if(page==='pagos'&&!dtP)initPT();
+  if(page==='reservas'&&!dtR)initRT();
+  if(page==='vuelos'&&!dtF)initFT();
+  if(page==='usuarios'&&!dtU)initUT();
+  if(page==='pasajeros'&&!dtPas)initPasT();
 };
+
+/* ── Esc key to close drawers ── */
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllDrawers();});
 
 init();
 </script>

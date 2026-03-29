@@ -282,13 +282,14 @@ window.handleRegister = async function(e) {
       password,
       options: {
         data: { nombre, apellido },
+        // Redirigir al login para que procese el token de confirmación
         emailRedirectTo: window.location.origin + '/auth/login.html'
       }
     });
 
     // ── Manejo de error SMTP / 500 ────────────────────────────────────────────
     if (error) {
-      const msg = error.message?.toLowerCase() || '';
+      const msg  = error.message?.toLowerCase() || '';
       const is500  = error.status === 500;
       const isSmtp = msg.includes('sending') || msg.includes('smtp') || msg.includes('email');
 
@@ -297,7 +298,7 @@ window.handleRegister = async function(e) {
         const { data: rd } = await supabase.auth.signInWithPassword({ email, password });
         if (rd?.user) {
           await saveProfile(rd.user, nombre, apellido);
-          await saveRole(rd.user.id);           // ← asignar rol user
+          await saveRole(rd.user.id);
           showSuccessDirect();
           return;
         }
@@ -322,10 +323,7 @@ window.handleRegister = async function(e) {
 
     // ── Registro exitoso ──────────────────────────────────────────────────────
     if (data?.user) {
-      // Guardar perfil completo
       await saveProfile(data.user, nombre, apellido);
-      // Asignar rol 'user' — el trigger también lo hace, pero lo forzamos
-      // por si el trigger falla o hay delay
       await saveRole(data.user.id);
 
       document.getElementById('register-form').style.display = 'none';
@@ -351,13 +349,14 @@ window.handleRegister = async function(e) {
 };
 
 // ── GOOGLE OAUTH ──────────────────────────────────────────────────────────────
-// El trigger de Supabase asignará el rol automáticamente al crear el user
+// Redirigir al login para que procese la sesión de Google de forma centralizada
 window.handleGoogle = async function() {
   document.getElementById('btn-google').disabled = true;
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.origin + '/public/user/index.html',
+      // El login.html ya tiene toda la lógica para manejar el callback y redirigir por rol
+      redirectTo: window.location.origin + '/auth/login.html',
       queryParams: { prompt: 'select_account' }
     }
   });
@@ -369,25 +368,24 @@ window.handleGoogle = async function() {
 
 // ── HELPERS DE BD ─────────────────────────────────────────────────────────────
 
-// Guarda/actualiza el perfil completo en users_profile
 async function saveProfile(user, nombre, apellido) {
   try {
     await supabase.from('users_profile').upsert({
-      id:              user.id,
+      id:               user.id,
       nombre,
       apellido,
-      telefono:        fv('reg-telefono')  || null,
-      fecha_nacimiento:fv('reg-nacimiento')|| null,
-      genero:          fv('reg-genero')    || null,
-      tipo_documento:  fv('reg-tipo-doc')  || null,
-      numero_documento:fv('reg-num-doc')   || null,
+      email:            user.email,
+      telefono:         fv('reg-telefono')  || null,
+      fecha_nacimiento: fv('reg-nacimiento') || null,
+      genero:           fv('reg-genero')    || null,
+      tipo_documento:   fv('reg-tipo-doc')  || null,
+      numero_documento: fv('reg-num-doc')   || null,
     }, { onConflict: 'id' });
   } catch (err) {
     console.warn('saveProfile warning:', err.message);
   }
 }
 
-// Inserta rol 'user' en user_roles (ON CONFLICT no hace nada si ya existe)
 async function saveRole(userId) {
   try {
     await supabase.from('user_roles').upsert(
@@ -396,7 +394,6 @@ async function saveRole(userId) {
     );
   } catch (err) {
     console.warn('saveRole warning:', err.message);
-    // No es crítico — el trigger de Supabase también lo hace
   }
 }
 

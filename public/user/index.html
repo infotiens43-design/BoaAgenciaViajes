@@ -2,1130 +2,434 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
 <title>Mi Cuenta — BOA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-/* ════════════════════════════════════════
-   DESIGN TOKENS
-════════════════════════════════════════ */
 :root {
-  --navy:        #0B1F4B;
-  --navy-mid:    #152D6B;
-  --navy-light:  #1E3A87;
-  --red:         #C8102E;
-  --red-hover:   #A50D25;
-  --gold:        #C9952A;
-  --gold-light:  #F0C060;
+  --navy:      #0B1F4B;
+  --navy2:     #16317A;
+  --red:       #C8102E;
+  --red2:      #A00C23;
+  --gold:      #C9952A;
+  --goldf:     #F0C060;
+  --bg:        #F2F5FB;
+  --surf:      #FFFFFF;
+  --surf2:     #F7F9FE;
+  --bdr:       rgba(11,31,75,0.09);
+  --bdr2:      rgba(11,31,75,0.16);
+  --txt:       #0C1628;
+  --txt2:      #3D4F72;
+  --txt3:      #8A99B8;
+  --ok:        #0C9E6A;
+  --warn:      #D48A0C;
+  --err:       #D42020;
+  --info:      #1A5CCC;
+  --r:         14px;
+  --rs:        9px;
+  --fx:        'Sora', system-ui, sans-serif;
+  --fh:        'Playfair Display', Georgia, serif;
+  --sh:        0 2px 12px rgba(11,31,75,0.08);
+  --sh2:       0 8px 32px rgba(11,31,75,0.13);
+  --ease:      cubic-bezier(0.4,0,0.2,1);
+  --bot-h:     68px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:var(--fx);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.55}
+img{display:block;max-width:100%}
+a{text-decoration:none}
+button{font-family:var(--fx);cursor:pointer}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:rgba(11,31,75,0.15);border-radius:99px}
 
-  --bg:          #F0F3FA;
-  --bg2:         #E4E9F5;
-  --surface:     #FFFFFF;
-  --surface2:    #F7F9FE;
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
+#loading.done{opacity:0;pointer-events:none}
+#loading img{height:38px;filter:brightness(0) invert(1)}
+.load-bar{width:140px;height:2px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden}
+.load-bar-inner{height:100%;background:linear-gradient(90deg,#fff,rgba(255,255,255,0.5));animation:lbar 1.4s ease forwards;width:0}
+@keyframes lbar{to{width:100%}}
+.load-txt{font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.3);text-transform:uppercase}
 
-  --border:      rgba(11,31,75,0.09);
-  --border-md:   rgba(11,31,75,0.15);
+/* ── SHELL ── */
+.shell{display:flex;min-height:100vh}
 
-  --text:        #0C1628;
-  --text-2:      #3D4F72;
-  --text-3:      #8A99B8;
+/* ── SIDEBAR ── */
+.sidebar{width:240px;position:fixed;inset:0 auto 0 0;background:var(--navy);display:flex;flex-direction:column;z-index:300;transition:transform .28s var(--ease);overflow:hidden}
+.sidebar::after{content:'';position:absolute;top:-80px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(201,149,42,0.15) 0%,transparent 70%);pointer-events:none}
+.sb-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:299;backdrop-filter:blur(3px)}
+.sb-backdrop.show{display:block}
+.sb-brand{padding:18px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.sb-brand img{height:24px;filter:brightness(0) invert(1)}
+.sb-brand-sub{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:2px}
+.sb-user{padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.sb-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy2),#1E3A87);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;color:#fff;flex-shrink:0}
+.sb-uname{font-size:13px;font-weight:600;color:#fff;line-height:1.2}
+.sb-uemail{font-size:11px;color:rgba(255,255,255,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;position:relative;z-index:1}
+.sb-lbl{font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:10px 20px 3px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:10px 12px 10px 20px;margin:1px 10px;color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;border-radius:var(--rs);transition:all .15s;position:relative}
+.sb-item i{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sb-item:hover{color:rgba(255,255,255,0.88);background:rgba(255,255,255,0.06)}
+.sb-item.act{color:#fff;background:rgba(255,255,255,0.1);font-weight:600}
+.sb-item.act::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:3px;height:55%;background:var(--goldf);border-radius:0 3px 3px 0}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:99px}
+.sb-foot{padding:12px 20px 16px;border-top:1px solid rgba(255,255,255,0.07);position:relative;z-index:1}
+.btn-logout{width:100%;padding:9px 14px;background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.22);border-radius:var(--rs);color:rgba(255,150,150,0.9);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s}
+.btn-logout:hover{background:rgba(200,16,46,0.26);color:#fff}
 
-  --success:     #0C9E6A;
-  --warning:     #D48A0C;
-  --danger:      #D42020;
-  --info:        #1A5CCC;
+/* ── MAIN ── */
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh}
 
-  --sidebar-w:   260px;
-  --topbar-h:    60px;
-  --bottom-nav-h:64px;
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:200;height:58px;background:rgba(255,255,255,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--sh)}
+.tb-left{display:flex;align-items:center;gap:9px;min-width:0}
+.hamburger{display:none;background:none;border:none;color:var(--txt);font-size:21px;padding:4px 5px;border-radius:6px;transition:background .15s;flex-shrink:0}
+.hamburger:hover{background:var(--bg)}
+.tb-title{font-family:var(--fh);font-size:18px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
 
-  --font-head:   'DM Serif Display', Georgia, serif;
-  --font-body:   'DM Sans', system-ui, sans-serif;
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 17px;border-radius:var(--rs);font-family:var(--fx);font-size:13px;font-weight:600;border:none;transition:all .15s;white-space:nowrap;line-height:1}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red2);box-shadow:0 4px 14px rgba(200,16,46,0.28);transform:translateY(-1px)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy2);box-shadow:0 4px 14px rgba(11,31,75,0.28);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--bdr2)}
+.btn-outline:hover{background:var(--bg);border-color:var(--navy)}
+.btn-ghost{background:var(--surf2);color:var(--txt2);border:1px solid var(--bdr)}
+.btn-ghost:hover{background:var(--bg);color:var(--txt)}
+.btn-sm{padding:7px 13px;font-size:12px}
+.btn-lg{padding:13px 26px;font-size:15px}
+.btn-block{width:100%;justify-content:center}
+.btn:disabled{opacity:.4;pointer-events:none}
+.btn-primary:active,.btn-navy:active{transform:translateY(0)}
 
-  --r:           14px;
-  --r-sm:        9px;
-  --r-xs:        6px;
+/* ── PAGES ── */
+.page{display:none;padding:24px 22px;animation:fadeUp .25s var(--ease) both}
+.page.act{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page-ey{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.page-ttl{font-family:var(--fh);font-size:26px;line-height:1.15;color:var(--txt);margin-bottom:20px}
+.page-ttl span{color:var(--navy2)}
 
-  --shadow-sm:   0 1px 4px rgba(11,31,75,0.07);
-  --shadow:      0 3px 16px rgba(11,31,75,0.09);
-  --shadow-lg:   0 8px 32px rgba(11,31,75,0.14);
-  --shadow-xl:   0 20px 60px rgba(11,31,75,0.18);
+/* ── CARDS ── */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.card-hd{padding:13px 18px;border-bottom:1px solid var(--bdr);background:var(--surf2);display:flex;align-items:center;gap:8px}
+.card-hd-ttl{font-weight:700;font-size:13.5px;color:var(--txt)}
+.card-bd{padding:18px}
 
-  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
-  --t:           0.18s;
-}
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.c-n::before{background:var(--navy)}
+.stat-card.c-g::before{background:var(--ok)}
+.stat-card.c-a::before{background:var(--warn)}
+.stat-card.c-b::before{background:var(--info)}
+.stat-ic{width:36px;height:36px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px}
+.stat-ic.c-n{background:rgba(11,31,75,.07);color:var(--navy)}
+.stat-ic.c-g{background:rgba(12,158,106,.1);color:var(--ok)}
+.stat-ic.c-a{background:rgba(212,138,12,.1);color:var(--warn)}
+.stat-ic.c-b{background:rgba(26,92,204,.1);color:var(--info)}
+.stat-val{font-family:var(--fh);font-size:28px;line-height:1;color:var(--txt)}
+.stat-lbl{font-size:11.5px;color:var(--txt3);font-weight:500;margin-top:3px}
 
-/* ════════════════════════════════════════
-   RESET & BASE
-════════════════════════════════════════ */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  line-height: 1.55;
-  font-size: 15px;
-}
-img { display: block; max-width: 100%; }
-a { text-decoration: none; }
-button { font-family: var(--font-body); }
+/* ── NEXT FLIGHT ── */
+.nf-banner{background:linear-gradient(120deg,var(--navy) 0%,#1A3E9A 100%);border-radius:var(--r);padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(11,31,75,0.2)}
+.nf-banner::after{content:'\F1D9';font-family:'Bootstrap-Icons';position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:88px;opacity:0.05;color:#fff;pointer-events:none;line-height:1}
+.nf-ey{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--goldf);opacity:.8;margin-bottom:4px}
+.nf-route{font-family:var(--fh);font-size:21px;color:#fff;display:flex;align-items:center;gap:9px}
+.nf-route i{font-size:14px;color:var(--goldf)}
+.nf-meta{font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px}
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(11,31,75,0.18); border-radius: 99px; }
+/* ── SEC HEADER ── */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-ttl{font-weight:700;font-size:15px;color:var(--txt)}
+.sec-lnk{font-size:12px;font-weight:600;color:var(--navy);background:none;border:none;display:flex;align-items:center;gap:4px;transition:color .15s;padding:0}
+.sec-lnk:hover{color:var(--red)}
 
-/* ════════════════════════════════════════
-   LAYOUT SHELL
-════════════════════════════════════════ */
-.shell { display: flex; min-height: 100vh; }
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:500px}
+thead th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);padding:10px 14px;text-align:left;border-bottom:1px solid var(--bdr);background:var(--surf2);white-space:nowrap}
+tbody td{padding:12px 14px;font-size:13px;color:var(--txt2);border-bottom:1px solid var(--bdr);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg)}
+.td-route{font-weight:700;color:var(--txt);font-size:13.5px}
+.td-price{font-weight:700;color:var(--navy)}
+.td-acts{display:flex;gap:5px;flex-wrap:wrap}
 
-/* ════════════════════════════════════════
-   SIDEBAR
-════════════════════════════════════════ */
-.sidebar {
-  width: var(--sidebar-w);
-  position: fixed; inset: 0 auto 0 0;
-  background: var(--navy);
-  display: flex; flex-direction: column;
-  z-index: 300;
-  transition: transform 0.28s var(--ease);
-  overflow: hidden;
-}
-/* Decorative lines */
-.sidebar::before {
-  content: '';
-  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent, transparent 40px,
-    rgba(255,255,255,0.012) 40px, rgba(255,255,255,0.012) 41px
-  );
-  pointer-events: none;
-}
-.sidebar::after {
-  content: '';
-  position: absolute; top: -120px; right: -80px;
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(201,149,42,0.18) 0%, transparent 70%);
-  pointer-events: none;
-}
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.b-ok  {background:#DCFBEF;color:#086B49;border:1px solid #A7F3D0}
+.b-warn{background:#FEF7E0;color:#8A5C00;border:1px solid #FDDFA0}
+.b-err {background:#FEE4E4;color:#8B1212;border:1px solid #FECACA}
+.b-info{background:#E0ECFF;color:#1040A0;border:1px solid #BFDBFE}
+.b-mut {background:var(--surf2);color:var(--txt3);border:1px solid var(--bdr)}
 
-.sidebar-backdrop {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.55);
-  z-index: 299;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-}
-.sidebar-backdrop.show { display: block; }
+/* ── FORMS ── */
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg-lbl{font-size:10.5px;font-weight:600;color:var(--txt3);letter-spacing:.4px;text-transform:uppercase}
+.fc{padding:10px 12px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--rs);color:var(--txt);font-family:var(--fx);font-size:13.5px;outline:none;transition:border-color .15s,box-shadow .15s,background .15s;width:100%;-webkit-appearance:none}
+.fc:focus{border-color:var(--navy);background:#fff;box-shadow:0 0 0 3px rgba(11,31,75,0.07)}
+.fc::placeholder{color:var(--txt3)}
+select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238A99B8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+.fc:disabled{opacity:.5;cursor:not-allowed}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
 
-/* Brand */
-.sb-brand {
-  padding: 20px 22px 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  display: flex; align-items: center; gap: 10px;
-  position: relative; z-index: 1;
-}
-.sb-brand img { height: 26px; filter: brightness(0) invert(1); }
-.sb-brand-tag {
-  font-size: 8.5px; font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: rgba(255,255,255,0.3);
-  margin-top: 2px;
-}
+/* ── EMPTY ── */
+.empty{text-align:center;padding:44px 20px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.empty-ic{font-size:40px;color:var(--txt3)}
+.empty p{color:var(--txt2);font-size:13.5px;max-width:240px}
 
-/* User block */
-.sb-user {
-  padding: 14px 22px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  display: flex; align-items: center; gap: 11px;
-  position: relative; z-index: 1;
-}
-.sb-avatar {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
-  border: 2px solid rgba(255,255,255,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head); font-size: 14px; font-weight: 400;
-  color: white; flex-shrink: 0; letter-spacing: 0.5px;
-}
-.sb-user-name { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.25; }
-.sb-user-email { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+/* ── FLIGHT SEARCH ── */
+.search-bar{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:1fr 1fr 150px 140px auto;gap:10px;margin-bottom:18px;align-items:end;box-shadow:var(--sh)}
+.flights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.flight-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column;gap:12px}
+.flight-card:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--bdr2)}
+.fc-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:7px}
+.fc-route{font-family:var(--fh);font-size:16.5px;color:var(--txt);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fc-route i{font-size:11px;color:var(--red)}
+.fc-meta-row{display:flex;justify-content:space-between;align-items:flex-end}
+.fc-times{font-size:12px;color:var(--txt2);line-height:1.85}
+.fc-times i{color:var(--txt3);margin-right:3px}
+.fc-price{font-family:var(--fh);font-size:21px;color:var(--navy);text-align:right}
+.fc-seats{font-size:11px;color:var(--txt3);text-align:right;margin-top:1px}
 
-/* Nav */
-.sb-nav { flex: 1; padding: 10px 0 8px; overflow-y: auto; position: relative; z-index: 1; }
-.sb-nav-label {
-  font-size: 9px; font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: rgba(255,255,255,0.28);
-  padding: 10px 22px 4px;
-}
-.sb-nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px 10px 22px; margin: 1px 10px;
-  color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500;
-  border-radius: var(--r-sm); cursor: pointer;
-  transition: color var(--t), background var(--t);
-  position: relative;
-}
-.sb-nav-item i { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
-.sb-nav-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.06); }
-.sb-nav-item.active {
-  color: #fff; background: rgba(255,255,255,0.11);
-  font-weight: 600;
-}
-.sb-nav-item.active::before {
-  content: '';
-  position: absolute; left: -10px; top: 50%; transform: translateY(-50%);
-  width: 3px; height: 60%; background: var(--gold-light);
-  border-radius: 0 3px 3px 0;
-}
-.sb-badge {
-  margin-left: auto;
-  background: var(--red); color: #fff;
-  font-size: 10px; font-weight: 700;
-  padding: 2px 7px; border-radius: 99px;
-  min-width: 20px; text-align: center;
-}
+/* ── BOOKING FLOW (página completa por pasos) ── */
+#page-booking{display:none;padding:24px 22px;animation:fadeUp .25s var(--ease) both}
+#page-booking.act{display:block}
 
-/* Logout */
-.sb-foot { padding: 14px 22px 18px; border-top: 1px solid rgba(255,255,255,0.07); position: relative; z-index: 1; }
-.btn-logout {
-  width: 100%; padding: 10px 16px;
-  background: rgba(200,16,46,0.13); border: 1px solid rgba(200,16,46,0.25);
-  border-radius: var(--r-sm); color: rgba(255,150,150,0.9);
-  font-size: 13px; font-weight: 600; cursor: pointer;
-  transition: background var(--t), color var(--t);
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-logout:hover { background: rgba(200,16,46,0.28); color: #fff; }
+.booking-wrap{max-width:700px;margin:0 auto}
 
-/* ════════════════════════════════════════
-   MAIN AREA
-════════════════════════════════════════ */
-.main {
-  margin-left: var(--sidebar-w);
-  flex: 1; display: flex; flex-direction: column;
-  min-height: 100vh;
-}
+/* Progress */
+.bk-steps{display:flex;align-items:center;margin-bottom:28px;gap:0}
+.bk-step{display:flex;align-items:center;gap:8px;flex:1;position:relative}
+.bk-step:last-child{flex:none}
+.bk-step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex-shrink:0;transition:all .25s;border:2px solid var(--bdr2);background:var(--surf);color:var(--txt3)}
+.bk-step.done .bk-step-num{background:var(--ok);border-color:var(--ok);color:#fff}
+.bk-step.cur .bk-step-num{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 0 0 4px rgba(11,31,75,0.12)}
+.bk-step-lbl{font-size:11.5px;font-weight:600;color:var(--txt3);white-space:nowrap}
+.bk-step.done .bk-step-lbl,.bk-step.cur .bk-step-lbl{color:var(--txt)}
+.bk-line{flex:1;height:2px;background:var(--bdr);margin:0 8px;border-radius:99px;transition:background .25s}
+.bk-line.done{background:var(--ok)}
 
-/* ════════════════════════════════════════
-   TOPBAR
-════════════════════════════════════════ */
-.topbar {
-  position: sticky; top: 0; z-index: 200;
-  height: var(--topbar-h);
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  box-shadow: var(--shadow-sm);
-}
-.topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.hamburger {
-  display: none; background: none; border: none; cursor: pointer;
-  color: var(--text); font-size: 22px; padding: 4px 6px;
-  border-radius: var(--r-xs); transition: background var(--t);
-  flex-shrink: 0;
-}
-.hamburger:hover { background: var(--bg2); }
-.topbar-title {
-  font-family: var(--font-head); font-size: 19px;
-  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-
-/* ════════════════════════════════════════
-   BUTTONS
-════════════════════════════════════════ */
-.btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 9px 18px; border-radius: var(--r-sm);
-  font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
-  cursor: pointer; border: none; transition: all var(--t);
-  white-space: nowrap; line-height: 1;
-}
-.btn-primary { background: var(--red); color: #fff; }
-.btn-primary:hover { background: var(--red-hover); box-shadow: 0 4px 14px rgba(200,16,46,0.3); transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
-.btn-navy { background: var(--navy); color: #fff; }
-.btn-navy:hover { background: var(--navy-mid); box-shadow: 0 4px 14px rgba(11,31,75,0.3); transform: translateY(-1px); }
-.btn-navy:active { transform: translateY(0); }
-.btn-outline {
-  background: transparent; color: var(--navy);
-  border: 1.5px solid var(--border-md);
-}
-.btn-outline:hover { background: var(--bg2); border-color: var(--navy); }
-.btn-ghost {
-  background: var(--bg2); color: var(--text-2);
-  border: 1px solid var(--border);
-}
-.btn-ghost:hover { background: var(--bg); color: var(--text); }
-.btn-sm { padding: 7px 13px; font-size: 12.5px; }
-.btn-lg { padding: 12px 26px; font-size: 15px; }
-.btn-block { width: 100%; justify-content: center; }
-.btn:disabled { opacity: 0.45; pointer-events: none; cursor: not-allowed; }
-
-/* ════════════════════════════════════════
-   PAGES
-════════════════════════════════════════ */
-.page { display: none; padding: 28px 24px; animation: fadeUp 0.28s var(--ease) both; }
-.page.active { display: block; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.page-eyebrow {
-  font-size: 10.5px; font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--red);
-  margin-bottom: 5px;
-}
-.page-title {
-  font-family: var(--font-head); font-size: 28px; line-height: 1.15;
-  color: var(--text); margin-bottom: 24px;
-}
-.page-title span { color: var(--navy-mid); }
-
-/* ════════════════════════════════════════
-   CARDS & SURFACES
-════════════════════════════════════════ */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.card-head {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface2);
-  display: flex; align-items: center; gap: 9px;
-}
-.card-head-title { font-weight: 700; font-size: 14px; color: var(--text); }
-.card-body { padding: 20px; }
-
-/* ════════════════════════════════════════
-   STAT CARDS
-════════════════════════════════════════ */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 28px;
-}
-.stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 18px 20px;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
-  position: relative; overflow: hidden;
-}
-.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-md); }
-.stat-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-}
-.stat-card.c-navy::before  { background: var(--navy); }
-.stat-card.c-green::before { background: var(--success); }
-.stat-card.c-amber::before { background: var(--warning); }
-.stat-card.c-blue::before  { background: var(--info); }
-
-.stat-icon {
-  width: 38px; height: 38px; border-radius: var(--r-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 12px;
-}
-.stat-icon.c-navy  { background: rgba(11,31,75,0.07);  color: var(--navy); }
-.stat-icon.c-green { background: rgba(12,158,106,0.1); color: var(--success); }
-.stat-icon.c-amber { background: rgba(212,138,12,0.1); color: var(--warning); }
-.stat-icon.c-blue  { background: rgba(26,92,204,0.1);  color: var(--info); }
-
-.stat-val { font-family: var(--font-head); font-size: 30px; line-height: 1; color: var(--text); }
-.stat-lbl { font-size: 12px; color: var(--text-3); font-weight: 500; margin-top: 4px; }
-
-/* ════════════════════════════════════════
-   NEXT FLIGHT BANNER
-════════════════════════════════════════ */
-.next-flight {
-  background: linear-gradient(120deg, var(--navy) 0%, #1A3E9A 100%);
-  border-radius: var(--r); padding: 20px 24px;
-  margin-bottom: 26px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap; overflow: hidden; position: relative;
-  box-shadow: 0 6px 24px rgba(11,31,75,0.22);
-}
-.next-flight::after {
-  content: '\F1D9'; font-family: 'Bootstrap-icons';
-  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-  font-size: 96px; opacity: 0.05; color: #fff; pointer-events: none;
-  line-height: 1;
-}
-.nf-eyebrow {
-  font-size: 9.5px; font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--gold-light); opacity: 0.8;
-  margin-bottom: 5px;
-}
-.nf-route {
-  font-family: var(--font-head); font-size: 22px; color: #fff;
-  display: flex; align-items: center; gap: 10px;
-}
-.nf-route i { font-size: 15px; color: var(--gold-light); }
-.nf-meta { font-size: 12.5px; color: rgba(255,255,255,0.6); margin-top: 5px; }
-.nf-meta i { margin-right: 4px; }
-
-/* ════════════════════════════════════════
-   SECTION HEADER
-════════════════════════════════════════ */
-.sec-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 14px;
-}
-.sec-title { font-weight: 700; font-size: 16px; color: var(--text); }
-.sec-link {
-  font-size: 12.5px; font-weight: 600; color: var(--navy);
-  background: none; border: none; cursor: pointer;
-  display: flex; align-items: center; gap: 4px;
-  transition: color var(--t); padding: 0;
-}
-.sec-link:hover { color: var(--red); }
-
-/* ════════════════════════════════════════
-   TABLE
-════════════════════════════════════════ */
-.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-table { width: 100%; border-collapse: collapse; min-width: 540px; }
-thead th {
-  font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--text-3);
-  padding: 11px 16px; text-align: left;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface2); white-space: nowrap;
-}
-tbody td {
-  padding: 13px 16px; font-size: 13.5px; color: var(--text-2);
-  border-bottom: 1px solid var(--border); vertical-align: middle;
-}
-tbody tr:last-child td { border-bottom: none; }
-tbody tr { transition: background var(--t); }
-tbody tr:hover td { background: var(--bg); }
-.td-route { font-weight: 700; color: var(--text); font-size: 14px; }
-.td-price { font-weight: 700; color: var(--navy); }
-.td-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-
-/* ════════════════════════════════════════
-   BADGES
-════════════════════════════════════════ */
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 10px; border-radius: 99px;
-  font-size: 11px; font-weight: 700; white-space: nowrap;
-}
-.badge-success { background: #DCFBEF; color: #086B49; border: 1px solid #A7F3D0; }
-.badge-warn    { background: #FEF7E0; color: #8A5C00; border: 1px solid #FDDFA0; }
-.badge-danger  { background: #FEE4E4; color: #8B1212; border: 1px solid #FECACA; }
-.badge-info    { background: #E0ECFF; color: #1040A0; border: 1px solid #BFDBFE; }
-.badge-muted   { background: var(--bg2); color: var(--text-3); border: 1px solid var(--border); }
-
-/* ════════════════════════════════════════
-   EMPTY STATE
-════════════════════════════════════════ */
-.empty {
-  text-align: center; padding: 52px 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-}
-.empty-icon { font-size: 44px; color: var(--text-3); }
-.empty p { color: var(--text-2); font-size: 14px; max-width: 260px; }
-
-/* ════════════════════════════════════════
-   SEARCH BAR
-════════════════════════════════════════ */
-.search-bar {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r); padding: 16px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 150px 150px auto;
-  gap: 10px; margin-bottom: 20px;
-  align-items: end; box-shadow: var(--shadow-sm);
-}
-
-/* ════════════════════════════════════════
-   FORMS
-════════════════════════════════════════ */
-.fg { display: flex; flex-direction: column; gap: 5px; }
-.fg-lbl {
-  font-size: 11px; font-weight: 600; color: var(--text-3);
-  letter-spacing: 0.4px; text-transform: uppercase;
-}
-.fc {
-  padding: 10px 13px;
-  background: var(--bg); border: 1.5px solid var(--border);
-  border-radius: var(--r-sm); color: var(--text);
-  font-family: var(--font-body); font-size: 13.5px;
-  outline: none; transition: border-color var(--t), box-shadow var(--t), background var(--t);
-  width: 100%; -webkit-appearance: none;
-}
-.fc:focus {
-  border-color: var(--navy); background: #fff;
-  box-shadow: 0 0 0 3px rgba(11,31,75,0.08);
-}
-.fc::placeholder { color: var(--text-3); }
-select.fc { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238A99B8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-.fc:disabled { opacity: 0.5; cursor: not-allowed; }
-.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-
-/* ════════════════════════════════════════
-   FLIGHT CARDS
-════════════════════════════════════════ */
-.flights-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px;
-}
-.flight-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 18px 20px;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
-  display: flex; flex-direction: column; gap: 14px;
-}
-.flight-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-md); }
-.fc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.fc-route-name {
-  font-family: var(--font-head); font-size: 17px; color: var(--text);
-  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
-}
-.fc-route-name i { font-size: 12px; color: var(--red); }
-.fc-meta { display: flex; justify-content: space-between; align-items: flex-end; }
-.fc-times { font-size: 12.5px; color: var(--text-2); line-height: 1.9; }
-.fc-times i { color: var(--text-3); margin-right: 4px; }
-.fc-price-block { text-align: right; }
-.fc-price { font-family: var(--font-head); font-size: 22px; color: var(--navy); }
-.fc-seats { font-size: 11px; color: var(--text-3); margin-top: 2px; }
-
-/* estado badges */
-.estado-programado { background: #E0ECFF; color: #1040A0; border: 1px solid #BFDBFE; }
-.estado-abordando  { background: #FEF7E0; color: #8A5C00; border: 1px solid #FDDFA0; }
-.estado-en_vuelo   { background: #DCFBEF; color: #086B49; border: 1px solid #A7F3D0; }
-.estado-cancelado  { background: #FEE4E4; color: #8B1212; border: 1px solid #FECACA; }
-
-/* ════════════════════════════════════════
-   MODAL
-════════════════════════════════════════ */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 500;
-  display: flex; align-items: center; justify-content: center;
-  padding: 16px;
-  opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity 0.22s var(--ease), visibility 0.22s;
-  background: transparent;
-}
-.modal-overlay.show {
-  opacity: 1; visibility: visible; pointer-events: all;
-  background: rgba(5,15,40,0.5);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-.modal-box {
-  background: var(--surface);
-  border-radius: var(--r); width: 100%;
-  max-height: 90vh; overflow-y: auto;
-  transform: translateY(14px) scale(0.985);
-  transition: transform 0.22s var(--ease);
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border);
-}
-.modal-overlay.show .modal-box { transform: translateY(0) scale(1); }
-.modal-stripe { height: 4px; background: linear-gradient(90deg, var(--navy), var(--red)); }
-.modal-hd {
-  padding: 18px 22px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--surface2); position: sticky; top: 0; z-index: 10;
-}
-.modal-ttl { font-family: var(--font-head); font-size: 18px; color: var(--text); }
-.modal-x {
-  width: 32px; height: 32px; border-radius: var(--r-xs);
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--text-2); cursor: pointer; font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--t), color var(--t);
-}
-.modal-x:hover { background: var(--bg); color: var(--text); }
-.modal-bd { padding: 22px; }
-.modal-ft {
-  padding: 14px 22px; border-top: 1px solid var(--border);
-  display: flex; justify-content: flex-end; gap: 10px;
-  background: var(--surface2); position: sticky; bottom: 0; z-index: 10;
-}
-
-/* Modal two-col */
-.m2col { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
-
-/* ════════════════════════════════════════
-   BOOKING FORM SECTIONS
-════════════════════════════════════════ */
-.sec-div {
-  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--navy);
-  display: flex; align-items: center; gap: 8px;
-  margin: 18px 0 12px;
-}
-.sec-div i { font-size: 13px; }
-.sec-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* Step panels */
+.bk-panel{display:none}
+.bk-panel.act{display:block;animation:fadeUp .22s var(--ease) both}
 
 /* Flight summary bar */
-.fsumm {
-  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 100%);
-  border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 20px;
-}
-.fsumm-route { font-family: var(--font-head); font-size: 19px; color: #fff; margin-bottom: 4px; }
-.fsumm-route i { font-size: 13px; color: var(--gold-light); }
-.fsumm-meta { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.8; }
-.fsumm-price { font-family: var(--font-head); font-size: 23px; color: #fff; margin-top: 8px; }
-
-/* Special assistance */
-.assist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.assist-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; border-radius: var(--r-sm);
-  border: 1.5px solid var(--border); background: var(--bg);
-  cursor: pointer; transition: all var(--t); font-size: 12.5px; color: var(--text-2);
-}
-.assist-item:has(input:checked) {
-  border-color: var(--navy-mid); background: rgba(11,31,75,0.05);
-  color: var(--navy); font-weight: 600;
-}
-.assist-item input { accent-color: var(--navy); width: 15px; height: 15px; flex-shrink: 0; }
+.bk-fsumm{background:linear-gradient(120deg,var(--navy),#1A3E9A);border-radius:var(--r);padding:14px 18px;margin-bottom:20px}
+.bk-fsumm-route{font-family:var(--fh);font-size:18px;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.bk-fsumm-route i{font-size:12px;color:var(--goldf)}
+.bk-fsumm-meta{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.8}
+.bk-fsumm-price{font-family:var(--fh);font-size:22px;color:#fff;margin-top:6px}
 
 /* Seat map */
-.seat-map-wrap {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 14px; margin-top: 4px;
-}
-.seat-legend {
-  display: flex; gap: 14px; justify-content: center;
-  flex-wrap: wrap; margin-bottom: 12px;
-  font-size: 11px; color: var(--text-2);
-}
-.leg-dot { width: 13px; height: 13px; border-radius: 3px; display: inline-block; margin-right: 4px; vertical-align: middle; }
-.seat-plane { max-width: 300px; margin: 0 auto; }
-.seat-nose { width: 44px; height: 26px; background: var(--navy); border-radius: 50% 50% 0 0 / 100% 100% 0 0; margin: 0 auto 6px; opacity: 0.25; }
-.seat-row { display: flex; align-items: center; justify-content: center; gap: 3px; margin-bottom: 3px; }
-.seat-rnum { font-size: 9.5px; color: var(--text-3); width: 15px; text-align: center; }
-.seat-aisle { width: 18px; }
-.seat {
-  width: 27px; height: 27px; border-radius: 5px 5px 3px 3px;
-  cursor: pointer; transition: transform 0.1s, background 0.1s;
-  border: 1.5px solid transparent;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 8.5px; font-weight: 700;
-}
-.seat.av   { background: #DBEAFE; border-color: #93C5FD; color: #1D4ED8; }
-.seat.av:hover { background: #93C5FD; transform: scale(1.12); }
-.seat.occ  { background: #F1F5F9; border-color: #E2E8F0; color: #CBD5E1; cursor: not-allowed; }
-.seat.sel  { background: var(--navy); border-color: var(--navy); color: #fff; transform: scale(1.12); }
-.seat.first-av  { background: #FEF3C7; border-color: #FCD34D; color: #92400E; }
-.seat.first-av:hover { background: #FCD34D; transform: scale(1.12); }
-.seat.first-sel { background: var(--gold); border-color: var(--gold); color: #fff; transform: scale(1.12); }
-.seat-wing-lbl {
-  text-align: center; font-size: 8.5px; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--text-3); margin: 5px 0;
-}
-.seat-selected-info {
-  text-align: center; margin-top: 10px;
-  font-size: 13px; color: var(--text-2);
-}
+.seat-map-wrap{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--rs);padding:14px}
+.seat-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:var(--txt2)}
+.leg-dot{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle}
+.seat-plane{max-width:310px;margin:0 auto}
+.seat-nose{width:42px;height:24px;background:var(--navy);border-radius:50% 50% 0 0/100% 100% 0 0;margin:0 auto 5px;opacity:.2}
+.seat-row{display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:3px}
+.seat-rnum{font-size:9px;color:var(--txt3);width:14px;text-align:center}
+.seat-aisle{width:16px}
+.seat{width:26px;height:26px;border-radius:5px 5px 3px 3px;cursor:pointer;transition:transform .1s,background .1s;border:1.5px solid transparent;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700}
+.seat.av{background:#DBEAFE;border-color:#93C5FD;color:#1D4ED8}
+.seat.av:hover{background:#93C5FD;transform:scale(1.12)}
+.seat.occ{background:#F1F5F9;border-color:#E2E8F0;color:#CBD5E1;cursor:not-allowed}
+.seat.sel{background:var(--navy);border-color:var(--navy);color:#fff;transform:scale(1.1)}
+.seat.fav{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
+.seat.fav:hover{background:#FCD34D;transform:scale(1.12)}
+.seat.fsel{background:var(--gold);border-color:var(--gold);color:#fff;transform:scale(1.1)}
+.seat-wing-lbl{text-align:center;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin:4px 0}
+.seat-info{text-align:center;margin-top:10px;font-size:13px;color:var(--txt2)}
 
-/* QR Panel */
-.qr-panel {
-  background: linear-gradient(160deg, #EEF4FF 0%, #E4EDFB 100%);
-  border: 1px solid rgba(11,31,75,0.1);
-  border-radius: var(--r); padding: 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  position: sticky; top: 70px;
-}
-.qr-panel-ttl { font-weight: 700; font-size: 13px; color: var(--navy); text-align: center; }
-.qr-img {
-  width: 136px; height: 136px; border-radius: var(--r-sm);
-  border: 3px solid #fff; box-shadow: var(--shadow);
-  object-fit: contain; background: #fff;
-}
-.qr-amount { font-family: var(--font-head); font-size: 22px; color: var(--navy); text-align: center; }
-.qr-bank {
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 13px 14px; width: 100%;
-  font-size: 12px; color: var(--text-2);
-}
-.qr-bank strong { display: block; font-size: 12.5px; color: var(--text); font-weight: 700; margin-bottom: 7px; }
-.qr-bank-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border); }
-.qr-bank-row:last-child { border-bottom: none; }
-.qr-bank-row span:last-child { font-weight: 600; color: var(--text); }
-.qr-note {
-  font-size: 11px; color: var(--text-3); text-align: center; line-height: 1.55;
-  padding: 9px 10px; background: rgba(201,149,42,0.07); border-radius: var(--r-xs);
-  border: 1px solid rgba(201,149,42,0.18); width: 100%;
-}
+/* Assistance */
+.assist-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.assist-item{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--bg);cursor:pointer;transition:all .15s;font-size:12.5px;color:var(--txt2)}
+.assist-item:has(input:checked){border-color:var(--navy2);background:rgba(11,31,75,0.05);color:var(--navy);font-weight:600}
+.assist-item input{accent-color:var(--navy);width:14px;height:14px;flex-shrink:0}
+
+/* QR / Pago */
+.qr-card{background:linear-gradient(160deg,#EEF4FF,#E4EDFB);border:1px solid rgba(11,31,75,0.1);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;align-items:center;gap:13px}
+.qr-ttl{font-weight:700;font-size:13px;color:var(--navy);text-align:center}
+.qr-img{width:130px;height:130px;border-radius:var(--rs);border:3px solid #fff;box-shadow:var(--sh);object-fit:contain;background:#fff}
+.qr-amount{font-family:var(--fh);font-size:22px;color:var(--navy);text-align:center}
+.qr-bank{background:#fff;border:1px solid var(--bdr);border-radius:var(--rs);padding:12px 14px;width:100%;font-size:12px;color:var(--txt2)}
+.qr-bank strong{display:block;font-size:12.5px;color:var(--txt);font-weight:700;margin-bottom:6px}
+.qr-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--bdr)}
+.qr-row:last-child{border-bottom:none}
+.qr-row span:last-child{font-weight:600;color:var(--txt)}
+.qr-note{font-size:11px;color:var(--txt3);text-align:center;line-height:1.55;padding:8px 10px;background:rgba(201,149,42,0.07);border-radius:6px;border:1px solid rgba(201,149,42,0.18);width:100%}
 
 /* Upload */
-.upload-box {
-  background: #EFF6FF; border: 1.5px dashed #93C5FD;
-  border-radius: var(--r-sm); padding: 14px; margin-top: 14px;
-}
-.upload-lbl {
-  font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--navy); margin-bottom: 6px; display: block;
-}
-.upload-desc { font-size: 12px; color: var(--text-2); margin-bottom: 10px; line-height: 1.5; }
-.upload-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.upload-btn {
-  padding: 8px 14px; background: #fff; border: 1.5px solid var(--navy);
-  border-radius: var(--r-sm); color: var(--navy);
-  font-size: 12.5px; font-weight: 600; cursor: pointer;
-  display: flex; align-items: center; gap: 7px;
-  transition: background var(--t), color var(--t); white-space: nowrap;
-}
-.upload-btn:hover { background: var(--navy); color: #fff; }
-.upload-fname { font-size: 12px; color: var(--text-3); }
+.upload-box{background:#EFF6FF;border:1.5px dashed #93C5FD;border-radius:var(--rs);padding:13px}
+.upload-lbl{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:5px;display:block}
+.upload-desc{font-size:12px;color:var(--txt2);margin-bottom:9px;line-height:1.5}
+.upload-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.upload-btn{padding:7px 13px;background:#fff;border:1.5px solid var(--navy);border-radius:var(--rs);color:var(--navy);font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+.upload-btn:hover{background:var(--navy);color:#fff}
+.upload-fname{font-size:12px;color:var(--txt3)}
 
-/* Profile warn */
-.profile-warn {
-  background: #FFFBEB; border: 1px solid #FDDFA0;
-  border-radius: var(--r-sm); padding: 11px 14px;
-  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
-  flex-wrap: wrap;
-}
+/* Nav buttons */
+.bk-nav{display:flex;justify-content:space-between;margin-top:24px;gap:10px}
+.bk-nav-r{display:flex;gap:10px;margin-left:auto}
 
-/* ════════════════════════════════════════
-   BOARDING PASS
-════════════════════════════════════════ */
-.bp {
-  background: #fff; border-radius: 16px;
-  box-shadow: var(--shadow-xl); overflow: hidden;
-  max-width: 460px; margin: 0 auto;
-}
-.bp-head {
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
-  padding: 18px 22px; color: #fff;
-  display: flex; justify-content: space-between; align-items: flex-start;
-}
-.bp-airline { font-family: var(--font-head); font-size: 17px; }
-.bp-type { font-size: 9.5px; letter-spacing: 2px; opacity: 0.55; text-transform: uppercase; margin-top: 2px; }
-.bp-route {
-  display: flex; align-items: center; gap: 10px;
-  padding: 18px 22px; background: var(--bg2);
-}
-.bp-city { text-align: center; }
-.bp-iata { font-family: var(--font-head); font-size: 30px; color: var(--navy); }
-.bp-cname { font-size: 10.5px; color: var(--text-2); margin-top: 1px; }
-.bp-arr { flex: 1; text-align: center; color: var(--red); font-size: 22px; }
-.bp-details { padding: 14px 22px; display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-.bp-dl { font-size: 9.5px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
-.bp-dv { font-size: 13.5px; font-weight: 700; color: var(--text); }
-.bp-sep { border: none; border-top: 2px dashed var(--border-md); margin: 0 22px; }
-.bp-bot { padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.bp-barcode { flex: 1; height: 38px; background: repeating-linear-gradient(90deg,#222 0,#222 2px,#fff 2px,#fff 5px); border-radius: 3px; opacity: 0.8; }
-.bp-qr { width: 54px; height: 54px; border-radius: 7px; border: 2px solid var(--border); object-fit: contain; }
-.bp-confirmed {
-  background: linear-gradient(90deg,#DCFBEF,#A7F3D0);
-  border-top: 1px solid #6EE7B7; padding: 8px 22px;
-  font-size: 12px; color: #065F46; font-weight: 700;
-  display: flex; align-items: center; gap: 8px;
-}
+/* ── CONFIRMATION SCREEN ── */
+.confirm-screen{text-align:center;padding:28px 0}
+.confirm-ic{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#DCFBEF,#A7F3D0);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--ok);margin:0 auto 16px;box-shadow:0 8px 24px rgba(12,158,106,0.2)}
+.confirm-ttl{font-family:var(--fh);font-size:26px;color:var(--txt);margin-bottom:8px}
+.confirm-sub{font-size:13.5px;color:var(--txt2);max-width:380px;margin:0 auto 20px}
 
-/* ════════════════════════════════════════
-   PROFILE PAGE
-════════════════════════════════════════ */
-.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+/* Ticket */
+.ticket{background:#fff;border-radius:16px;box-shadow:var(--sh2);overflow:hidden;max-width:440px;margin:0 auto}
+.tkt-hd{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:16px 20px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start}
+.tkt-airline{font-family:var(--fh);font-size:16px}
+.tkt-type{font-size:9px;letter-spacing:2px;opacity:.5;text-transform:uppercase;margin-top:1px}
+.tkt-route{display:flex;align-items:center;gap:9px;padding:16px 20px;background:var(--bg)}
+.tkt-city{text-align:center}
+.tkt-iata{font-family:var(--fh);font-size:28px;color:var(--navy)}
+.tkt-cname{font-size:10px;color:var(--txt2);margin-top:1px}
+.tkt-arr{flex:1;text-align:center;color:var(--red);font-size:20px}
+.tkt-details{padding:14px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.tkt-dl{font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.tkt-dv{font-size:13px;font-weight:700;color:var(--txt)}
+.tkt-sep{border:none;border-top:2px dashed var(--bdr2);margin:0 20px}
+.tkt-bot{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tkt-barcode{flex:1;height:36px;background:repeating-linear-gradient(90deg,#222 0,#222 2px,#fff 2px,#fff 5px);border-radius:3px;opacity:.75}
+.tkt-qr{width:50px;height:50px;border-radius:6px;border:2px solid var(--bdr);object-fit:contain}
+.tkt-ok{background:linear-gradient(90deg,#DCFBEF,#A7F3D0);border-top:1px solid #6EE7B7;padding:8px 20px;font-size:11.5px;color:#065F46;font-weight:700;display:flex;align-items:center;gap:7px}
+.tkt-pending{background:linear-gradient(90deg,#FEF7E0,#FDDFA0);border-top:1px solid #FCD34D;padding:8px 20px;font-size:11.5px;color:#8A5C00;font-weight:700;display:flex;align-items:center;gap:7px}
 
-/* ════════════════════════════════════════
-   SNACK
-════════════════════════════════════════ */
-.snack {
-  position: fixed; bottom: 24px; right: 24px; z-index: 9000;
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--r); padding: 13px 17px;
-  display: flex; align-items: center; gap: 11px;
-  min-width: 250px; max-width: 350px; box-shadow: var(--shadow-lg);
-  transform: translateY(72px); opacity: 0;
-  transition: all 0.3s var(--ease);
-}
-.snack.show { transform: translateY(0); opacity: 1; }
-.snack.ok  { border-left: 4px solid var(--success); }
-.snack.err { border-left: 4px solid var(--danger); }
-.snack i { font-size: 19px; }
-.snack.ok  i { color: var(--success); }
-.snack.err i { color: var(--danger); }
-.snack strong { display: block; font-size: 13.5px; font-weight: 700; color: var(--text); }
-.snack span   { font-size: 12px; color: var(--text-2); }
+/* ── PROFILE ── */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-/* ════════════════════════════════════════
-   LOADING
-════════════════════════════════════════ */
-.loading {
-  position: fixed; inset: 0; background: var(--navy); z-index: 9999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
-  transition: opacity 0.5s;
-}
-.loading.done { opacity: 0; pointer-events: none; }
-.loading img { height: 40px; filter: brightness(0) invert(1); }
-.loading-bar-track { width: 150px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 99px; overflow: hidden; }
-.loading-bar { height: 100%; background: linear-gradient(90deg,#fff,rgba(255,255,255,0.6)); animation: lbar 1.5s ease forwards; }
-@keyframes lbar { to { width: 100%; } }
-.loading-txt { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: var(--font-head); }
+/* ── BOTTOM NAV ── */
+.bot-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:400;background:rgba(255,255,255,0.97);border-top:1px solid var(--bdr);box-shadow:0 -4px 18px rgba(11,31,75,0.08);padding:5px 4px max(8px,env(safe-area-inset-bottom)) 4px}
+.bn-wrap{display:flex;justify-content:space-around}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 4px;border:none;background:none;color:var(--txt3);font-family:var(--fx);font-size:10px;font-weight:600;transition:color .15s;position:relative}
+.bn-tab i{font-size:20px}
+.bn-tab.act{color:var(--navy)}
+.bn-badge{position:absolute;top:0;right:18%;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;min-width:15px;text-align:center}
 
-/* ════════════════════════════════════════
-   MOBILE BOTTOM NAV
-════════════════════════════════════════ */
-.bottom-nav {
-  display: none;
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
-  background: rgba(255,255,255,0.97);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 20px rgba(11,31,75,0.09);
-  padding: 6px 4px max(8px, env(safe-area-inset-bottom)) 4px;
-}
-.bn-wrap { display: flex; justify-content: space-around; }
-.bn-tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 5px 4px; cursor: pointer;
-  border: none; background: none; color: var(--text-3);
-  font-family: var(--font-body); font-size: 10px; font-weight: 600;
-  transition: color var(--t); position: relative;
-}
-.bn-tab i { font-size: 21px; }
-.bn-tab.active { color: var(--navy); }
-.bn-tab.active i { position: relative; }
-.bn-badge {
-  position: absolute; top: 0; right: 18%;
-  background: var(--red); color: #fff;
-  font-size: 9px; font-weight: 700;
-  padding: 1px 5px; border-radius: 99px; min-width: 16px; text-align: center;
+/* ── SNACK ── */
+.snack{position:fixed;bottom:22px;right:22px;z-index:9000;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:240px;max-width:330px;box-shadow:var(--sh2);transform:translateY(68px);opacity:0;transition:all .28s var(--ease)}
+.snack.show{transform:translateY(0);opacity:1}
+.snack.s-ok{border-left:4px solid var(--ok)}
+.snack.s-err{border-left:4px solid var(--err)}
+.snack i{font-size:18px}
+.snack.s-ok i{color:var(--ok)}
+.snack.s-err i{color:var(--err)}
+.snack strong{display:block;font-size:13px;font-weight:700;color:var(--txt)}
+.snack span{font-size:11.5px;color:var(--txt2)}
+
+/* SweetAlert theme */
+.swal2-popup{background:#fff!important;font-family:var(--fx)!important;border-radius:var(--r)!important;border:1px solid var(--bdr)!important;box-shadow:var(--sh2)!important;color:var(--txt)!important}
+.swal2-title{font-family:var(--fh)!important;font-size:19px!important;font-weight:700!important;color:var(--txt)!important}
+.swal2-html-container{font-size:13.5px!important;color:var(--txt2)!important}
+.swal2-confirm{background:var(--red)!important;border-radius:var(--rs)!important;font-family:var(--fx)!important;font-weight:600!important}
+.swal2-cancel{background:var(--surf2)!important;color:var(--txt2)!important;border:1px solid var(--bdr)!important;border-radius:var(--rs)!important;font-family:var(--fx)!important}
+
+/* ── RESPONSIVE 1024 ── */
+@media(max-width:1024px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .profile-grid{grid-template-columns:1fr}
+  .search-bar{grid-template-columns:1fr 1fr 1fr}
+  .search-bar .btn{grid-column:1/-1}
 }
 
-/* ════════════════════════════════════════
-   SWEETALERT THEME
-════════════════════════════════════════ */
-.swal2-popup {
-  background: #fff !important;
-  font-family: var(--font-body) !important;
-  border-radius: var(--r) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow-xl) !important;
-  color: var(--text) !important;
-}
-.swal2-title { font-family: var(--font-head) !important; font-size: 20px !important; font-weight: 400 !important; color: var(--text) !important; }
-.swal2-html-container { font-size: 14px !important; color: var(--text-2) !important; }
-.swal2-confirm { background: var(--red) !important; border-radius: var(--r-sm) !important; font-family: var(--font-body) !important; font-weight: 600 !important; }
-.swal2-cancel { background: var(--bg2) !important; color: var(--text-2) !important; border: 1px solid var(--border) !important; border-radius: var(--r-sm) !important; font-family: var(--font-body) !important; }
-
-/* ════════════════════════════════════════
-   RESPONSIVE — TABLET 1024
-════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .stats-grid   { grid-template-columns: repeat(2, 1fr); }
-  .profile-grid { grid-template-columns: 1fr; }
-  .m2col        { grid-template-columns: 1fr; }
-  .qr-panel     { position: static; }
-  .search-bar   { grid-template-columns: 1fr 1fr 1fr; }
-  .search-bar .btn { grid-column: 1/-1; }
-}
-
-/* ════════════════════════════════════════
-   RESPONSIVE — MOBILE 768
-════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Sidebar hidden offscreen */
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-
-  .main { margin-left: 0; }
-  .hamburger { display: flex; }
-
-  .page { padding: 16px 14px calc(var(--bottom-nav-h) + 20px); }
-  .topbar { padding: 0 14px; }
-  .topbar-right .btn-txt { display: none; }
-
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .stat-val   { font-size: 24px; }
-
-  .search-bar {
-    grid-template-columns: 1fr 1fr;
-    padding: 12px;
-    gap: 8px;
-  }
-  .search-bar .fg:nth-child(3),
-  .search-bar .fg:nth-child(4) { grid-column: span 1; }
-  .search-bar .btn { grid-column: 1/-1; }
-
-  .flights-grid { grid-template-columns: 1fr; }
-
-  .form-row-2 { grid-template-columns: 1fr; }
-  .form-row-3 { grid-template-columns: 1fr; }
-
-  .assist-grid { grid-template-columns: 1fr; }
-
-  .bottom-nav { display: block; }
-
-  .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal-box {
-    border-radius: var(--r) var(--r) 0 0;
-    max-height: 92vh;
-    transform: translateY(24px);
-  }
-  .modal-overlay.show .modal-box { transform: translateY(0); }
-
-  .snack { bottom: calc(var(--bottom-nav-h) + 12px); right: 12px; left: 12px; min-width: 0; max-width: none; }
-
-  .next-flight { padding: 16px 18px; }
-  .nf-route { font-size: 18px; }
-  .page-title { font-size: 23px; }
-
-  .bp-details { grid-template-columns: repeat(2,1fr); }
-  .profile-grid { grid-template-columns: 1fr; }
+/* ── RESPONSIVE 768 ── */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .hamburger{display:flex}
+  .page,.page.act{padding:14px 14px calc(var(--bot-h) + 18px)}
+  #page-booking,#page-booking.act{padding:14px 14px calc(var(--bot-h) + 18px)}
+  .topbar{padding:0 13px}
+  .tb-title{font-size:16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:9px}
+  .stat-val{font-size:23px}
+  .search-bar{grid-template-columns:1fr 1fr;padding:12px;gap:8px}
+  .search-bar .fg:nth-child(3){grid-column:span 1}
+  .search-bar .btn{grid-column:1/-1}
+  .flights-grid{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .row3{grid-template-columns:1fr}
+  .assist-grid{grid-template-columns:1fr}
+  .bot-nav{display:block}
+  .snack{bottom:calc(var(--bot-h) + 10px);right:10px;left:10px;min-width:0;max-width:none}
+  .profile-grid{grid-template-columns:1fr}
+  .bk-steps{gap:0}
+  .bk-step-lbl{display:none}
+  .booking-wrap{max-width:none}
+  .tkt-details{grid-template-columns:repeat(2,1fr)}
+  .qr-card{padding:14px}
+  .nf-banner{padding:14px 16px}
+  .nf-route{font-size:18px}
 }
 
-/* ════════════════════════════════════════
-   RESPONSIVE — MOBILE 480
-════════════════════════════════════════ */
-@media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .stat-card  { padding: 14px 15px; }
-  .stat-icon  { width: 33px; height: 33px; font-size: 15px; }
-  .stat-val   { font-size: 22px; }
-
-  .search-bar { grid-template-columns: 1fr; }
-
-  .flight-card { padding: 14px 15px; }
-
-  .page-title { font-size: 21px; }
-
-  .topbar-title { font-size: 16px; }
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .stat-card{padding:13px 14px}
+  .search-bar{grid-template-columns:1fr}
+  .flight-card{padding:13px 14px}
+  .page-ttl{font-size:22px}
 }
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<div class="loading" id="loading">
+<div id="loading">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
-  <div class="loading-bar-track"><div class="loading-bar" style="width:0"></div></div>
-  <div class="loading-txt">Cargando portal</div>
+  <div class="load-bar"><div class="load-bar-inner"></div></div>
+  <div class="load-txt">Cargando portal</div>
 </div>
 
 <!-- SNACK -->
 <div class="snack" id="snack">
   <i class="bi bi-check-circle-fill"></i>
-  <div><strong id="snack-title"></strong><span id="snack-msg"></span></div>
-</div>
-
-<!-- ══════════════════════════════════════
-     BOOKING MODAL
-══════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal-box" style="max-width:900px">
-    <div class="modal-stripe"></div>
-    <div class="modal-hd">
-      <span class="modal-ttl"><i class="bi bi-airplane me-2" style="color:var(--red)"></i>Reservar vuelo</span>
-      <button class="modal-x" onclick="closeModal()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="modal-bd">
-      <div id="profile-incomplete-banner" style="display:none" class="profile-warn">
-        <i class="bi bi-exclamation-triangle-fill" style="color:var(--warning);font-size:18px;flex-shrink:0"></i>
-        <div style="flex:1">
-          <strong style="font-size:13px;display:block">Perfil incompleto</strong>
-          <span style="font-size:12px;color:var(--text-2)">Completa tus datos para una reserva más rápida.</span>
-        </div>
-        <button class="btn btn-sm btn-navy" onclick="closeModal();showPage('perfil',null)">Ir a perfil</button>
-      </div>
-
-      <div class="m2col">
-        <!-- LEFT -->
-        <div>
-          <div class="fsumm" id="modal-flight-info"></div>
-
-          <div class="sec-div"><i class="bi bi-person-fill" style="color:var(--gold)"></i> Pasajero principal</div>
-          <div class="form-row-2">
-            <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="p-nombre" placeholder="Tu nombre"/></div>
-            <div class="fg"><label class="fg-lbl">Apellido *</label><input class="fc" id="p-apellido" placeholder="Tu apellido"/></div>
-            <div class="fg"><label class="fg-lbl">Tipo de documento *</label>
-              <select class="fc" id="p-tipo-doc">
-                <option value="documento_identidad">Cédula de identidad</option>
-                <option value="pasaporte">Pasaporte</option>
-              </select>
-            </div>
-            <div class="fg"><label class="fg-lbl">Nº documento *</label><input class="fc" id="p-num-doc" placeholder="12345678"/></div>
-            <div class="fg"><label class="fg-lbl">Correo</label><input class="fc" type="email" id="p-correo" placeholder="tu@correo.com"/></div>
-            <div class="fg"><label class="fg-lbl">Celular</label><input class="fc" id="p-celular" placeholder="+591 7XXXXXXX"/></div>
-            <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="p-nacimiento"/></div>
-            <div class="fg"><label class="fg-lbl">Género</label>
-              <select class="fc" id="p-genero">
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="sec-div"><i class="bi bi-heart-pulse" style="color:var(--red)"></i> Asistencia especial</div>
-          <div class="assist-grid">
-            <label class="assist-item"><input type="checkbox" id="a-auditiva"><i class="bi bi-ear-fill"></i> Discapacidad auditiva</label>
-            <label class="assist-item"><input type="checkbox" id="a-movilidad"><i class="bi bi-person-wheelchair"></i> Movilidad reducida</label>
-            <label class="assist-item"><input type="checkbox" id="a-visual"><i class="bi bi-eye-slash-fill"></i> Discapacidad visual</label>
-            <label class="assist-item"><input type="checkbox" id="a-aeropuerto"><i class="bi bi-building"></i> Asistencia aeropuerto</label>
-          </div>
-
-          <div class="sec-div"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i> Elige tu asiento</div>
-          <div class="seat-map-wrap">
-            <div class="seat-legend">
-              <span><span class="leg-dot" style="background:#DBEAFE;border:1px solid #93C5FD"></span>Disponible</span>
-              <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
-              <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
-              <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>1ª clase</span>
-            </div>
-            <div class="seat-plane" id="seat-map-container"></div>
-            <div class="seat-selected-info" id="selected-seat-info">
-              <i class="bi bi-cursor" style="color:var(--text-3)"></i> Toca un asiento para seleccionarlo
-            </div>
-          </div>
-
-          <div class="upload-box">
-            <span class="upload-lbl"><i class="bi bi-qr-code-scan"></i> Comprobante de pago</span>
-            <p class="upload-desc">Escanea el QR y adjunta tu comprobante de transferencia. El boleto se emite cuando el admin confirme el pago.</p>
-            <div class="upload-row">
-              <input type="file" id="comprobante" accept="image/*,.pdf" style="display:none"/>
-              <label class="upload-btn" for="comprobante"><i class="bi bi-upload"></i> Adjuntar archivo</label>
-              <span class="upload-fname" id="file-name">Sin archivo seleccionado</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: QR -->
-        <div>
-          <div class="qr-panel">
-            <div class="qr-panel-ttl"><i class="bi bi-qr-code me-1"></i>Pago por transferencia</div>
-            <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR BOA"/>
-            <div class="qr-amount" id="qr-amount">Bs. —</div>
-            <div class="qr-bank">
-              <strong><i class="bi bi-bank me-1"></i>Datos bancarios</strong>
-              <div class="qr-bank-row"><span>Banco</span><span>Banco Unión S.A.</span></div>
-              <div class="qr-bank-row"><span>Cuenta</span><span>1-1234567</span></div>
-              <div class="qr-bank-row"><span>Titular</span><span>Boliviana de Aviación</span></div>
-              <div class="qr-bank-row"><span>Moneda</span><span>BOB</span></div>
-            </div>
-            <div class="qr-note"><i class="bi bi-info-circle me-1"></i>Escanea el QR con tu app bancaria o transfiere a los datos de arriba. Adjunta el comprobante. El boleto se emitirá al confirmar el pago.</div>
-            <div style="font-size:11px;color:var(--text-3);text-align:center"><i class="bi bi-shield-check me-1" style="color:var(--success)"></i>Pago 100% seguro</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-ft">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" id="btn-confirm" onclick="confirmReservation()">
-        <i class="bi bi-check-circle"></i><span id="confirm-text">Confirmar reserva</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- BOARDING PASS MODAL -->
-<div class="modal-overlay" id="bp-overlay" onclick="if(event.target.id==='bp-overlay')document.getElementById('bp-overlay').classList.remove('show')">
-  <div class="modal-box" style="max-width:500px">
-    <div class="modal-stripe"></div>
-    <div class="modal-hd">
-      <span class="modal-ttl"><i class="bi bi-ticket-perforated me-2" style="color:var(--navy)"></i>Boleto de embarque</span>
-      <button class="modal-x" onclick="document.getElementById('bp-overlay').classList.remove('show')"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="modal-bd">
-      <div id="boarding-pass-content"></div>
-      <div style="margin-top:14px">
-        <button class="btn btn-navy btn-block" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PROFILE MODAL (Google users) -->
-<div class="modal-overlay" id="profile-modal-overlay">
-  <div class="modal-box" style="max-width:460px">
-    <div class="modal-stripe"></div>
-    <div class="modal-hd">
-      <span class="modal-ttl"><i class="bi bi-person-plus me-2" style="color:var(--navy)"></i>Completa tu perfil</span>
-      <button class="modal-x" onclick="dismissProfileModal()" title="Completar después"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="modal-bd">
-      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:var(--r-sm);padding:11px 14px;margin-bottom:16px;font-size:13px;color:#1040A0">
-        <i class="bi bi-google me-2"></i>Iniciaste con Google. Completa tus datos para reservar más fácilmente. <strong>Puedes hacerlo después en Mi Perfil.</strong>
-      </div>
-      <div class="form-row-2">
-        <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="pm-nombre" placeholder="Tu nombre"/></div>
-        <div class="fg"><label class="fg-lbl">Apellido *</label><input class="fc" id="pm-apellido" placeholder="Tu apellido"/></div>
-        <div class="fg"><label class="fg-lbl">Tipo de documento *</label>
-          <select class="fc" id="pm-tipo-doc">
-            <option value="documento_identidad">Cédula de identidad</option>
-            <option value="pasaporte">Pasaporte</option>
-          </select>
-        </div>
-        <div class="fg"><label class="fg-lbl">Nº documento *</label><input class="fc" id="pm-num-doc" placeholder="12345678"/></div>
-        <div class="fg"><label class="fg-lbl">Teléfono</label><input class="fc" id="pm-tel" placeholder="+591 7XXXXXXX"/></div>
-        <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="pm-nacimiento"/></div>
-      </div>
-      <div class="fg" style="margin-top:10px"><label class="fg-lbl">Género</label>
-        <select class="fc" id="pm-genero"><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select>
-      </div>
-    </div>
-    <div class="modal-ft" style="justify-content:space-between">
-      <button class="btn btn-ghost" onclick="dismissProfileModal()"><i class="bi bi-skip-forward"></i> Después</button>
-      <button class="btn btn-primary" onclick="saveProfileModal()"><i class="bi bi-floppy"></i> Guardar y continuar</button>
-    </div>
-  </div>
+  <div><strong id="snack-ttl"></strong><span id="snack-msg"></span></div>
 </div>
 
 <!-- SIDEBAR BACKDROP -->
-<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+<div class="sb-backdrop" id="sb-backdrop" onclick="toggleSidebar()"></div>
 
 <div class="shell">
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
-      <span class="sb-brand-tag">Portal cliente</span>
+      <div><div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:.3px">BOA</div><div class="sb-brand-sub">Portal cliente</div></div>
     </div>
     <div class="sb-user">
-      <div class="sb-avatar" id="avatar-initials">??</div>
+      <div class="sb-av" id="sb-av">??</div>
       <div style="min-width:0">
-        <div class="sb-user-name" id="sidebar-name">Cargando…</div>
-        <div class="sb-user-email" id="sidebar-email">–</div>
+        <div class="sb-uname" id="sb-name">Cargando…</div>
+        <div class="sb-uemail" id="sb-email">–</div>
       </div>
     </div>
     <nav class="sb-nav">
-      <div class="sb-nav-label">Principal</div>
-      <a class="sb-nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)">
-        <i class="bi bi-house-door"></i> Inicio
-      </a>
-      <a class="sb-nav-item" data-page="mis-reservas" onclick="showPage('mis-reservas',this)">
+      <div class="sb-lbl">Principal</div>
+      <a class="sb-item act" data-page="dashboard" onclick="goPage('dashboard',this)"><i class="bi bi-house-door"></i> Inicio</a>
+      <a class="sb-item" data-page="mis-reservas" onclick="goPage('mis-reservas',this)">
         <i class="bi bi-ticket-perforated"></i> Mis reservas
-        <span class="sb-badge" id="badge-reservas" style="display:none">0</span>
+        <span class="sb-badge" id="badge-sb" style="display:none">0</span>
       </a>
-      <a class="sb-nav-item" data-page="buscar-vuelos" onclick="showPage('buscar-vuelos',this)">
-        <i class="bi bi-airplane"></i> Buscar vuelos
-      </a>
-      <div class="sb-nav-label">Cuenta</div>
-      <a class="sb-nav-item" data-page="perfil" onclick="showPage('perfil',this)">
-        <i class="bi bi-person-circle"></i> Mi perfil
-      </a>
-      <div class="sb-nav-label">Más</div>
-      <a class="sb-nav-item" href="../../index.html">
-        <i class="bi bi-globe"></i> Inicio BOA
-      </a>
+      <a class="sb-item" data-page="buscar-vuelos" onclick="goPage('buscar-vuelos',this)"><i class="bi bi-airplane"></i> Buscar vuelos</a>
+      <div class="sb-lbl">Cuenta</div>
+      <a class="sb-item" data-page="perfil" onclick="goPage('perfil',this)"><i class="bi bi-person-circle"></i> Mi perfil</a>
+      <div class="sb-lbl">Más</div>
+      <a class="sb-item" href="../../index.html"><i class="bi bi-globe"></i> Inicio BOA</a>
     </nav>
     <div class="sb-foot">
       <button class="btn-logout" onclick="handleLogout()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</button>
@@ -1136,146 +440,240 @@ select.fc { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xm
   <main class="main">
     <!-- TOPBAR -->
     <header class="topbar">
-      <div class="topbar-left">
+      <div class="tb-left">
         <button class="hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
-        <span class="topbar-title" id="topbar-title">Inicio</span>
+        <span class="tb-title" id="tb-title">Inicio</span>
       </div>
-      <div class="topbar-right">
-        <button class="btn btn-primary btn-sm" onclick="showPage('buscar-vuelos',null)">
-          <i class="bi bi-search"></i><span class="btn-txt">Buscar vuelo</span>
-        </button>
-        <a class="btn btn-ghost btn-sm" href="../../index.html">
-          <i class="bi bi-arrow-left"></i><span class="btn-txt">BOA</span>
-        </a>
+      <div class="tb-right">
+        <button class="btn btn-primary btn-sm" onclick="goPage('buscar-vuelos',null)"><i class="bi bi-search"></i><span class="btn-txt">Buscar</span></button>
+        <a class="btn btn-ghost btn-sm" href="../../index.html"><i class="bi bi-arrow-left"></i><span class="btn-txt">BOA</span></a>
       </div>
     </header>
 
     <!-- ── DASHBOARD ── -->
-    <div class="page active" id="page-dashboard">
-      <div class="page-eyebrow">Panel de usuario</div>
-      <h1 class="page-title">Bienvenido, <span id="welcome-name">…</span></h1>
-
-      <div id="next-flight-container"></div>
-
+    <div class="page act" id="page-dashboard">
+      <div class="page-ey">Panel de usuario</div>
+      <h1 class="page-ttl">Bienvenido, <span id="welcome-name">…</span></h1>
+      <div id="nf-container"></div>
       <div class="stats-grid">
-        <div class="stat-card c-navy">
-          <div class="stat-icon c-navy"><i class="bi bi-ticket-perforated-fill"></i></div>
-          <div class="stat-val" id="stat-reservas">0</div>
-          <div class="stat-lbl">Reservas totales</div>
-        </div>
-        <div class="stat-card c-green">
-          <div class="stat-icon c-green"><i class="bi bi-check-circle-fill"></i></div>
-          <div class="stat-val" id="stat-confirmadas">0</div>
-          <div class="stat-lbl">Confirmadas</div>
-        </div>
-        <div class="stat-card c-amber">
-          <div class="stat-icon c-amber"><i class="bi bi-hourglass-split"></i></div>
-          <div class="stat-val" id="stat-pendientes">0</div>
-          <div class="stat-lbl">Pendientes</div>
-        </div>
-        <div class="stat-card c-blue">
-          <div class="stat-icon c-blue"><i class="bi bi-airplane-fill"></i></div>
-          <div class="stat-val" id="stat-completados">0</div>
-          <div class="stat-lbl">Vuelos completados</div>
-        </div>
+        <div class="stat-card c-n"><div class="stat-ic c-n"><i class="bi bi-ticket-perforated-fill"></i></div><div class="stat-val" id="st-total">0</div><div class="stat-lbl">Reservas totales</div></div>
+        <div class="stat-card c-g"><div class="stat-ic c-g"><i class="bi bi-check-circle-fill"></i></div><div class="stat-val" id="st-conf">0</div><div class="stat-lbl">Confirmadas</div></div>
+        <div class="stat-card c-a"><div class="stat-ic c-a"><i class="bi bi-hourglass-split"></i></div><div class="stat-val" id="st-pend">0</div><div class="stat-lbl">Pendientes</div></div>
+        <div class="stat-card c-b"><div class="stat-ic c-b"><i class="bi bi-airplane-fill"></i></div><div class="stat-val" id="st-comp">0</div><div class="stat-lbl">Completados</div></div>
       </div>
-
-      <div class="sec-header">
-        <span class="sec-title">Últimas reservas</span>
-        <button class="sec-link" onclick="showPage('mis-reservas',null)">Ver todas <i class="bi bi-arrow-right"></i></button>
-      </div>
-      <div class="card" id="recent-reservas-wrap" style="margin-bottom:28px">
-        <div class="empty"><i class="bi bi-hourglass-split empty-icon"></i><p>Cargando reservas…</p></div>
-      </div>
-
-      <div class="sec-header">
-        <span class="sec-title">Vuelos recomendados</span>
-        <button class="sec-link" onclick="showPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button>
-      </div>
-      <div class="flights-grid" id="recommended-flights"></div>
+      <div class="sec-hd"><span class="sec-ttl">Últimas reservas</span><button class="sec-lnk" onclick="goPage('mis-reservas',null)">Ver todas <i class="bi bi-arrow-right"></i></button></div>
+      <div class="card" id="recent-wrap" style="margin-bottom:24px"><div class="empty"><i class="bi bi-hourglass-split empty-ic"></i><p>Cargando…</p></div></div>
+      <div class="sec-hd"><span class="sec-ttl">Vuelos recomendados</span><button class="sec-lnk" onclick="goPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button></div>
+      <div class="flights-grid" id="rec-flights"></div>
     </div>
 
     <!-- ── MIS RESERVAS ── -->
     <div class="page" id="page-mis-reservas">
-      <div class="page-eyebrow">Historial</div>
-      <h1 class="page-title">Mis <span>Reservas</span></h1>
-      <div class="card" id="all-reservas-wrap">
-        <div class="empty"><i class="bi bi-hourglass-split empty-icon"></i><p>Cargando…</p></div>
-      </div>
+      <div class="page-ey">Historial</div>
+      <h1 class="page-ttl">Mis <span>Reservas</span></h1>
+      <div class="card" id="all-wrap"><div class="empty"><i class="bi bi-hourglass-split empty-ic"></i><p>Cargando…</p></div></div>
     </div>
 
     <!-- ── BUSCAR VUELOS ── -->
     <div class="page" id="page-buscar-vuelos">
-      <div class="page-eyebrow">Disponibilidad</div>
-      <h1 class="page-title">Buscar <span>Vuelos</span></h1>
+      <div class="page-ey">Disponibilidad</div>
+      <h1 class="page-ttl">Buscar <span>Vuelos</span></h1>
       <div class="search-bar">
-        <div class="fg"><label class="fg-lbl">Origen</label><input class="fc" id="filter-origen" placeholder="Santa Cruz"/></div>
-        <div class="fg"><label class="fg-lbl">Destino</label><input class="fc" id="filter-destino" placeholder="La Paz"/></div>
-        <div class="fg"><label class="fg-lbl">Fecha</label><input class="fc" type="date" id="filter-fecha"/></div>
+        <div class="fg"><label class="fg-lbl">Origen</label><input class="fc" id="f-origen" placeholder="Ej: Santa Cruz"/></div>
+        <div class="fg"><label class="fg-lbl">Destino</label><input class="fc" id="f-destino" placeholder="Ej: La Paz"/></div>
+        <div class="fg"><label class="fg-lbl">Fecha</label><input class="fc" type="date" id="f-fecha"/></div>
         <div class="fg"><label class="fg-lbl">Estado</label>
-          <select class="fc" id="filter-estado">
+          <select class="fc" id="f-estado">
             <option value="">Todos</option>
             <option value="programado">Programado</option>
             <option value="abordando">Abordando</option>
-            <option value="en_vuelo">En vuelo</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="loadFlights()" style="align-self:flex-end">
-          <i class="bi bi-search"></i> Buscar
-        </button>
+        <button class="btn btn-primary" onclick="loadFlights()" style="align-self:flex-end"><i class="bi bi-search"></i> Buscar</button>
       </div>
       <div class="flights-grid" id="flights-grid">
-        <div style="grid-column:1/-1;text-align:center;padding:52px;color:var(--text-3)">
-          <i class="bi bi-airplane" style="font-size:40px;display:block;margin-bottom:12px"></i>
-          Cargando vuelos disponibles…
+        <div style="grid-column:1/-1;text-align:center;padding:44px;color:var(--txt3)"><i class="bi bi-airplane" style="font-size:38px;display:block;margin-bottom:10px"></i>Cargando vuelos…</div>
+      </div>
+    </div>
+
+    <!-- ── BOOKING (pasos) ── -->
+    <div id="page-booking">
+      <div class="booking-wrap">
+        <div class="page-ey">Reservar vuelo</div>
+        <h1 class="page-ttl" style="margin-bottom:22px">Tu <span>Reserva</span></h1>
+
+        <!-- Steps indicator -->
+        <div class="bk-steps" id="bk-steps">
+          <div class="bk-step cur" id="bk-s1"><div class="bk-step-num">1</div><div class="bk-step-lbl">Asiento</div></div>
+          <div class="bk-line" id="bk-l1"></div>
+          <div class="bk-step" id="bk-s2"><div class="bk-step-num">2</div><div class="bk-step-lbl">Datos</div></div>
+          <div class="bk-line" id="bk-l2"></div>
+          <div class="bk-step" id="bk-s3"><div class="bk-step-num">3</div><div class="bk-step-lbl">Pago</div></div>
+          <div class="bk-line" id="bk-l3"></div>
+          <div class="bk-step" id="bk-s4"><div class="bk-step-num"><i class="bi bi-check"></i></div><div class="bk-step-lbl">¡Listo!</div></div>
+        </div>
+
+        <!-- PASO 1: Asiento -->
+        <div class="bk-panel act" id="bk-p1">
+          <div class="bk-fsumm" id="bk-fsumm1"></div>
+          <div class="card">
+            <div class="card-hd"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i><span class="card-hd-ttl">Elige tu asiento</span></div>
+            <div class="card-bd">
+              <div class="seat-map-wrap">
+                <div class="seat-legend">
+                  <span><span class="leg-dot" style="background:#DBEAFE;border:1px solid #93C5FD"></span>Disponible</span>
+                  <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
+                  <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
+                  <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>1ª clase</span>
+                </div>
+                <div class="seat-plane" id="seat-map"></div>
+                <div class="seat-info" id="seat-info"><i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo</div>
+              </div>
+            </div>
+          </div>
+          <div class="bk-nav"><div></div><div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(2)">Continuar <i class="bi bi-arrow-right"></i></button></div></div>
+        </div>
+
+        <!-- PASO 2: Datos del pasajero -->
+        <div class="bk-panel" id="bk-p2">
+          <div class="bk-fsumm" id="bk-fsumm2"></div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-hd"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-hd-ttl">Datos del pasajero</span></div>
+            <div class="card-bd">
+              <div class="row2">
+                <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="p-nombre" placeholder="Tu nombre"/></div>
+                <div class="fg"><label class="fg-lbl">Apellido *</label><input class="fc" id="p-apellido" placeholder="Tu apellido"/></div>
+                <div class="fg"><label class="fg-lbl">Tipo de documento *</label>
+                  <select class="fc" id="p-tipo-doc">
+                    <option value="documento_identidad">Cédula de identidad</option>
+                    <option value="pasaporte">Pasaporte</option>
+                  </select>
+                </div>
+                <div class="fg"><label class="fg-lbl">Nº documento *</label><input class="fc" id="p-num-doc" placeholder="12345678"/></div>
+                <div class="fg"><label class="fg-lbl">Correo</label><input class="fc" type="email" id="p-correo" placeholder="tu@correo.com"/></div>
+                <div class="fg"><label class="fg-lbl">Celular</label><input class="fc" id="p-celular" placeholder="+591 7XXXXXXX"/></div>
+                <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="p-nacimiento"/></div>
+                <div class="fg"><label class="fg-lbl">Género</label>
+                  <select class="fc" id="p-genero">
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><i class="bi bi-heart-pulse" style="color:var(--red)"></i><span class="card-hd-ttl">Asistencia especial (opcional)</span></div>
+            <div class="card-bd">
+              <div class="assist-grid">
+                <label class="assist-item"><input type="checkbox" id="a-auditiva"><i class="bi bi-ear-fill"></i> Discapacidad auditiva</label>
+                <label class="assist-item"><input type="checkbox" id="a-movilidad"><i class="bi bi-person-wheelchair"></i> Movilidad reducida</label>
+                <label class="assist-item"><input type="checkbox" id="a-visual"><i class="bi bi-eye-slash-fill"></i> Discapacidad visual</label>
+                <label class="assist-item"><input type="checkbox" id="a-aeropuerto"><i class="bi bi-building"></i> Asistencia aeropuerto</label>
+              </div>
+            </div>
+          </div>
+          <div class="bk-nav">
+            <button class="btn btn-ghost" onclick="nextStep(1)"><i class="bi bi-arrow-left"></i> Volver</button>
+            <div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(3)">Continuar <i class="bi bi-arrow-right"></i></button></div>
+          </div>
+        </div>
+
+        <!-- PASO 3: Pago -->
+        <div class="bk-panel" id="bk-p3">
+          <div class="bk-fsumm" id="bk-fsumm3"></div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-hd"><i class="bi bi-qr-code" style="color:var(--navy)"></i><span class="card-hd-ttl">Pago por transferencia</span></div>
+            <div class="card-bd">
+              <div class="qr-card">
+                <div class="qr-ttl"><i class="bi bi-qr-code me-1"></i>Escanea para pagar</div>
+                <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR BOA"/>
+                <div class="qr-amount" id="qr-monto">Bs. —</div>
+                <div class="qr-bank">
+                  <strong><i class="bi bi-bank me-1"></i>Datos bancarios</strong>
+                  <div class="qr-row"><span>Banco</span><span>Banco Unión S.A.</span></div>
+                  <div class="qr-row"><span>Cuenta</span><span>1-1234567</span></div>
+                  <div class="qr-row"><span>Titular</span><span>Boliviana de Aviación</span></div>
+                  <div class="qr-row"><span>Moneda</span><span>BOB</span></div>
+                </div>
+                <div class="qr-note"><i class="bi bi-info-circle me-1"></i>Realiza la transferencia y adjunta el comprobante. Tu boleto se emite cuando el equipo BOA confirme el pago.</div>
+              </div>
+              <div class="upload-box" style="margin-top:14px">
+                <span class="upload-lbl"><i class="bi bi-upload"></i> Comprobante de pago</span>
+                <p class="upload-desc">Adjunta la captura o PDF de tu transferencia.</p>
+                <div class="upload-row">
+                  <input type="file" id="comprobante" accept="image/*,.pdf" style="display:none"/>
+                  <label class="upload-btn" for="comprobante"><i class="bi bi-paperclip"></i> Adjuntar</label>
+                  <span class="upload-fname" id="file-name">Sin archivo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bk-nav">
+            <button class="btn btn-ghost" onclick="nextStep(2)"><i class="bi bi-arrow-left"></i> Volver</button>
+            <div class="bk-nav-r">
+              <button class="btn btn-primary btn-lg" id="btn-confirm" onclick="confirmReservation()"><i class="bi bi-check-circle"></i> <span id="confirm-txt">Confirmar reserva</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 4: Confirmación -->
+        <div class="bk-panel" id="bk-p4">
+          <div class="confirm-screen">
+            <div class="confirm-ic"><i class="bi bi-airplane-fill"></i></div>
+            <div class="confirm-ttl">¡Reserva creada!</div>
+            <div class="confirm-sub" id="confirm-sub">Tu reserva está pendiente de confirmación de pago. El equipo BOA emitirá tu boleto al verificar la transferencia.</div>
+          </div>
+          <div id="ticket-container" style="margin-bottom:20px"></div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-navy" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir boleto</button>
+            <button class="btn btn-ghost" onclick="goPage('mis-reservas',null)"><i class="bi bi-ticket-perforated"></i> Ver mis reservas</button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ── PERFIL ── -->
     <div class="page" id="page-perfil">
-      <div class="page-eyebrow">Configuración</div>
-      <h1 class="page-title">Mi <span>Perfil</span></h1>
+      <div class="page-ey">Configuración</div>
+      <h1 class="page-ttl">Mi <span>Perfil</span></h1>
       <div class="profile-grid">
         <div class="card">
-          <div class="card-head"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-head-title">Datos personales</span></div>
-          <div class="card-body">
-            <div class="fg"><label class="fg-lbl">Correo electrónico</label><input class="fc" id="prof-email" disabled/></div>
-            <div class="form-row-2" style="margin-top:12px">
-              <div class="fg"><label class="fg-lbl">Nombre</label><input class="fc" id="prof-nombre" placeholder="Tu nombre"/></div>
-              <div class="fg"><label class="fg-lbl">Apellido</label><input class="fc" id="prof-apellido" placeholder="Tu apellido"/></div>
+          <div class="card-hd"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-hd-ttl">Datos personales</span></div>
+          <div class="card-bd">
+            <div class="fg"><label class="fg-lbl">Correo</label><input class="fc" id="pr-email" disabled/></div>
+            <div class="row2" style="margin-top:11px">
+              <div class="fg"><label class="fg-lbl">Nombre</label><input class="fc" id="pr-nombre" placeholder="Tu nombre"/></div>
+              <div class="fg"><label class="fg-lbl">Apellido</label><input class="fc" id="pr-apellido" placeholder="Tu apellido"/></div>
             </div>
-            <div class="fg" style="margin-top:12px"><label class="fg-lbl">Teléfono</label><input class="fc" id="prof-telefono" placeholder="+591 7XXXXXXX"/></div>
-            <div class="form-row-2" style="margin-top:12px">
-              <div class="fg"><label class="fg-lbl">Fecha de nacimiento</label><input class="fc" type="date" id="prof-nacimiento"/></div>
+            <div class="fg" style="margin-top:11px"><label class="fg-lbl">Teléfono</label><input class="fc" id="pr-tel" placeholder="+591 7XXXXXXX"/></div>
+            <div class="row2" style="margin-top:11px">
+              <div class="fg"><label class="fg-lbl">Nacimiento</label><input class="fc" type="date" id="pr-nac"/></div>
               <div class="fg"><label class="fg-lbl">Género</label>
-                <select class="fc" id="prof-genero">
+                <select class="fc" id="pr-genero">
                   <option value="">Seleccionar</option>
                   <option value="masculino">Masculino</option>
                   <option value="femenino">Femenino</option>
                 </select>
               </div>
             </div>
-            <button class="btn btn-navy btn-block" style="margin-top:18px" onclick="saveProfile()"><i class="bi bi-floppy"></i> Guardar cambios</button>
+            <button class="btn btn-navy btn-block" style="margin-top:16px" onclick="saveProfile()"><i class="bi bi-floppy"></i> Guardar</button>
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><i class="bi bi-card-text" style="color:var(--gold)"></i><span class="card-head-title">Documento de identidad</span></div>
-          <div class="card-body">
+          <div class="card-hd"><i class="bi bi-card-text" style="color:var(--gold)"></i><span class="card-hd-ttl">Documento</span></div>
+          <div class="card-bd">
             <div class="fg"><label class="fg-lbl">Tipo de documento</label>
-              <select class="fc" id="prof-tipo-doc">
+              <select class="fc" id="pr-tipo-doc">
                 <option value="">Seleccionar</option>
                 <option value="documento_identidad">Cédula de identidad</option>
                 <option value="pasaporte">Pasaporte</option>
               </select>
             </div>
-            <div class="fg" style="margin-top:12px"><label class="fg-lbl">Número de documento</label><input class="fc" id="prof-num-doc" placeholder="12345678"/></div>
-            <hr style="border:none;border-top:1px solid var(--border);margin:22px 0 18px"/>
-            <p style="font-size:13px;color:var(--text-2);margin-bottom:12px">
-              <i class="bi bi-shield-lock" style="color:var(--gold);margin-right:5px"></i>
-              Para cambiar tu contraseña recibirás un enlace seguro en tu correo.
-            </p>
-            <button class="btn btn-outline btn-block" onclick="sendPasswordReset()"><i class="bi bi-envelope-at"></i> Cambiar contraseña</button>
+            <div class="fg" style="margin-top:11px"><label class="fg-lbl">Número</label><input class="fc" id="pr-num-doc" placeholder="12345678"/></div>
+            <hr style="border:none;border-top:1px solid var(--bdr);margin:20px 0 16px"/>
+            <p style="font-size:12.5px;color:var(--txt2);margin-bottom:11px"><i class="bi bi-shield-lock" style="color:var(--gold);margin-right:5px"></i>Para cambiar tu contraseña recibirás un enlace seguro.</p>
+            <button class="btn btn-outline btn-block" onclick="sendPwReset()"><i class="bi bi-envelope-at"></i> Cambiar contraseña</button>
           </div>
         </div>
       </div>
@@ -1283,208 +681,142 @@ select.fc { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xm
   </main>
 </div>
 
-<!-- MOBILE BOTTOM NAV -->
-<nav class="bottom-nav">
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
   <div class="bn-wrap">
-    <button class="bn-tab active" id="mnav-dashboard" onclick="showPage('dashboard',null);setMobileNav('dashboard')">
-      <i class="bi bi-house-door"></i>Inicio
-    </button>
-    <button class="bn-tab" id="mnav-buscar-vuelos" onclick="showPage('buscar-vuelos',null);setMobileNav('buscar-vuelos')">
-      <i class="bi bi-airplane"></i>Vuelos
-    </button>
-    <button class="bn-tab" id="mnav-mis-reservas" onclick="showPage('mis-reservas',null);setMobileNav('mis-reservas')" style="position:relative">
-      <i class="bi bi-ticket-perforated"></i>Reservas
-      <span class="bn-badge" id="mnav-badge" style="display:none">0</span>
-    </button>
-    <button class="bn-tab" id="mnav-perfil" onclick="showPage('perfil',null);setMobileNav('perfil')">
-      <i class="bi bi-person-circle"></i>Perfil
-    </button>
+    <button class="bn-tab act" id="mn-dashboard" onclick="goPage('dashboard',null);setMN('dashboard')"><i class="bi bi-house-door"></i>Inicio</button>
+    <button class="bn-tab" id="mn-buscar-vuelos" onclick="goPage('buscar-vuelos',null);setMN('buscar-vuelos')"><i class="bi bi-airplane"></i>Vuelos</button>
+    <button class="bn-tab" id="mn-mis-reservas" onclick="goPage('mis-reservas',null);setMN('mis-reservas')" style="position:relative"><i class="bi bi-ticket-perforated"></i>Reservas<span class="bn-badge" id="mn-badge" style="display:none">0</span></button>
+    <button class="bn-tab" id="mn-perfil" onclick="goPage('perfil',null);setMN('perfil')"><i class="bi bi-person-circle"></i>Perfil</button>
   </div>
 </nav>
 
 <script type="module">
 import { supabase } from '../../assets/js/supabase.js';
 
-let currentUser = null, selectedFlight = null, selectedSeat = null, userProfile = null;
-const MySwal = Swal.mixin({ buttonsStyling: true });
+let CU = null, selFlight = null, selSeat = null, userProf = null, curStep = 1;
+const Swal2 = Swal.mixin({ buttonsStyling: true });
 
 // ── INIT ──
 async function init() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = '../../auth/login.html'; return; }
-  currentUser = user;
+  CU = user;
 
-  const { data: profile } = await supabase.from('users_profile').select('*').eq('id', user.id).single();
-  userProfile = profile;
+  const { data: prof } = await supabase.from('users_profile').select('*').eq('id', user.id).single();
+  userProf = prof;
 
-  const provider = user.app_metadata?.provider;
-  const isGoogle = provider === 'google' || provider === 'google_oauth2';
-  const hasFullProfile = !!(profile?.nombre && profile?.apellido && profile?.numero_documento);
-  const dismissed = sessionStorage.getItem('profile-modal-dismissed');
+  const nombre = prof?.nombre || user.user_metadata?.given_name || user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0];
+  const apellido = prof?.apellido || user.user_metadata?.family_name || user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '';
+  const ini = ((nombre[0]||'')+(apellido[0]||'')).toUpperCase() || '??';
 
-  if (isGoogle && !hasFullProfile && !dismissed) {
-    const gName = user.user_metadata?.full_name || user.user_metadata?.name || '';
-    const parts = gName.trim().split(' ');
-    document.getElementById('pm-nombre').value = parts[0] || user.user_metadata?.given_name || '';
-    document.getElementById('pm-apellido').value = parts.slice(1).join(' ') || user.user_metadata?.family_name || '';
-    document.getElementById('profile-modal-overlay').classList.add('show');
-  }
-
-  const nombre = profile?.nombre || user.user_metadata?.given_name || user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0];
-  const apellido = profile?.apellido || user.user_metadata?.family_name || user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '';
-  const initials = ((nombre[0]||'') + (apellido[0]||'')).toUpperCase() || '??';
-
-  document.getElementById('avatar-initials').textContent = initials;
-  document.getElementById('sidebar-name').textContent = `${nombre} ${apellido}`.trim();
-  document.getElementById('sidebar-email').textContent = user.email;
+  document.getElementById('sb-av').textContent = ini;
+  document.getElementById('sb-name').textContent = `${nombre} ${apellido}`.trim();
+  document.getElementById('sb-email').textContent = user.email;
   document.getElementById('welcome-name').textContent = nombre;
-  document.getElementById('prof-email').value = user.email;
+  document.getElementById('pr-email').value = user.email;
 
-  if (profile) {
-    document.getElementById('prof-nombre').value = profile.nombre || '';
-    document.getElementById('prof-apellido').value = profile.apellido || '';
-    document.getElementById('prof-telefono').value = profile.telefono || '';
-    document.getElementById('prof-nacimiento').value = profile.fecha_nacimiento || '';
-    document.getElementById('prof-genero').value = profile.genero || '';
-    document.getElementById('prof-tipo-doc').value = profile.tipo_documento || '';
-    document.getElementById('prof-num-doc').value = profile.numero_documento || '';
-    document.getElementById('p-nombre').value = profile.nombre || nombre;
-    document.getElementById('p-apellido').value = profile.apellido || apellido;
-    document.getElementById('p-num-doc').value = profile.numero_documento || '';
-    document.getElementById('p-tipo-doc').value = profile.tipo_documento || 'documento_identidad';
-    document.getElementById('p-nacimiento').value = profile.fecha_nacimiento || '';
-    document.getElementById('p-genero').value = profile.genero || 'masculino';
-  } else {
-    document.getElementById('p-nombre').value = nombre;
-    document.getElementById('p-apellido').value = apellido;
+  if (prof) {
+    document.getElementById('pr-nombre').value = prof.nombre||'';
+    document.getElementById('pr-apellido').value = prof.apellido||'';
+    document.getElementById('pr-tel').value = prof.telefono||'';
+    document.getElementById('pr-nac').value = prof.fecha_nacimiento||'';
+    document.getElementById('pr-genero').value = prof.genero||'';
+    document.getElementById('pr-tipo-doc').value = prof.tipo_documento||'';
+    document.getElementById('pr-num-doc').value = prof.numero_documento||'';
   }
+  // Prefill booking form
+  document.getElementById('p-nombre').value = prof?.nombre || nombre;
+  document.getElementById('p-apellido').value = prof?.apellido || apellido;
+  document.getElementById('p-num-doc').value = prof?.numero_documento||'';
+  document.getElementById('p-tipo-doc').value = prof?.tipo_documento||'documento_identidad';
+  document.getElementById('p-nacimiento').value = prof?.fecha_nacimiento||'';
+  document.getElementById('p-genero').value = prof?.genero||'masculino';
   document.getElementById('p-correo').value = user.email;
+  document.getElementById('p-celular').value = prof?.telefono||'';
 
   const q = new URLSearchParams(window.location.search);
-  if (q.get('origen'))  document.getElementById('filter-origen').value = q.get('origen');
-  if (q.get('destino')) document.getElementById('filter-destino').value = q.get('destino');
-  if (q.get('fecha'))   document.getElementById('filter-fecha').value = q.get('fecha');
-  if (q.get('flight'))  await openBookingModal(q.get('flight'));
-  else if (q.get('origen')||q.get('destino')||q.get('fecha')) showPage('buscar-vuelos', null);
+  if (q.get('origen'))  document.getElementById('f-origen').value = q.get('origen');
+  if (q.get('destino')) document.getElementById('f-destino').value = q.get('destino');
+  if (q.get('fecha'))   document.getElementById('f-fecha').value = q.get('fecha');
+  if (q.get('flight'))  { await startBooking(q.get('flight')); }
+  else if (q.get('origen')||q.get('destino')||q.get('fecha')) goPage('buscar-vuelos', null);
 
   await loadDashboard();
   await loadFlights();
-
-  setTimeout(() => {
-    document.getElementById('loading').classList.add('done');
-    setTimeout(() => document.getElementById('loading').remove(), 600);
-  }, 1200);
+  setTimeout(() => { document.getElementById('loading').classList.add('done'); setTimeout(() => document.getElementById('loading').remove(), 600); }, 1100);
 }
-
-window.dismissProfileModal = function() {
-  document.getElementById('profile-modal-overlay').classList.remove('show');
-  sessionStorage.setItem('profile-modal-dismissed', '1');
-};
-
-window.saveProfileModal = async function() {
-  const nombre = document.getElementById('pm-nombre').value.trim();
-  const apellido = document.getElementById('pm-apellido').value.trim();
-  const numDoc = document.getElementById('pm-num-doc').value.trim();
-  if (!nombre || !apellido || !numDoc) { MySwal.fire({ icon:'warning', title:'Campos requeridos', text:'Nombre, apellido y documento son obligatorios.' }); return; }
-  const { error } = await supabase.from('users_profile').upsert({
-    id: currentUser.id, nombre, apellido,
-    tipo_documento: document.getElementById('pm-tipo-doc').value,
-    numero_documento: numDoc,
-    telefono: document.getElementById('pm-tel').value.trim() || null,
-    fecha_nacimiento: document.getElementById('pm-nacimiento').value || null,
-    genero: document.getElementById('pm-genero').value || null,
-  });
-  if (error) { MySwal.fire({ icon:'error', title:'Error', text: error.message }); return; }
-  document.getElementById('profile-modal-overlay').classList.remove('show');
-  sessionStorage.setItem('profile-modal-dismissed', '1');
-  await MySwal.fire({ icon:'success', title:'¡Perfil guardado!', text:'Ya puedes reservar vuelos fácilmente.', confirmButtonText:'Entendido' });
-  await init();
-};
 
 // ── DASHBOARD ──
 async function loadDashboard() {
-  const { data: reservas } = await supabase.from('reservations').select('*, flights(*)')
-    .eq('user_id', currentUser.id).order('created_at', { ascending: false });
-  const list = reservas || [];
-  const total       = list.length;
-  const confirmadas = list.filter(r => r.estado === 'confirmado').length;
-  const pendientes  = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
-  const completados = list.filter(r => r.estado === 'completado').length;
+  const { data: res } = await supabase.from('reservations').select('*, flights(*)')
+    .eq('user_id', CU.id).order('created_at', { ascending: false });
+  const list = res || [];
+  const total = list.length;
+  const conf  = list.filter(r => r.estado === 'confirmado').length;
+  const pend  = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
+  const comp  = list.filter(r => r.estado === 'completado').length;
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-conf').textContent  = conf;
+  document.getElementById('st-pend').textContent  = pend;
+  document.getElementById('st-comp').textContent  = comp;
 
-  document.getElementById('stat-reservas').textContent   = total;
-  document.getElementById('stat-confirmadas').textContent = confirmadas;
-  document.getElementById('stat-pendientes').textContent  = pendientes;
-  document.getElementById('stat-completados').textContent = completados;
+  const bs = document.getElementById('badge-sb'), mb = document.getElementById('mn-badge');
+  if (pend > 0) { bs.textContent = pend; bs.style.display = 'inline-block'; mb.textContent = pend; mb.style.display = 'inline-block'; }
+  else { bs.style.display = 'none'; mb.style.display = 'none'; }
 
-  const badge = document.getElementById('badge-reservas');
-  const mb    = document.getElementById('mnav-badge');
-  if (pendientes > 0) {
-    badge.textContent = pendientes; badge.style.display = 'inline-block';
-    mb.textContent    = pendientes; mb.style.display    = 'inline-block';
-  } else { badge.style.display = 'none'; mb.style.display = 'none'; }
-
-  const next = list.find(r => r.flights && new Date(r.flights.fecha_salida) > new Date() && r.estado !== 'cancelado');
-  const nfc = document.getElementById('next-flight-container');
-  if (next) {
-    const f = next.flights, d = new Date(f.fecha_salida);
-    nfc.innerHTML = `<div class="next-flight">
+  const nxt = list.find(r => r.flights && new Date(r.flights.fecha_salida) > new Date() && r.estado !== 'cancelado');
+  const nfc = document.getElementById('nf-container');
+  if (nxt) {
+    const f = nxt.flights, d = new Date(f.fecha_salida);
+    nfc.innerHTML = `<div class="nf-banner">
       <div>
-        <div class="nf-eyebrow"><i class="bi bi-airplane-fill me-1"></i>Tu próximo vuelo</div>
+        <div class="nf-ey"><i class="bi bi-airplane-fill me-1"></i>Próximo vuelo</div>
         <div class="nf-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
-        <div class="nf-meta">
-          <i class="bi bi-calendar3"></i>${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-          &nbsp;&nbsp;<i class="bi bi-clock"></i>${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
-        </div>
+        <div class="nf-meta"><i class="bi bi-calendar3 me-1"></i>${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long'})} &nbsp;<i class="bi bi-clock me-1"></i>${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:9px">
-        <span class="badge ${badgeClass(next.estado)}">${fmtEstado(next.estado)}</span>
-        ${next.estado==='confirmado'?`<button class="btn btn-sm" style="background:#fff;color:var(--navy);font-weight:700" onclick="showBoardingPass('${next.id}')"><i class="bi bi-ticket-perforated"></i> Ver boleto</button>`:''}
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <span class="badge ${bClass(nxt.estado)}">${fmtE(nxt.estado)}</span>
+        ${nxt.estado==='confirmado'?`<button class="btn btn-sm" style="background:#fff;color:var(--navy);font-weight:700" onclick="showTicket('${nxt.id}')"><i class="bi bi-ticket-perforated"></i> Boleto</button>`:''}
       </div>
     </div>`;
-  } else { nfc.innerHTML = ''; }
+  } else nfc.innerHTML = '';
 
-  renderTable('recent-reservas-wrap', list.slice(0,5));
-  renderTable('all-reservas-wrap', list);
-  loadRecommended();
+  renderTable('recent-wrap', list.slice(0,5));
+  renderTable('all-wrap', list);
+  loadRec();
 }
 
-async function loadRecommended() {
-  const { data: flights } = await supabase.from('flights').select('*')
+async function loadRec() {
+  const { data: fl } = await supabase.from('flights').select('*')
     .in('estado',['programado','abordando']).gt('asientos_disponibles',0)
     .order('fecha_salida',{ascending:true}).limit(4);
-  const grid = document.getElementById('recommended-flights');
-  if (!flights?.length) { grid.innerHTML = `<p style="color:var(--text-3);grid-column:1/-1;padding:20px">No hay vuelos disponibles.</p>`; return; }
-  grid.innerHTML = flights.map(flightCard).join('');
+  const g = document.getElementById('rec-flights');
+  if (!fl?.length) { g.innerHTML = `<p style="color:var(--txt3);grid-column:1/-1;padding:20px">No hay vuelos disponibles.</p>`; return; }
+  g.innerHTML = fl.map(flCard).join('');
 }
 
-function renderTable(wrapperId, list) {
-  const wrap = document.getElementById(wrapperId);
+function renderTable(id, list) {
+  const w = document.getElementById(id);
   if (!list.length) {
-    wrap.innerHTML = `<div class="empty">
-      <i class="bi bi-ticket-perforated empty-icon"></i>
-      <p>No tienes reservas aún. ¡Planifica tu próximo vuelo!</p>
-      <button class="btn btn-primary" onclick="showPage('buscar-vuelos',null)"><i class="bi bi-search"></i> Buscar vuelos</button>
-    </div>`; return;
+    w.innerHTML = `<div class="empty"><i class="bi bi-ticket-perforated empty-ic"></i><p>No tienes reservas aún.</p><button class="btn btn-primary" onclick="goPage('buscar-vuelos',null)"><i class="bi bi-search"></i> Buscar vuelos</button></div>`;
+    return;
   }
-  wrap.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr>
-      <th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th>
-    </tr></thead>
+  w.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
     <tbody>${list.map(r => {
       const f = r.flights, d = f ? new Date(f.fecha_salida) : null;
-      const canCancel = !['cancelado','completado'].includes(r.estado);
+      const canCx = !['cancelado','completado'].includes(r.estado);
       return `<tr>
         <td class="td-route">${f ? city(f.origen)+' → '+city(f.destino) : '—'}</td>
         <td>${d ? d.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
-        <td style="font-weight:700;color:var(--navy)">${r.asiento||'—'}</td>
+        <td style="font-weight:700;color:var(--navy);font-size:15px">${r.asiento||'—'}</td>
         <td class="td-price">${r.precio_total ? 'Bs. '+r.precio_total : '—'}</td>
-        <td><span class="badge ${badgeClass(r.estado)}">${fmtEstado(r.estado)}</span></td>
-        <td><div class="td-actions">
-          ${r.estado==='confirmado'?`<button onclick="showBoardingPass('${r.id}')" class="btn btn-sm btn-navy"><i class="bi bi-ticket-perforated"></i> Boleto</button>`:''}
-          <button onclick="cancelReservation('${r.id}','${r.estado}')"
-            class="btn btn-sm btn-ghost"
-            style="${canCancel?'border-color:rgba(212,32,32,0.25);color:#D42020':'opacity:0.3;cursor:default'}"
-            ${!canCancel?'disabled':''}>
+        <td><span class="badge ${bClass(r.estado)}">${fmtE(r.estado)}</span></td>
+        <td><div class="td-acts">
+          ${r.estado==='confirmado'?`<button onclick="showTicket('${r.id}')" class="btn btn-sm btn-navy"><i class="bi bi-ticket-perforated"></i> Boleto</button>`:''}
+          <button onclick="cancelRes('${r.id}','${r.estado}')" class="btn btn-sm btn-ghost"
+            style="${canCx?'border-color:rgba(212,32,32,0.22);color:#D42020':'opacity:.3'}" ${!canCx?'disabled':''}>
             <i class="bi bi-x-circle"></i> Cancelar
           </button>
         </div></td>
@@ -1493,297 +825,395 @@ function renderTable(wrapperId, list) {
   </table></div>`;
 }
 
-// ── BOARDING PASS ──
-window.showBoardingPass = async function(reservationId) {
-  const { data: r } = await supabase.from('reservations').select('*, flights(*), passengers(*)').eq('id', reservationId).single();
-  if (!r) return;
-  const f = r.flights, p = r.passengers?.[0];
-  const salida = new Date(f.fecha_salida), llegada = new Date(f.fecha_llegada);
-  const iataMap = { 'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM' };
-  const getIata = s => { for (const [k,v] of Object.entries(iataMap)) if (s.includes(k)) return v; return s.slice(0,3).toUpperCase(); };
-  document.getElementById('boarding-pass-content').innerHTML = `
-    <div class="bp">
-      <div class="bp-head">
-        <div><div class="bp-airline">Boliviana de Aviación</div><div class="bp-type">Tarjeta de embarque</div></div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:26px;filter:brightness(0) invert(1);opacity:0.75" alt="BOA"/>
-      </div>
-      <div class="bp-route">
-        <div class="bp-city"><div class="bp-iata">${getIata(f.origen)}</div><div class="bp-cname">${city(f.origen)}</div></div>
-        <div class="bp-arr"><i class="bi bi-airplane"></i></div>
-        <div class="bp-city"><div class="bp-iata">${getIata(f.destino)}</div><div class="bp-cname">${city(f.destino)}</div></div>
-      </div>
-      <div class="bp-details">
-        <div><div class="bp-dl">Pasajero</div><div class="bp-dv">${p?p.nombre+' '+p.apellido:'—'}</div></div>
-        <div><div class="bp-dl">Fecha</div><div class="bp-dv">${salida.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
-        <div><div class="bp-dl">Salida</div><div class="bp-dv">${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div><div class="bp-dl">Llegada</div><div class="bp-dv">${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div><div class="bp-dl">Asiento</div><div class="bp-dv" style="font-size:19px;color:var(--navy)">${r.asiento||'—'}</div></div>
-        <div><div class="bp-dl">Documento</div><div class="bp-dv">${p?.numero_documento||'—'}</div></div>
-      </div>
-      <hr class="bp-sep"/>
-      <div class="bp-bot">
-        <div><div style="font-size:9.5px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Reserva ID</div>
-        <div style="font-family:monospace;font-size:12px;font-weight:700;color:var(--navy)">${reservationId.slice(0,8).toUpperCase()}</div></div>
-        <div class="bp-barcode"></div>
-        <img class="bp-qr" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR"/>
-      </div>
-      <div class="bp-confirmed"><i class="bi bi-check-circle-fill"></i> Reserva CONFIRMADA — Preséntese 2 horas antes</div>
-    </div>`;
-  document.getElementById('bp-overlay').classList.add('show');
-};
-
-// ── SEAT MAP ──
-function buildSeatMap(occupied = []) {
-  selectedSeat = null;
-  const c = document.getElementById('seat-map-container');
-  const cols = ['A','B','C','D','E','F'];
-  let html = '<div class="seat-nose"></div>';
-  html += `<div class="seat-row"><div class="seat-rnum"></div>`;
-  cols.forEach((col, i) => { if (i===3) html+='<div class="seat-aisle"></div>'; html+=`<div style="width:27px;text-align:center;font-size:9.5px;color:var(--text-3);font-weight:700">${col}</div>`; });
-  html += '</div>';
-  for (let r = 1; r <= 20; r++) {
-    const fc = r <= 3;
-    if (r===4) html += '<div class="seat-wing-lbl">— Clase turista —</div>';
-    if (r===10) html += '<div class="seat-wing-lbl">✈ Zona de alas</div>';
-    html += `<div class="seat-row"><div class="seat-rnum">${r}</div>`;
-    cols.forEach((col, i) => {
-      if (i===3) html += '<div class="seat-aisle"></div>';
-      const id = `${r}${col}`, occ = occupied.includes(id);
-      const cls = occ ? 'occ' : (fc ? 'first-av' : 'av');
-      html += `<div class="seat ${cls}" data-seat="${id}" onclick="selectSeat('${id}',${occ})" title="${id}">${id}</div>`;
-    });
-    html += '</div>';
-  }
-  c.innerHTML = html;
-  document.getElementById('selected-seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--text-3)"></i> Toca un asiento para seleccionarlo';
-}
-
-window.selectSeat = function(id, occ) {
-  if (occ) return;
-  document.querySelectorAll('.seat.sel,.seat.first-sel').forEach(s => {
-    s.classList.remove('sel','first-sel');
-    s.classList.add(parseInt(s.dataset.seat)<=3 ? 'first-av' : 'av');
-  });
-  const el = document.querySelector(`.seat[data-seat="${id}"]`);
-  const isFirst = parseInt(id) <= 3;
-  if (el) { el.classList.remove('first-av','av'); el.classList.add(isFirst?'first-sel':'sel'); }
-  selectedSeat = id;
-  document.getElementById('selected-seat-info').innerHTML =
-    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i>
-     Asiento <strong>${id}</strong> — <span class="badge ${isFirst?'badge-warn':'badge-info'}">${isFirst?'Primera clase':'Turista'}</span>`;
-};
-
 // ── FLIGHTS ──
 async function loadFlights() {
-  const origen = document.getElementById('filter-origen')?.value.trim()||'';
-  const destino = document.getElementById('filter-destino')?.value.trim()||'';
-  const fecha = document.getElementById('filter-fecha')?.value||'';
-  const estado = document.getElementById('filter-estado')?.value||'';
+  const origen = document.getElementById('f-origen')?.value.trim()||'';
+  const destino = document.getElementById('f-destino')?.value.trim()||'';
+  const fecha = document.getElementById('f-fecha')?.value||'';
+  const estado = document.getElementById('f-estado')?.value||'';
   let q = supabase.from('flights').select('*').gt('asientos_disponibles',0).order('fecha_salida',{ascending:true});
   if (origen) q = q.ilike('origen',`%${origen}%`);
   if (destino) q = q.ilike('destino',`%${destino}%`);
   if (estado) q = q.eq('estado',estado); else q = q.in('estado',['programado','abordando','en_vuelo']);
-  if (fecha) { const s=new Date(fecha);s.setHours(0,0,0,0);const e=new Date(fecha);e.setHours(23,59,59,999); q=q.gte('fecha_salida',s.toISOString()).lte('fecha_salida',e.toISOString()); }
+  if (fecha) {
+    const s = new Date(fecha); s.setHours(0,0,0,0);
+    const e = new Date(fecha); e.setHours(23,59,59,999);
+    q = q.gte('fecha_salida',s.toISOString()).lte('fecha_salida',e.toISOString());
+  }
   q = q.limit(24);
   const { data: flights } = await q;
-  const grid = document.getElementById('flights-grid');
+  const g = document.getElementById('flights-grid');
   if (!flights?.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:52px;color:var(--text-3)">
-      <i class="bi bi-search" style="font-size:36px;display:block;margin-bottom:12px"></i>No se encontraron vuelos.</div>`; return;
+    g.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:44px;color:var(--txt3)"><i class="bi bi-search" style="font-size:34px;display:block;margin-bottom:10px"></i>No se encontraron vuelos.</div>`;
+    return;
   }
-  grid.innerHTML = flights.map(flightCard).join('');
+  g.innerHTML = flights.map(flCard).join('');
 }
 window.loadFlights = loadFlights;
 
-function flightCard(f) {
-  const salida = new Date(f.fecha_salida), llegada = new Date(f.fecha_llegada);
-  const durMin = Math.round((llegada-salida)/60000);
-  const h = Math.floor(durMin/60), m = durMin%60;
+function flCard(f) {
+  const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
+  const durMin = Math.round((ll-s)/60000);
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
   const canBook = ['programado','abordando'].includes(f.estado) && f.asientos_disponibles > 0;
+  const estadoBadge = {programado:'b-info',abordando:'b-warn',en_vuelo:'b-ok',cancelado:'b-err'}[f.estado]||'b-mut';
   return `<div class="flight-card">
-    <div class="fc-header">
-      <div class="fc-route-name">${city(f.origen)} <i class="bi bi-airplane"></i> ${city(f.destino)}</div>
-      <span class="badge estado-${f.estado}">${f.estado.replace('_',' ')}</span>
+    <div class="fc-hd">
+      <div class="fc-route">${city(f.origen)} <i class="bi bi-airplane"></i> ${city(f.destino)}</div>
+      <span class="badge ${estadoBadge}">${f.estado.replace('_',' ')}</span>
     </div>
-    <div class="fc-meta">
+    <div class="fc-meta-row">
       <div class="fc-times">
-        <div><i class="bi bi-calendar3"></i>${salida.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})}</div>
-        <div><i class="bi bi-clock"></i>${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${llegada.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
-        <div><i class="bi bi-hourglass-split"></i>${h}h ${m}min</div>
+        <div><i class="bi bi-calendar3"></i>${s.toLocaleDateString('es-BO',{weekday:'short',day:'numeric',month:'short'})}</div>
+        <div><i class="bi bi-clock"></i>${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div><i class="bi bi-hourglass-split"></i>${Math.floor(durMin/60)}h ${durMin%60}min</div>
       </div>
-      <div class="fc-price-block">
+      <div>
         <div class="fc-price">${cur} ${f.precio}</div>
         <div class="fc-seats"><i class="bi bi-people"></i> ${f.asientos_disponibles} disp.</div>
       </div>
     </div>
-    <button class="btn btn-primary btn-block" onclick="openBookingModal('${f.id}')" ${!canBook?'disabled':''}>
+    <button class="btn btn-primary btn-block" onclick="startBooking('${f.id}')" ${!canBook?'disabled':''}>
       ${canBook?'<i class="bi bi-check-circle"></i> Reservar':'<i class="bi bi-x-circle"></i> No disponible'}
     </button>
   </div>`;
 }
 
-// ── BOOKING MODAL ──
-window.openBookingModal = async function(flightId) {
+// ── BOOKING FLOW ──
+window.startBooking = async function(flightId) {
   const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
   if (!f) return;
-  selectedFlight = f;
-  const salida = new Date(f.fecha_salida);
+  selFlight = f;
+  selSeat = null;
+  curStep = 1;
+
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
-  document.getElementById('modal-flight-info').innerHTML = `
-    <div class="fsumm-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
-    <div class="fsumm-meta">
-      <i class="bi bi-calendar3"></i>${salida.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-      &nbsp;<i class="bi bi-clock"></i>${salida.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
-      &nbsp;<i class="bi bi-people"></i>${f.asientos_disponibles} asientos
+  const s = new Date(f.fecha_salida);
+  const fsummHtml = (extra='') => `
+    <div class="bk-fsumm-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
+    <div class="bk-fsumm-meta">
+      <i class="bi bi-calendar3 me-1"></i>${s.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+      &nbsp;<i class="bi bi-clock me-1"></i>${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+      &nbsp;<i class="bi bi-people me-1"></i>${f.asientos_disponibles} asientos
     </div>
-    <div class="fsumm-price">${cur} ${f.precio}</div>`;
-  document.getElementById('qr-amount').textContent = `${cur} ${f.precio}`;
-  const hasProfile = userProfile?.nombre && userProfile?.numero_documento;
-  document.getElementById('profile-incomplete-banner').style.display = hasProfile ? 'none' : 'flex';
+    <div class="bk-fsumm-price">${cur} ${f.precio}${extra}</div>`;
+  document.getElementById('bk-fsumm1').innerHTML = fsummHtml();
+  document.getElementById('bk-fsumm2').innerHTML = fsummHtml();
+  document.getElementById('bk-fsumm3').innerHTML = fsummHtml();
+  document.getElementById('qr-monto').textContent = `${cur} ${f.precio}`;
+
   const { data: pax } = await supabase.from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
   buildSeatMap((pax||[]).map(p=>p.asiento).filter(Boolean));
-  document.getElementById('modal-overlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
+  updateSteps(1);
+  showBookingPage();
 };
 
-window.closeModal = function() {
-  document.getElementById('modal-overlay').classList.remove('show');
-  document.body.style.overflow = '';
-};
-window.closeModalOutside = function(e) { if (e.target.id==='modal-overlay') closeModal(); };
+function showBookingPage() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
+  document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('act'));
+  document.getElementById('page-booking').classList.add('act');
+  document.getElementById('tb-title').textContent = 'Reservar vuelo';
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-backdrop').classList.remove('show');
+}
 
-// ── CONFIRM RESERVATION ──
+window.nextStep = function(step) {
+  if (step > curStep) {
+    // Validate before advancing
+    if (curStep === 1 && !selSeat) {
+      Swal2.fire({icon:'info',title:'Elige un asiento',text:'Selecciona tu asiento en el mapa para continuar.'});
+      return;
+    }
+    if (curStep === 2) {
+      const n = document.getElementById('p-nombre').value.trim();
+      const a = document.getElementById('p-apellido').value.trim();
+      const d = document.getElementById('p-num-doc').value.trim();
+      if (!n||!a||!d) { Swal2.fire({icon:'warning',title:'Campos requeridos',text:'Nombre, apellido y documento son obligatorios.'}); return; }
+    }
+  }
+  curStep = step;
+  updateSteps(step);
+  document.querySelectorAll('.bk-panel').forEach(p => p.classList.remove('act'));
+  document.getElementById(`bk-p${step}`).classList.add('act');
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+function updateSteps(cur) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`bk-s${i}`);
+    el.classList.remove('done','cur');
+    if (i < cur) el.classList.add('done');
+    else if (i === cur) el.classList.add('cur');
+    if (i < 4) {
+      const ln = document.getElementById(`bk-l${i}`);
+      ln.classList.toggle('done', i < cur);
+    }
+  }
+  // Replace check icon for step 4
+  const s4num = document.querySelector('#bk-s4 .bk-step-num');
+  if (cur === 4) s4num.innerHTML = '<i class="bi bi-check"></i>';
+  else s4num.textContent = '4';
+}
+
+// ── SEAT MAP ──
+function buildSeatMap(occ = []) {
+  selSeat = null;
+  const c = document.getElementById('seat-map');
+  const cols = ['A','B','C','D','E','F'];
+  let html = '<div class="seat-nose"></div>';
+  html += `<div class="seat-row"><div class="seat-rnum"></div>`;
+  cols.forEach((col,i) => { if(i===3) html+='<div class="seat-aisle"></div>'; html+=`<div style="width:26px;text-align:center;font-size:9px;color:var(--txt3);font-weight:700">${col}</div>`; });
+  html += '</div>';
+  for (let r = 1; r <= 20; r++) {
+    const fc = r <= 3;
+    if (r===4) html += '<div class="seat-wing-lbl">— Clase turista —</div>';
+    if (r===10) html += '<div class="seat-wing-lbl">✈ Zona alas</div>';
+    html += `<div class="seat-row"><div class="seat-rnum">${r}</div>`;
+    cols.forEach((col,i) => {
+      if(i===3) html += '<div class="seat-aisle"></div>';
+      const id = `${r}${col}`, isOcc = occ.includes(id);
+      const cls = isOcc ? 'occ' : (fc ? 'fav' : 'av');
+      html += `<div class="seat ${cls}" data-seat="${id}" onclick="pickSeat('${id}',${isOcc})" title="${id}">${id}</div>`;
+    });
+    html += '</div>';
+  }
+  c.innerHTML = html;
+  document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
+}
+window.pickSeat = function(id, occ) {
+  if (occ) return;
+  document.querySelectorAll('.seat.sel,.seat.fsel').forEach(s => {
+    s.classList.remove('sel','fsel');
+    s.classList.add(parseInt(s.dataset.seat)<=3?'fav':'av');
+  });
+  const el = document.querySelector(`.seat[data-seat="${id}"]`);
+  const isF = parseInt(id) <= 3;
+  if (el) { el.classList.remove('fav','av'); el.classList.add(isF?'fsel':'sel'); }
+  selSeat = id;
+  document.getElementById('seat-info').innerHTML =
+    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asiento <strong>${id}</strong> — <span class="badge ${isF?'b-warn':'b-info'}">${isF?'Primera clase':'Turista'}</span>`;
+};
+
+// ── CONFIRM ──
 window.confirmReservation = async function() {
-  const nombre = document.getElementById('p-nombre').value.trim();
-  const apellido = document.getElementById('p-apellido').value.trim();
-  const numDoc = document.getElementById('p-num-doc').value.trim();
-  if (!nombre||!apellido||!numDoc) { MySwal.fire({icon:'warning',title:'Campos requeridos',text:'Nombre, apellido y documento son obligatorios.'}); return; }
-  if (!selectedSeat) { MySwal.fire({icon:'info',title:'Selecciona un asiento',text:'Elige tu asiento en el mapa antes de continuar.'}); return; }
-  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selectedFlight.destino.includes(c));
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selFlight.destino.includes(c));
   const cur = intl?'USD $':'Bs.';
-  const res = await MySwal.fire({ icon:'question', title:'¿Confirmar reserva?',
-    html:`Vuelo <b>${city(selectedFlight.origen)} → ${city(selectedFlight.destino)}</b><br>Asiento: <b>${selectedSeat}</b><br>Total: <b>${cur} ${selectedFlight.precio}</b><br><br>Estado inicial: <b>pendiente</b> (hasta confirmar pago).`,
-    showCancelButton:true, confirmButtonText:'Sí, reservar', cancelButtonText:'Revisar' });
+  const res = await Swal2.fire({
+    icon:'question', title:'¿Confirmar reserva?',
+    html:`Vuelo <b>${city(selFlight.origen)} → ${city(selFlight.destino)}</b><br>Asiento: <b>${selSeat}</b><br>Total: <b>${cur} ${selFlight.precio}</b>`,
+    showCancelButton:true, confirmButtonText:'Sí, reservar', cancelButtonText:'Revisar'
+  });
   if (!res.isConfirmed) return;
-  const btn = document.getElementById('btn-confirm'), txt = document.getElementById('confirm-text');
-  btn.disabled=true; txt.textContent='Procesando…';
+  const btn = document.getElementById('btn-confirm'), txt = document.getElementById('confirm-txt');
+  btn.disabled = true; txt.textContent = 'Procesando…';
   try {
     const { data: reservation, error: rErr } = await supabase.from('reservations').insert({
-      user_id: currentUser.id, flight_id: selectedFlight.id,
-      estado: 'pendiente', precio_total: selectedFlight.precio, asiento: selectedSeat,
+      user_id: CU.id, flight_id: selFlight.id,
+      estado: 'pendiente', precio_total: selFlight.precio, asiento: selSeat,
     }).select().single();
     if (rErr) throw rErr;
+
     const { data: passenger, error: pErr } = await supabase.from('passengers').insert({
-      reservation_id: reservation.id, nombre, apellido,
+      reservation_id: reservation.id,
+      nombre: document.getElementById('p-nombre').value.trim(),
+      apellido: document.getElementById('p-apellido').value.trim(),
       tipo_documento: document.getElementById('p-tipo-doc').value,
-      numero_documento: numDoc,
+      numero_documento: document.getElementById('p-num-doc').value.trim(),
       correo: document.getElementById('p-correo').value,
       celular: document.getElementById('p-celular').value,
       fecha_nacimiento: document.getElementById('p-nacimiento').value||null,
       genero: document.getElementById('p-genero').value,
     }).select().single();
     if (pErr) throw pErr;
-    const asist = { discapacidad_auditiva: document.getElementById('a-auditiva').checked, movilidad_reducida: document.getElementById('a-movilidad').checked, discapacidad_visual: document.getElementById('a-visual').checked, asistencia_aeropuerto: document.getElementById('a-aeropuerto').checked };
+
+    const asist = {
+      discapacidad_auditiva: document.getElementById('a-auditiva').checked,
+      movilidad_reducida: document.getElementById('a-movilidad').checked,
+      discapacidad_visual: document.getElementById('a-visual').checked,
+      asistencia_aeropuerto: document.getElementById('a-aeropuerto').checked,
+    };
     if (Object.values(asist).some(v=>v)) await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
+
     const fi = document.getElementById('comprobante');
-    let comprobanteUrl = null;
+    let compUrl = null;
     if (fi.files[0]) {
       const file = fi.files[0], ext = file.name.split('.').pop(), path = `comprobantes/${reservation.id}.${ext}`;
       const { error: upErr } = await supabase.storage.from('payments').upload(path, file);
-      if (!upErr) { const { data: ud } = supabase.storage.from('payments').getPublicUrl(path); comprobanteUrl = ud.publicUrl; }
+      if (!upErr) { const { data: ud } = supabase.storage.from('payments').getPublicUrl(path); compUrl = ud.publicUrl; }
     }
-    await supabase.from('payments').insert({ reservation_id: reservation.id, monto: selectedFlight.precio, metodo:'transferencia_qr', comprobante_url: comprobanteUrl, estado: comprobanteUrl?'revisando':'pendiente' });
-    await supabase.from('flights').update({ asientos_disponibles: selectedFlight.asientos_disponibles-1 }).eq('id', selectedFlight.id);
-    closeModal();
-    await MySwal.fire({ icon:'success', title:'¡Reserva creada! ✈️',
-      html:`<p>Tu reserva está <b>pendiente de confirmación</b>.</p><p style="margin-top:8px">Asiento: <b style="color:var(--navy);font-size:18px">${selectedSeat}</b></p><p style="margin-top:8px;font-size:13px;color:#888">El boleto se emite cuando el equipo BOA verifique el pago.</p>`,
-      confirmButtonText:'Ver mis reservas' });
-    await loadDashboard(); await loadFlights(); showPage('mis-reservas', null);
+    await supabase.from('payments').insert({
+      reservation_id: reservation.id, monto: selFlight.precio,
+      metodo: 'transferencia_qr', comprobante_url: compUrl,
+      estado: compUrl ? 'revisando' : 'pendiente',
+    });
+    await supabase.from('flights').update({ asientos_disponibles: selFlight.asientos_disponibles - 1 }).eq('id', selFlight.id);
+
+    // Show ticket
+    showConfirmationTicket(reservation, passenger, selFlight, selSeat, cur);
+    nextStep(4);
+    await loadDashboard();
   } catch(err) {
-    MySwal.fire({ icon:'error', title:'Error', text: err.message||'No se pudo crear la reserva.' });
+    Swal2.fire({icon:'error',title:'Error',text:err.message||'No se pudo crear la reserva.'});
   } finally { btn.disabled=false; txt.textContent='Confirmar reserva'; }
 };
 
-window.cancelReservation = async function(id, estado) {
+function showConfirmationTicket(res, pax, f, seat, cur) {
+  const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
+  const iataMap = {'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM'};
+  const getI = str => { for (const [k,v] of Object.entries(iataMap)) if (str.includes(k)) return v; return str.slice(0,3).toUpperCase(); };
+  document.getElementById('confirm-sub').innerHTML = `Tu reserva está <b>pendiente de confirmación de pago</b>. Cuando el equipo BOA verifique tu transferencia se emitirá el boleto definitivo. Guarda los datos de tu vuelo:`;
+  document.getElementById('ticket-container').innerHTML = `
+    <div class="ticket">
+      <div class="tkt-hd">
+        <div><div class="tkt-airline">Boliviana de Aviación</div><div class="tkt-type">Resumen de reserva</div></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:22px;filter:brightness(0) invert(1);opacity:.7" alt="BOA"/>
+      </div>
+      <div class="tkt-route">
+        <div class="tkt-city"><div class="tkt-iata">${getI(f.origen)}</div><div class="tkt-cname">${city(f.origen)}</div></div>
+        <div class="tkt-arr"><i class="bi bi-airplane"></i></div>
+        <div class="tkt-city"><div class="tkt-iata">${getI(f.destino)}</div><div class="tkt-cname">${city(f.destino)}</div></div>
+      </div>
+      <div class="tkt-details">
+        <div><div class="tkt-dl">Pasajero</div><div class="tkt-dv">${pax.nombre} ${pax.apellido}</div></div>
+        <div><div class="tkt-dl">Fecha</div><div class="tkt-dv">${s.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+        <div><div class="tkt-dl">Salida</div><div class="tkt-dv">${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="tkt-dl">Llegada</div><div class="tkt-dv">${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="tkt-dl">Asiento</div><div class="tkt-dv" style="font-size:20px;color:var(--navy)">${seat}</div></div>
+        <div><div class="tkt-dl">Total</div><div class="tkt-dv">${cur} ${f.precio}</div></div>
+      </div>
+      <hr class="tkt-sep"/>
+      <div class="tkt-bot">
+        <div><div style="font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">ID Reserva</div><div style="font-family:monospace;font-size:11.5px;font-weight:700;color:var(--navy)">${res.id.slice(0,8).toUpperCase()}</div></div>
+        <div class="tkt-barcode"></div>
+        <img class="tkt-qr" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR"/>
+      </div>
+      <div class="tkt-pending"><i class="bi bi-hourglass-split"></i> PENDIENTE — En espera de confirmación de pago</div>
+    </div>`;
+}
+
+// ── SHOW CONFIRMED TICKET ──
+window.showTicket = async function(resId) {
+  const { data: r } = await supabase.from('reservations').select('*, flights(*), passengers(*)').eq('id', resId).single();
+  if (!r) return;
+  const f = r.flights, p = r.passengers?.[0];
+  const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
+  const iataMap = {'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM'};
+  const getI = str => { for (const [k,v] of Object.entries(iataMap)) if (str.includes(k)) return v; return str.slice(0,3).toUpperCase(); };
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
+  const cur = intl?'USD $':'Bs.';
+  await Swal2.fire({
+    width: 500, padding: '0',
+    showConfirmButton: true, confirmButtonText: 'Cerrar',
+    html: `<div class="ticket" style="margin:0;border-radius:0;box-shadow:none;border:none">
+      <div class="tkt-hd">
+        <div><div class="tkt-airline">Boliviana de Aviación</div><div class="tkt-type">Boleto de embarque</div></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" style="height:22px;filter:brightness(0) invert(1);opacity:.7" alt="BOA"/>
+      </div>
+      <div class="tkt-route">
+        <div class="tkt-city"><div class="tkt-iata">${getI(f.origen)}</div><div class="tkt-cname">${city(f.origen)}</div></div>
+        <div class="tkt-arr"><i class="bi bi-airplane"></i></div>
+        <div class="tkt-city"><div class="tkt-iata">${getI(f.destino)}</div><div class="tkt-cname">${city(f.destino)}</div></div>
+      </div>
+      <div class="tkt-details">
+        <div><div class="tkt-dl">Pasajero</div><div class="tkt-dv">${p?p.nombre+' '+p.apellido:'—'}</div></div>
+        <div><div class="tkt-dl">Fecha</div><div class="tkt-dv">${s.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+        <div><div class="tkt-dl">Salida</div><div class="tkt-dv">${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="tkt-dl">Llegada</div><div class="tkt-dv">${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <div><div class="tkt-dl">Asiento</div><div class="tkt-dv" style="font-size:20px;color:var(--navy)">${r.asiento||'—'}</div></div>
+        <div><div class="tkt-dl">Documento</div><div class="tkt-dv">${p?.numero_documento||'—'}</div></div>
+      </div>
+      <hr class="tkt-sep"/>
+      <div class="tkt-bot">
+        <div><div style="font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">ID Reserva</div><div style="font-family:monospace;font-size:11.5px;font-weight:700;color:var(--navy)">${resId.slice(0,8).toUpperCase()}</div></div>
+        <div class="tkt-barcode"></div>
+        <img class="tkt-qr" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR"/>
+      </div>
+      <div class="tkt-ok"><i class="bi bi-check-circle-fill"></i> CONFIRMADO — Preséntese 2h antes del vuelo</div>
+    </div>`,
+  });
+};
+
+// ── CANCEL ──
+window.cancelRes = async function(id, estado) {
   if (['cancelado','completado'].includes(estado)) return;
-  const res = await MySwal.fire({ icon:'warning', title:'¿Cancelar reserva?', text:'Esta acción no se puede deshacer.', showCancelButton:true, confirmButtonText:'Sí, cancelar', cancelButtonText:'Volver' });
+  const res = await Swal2.fire({icon:'warning',title:'¿Cancelar reserva?',text:'Esta acción no se puede deshacer.',showCancelButton:true,confirmButtonText:'Sí, cancelar',cancelButtonText:'Volver'});
   if (!res.isConfirmed) return;
-  await supabase.from('reservations').update({ estado:'cancelado' }).eq('id', id);
-  snack('ok','Reserva cancelada','La reserva fue cancelada correctamente.');
+  await supabase.from('reservations').update({estado:'cancelado'}).eq('id',id);
+  snack('s-ok','Reserva cancelada','La reserva fue cancelada correctamente.');
   await loadDashboard();
 };
 
+// ── PROFILE ──
 window.saveProfile = async function() {
   const { error } = await supabase.from('users_profile').upsert({
-    id: currentUser.id,
-    nombre: document.getElementById('prof-nombre').value.trim(),
-    apellido: document.getElementById('prof-apellido').value.trim(),
-    telefono: document.getElementById('prof-telefono').value.trim()||null,
-    fecha_nacimiento: document.getElementById('prof-nacimiento').value||null,
-    genero: document.getElementById('prof-genero').value||null,
-    tipo_documento: document.getElementById('prof-tipo-doc').value||null,
-    numero_documento: document.getElementById('prof-num-doc').value.trim()||null,
+    id: CU.id,
+    nombre: document.getElementById('pr-nombre').value.trim(),
+    apellido: document.getElementById('pr-apellido').value.trim(),
+    telefono: document.getElementById('pr-tel').value.trim()||null,
+    fecha_nacimiento: document.getElementById('pr-nac').value||null,
+    genero: document.getElementById('pr-genero').value||null,
+    tipo_documento: document.getElementById('pr-tipo-doc').value||null,
+    numero_documento: document.getElementById('pr-num-doc').value.trim()||null,
   });
-  if (error) MySwal.fire({ icon:'error', title:'Error', text: error.message });
-  else { await MySwal.fire({ icon:'success', title:'Perfil actualizado', text:'Tus datos fueron guardados.', confirmButtonText:'Listo' }); await init(); }
+  if (error) Swal2.fire({icon:'error',title:'Error',text:error.message});
+  else { await Swal2.fire({icon:'success',title:'Perfil actualizado',text:'Tus datos fueron guardados.',confirmButtonText:'Listo'}); await init(); }
 };
 
-window.sendPasswordReset = async function() {
-  const { error } = await supabase.auth.resetPasswordForEmail(currentUser.email, { redirectTo: window.location.origin+'/auth/login.html' });
-  if (error) MySwal.fire({ icon:'error', title:'Error', text: error.message });
-  else MySwal.fire({ icon:'success', title:'Correo enviado', text:'Revisa tu bandeja de entrada.' });
+window.sendPwReset = async function() {
+  const { error } = await supabase.auth.resetPasswordForEmail(CU.email, { redirectTo: window.location.origin+'/auth/login.html' });
+  if (error) Swal2.fire({icon:'error',title:'Error',text:error.message});
+  else Swal2.fire({icon:'success',title:'Correo enviado',text:'Revisa tu bandeja de entrada.'});
 };
 
 window.handleLogout = async function() {
-  const res = await MySwal.fire({ icon:'question', title:'¿Cerrar sesión?', showCancelButton:true, confirmButtonText:'Sí, salir', cancelButtonText:'Cancelar' });
+  const res = await Swal2.fire({icon:'question',title:'¿Cerrar sesión?',showCancelButton:true,confirmButtonText:'Sí, salir',cancelButtonText:'Cancelar'});
   if (!res.isConfirmed) return;
   await supabase.auth.signOut();
   window.location.href = '../../index.html';
 };
 
-window.showPage = function(page, navEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sb-nav-item').forEach(n => n.classList.remove('active'));
+// ── NAV ──
+window.goPage = function(page, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
+  document.getElementById('page-booking').classList.remove('act');
+  document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('act'));
   const el = document.getElementById('page-'+page);
-  if (el) el.classList.add('active');
-  if (navEl) navEl.classList.add('active');
-  else { const f = document.querySelector(`.sb-nav-item[data-page="${page}"]`); if (f) f.classList.add('active'); }
-  const titles = { dashboard:'Inicio', 'mis-reservas':'Mis Reservas', 'buscar-vuelos':'Buscar Vuelos', perfil:'Mi Perfil' };
-  document.getElementById('topbar-title').textContent = titles[page]||'Portal';
+  if (el) el.classList.add('act');
+  if (navEl) navEl.classList.add('act');
+  else { const f = document.querySelector(`.sb-item[data-page="${page}"]`); if (f) f.classList.add('act'); }
+  const titles = {dashboard:'Inicio','mis-reservas':'Mis Reservas','buscar-vuelos':'Buscar Vuelos',perfil:'Mi Perfil'};
+  document.getElementById('tb-title').textContent = titles[page]||'Portal';
   document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-backdrop').classList.remove('show');
-  document.body.style.overflow = '';
+  document.getElementById('sb-backdrop').classList.remove('show');
 };
 
-window.setMobileNav = function(page) {
-  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
-  const tab = document.getElementById('mnav-'+page);
-  if (tab) tab.classList.add('active');
+window.setMN = function(page) {
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('act'));
+  const t = document.getElementById('mn-'+page); if (t) t.classList.add('act');
 };
 
 window.toggleSidebar = function() {
   document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-backdrop').classList.toggle('show');
+  document.getElementById('sb-backdrop').classList.toggle('show');
 };
 
-function snack(type, title, msg) {
+function snack(type, ttl, msg) {
   const el = document.getElementById('snack');
-  el.querySelector('i').className = type==='ok' ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-circle-fill';
-  document.getElementById('snack-title').textContent = title;
+  el.querySelector('i').className = type==='s-ok'?'bi bi-check-circle-fill':'bi bi-exclamation-circle-fill';
+  document.getElementById('snack-ttl').textContent = ttl;
   document.getElementById('snack-msg').textContent = msg;
   el.className = `snack ${type} show`;
   setTimeout(() => el.classList.remove('show'), 4000);
 }
 
 function city(s) { return (s||'').replace(/\s*\([^)]*\)/,'').trim(); }
-function fmtEstado(e) { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
-function badgeClass(e) { return {confirmado:'badge-success',pendiente:'badge-warn',pago_en_revision:'badge-info',cancelado:'badge-danger',completado:'badge-muted'}[e]||'badge-muted'; }
+function fmtE(e) { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
+function bClass(e) { return {confirmado:'b-ok',pendiente:'b-warn',pago_en_revision:'b-info',cancelado:'b-err',completado:'b-mut'}[e]||'b-mut'; }
 
 document.getElementById('comprobante')?.addEventListener('change', function() {
-  document.getElementById('file-name').textContent = this.files[0]?.name || 'Sin archivo seleccionado';
+  document.getElementById('file-name').textContent = this.files[0]?.name||'Sin archivo';
 });
 
 init();

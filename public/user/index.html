@@ -771,6 +771,7 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 
 <script type="module">
 import { supabase } from '../../assets/js/supabase.js';
+import { uploadFile } from '../../assets/js/cloudinary.js';
 
 let CU = null, selFlight = null, selSeat = null, selClase = null, userProf = null, curStep = 1;
 
@@ -1218,9 +1219,11 @@ window.confirmReservation = async function() {
     const fi = document.getElementById('comprobante');
     let compUrl = null;
     if (fi.files[0]) {
-      const file = fi.files[0], ext = file.name.split('.').pop(), path = `comprobantes/${reservation.id}.${ext}`;
-      const { error: upErr } = await supabase.storage.from('payments').upload(path, file);
-      if (!upErr) { const { data: ud } = supabase.storage.from('payments').getPublicUrl(path); compUrl = ud.publicUrl; }
+      try {
+        compUrl = await uploadFile(fi.files[0], 'boa_comprobantes');
+      } catch (err) {
+        console.error('Error subiendo comprobante a Cloudinary:', err);
+      }
     }
     await supabase.from('payments').insert({
       reservation_id: reservation.id,

@@ -72,14 +72,12 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
 </head>
 <body>
 
-<!-- Loading overlay rol -->
 <div class="role-loading" id="role-loading">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
   <div class="rl-bar"><div class="rl-bar-inner"></div></div>
   <p id="role-loading-msg">Verificando sesión...</p>
 </div>
 
-<!-- LEFT -->
 <div class="left-panel">
   <canvas id="stars"></canvas>
   <div class="panel-content">
@@ -98,29 +96,22 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
   </div>
 </div>
 
-<!-- RIGHT -->
 <div class="right-panel">
   <span class="auth-tag">Boliviana de Aviación</span>
   <h1 class="auth-title">Iniciar Sesión</h1>
   <p class="auth-sub">¿Sin cuenta? <a href="register.html">Regístrate gratis</a></p>
-
   <div class="error-msg" id="error-msg"></div>
   <div class="success-msg" id="success-msg"></div>
-
   <form id="login-form" onsubmit="handleLogin(event)" novalidate>
     <div class="form-group">
       <label class="form-label" for="login-email">Correo electrónico</label>
-      <input class="form-input" type="email" id="login-email"
-             placeholder="tu@correo.com" required autocomplete="email"/>
+      <input class="form-input" type="email" id="login-email" placeholder="tu@correo.com" required autocomplete="email"/>
     </div>
     <div class="form-group">
       <label class="form-label" for="login-password">Contraseña</label>
       <div class="input-wrap">
-        <input class="form-input" type="password" id="login-password"
-               placeholder="••••••••" required autocomplete="current-password"/>
-        <button type="button" class="toggle-pass"
-                onclick="togglePass('login-password',this)"
-                aria-label="Mostrar contraseña">👁</button>
+        <input class="form-input" type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password"/>
+        <button type="button" class="toggle-pass" onclick="togglePass('login-password',this)" aria-label="Mostrar contraseña">👁</button>
       </div>
     </div>
     <div class="form-row">
@@ -135,9 +126,7 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
       <span id="btn-text">Ingresar</span>
     </button>
   </form>
-
   <div class="divider"><span>o continúa con</span></div>
-
   <button class="btn-google" id="btn-google" onclick="handleGoogle()">
     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -154,100 +143,110 @@ import { supabase } from '../assets/js/supabase.js';
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 
-async function getUserRole(userId) {
-  try {
-    const { data } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', userId)
-      .single();
-    return data?.role || 'user';
-  } catch {
-    return 'user';
-  }
-}
-
-function redirectByRole(role, searchParams) {
-  const base = '../';
-  if (searchParams?.get('redirect') === 'buscar') {
-    const p = new URLSearchParams({
-      origen:  searchParams.get('origen')  || '',
-      destino: searchParams.get('destino') || '',
-      fecha:   searchParams.get('fecha')   || '',
-    });
-    window.location.href = base + 'public/user/index.html?' + p;
-    return;
-  }
-  if (role === 'admin' || role === 'superadmin') {
-    window.location.href = base + 'public/admin/index.html';
-  } else {
-    window.location.href = base + 'public/user/index.html';
-  }
-}
-
-async function ensureProfile(user) {
-  const { data: existing } = await supabase
-    .from('users_profile').select('id').eq('id', user.id).single();
-  if (!existing) {
-    const meta = user.user_metadata || {};
-    const parts = (meta.full_name || meta.name || '').split(' ');
-    await supabase.from('users_profile').upsert({
-      id:       user.id,
-      nombre:   meta.nombre  || parts[0] || user.email.split('@')[0],
-      apellido: meta.apellido || parts.slice(1).join(' ') || '',
-    }, { onConflict: 'id' });
-  }
-  await supabase.from('user_roles').upsert(
-    { user_id: user.id, role: 'user' },
-    { onConflict: 'user_id', ignoreDuplicates: true }
-  );
-}
-
 function showLoading(msg) {
   document.getElementById('role-loading-msg').textContent = msg || 'Verificando sesión...';
   document.getElementById('role-loading').classList.add('show');
 }
 
-// ── DETECTAR SI ES REDIRECT DE OAUTH ─────────────────────────────────────────
-// Supabase pone los tokens en el hash (#) o como query params (?code=) al volver de Google.
-// Solo en ese caso debemos procesar el callback automáticamente.
-const isOAuthCallback =
-  window.location.hash.includes('access_token') ||
-  window.location.hash.includes('error_description') ||
-  new URLSearchParams(window.location.search).has('code');
-
-// ── VERIFICAR SESIÓN EXISTENTE (solo si NO es callback OAuth) ─────────────────
-// Si el usuario navega manualmente a /login con sesión activa → redirigir.
-// Si llega por redirect de Google → dejar que onAuthStateChange lo maneje.
-if (!isOAuthCallback) {
-  (async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return; // sin sesión, mostrar formulario normalmente
-
-    showLoading('Identificando tu perfil...');
-    const role = await getUserRole(user.id);
-    const params = new URLSearchParams(window.location.search);
-    redirectByRole(role, params);
-  })();
+function hideLoading() {
+  document.getElementById('role-loading').classList.remove('show');
 }
 
-// ── CALLBACK OAUTH ────────────────────────────────────────────────────────────
-// Solo actúa cuando la página cargó con tokens en la URL (redirect de Google).
-// El flag `oauthHandled` evita doble ejecución si el evento se dispara más de una vez.
-let oauthHandled = false;
+async function getUserRole(userId) {
+  try {
+    const { data } = await supabase
+      .from('user_roles').select('role').eq('user_id', userId).single();
+    return data?.role || 'user';
+  } catch { return 'user'; }
+}
+
+function redirectByRole(role) {
+  const base = '../';
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('redirect') === 'buscar') {
+    const p = new URLSearchParams({
+      origen: params.get('origen') || '',
+      destino: params.get('destino') || '',
+      fecha: params.get('fecha') || '',
+    });
+    window.location.replace(base + 'public/user/index.html?' + p);
+    return;
+  }
+  if (role === 'admin' || role === 'superadmin') {
+    window.location.replace(base + 'public/admin/index.html');
+  } else {
+    window.location.replace(base + 'public/user/index.html');
+  }
+}
+
+async function ensureProfile(user) {
+  try {
+    const { data: existing } = await supabase
+      .from('users_profile').select('id').eq('id', user.id).single();
+    if (!existing) {
+      const meta = user.user_metadata || {};
+      const parts = (meta.full_name || meta.name || '').split(' ');
+      await supabase.from('users_profile').upsert({
+        id: user.id,
+        email: user.email,
+        nombre: meta.nombre || parts[0] || user.email.split('@')[0],
+        apellido: meta.apellido || parts.slice(1).join(' ') || '',
+      }, { onConflict: 'id' });
+    }
+    await supabase.from('user_roles').upsert(
+      { user_id: user.id, role: 'user' },
+      { onConflict: 'user_id', ignoreDuplicates: true }
+    );
+  } catch (e) {
+    console.warn('ensureProfile error:', e);
+  }
+}
+
+// ── DETECTAR TIPO DE CARGA ────────────────────────────────────────────────────
+// Caso 1: Supabase redirect con tokens en el hash (#access_token=...) → OAuth callback
+// Caso 2: Supabase redirect con code en query (?code=...) → PKCE OAuth callback
+// Caso 3: Link mágico desde email → también tiene tokens en hash, pero queremos
+//         que el usuario simplemente quede en el login y entre solo (no redirigir
+//         a otra página de forma automática sin que el usuario lo decida)
+// Solución: si hay sesión activa AL CARGAR → redirigir. Si hay hash de OAuth → procesar.
+
+const hash = window.location.hash;
+const search = window.location.search;
+const hasOAuthHash = hash.includes('access_token') || hash.includes('error_description');
+const hasOAuthCode = new URLSearchParams(search).has('code');
+const isOAuthCallback = hasOAuthHash || hasOAuthCode;
+
+// ── SESIÓN YA ACTIVA (usuario navegó aquí ya logueado, o viene de magic link) ─
+// getSession() lee la sesión actual del localStorage sin hacer red.
+// Si hay sesión → redirigir directo.
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.user && !isOAuthCallback) {
+    // Ya tiene sesión activa y no es un callback OAuth fresco
+    showLoading('Identificando tu perfil...');
+    const role = await getUserRole(session.user.id);
+    redirectByRole(role);
+  }
+})();
+
+// ── PROCESAR CALLBACK OAUTH (Google o magic link con token en hash) ───────────
+// onAuthStateChange se dispara cuando Supabase procesa el token del hash/code.
+// Usamos un flag para evitar doble ejecución.
+let oauthDone = false;
 
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (!isOAuthCallback) return;           // no es callback → ignorar
-  if (oauthHandled) return;               // ya procesado → ignorar
-  if (event !== 'SIGNED_IN') return;      // solo nos interesa SIGNED_IN
+  if (!isOAuthCallback) return;
+  if (oauthDone) return;
   if (!session?.user) return;
+  // Solo procesamos SIGNED_IN (no TOKEN_REFRESHED, etc.)
+  if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return;
 
-  oauthHandled = true;
+  oauthDone = true;
   showLoading('Configurando tu cuenta...');
+
   await ensureProfile(session.user);
   const role = await getUserRole(session.user.id);
-  const params = new URLSearchParams(window.location.search);
-  redirectByRole(role, params);
+  redirectByRole(role);
 });
 
 // ── LOGIN EMAIL / CONTRASEÑA ──────────────────────────────────────────────────
@@ -263,7 +262,6 @@ window.handleLogin = async function(e) {
 
   errEl.classList.remove('show');
   sucEl.classList.remove('show');
-
   btn.disabled = true;
   spinner.style.display = 'block';
   btnTxt.textContent = 'Ingresando...';
@@ -272,21 +270,25 @@ window.handleLogin = async function(e) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      let msg = 'Correo o contraseña incorrectos.';
       const m = error.message?.toLowerCase() || '';
+      let msg = 'Correo o contraseña incorrectos.';
       if (m.includes('email not confirmed'))
-        msg = 'Debes confirmar tu correo antes de ingresar. Revisa tu bandeja de entrada.';
-      else if (m.includes('invalid login'))
+        msg = 'Tu correo aún no está confirmado. Revisa tu bandeja de entrada o pide al administrador que desactive la confirmación en Supabase.';
+      else if (m.includes('invalid login') || m.includes('invalid credentials'))
         msg = 'Correo o contraseña incorrectos. Verifica tus datos.';
       else if (m.includes('too many'))
         msg = 'Demasiados intentos. Espera unos minutos e intenta de nuevo.';
+      else if (m.includes('network') || m.includes('fetch'))
+        msg = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+      else
+        msg = error.message;
       throw new Error(msg);
     }
 
     showLoading('Accediendo a tu panel...');
+    await ensureProfile(data.user);
     const role = await getUserRole(data.user.id);
-    const params = new URLSearchParams(window.location.search);
-    redirectByRole(role, params);
+    redirectByRole(role);
 
   } catch (err) {
     errEl.textContent = err.message;
@@ -294,26 +296,37 @@ window.handleLogin = async function(e) {
     btn.disabled = false;
     spinner.style.display = 'none';
     btnTxt.textContent = 'Ingresar';
-    document.getElementById('role-loading').classList.remove('show');
+    hideLoading();
   }
 };
 
 // ── LOGIN GOOGLE ──────────────────────────────────────────────────────────────
 window.handleGoogle = async function() {
   const btn = document.getElementById('btn-google');
+  const errEl = document.getElementById('error-msg');
+  errEl.classList.remove('show');
   btn.disabled = true;
+
+  // redirectTo debe apuntar exactamente a esta página para que Supabase
+  // devuelva el token aquí y onAuthStateChange lo procese.
+  const redirectTo = window.location.origin + window.location.pathname;
+
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.href,
-      queryParams: { prompt: 'select_account' }
+      redirectTo,
+      queryParams: { prompt: 'select_account' },
+      // skipBrowserRedirect: false  ← default, el browser redirige a Google
     }
   });
+
   if (error) {
-    document.getElementById('error-msg').textContent = 'Error con Google: ' + error.message;
-    document.getElementById('error-msg').classList.add('show');
+    errEl.textContent = 'Error con Google: ' + error.message;
+    errEl.classList.add('show');
     btn.disabled = false;
   }
+  // Si no hay error, el browser redirige a Google automáticamente.
+  // Al volver, isOAuthCallback será true y onAuthStateChange manejará el resto.
 };
 
 // ── UI HELPERS ────────────────────────────────────────────────────────────────
@@ -327,6 +340,7 @@ window.togglePass = function(id, btn) {
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [];
+
 function initStars() {
   canvas.width  = canvas.parentElement.offsetWidth;
   canvas.height = canvas.parentElement.offsetHeight;
@@ -335,9 +349,10 @@ function initStars() {
     y: Math.random() * canvas.height,
     r: Math.random() * 1.2 + 0.2,
     a: Math.random(),
-    d: (Math.random() * 0.006 + 0.002) * (Math.random() < 0.5 ? 1 : -1)
+    d: (Math.random() * 0.006 + 0.002) * (Math.random() < 0.5 ? 1 : -1),
   }));
 }
+
 function drawStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   stars.forEach(s => {
@@ -350,6 +365,7 @@ function drawStars() {
   });
   requestAnimationFrame(drawStars);
 }
+
 initStars();
 drawStars();
 window.addEventListener('resize', initStars);

@@ -1368,21 +1368,31 @@ window.handleLogout = async function() {
 
 // ── NAV ──
 window.goPage = function(page, navEl) {
+  // Ocultar todas las páginas
   document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
   document.getElementById('page-booking').classList.remove('act');
+  // Desactivar sidebar links
   document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('act'));
-  const el = document.getElementById('page-'+page);
+  // Mostrar la página correcta
+  const el = document.getElementById('page-' + page);
   if (el) el.classList.add('act');
+  // Activar sidebar link
   if (navEl) navEl.classList.add('act');
   else { const f = document.querySelector(`.sb-item[data-page="${page}"]`); if (f) f.classList.add('act'); }
-  const titles = {dashboard:'Inicio','mis-reservas':'Mis Reservas','buscar-vuelos':'Buscar Vuelos',perfil:'Mi Perfil'};
-  document.getElementById('tb-title').textContent = titles[page]||'Portal';
+  // Actualizar título topbar
+  const titles = { dashboard:'Inicio', 'mis-reservas':'Mis Reservas', 'buscar-vuelos':'Buscar Vuelos', perfil:'Mi Perfil' };
+  document.getElementById('tb-title').textContent = titles[page] || 'Portal';
+  // Cerrar sidebar mobile
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sb-backdrop').classList.remove('show');
+  // Sincronizar bottom nav automáticamente
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('act'));
+  const bt = document.getElementById('mn-' + page);
+  if (bt) bt.classList.add('act');
 };
 window.setMN = function(page) {
   document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('act'));
-  const t = document.getElementById('mn-'+page); if (t) t.classList.add('act');
+  const t = document.getElementById('mn-' + page); if (t) t.classList.add('act');
 };
 window.toggleSidebar = function() {
   document.getElementById('sidebar').classList.toggle('open');

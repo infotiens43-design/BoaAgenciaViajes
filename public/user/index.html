@@ -172,6 +172,9 @@ tbody tr:hover td{background:var(--bg)}
 .b-err {background:#FEE4E4;color:#8B1212;border:1px solid #FECACA}
 .b-info{background:#E0ECFF;color:#1040A0;border:1px solid #BFDBFE}
 .b-mut {background:var(--surf2);color:var(--txt3);border:1px solid var(--bdr)}
+/* Clase badges */
+.b-turista{background:#DBEAFE;color:#1D4ED8;border:1px solid #93C5FD}
+.b-ejecutivo{background:#FEF3C7;color:#92400E;border:1px solid #FCD34D}
 
 /* ── FORMS ── */
 .fg{display:flex;flex-direction:column;gap:5px}
@@ -190,7 +193,7 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .empty p{color:var(--txt2);font-size:13.5px;max-width:240px}
 
 /* ── FLIGHT SEARCH ── */
-.search-bar{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:1fr 1fr 150px 140px auto;gap:10px;margin-bottom:18px;align-items:end;box-shadow:var(--sh)}
+.search-bar{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:1fr 1fr 130px 120px 120px auto;gap:10px;margin-bottom:18px;align-items:end;box-shadow:var(--sh)}
 .flights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
 .flight-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column;gap:12px}
 .flight-card:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--bdr2)}
@@ -200,13 +203,32 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .fc-meta-row{display:flex;justify-content:space-between;align-items:flex-end}
 .fc-times{font-size:12px;color:var(--txt2);line-height:1.85}
 .fc-times i{color:var(--txt3);margin-right:3px}
-.fc-price{font-family:var(--fh);font-size:21px;color:var(--navy);text-align:right}
+/* FIX: precios más visibles */
+.fc-price-block{text-align:right}
+.fc-price-turista{font-family:var(--fh);font-size:20px;color:var(--info);font-weight:700}
+.fc-price-ejecutivo{font-family:var(--fh);font-size:18px;color:var(--gold);font-weight:700}
+.fc-price-label{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt3);margin-top:1px}
 .fc-seats{font-size:11px;color:var(--txt3);text-align:right;margin-top:1px}
 
-/* ── BOOKING FLOW (página completa por pasos) ── */
+/* ── CLASE SELECTOR ── */
+.clase-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.clase-opt{border:2px solid var(--bdr);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .2s;text-align:center;background:var(--bg);position:relative;overflow:hidden}
+.clase-opt:hover{border-color:var(--bdr2);background:var(--surf)}
+.clase-opt.sel-turista{border-color:#3B82F6;background:#EFF6FF}
+.clase-opt.sel-ejecutivo{border-color:var(--gold);background:#FFFBEB}
+.clase-opt-icon{font-size:28px;margin-bottom:6px}
+.clase-opt-name{font-weight:700;font-size:14px;color:var(--txt)}
+.clase-opt-price{font-family:var(--fh);font-size:22px;margin:4px 0}
+.clase-opt-price.turista{color:#1D4ED8}
+.clase-opt-price.ejecutivo{color:var(--gold)}
+.clase-opt-desc{font-size:11px;color:var(--txt3);line-height:1.4}
+.clase-opt-check{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:11px;color:#fff}
+.clase-opt.sel-turista .clase-opt-check{display:flex;background:#3B82F6}
+.clase-opt.sel-ejecutivo .clase-opt-check{display:flex;background:var(--gold)}
+
+/* ── BOOKING FLOW ── */
 #page-booking{display:none;padding:24px 22px;animation:fadeUp .25s var(--ease) both}
 #page-booking.act{display:block}
-
 .booking-wrap{max-width:700px;margin:0 auto}
 
 /* Progress */
@@ -220,8 +242,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .bk-step.done .bk-step-lbl,.bk-step.cur .bk-step-lbl{color:var(--txt)}
 .bk-line{flex:1;height:2px;background:var(--bdr);margin:0 8px;border-radius:99px;transition:background .25s}
 .bk-line.done{background:var(--ok)}
-
-/* Step panels */
 .bk-panel{display:none}
 .bk-panel.act{display:block;animation:fadeUp .22s var(--ease) both}
 
@@ -230,7 +250,10 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .bk-fsumm-route{font-family:var(--fh);font-size:18px;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:3px}
 .bk-fsumm-route i{font-size:12px;color:var(--goldf)}
 .bk-fsumm-meta{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.8}
-.bk-fsumm-price{font-family:var(--fh);font-size:22px;color:#fff;margin-top:6px}
+.bk-fsumm-price{font-family:var(--fh);font-size:22px;color:#fff;margin-top:6px;display:flex;align-items:center;gap:8px}
+.bk-clase-badge{font-size:11px;font-weight:700;padding:2px 10px;border-radius:99px;margin-top:2px}
+.bk-clase-badge.turista{background:rgba(59,130,246,0.25);color:#93C5FD}
+.bk-clase-badge.ejecutivo{background:rgba(201,149,42,0.3);color:var(--goldf)}
 
 /* Seat map */
 .seat-map-wrap{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--rs);padding:14px}
@@ -246,9 +269,9 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .seat.av:hover{background:#93C5FD;transform:scale(1.12)}
 .seat.occ{background:#F1F5F9;border-color:#E2E8F0;color:#CBD5E1;cursor:not-allowed}
 .seat.sel{background:var(--navy);border-color:var(--navy);color:#fff;transform:scale(1.1)}
-.seat.fav{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
-.seat.fav:hover{background:#FCD34D;transform:scale(1.12)}
-.seat.fsel{background:var(--gold);border-color:var(--gold);color:#fff;transform:scale(1.1)}
+.seat.ej{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
+.seat.ej:hover{background:#FCD34D;transform:scale(1.12)}
+.seat.ejsel{background:var(--gold);border-color:var(--gold);color:#fff;transform:scale(1.1)}
 .seat-wing-lbl{text-align:center;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin:4px 0}
 .seat-info{text-align:center;margin-top:10px;font-size:13px;color:var(--txt2)}
 
@@ -258,11 +281,13 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .assist-item:has(input:checked){border-color:var(--navy2);background:rgba(11,31,75,0.05);color:var(--navy);font-weight:600}
 .assist-item input{accent-color:var(--navy);width:14px;height:14px;flex-shrink:0}
 
-/* QR / Pago */
-.qr-card{background:linear-gradient(160deg,#EEF4FF,#E4EDFB);border:1px solid rgba(11,31,75,0.1);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;align-items:center;gap:13px}
-.qr-ttl{font-weight:700;font-size:13px;color:var(--navy);text-align:center}
-.qr-img{width:130px;height:130px;border-radius:var(--rs);border:3px solid #fff;box-shadow:var(--sh);object-fit:contain;background:#fff}
-.qr-amount{font-family:var(--fh);font-size:22px;color:var(--navy);text-align:center}
+/* ── QR GRANDE Y RESPONSIVE ── */
+.qr-card{background:linear-gradient(160deg,#EEF4FF,#E4EDFB);border:1px solid rgba(11,31,75,0.1);border-radius:var(--r);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.qr-ttl{font-weight:700;font-size:14px;color:var(--navy);text-align:center}
+/* FIX: QR grande y adaptado a pantalla */
+.qr-img{width:min(240px,78vw);height:min(240px,78vw);border-radius:var(--rs);border:4px solid #fff;box-shadow:var(--sh2);object-fit:contain;background:#fff}
+.qr-amount{font-family:var(--fh);font-size:26px;color:var(--navy);text-align:center;font-weight:800}
+.qr-clase-info{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txt2);text-align:center}
 .qr-bank{background:#fff;border:1px solid var(--bdr);border-radius:var(--rs);padding:12px 14px;width:100%;font-size:12px;color:var(--txt2)}
 .qr-bank strong{display:block;font-size:12.5px;color:var(--txt);font-weight:700;margin-bottom:6px}
 .qr-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--bdr)}
@@ -345,7 +370,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   .search-bar{grid-template-columns:1fr 1fr 1fr}
   .search-bar .btn{grid-column:1/-1}
 }
-
 /* ── RESPONSIVE 768 ── */
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%)}
@@ -359,7 +383,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:9px}
   .stat-val{font-size:23px}
   .search-bar{grid-template-columns:1fr 1fr;padding:12px;gap:8px}
-  .search-bar .fg:nth-child(3){grid-column:span 1}
   .search-bar .btn{grid-column:1/-1}
   .flights-grid{grid-template-columns:1fr}
   .row2{grid-template-columns:1fr}
@@ -372,17 +395,18 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   .bk-step-lbl{display:none}
   .booking-wrap{max-width:none}
   .tkt-details{grid-template-columns:repeat(2,1fr)}
-  .qr-card{padding:14px}
+  .qr-card{padding:16px 10px}
   .nf-banner{padding:14px 16px}
   .nf-route{font-size:18px}
+  .clase-selector{grid-template-columns:1fr 1fr}
 }
-
 @media(max-width:480px){
   .stats-grid{grid-template-columns:1fr 1fr;gap:8px}
   .stat-card{padding:13px 14px}
   .search-bar{grid-template-columns:1fr}
   .flight-card{padding:13px 14px}
   .page-ttl{font-size:22px}
+  .clase-selector{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -463,7 +487,7 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       </div>
       <div class="sec-hd"><span class="sec-ttl">Últimas reservas</span><button class="sec-lnk" onclick="goPage('mis-reservas',null)">Ver todas <i class="bi bi-arrow-right"></i></button></div>
       <div class="card" id="recent-wrap" style="margin-bottom:24px"><div class="empty"><i class="bi bi-hourglass-split empty-ic"></i><p>Cargando…</p></div></div>
-      <div class="sec-hd"><span class="sec-ttl">Vuelos recomendados</span><button class="sec-lnk" onclick="goPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button></div>
+      <div class="sec-hd"><span class="sec-ttl">Vuelos disponibles</span><button class="sec-lnk" onclick="goPage('buscar-vuelos',null)">Ver todos <i class="bi bi-arrow-right"></i></button></div>
       <div class="flights-grid" id="rec-flights"></div>
     </div>
 
@@ -489,6 +513,15 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
             <option value="abordando">Abordando</option>
           </select>
         </div>
+        <!-- FIX: selector de cantidad de pasajeros -->
+        <div class="fg"><label class="fg-lbl">Pasajeros</label>
+          <select class="fc" id="f-pax">
+            <option value="1">1 pasajero</option>
+            <option value="2">2 pasajeros</option>
+            <option value="3">3 pasajeros</option>
+            <option value="4">4 pasajeros</option>
+          </select>
+        </div>
         <button class="btn btn-primary" onclick="loadFlights()" style="align-self:flex-end"><i class="bi bi-search"></i> Buscar</button>
       </div>
       <div class="flights-grid" id="flights-grid">
@@ -502,43 +535,82 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
         <div class="page-ey">Reservar vuelo</div>
         <h1 class="page-ttl" style="margin-bottom:22px">Tu <span>Reserva</span></h1>
 
-        <!-- Steps indicator -->
         <div class="bk-steps" id="bk-steps">
-          <div class="bk-step cur" id="bk-s1"><div class="bk-step-num">1</div><div class="bk-step-lbl">Asiento</div></div>
+          <div class="bk-step cur" id="bk-s1"><div class="bk-step-num">1</div><div class="bk-step-lbl">Clase</div></div>
           <div class="bk-line" id="bk-l1"></div>
-          <div class="bk-step" id="bk-s2"><div class="bk-step-num">2</div><div class="bk-step-lbl">Datos</div></div>
+          <div class="bk-step" id="bk-s2"><div class="bk-step-num">2</div><div class="bk-step-lbl">Asiento</div></div>
           <div class="bk-line" id="bk-l2"></div>
-          <div class="bk-step" id="bk-s3"><div class="bk-step-num">3</div><div class="bk-step-lbl">Pago</div></div>
+          <div class="bk-step" id="bk-s3"><div class="bk-step-num">3</div><div class="bk-step-lbl">Datos</div></div>
           <div class="bk-line" id="bk-l3"></div>
-          <div class="bk-step" id="bk-s4"><div class="bk-step-num"><i class="bi bi-check"></i></div><div class="bk-step-lbl">¡Listo!</div></div>
+          <div class="bk-step" id="bk-s4"><div class="bk-step-num">4</div><div class="bk-step-lbl">Pago</div></div>
+          <div class="bk-line" id="bk-l4"></div>
+          <div class="bk-step" id="bk-s5"><div class="bk-step-num"><i class="bi bi-check"></i></div><div class="bk-step-lbl">¡Listo!</div></div>
         </div>
 
-        <!-- PASO 1: Asiento -->
+        <!-- PASO 1: Elegir clase -->
         <div class="bk-panel act" id="bk-p1">
           <div class="bk-fsumm" id="bk-fsumm1"></div>
           <div class="card">
-            <div class="card-hd"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i><span class="card-hd-ttl">Elige tu asiento</span></div>
+            <div class="card-hd"><i class="bi bi-award" style="color:var(--gold)"></i><span class="card-hd-ttl">Elige tu clase de vuelo</span></div>
             <div class="card-bd">
-              <div class="seat-map-wrap">
-                <div class="seat-legend">
-                  <span><span class="leg-dot" style="background:#DBEAFE;border:1px solid #93C5FD"></span>Disponible</span>
-                  <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
-                  <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
-                  <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>1ª clase</span>
+              <p style="font-size:13px;color:var(--txt2);margin-bottom:14px">Selecciona la experiencia de viaje que prefieres. El precio varía según la clase.</p>
+              <div class="clase-selector" id="clase-selector">
+                <div class="clase-opt" id="opt-turista" onclick="pickClase('turista')">
+                  <div class="clase-opt-check"><i class="bi bi-check"></i></div>
+                  <div class="clase-opt-icon">🪑</div>
+                  <div class="clase-opt-name">Turista</div>
+                  <div class="clase-opt-price turista" id="price-turista">Bs. —</div>
+                  <div class="clase-opt-desc">Asientos estándar cómodos · Servicio a bordo incluido · Filas 4–20</div>
                 </div>
-                <div class="seat-plane" id="seat-map"></div>
-                <div class="seat-info" id="seat-info"><i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo</div>
+                <div class="clase-opt" id="opt-ejecutivo" onclick="pickClase('ejecutivo')">
+                  <div class="clase-opt-check"><i class="bi bi-check"></i></div>
+                  <div class="clase-opt-icon">⭐</div>
+                  <div class="clase-opt-name">Ejecutivo</div>
+                  <div class="clase-opt-price ejecutivo" id="price-ejecutivo">Bs. —</div>
+                  <div class="clase-opt-desc">Asientos premium · Check-in prioritario · Mayor espacio · Filas 1–3</div>
+                </div>
+              </div>
+              <!-- Cantidad pasajeros visible en el paso -->
+              <div style="margin-top:14px;padding:12px 14px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <i class="bi bi-people" style="color:var(--navy);font-size:17px"></i>
+                <span style="font-size:13px;color:var(--txt2)">Cantidad de pasajeros:</span>
+                <strong id="pax-display" style="font-size:15px;color:var(--navy)">1</strong>
+                <span style="font-size:12px;color:var(--txt3)">(ajusta en el buscador si necesitas cambiar)</span>
               </div>
             </div>
           </div>
           <div class="bk-nav"><div></div><div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(2)">Continuar <i class="bi bi-arrow-right"></i></button></div></div>
         </div>
 
-        <!-- PASO 2: Datos del pasajero -->
+        <!-- PASO 2: Asiento -->
         <div class="bk-panel" id="bk-p2">
           <div class="bk-fsumm" id="bk-fsumm2"></div>
+          <div class="card">
+            <div class="card-hd"><i class="bi bi-grid-3x3" style="color:var(--navy)"></i><span class="card-hd-ttl">Elige tu asiento</span></div>
+            <div class="card-bd">
+              <div class="seat-map-wrap">
+                <div class="seat-legend">
+                  <span><span class="leg-dot" style="background:#DBEAFE;border:1px solid #93C5FD"></span>Turista disponible</span>
+                  <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
+                  <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
+                  <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>Ejecutivo disponible</span>
+                </div>
+                <div class="seat-plane" id="seat-map"></div>
+                <div class="seat-info" id="seat-info"><i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo</div>
+              </div>
+            </div>
+          </div>
+          <div class="bk-nav">
+            <button class="btn btn-ghost" onclick="nextStep(1)"><i class="bi bi-arrow-left"></i> Volver</button>
+            <div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(3)">Continuar <i class="bi bi-arrow-right"></i></button></div>
+          </div>
+        </div>
+
+        <!-- PASO 3: Datos del pasajero -->
+        <div class="bk-panel" id="bk-p3">
+          <div class="bk-fsumm" id="bk-fsumm3"></div>
           <div class="card" style="margin-bottom:14px">
-            <div class="card-hd"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-hd-ttl">Datos del pasajero</span></div>
+            <div class="card-hd"><i class="bi bi-person-fill" style="color:var(--gold)"></i><span class="card-hd-ttl">Datos del pasajero principal</span></div>
             <div class="card-bd">
               <div class="row2">
                 <div class="fg"><label class="fg-lbl">Nombre *</label><input class="fc" id="p-nombre" placeholder="Tu nombre"/></div>
@@ -574,29 +646,35 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
             </div>
           </div>
           <div class="bk-nav">
-            <button class="btn btn-ghost" onclick="nextStep(1)"><i class="bi bi-arrow-left"></i> Volver</button>
-            <div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(3)">Continuar <i class="bi bi-arrow-right"></i></button></div>
+            <button class="btn btn-ghost" onclick="nextStep(2)"><i class="bi bi-arrow-left"></i> Volver</button>
+            <div class="bk-nav-r"><button class="btn btn-primary" onclick="nextStep(4)">Continuar <i class="bi bi-arrow-right"></i></button></div>
           </div>
         </div>
 
-        <!-- PASO 3: Pago -->
-        <div class="bk-panel" id="bk-p3">
-          <div class="bk-fsumm" id="bk-fsumm3"></div>
+        <!-- PASO 4: Pago -->
+        <div class="bk-panel" id="bk-p4">
+          <div class="bk-fsumm" id="bk-fsumm4"></div>
           <div class="card" style="margin-bottom:14px">
             <div class="card-hd"><i class="bi bi-qr-code" style="color:var(--navy)"></i><span class="card-hd-ttl">Pago por transferencia</span></div>
             <div class="card-bd">
+              <!-- FIX: QR grande centrado, monto + clase visible -->
               <div class="qr-card">
-                <div class="qr-ttl"><i class="bi bi-qr-code me-1"></i>Escanea para pagar</div>
+                <div class="qr-ttl"><i class="bi bi-qr-code-scan" style="margin-right:5px"></i>Escanea con tu banco para pagar</div>
                 <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR BOA"/>
                 <div class="qr-amount" id="qr-monto">Bs. —</div>
+                <div class="qr-clase-info" id="qr-clase-info">
+                  <span class="badge b-info" id="qr-clase-badge">Turista</span>
+                  <span id="qr-pax-info">· 1 pasajero</span>
+                  <span id="qr-asiento-info">· Asiento —</span>
+                </div>
                 <div class="qr-bank">
-                  <strong><i class="bi bi-bank me-1"></i>Datos bancarios</strong>
+                  <strong><i class="bi bi-bank" style="margin-right:5px"></i>Datos bancarios</strong>
                   <div class="qr-row"><span>Banco</span><span>Banco Unión S.A.</span></div>
                   <div class="qr-row"><span>Cuenta</span><span>1-1234567</span></div>
                   <div class="qr-row"><span>Titular</span><span>Boliviana de Aviación</span></div>
                   <div class="qr-row"><span>Moneda</span><span>BOB</span></div>
                 </div>
-                <div class="qr-note"><i class="bi bi-info-circle me-1"></i>Realiza la transferencia y adjunta el comprobante. Tu boleto se emite cuando el equipo BOA confirme el pago.</div>
+                <div class="qr-note"><i class="bi bi-info-circle" style="margin-right:5px"></i>Realiza la transferencia y adjunta el comprobante. Tu boleto se emite cuando el equipo BOA confirme el pago.</div>
               </div>
               <div class="upload-box" style="margin-top:14px">
                 <span class="upload-lbl"><i class="bi bi-upload"></i> Comprobante de pago</span>
@@ -610,19 +688,19 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
             </div>
           </div>
           <div class="bk-nav">
-            <button class="btn btn-ghost" onclick="nextStep(2)"><i class="bi bi-arrow-left"></i> Volver</button>
+            <button class="btn btn-ghost" onclick="nextStep(3)"><i class="bi bi-arrow-left"></i> Volver</button>
             <div class="bk-nav-r">
               <button class="btn btn-primary btn-lg" id="btn-confirm" onclick="confirmReservation()"><i class="bi bi-check-circle"></i> <span id="confirm-txt">Confirmar reserva</span></button>
             </div>
           </div>
         </div>
 
-        <!-- PASO 4: Confirmación -->
-        <div class="bk-panel" id="bk-p4">
+        <!-- PASO 5: Confirmación -->
+        <div class="bk-panel" id="bk-p5">
           <div class="confirm-screen">
             <div class="confirm-ic"><i class="bi bi-airplane-fill"></i></div>
             <div class="confirm-ttl">¡Reserva creada!</div>
-            <div class="confirm-sub" id="confirm-sub">Tu reserva está pendiente de confirmación de pago. El equipo BOA emitirá tu boleto al verificar la transferencia.</div>
+            <div class="confirm-sub" id="confirm-sub">Tu reserva está pendiente de confirmación de pago.</div>
           </div>
           <div id="ticket-container" style="margin-bottom:20px"></div>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
@@ -694,7 +772,14 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <script type="module">
 import { supabase } from '../../assets/js/supabase.js';
 
-let CU = null, selFlight = null, selSeat = null, userProf = null, curStep = 1;
+let CU = null, selFlight = null, selSeat = null, selClase = null, userProf = null, curStep = 1;
+
+// Precios por clase: ejecutivo = precio * 1.8
+const EJECUTIVO_MULT = 1.8;
+function precioClase(base, clase) {
+  return clase === 'ejecutivo' ? Math.round(base * EJECUTIVO_MULT) : base;
+}
+
 const Swal2 = Swal.mixin({ buttonsStyling: true });
 
 // ── INIT ──
@@ -725,7 +810,6 @@ async function init() {
     document.getElementById('pr-tipo-doc').value = prof.tipo_documento||'';
     document.getElementById('pr-num-doc').value = prof.numero_documento||'';
   }
-  // Prefill booking form
   document.getElementById('p-nombre').value = prof?.nombre || nombre;
   document.getElementById('p-apellido').value = prof?.apellido || apellido;
   document.getElementById('p-num-doc').value = prof?.numero_documento||'';
@@ -752,14 +836,11 @@ async function loadDashboard() {
   const { data: res } = await supabase.from('reservations').select('*, flights(*)')
     .eq('user_id', CU.id).order('created_at', { ascending: false });
   const list = res || [];
-  const total = list.length;
-  const conf  = list.filter(r => r.estado === 'confirmado').length;
-  const pend  = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
-  const comp  = list.filter(r => r.estado === 'completado').length;
-  document.getElementById('st-total').textContent = total;
-  document.getElementById('st-conf').textContent  = conf;
+  document.getElementById('st-total').textContent = list.length;
+  document.getElementById('st-conf').textContent  = list.filter(r => r.estado === 'confirmado').length;
+  const pend = list.filter(r => ['pendiente','pago_en_revision'].includes(r.estado)).length;
   document.getElementById('st-pend').textContent  = pend;
-  document.getElementById('st-comp').textContent  = comp;
+  document.getElementById('st-comp').textContent  = list.filter(r => r.estado === 'completado').length;
 
   const bs = document.getElementById('badge-sb'), mb = document.getElementById('mn-badge');
   if (pend > 0) { bs.textContent = pend; bs.style.display = 'inline-block'; mb.textContent = pend; mb.style.display = 'inline-block'; }
@@ -769,11 +850,16 @@ async function loadDashboard() {
   const nfc = document.getElementById('nf-container');
   if (nxt) {
     const f = nxt.flights, d = new Date(f.fecha_salida);
+    const claseLabel = nxt.clase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
     nfc.innerHTML = `<div class="nf-banner">
       <div>
         <div class="nf-ey"><i class="bi bi-airplane-fill me-1"></i>Próximo vuelo</div>
         <div class="nf-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
-        <div class="nf-meta"><i class="bi bi-calendar3 me-1"></i>${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long'})} &nbsp;<i class="bi bi-clock me-1"></i>${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="nf-meta">
+          <i class="bi bi-calendar3 me-1"></i>${d.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long'})}
+          &nbsp;<i class="bi bi-clock me-1"></i>${d.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
+          &nbsp;· ${claseLabel} · Asiento <strong style="color:#fff">${nxt.asiento||'—'}</strong>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
         <span class="badge ${bClass(nxt.estado)}">${fmtE(nxt.estado)}</span>
@@ -803,13 +889,17 @@ function renderTable(id, list) {
     return;
   }
   w.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr><th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <thead><tr><th>Ruta</th><th>Fecha</th><th>Clase</th><th>Asiento</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
     <tbody>${list.map(r => {
       const f = r.flights, d = f ? new Date(f.fecha_salida) : null;
       const canCx = !['cancelado','completado'].includes(r.estado);
+      const claseB = r.clase === 'ejecutivo'
+        ? '<span class="badge b-ejecutivo">⭐ Ejecutivo</span>'
+        : '<span class="badge b-turista">🪑 Turista</span>';
       return `<tr>
         <td class="td-route">${f ? city(f.origen)+' → '+city(f.destino) : '—'}</td>
         <td>${d ? d.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
+        <td>${claseB}</td>
         <td style="font-weight:700;color:var(--navy);font-size:15px">${r.asiento||'—'}</td>
         <td class="td-price">${r.precio_total ? 'Bs. '+r.precio_total : '—'}</td>
         <td><span class="badge ${bClass(r.estado)}">${fmtE(r.estado)}</span></td>
@@ -827,14 +917,14 @@ function renderTable(id, list) {
 
 // ── FLIGHTS ──
 async function loadFlights() {
-  const origen = document.getElementById('f-origen')?.value.trim()||'';
+  const origen  = document.getElementById('f-origen')?.value.trim()||'';
   const destino = document.getElementById('f-destino')?.value.trim()||'';
-  const fecha = document.getElementById('f-fecha')?.value||'';
-  const estado = document.getElementById('f-estado')?.value||'';
+  const fecha   = document.getElementById('f-fecha')?.value||'';
+  const estado  = document.getElementById('f-estado')?.value||'';
   let q = supabase.from('flights').select('*').gt('asientos_disponibles',0).order('fecha_salida',{ascending:true});
-  if (origen) q = q.ilike('origen',`%${origen}%`);
+  if (origen)  q = q.ilike('origen',`%${origen}%`);
   if (destino) q = q.ilike('destino',`%${destino}%`);
-  if (estado) q = q.eq('estado',estado); else q = q.in('estado',['programado','abordando','en_vuelo']);
+  if (estado)  q = q.eq('estado',estado); else q = q.in('estado',['programado','abordando','en_vuelo']);
   if (fecha) {
     const s = new Date(fecha); s.setHours(0,0,0,0);
     const e = new Date(fecha); e.setHours(23,59,59,999);
@@ -851,11 +941,14 @@ async function loadFlights() {
 }
 window.loadFlights = loadFlights;
 
+// FIX: flCard muestra precios turista y ejecutivo
 function flCard(f) {
   const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
   const durMin = Math.round((ll-s)/60000);
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
+  const pTurista = f.precio;
+  const pEjecutivo = Math.round(f.precio * EJECUTIVO_MULT);
   const canBook = ['programado','abordando'].includes(f.estado) && f.asientos_disponibles > 0;
   const estadoBadge = {programado:'b-info',abordando:'b-warn',en_vuelo:'b-ok',cancelado:'b-err'}[f.estado]||'b-mut';
   return `<div class="flight-card">
@@ -869,9 +962,13 @@ function flCard(f) {
         <div><i class="bi bi-clock"></i>${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
         <div><i class="bi bi-hourglass-split"></i>${Math.floor(durMin/60)}h ${durMin%60}min</div>
       </div>
-      <div>
-        <div class="fc-price">${cur} ${f.precio}</div>
-        <div class="fc-seats"><i class="bi bi-people"></i> ${f.asientos_disponibles} disp.</div>
+      <!-- FIX: precios turista + ejecutivo visibles -->
+      <div class="fc-price-block">
+        <div class="fc-price-turista"><span style="font-size:11px;margin-right:2px">🪑</span>${cur} ${pTurista}</div>
+        <div class="fc-price-label">Turista</div>
+        <div class="fc-price-ejecutivo" style="margin-top:4px"><span style="font-size:11px;margin-right:2px">⭐</span>${cur} ${pEjecutivo}</div>
+        <div class="fc-price-label">Ejecutivo</div>
+        <div class="fc-seats" style="margin-top:4px"><i class="bi bi-people"></i> ${f.asientos_disponibles} disp.</div>
       </div>
     </div>
     <button class="btn btn-primary btn-block" onclick="startBooking('${f.id}')" ${!canBook?'disabled':''}>
@@ -886,28 +983,77 @@ window.startBooking = async function(flightId) {
   if (!f) return;
   selFlight = f;
   selSeat = null;
+  selClase = null;
   curStep = 1;
+
+  const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
+  document.getElementById('pax-display').textContent = numPax;
 
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl ? 'USD $' : 'Bs.';
+  const pT = f.precio * numPax;
+  const pE = Math.round(f.precio * EJECUTIVO_MULT) * numPax;
   const s = new Date(f.fecha_salida);
-  const fsummHtml = (extra='') => `
+
+  // Mostrar precios en selector de clase
+  document.getElementById('price-turista').textContent   = `${cur} ${pT}`;
+  document.getElementById('price-ejecutivo').textContent = `${cur} ${pE}`;
+
+  // Reset clase selector visual
+  document.getElementById('opt-turista').className   = 'clase-opt';
+  document.getElementById('opt-ejecutivo').className = 'clase-opt';
+
+  const fsummBase = `
     <div class="bk-fsumm-route">${city(f.origen)} <i class="bi bi-arrow-right"></i> ${city(f.destino)}</div>
     <div class="bk-fsumm-meta">
       <i class="bi bi-calendar3 me-1"></i>${s.toLocaleDateString('es-BO',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
       &nbsp;<i class="bi bi-clock me-1"></i>${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}
-      &nbsp;<i class="bi bi-people me-1"></i>${f.asientos_disponibles} asientos
-    </div>
-    <div class="bk-fsumm-price">${cur} ${f.precio}${extra}</div>`;
-  document.getElementById('bk-fsumm1').innerHTML = fsummHtml();
-  document.getElementById('bk-fsumm2').innerHTML = fsummHtml();
-  document.getElementById('bk-fsumm3').innerHTML = fsummHtml();
-  document.getElementById('qr-monto').textContent = `${cur} ${f.precio}`;
+      &nbsp;<i class="bi bi-people me-1"></i>${numPax} pasajero${numPax>1?'s':''}
+    </div>`;
+
+  ['1','2','3','4'].forEach(n => {
+    const el = document.getElementById(`bk-fsumm${n}`);
+    if (el) el.innerHTML = fsummBase + `<div class="bk-fsumm-price" id="fsumm-price-${n}">Elige tu clase</div>`;
+  });
+
+  document.getElementById('qr-monto').textContent = `${cur} —`;
+  document.getElementById('qr-pax-info').textContent = `· ${numPax} pasajero${numPax>1?'s':''}`;
+  document.getElementById('qr-asiento-info').textContent = '· Asiento —';
 
   const { data: pax } = await supabase.from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
   buildSeatMap((pax||[]).map(p=>p.asiento).filter(Boolean));
   updateSteps(1);
   showBookingPage();
+};
+
+function updateFsummPrices() {
+  if (!selFlight || !selClase) return;
+  const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
+  const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selFlight.destino.includes(c));
+  const cur = intl ? 'USD $' : 'Bs.';
+  const precio = precioClase(selFlight.precio, selClase) * numPax;
+  const claseLabel = selClase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
+  const badgeCls = selClase === 'ejecutivo' ? 'ejecutivo' : 'turista';
+  ['1','2','3','4'].forEach(n => {
+    const el = document.getElementById(`fsumm-price-${n}`);
+    if (el) el.innerHTML = `${cur} ${precio} <span class="bk-clase-badge ${badgeCls}">${claseLabel}</span>`;
+  });
+  // Actualizar QR
+  document.getElementById('qr-monto').textContent = `${cur} ${precio}`;
+  const qb = document.getElementById('qr-clase-badge');
+  qb.textContent = claseLabel;
+  qb.className = `badge ${selClase === 'ejecutivo' ? 'b-ejecutivo' : 'b-turista'}`;
+}
+
+// FIX: elegir clase
+window.pickClase = function(clase) {
+  selClase = clase;
+  document.getElementById('opt-turista').className   = clase === 'turista'   ? 'clase-opt sel-turista'   : 'clase-opt';
+  document.getElementById('opt-ejecutivo').className = clase === 'ejecutivo' ? 'clase-opt sel-ejecutivo' : 'clase-opt';
+  updateFsummPrices();
+  // Actualizar mapa de asientos para respetar clase
+  const existingOcc = Array.from(document.querySelectorAll('.seat.occ')).map(s => s.dataset.seat);
+  buildSeatMap(existingOcc, clase);
 };
 
 function showBookingPage() {
@@ -921,12 +1067,13 @@ function showBookingPage() {
 
 window.nextStep = function(step) {
   if (step > curStep) {
-    // Validate before advancing
-    if (curStep === 1 && !selSeat) {
-      Swal2.fire({icon:'info',title:'Elige un asiento',text:'Selecciona tu asiento en el mapa para continuar.'});
-      return;
+    if (curStep === 1 && !selClase) {
+      Swal2.fire({icon:'info',title:'Elige una clase',text:'Selecciona Turista o Ejecutivo para continuar.'}); return;
     }
-    if (curStep === 2) {
+    if (curStep === 2 && !selSeat) {
+      Swal2.fire({icon:'info',title:'Elige un asiento',text:'Selecciona tu asiento en el mapa para continuar.'}); return;
+    }
+    if (curStep === 3) {
       const n = document.getElementById('p-nombre').value.trim();
       const a = document.getElementById('p-apellido').value.trim();
       const d = document.getElementById('p-num-doc').value.trim();
@@ -938,28 +1085,33 @@ window.nextStep = function(step) {
   document.querySelectorAll('.bk-panel').forEach(p => p.classList.remove('act'));
   document.getElementById(`bk-p${step}`).classList.add('act');
   window.scrollTo({top:0,behavior:'smooth'});
+  // Actualizar asiento info en QR al llegar al paso 4
+  if (step === 4 && selSeat) {
+    document.getElementById('qr-asiento-info').textContent = `· Asiento ${selSeat}`;
+  }
 };
 
 function updateSteps(cur) {
-  for (let i = 1; i <= 4; i++) {
+  const total = 5;
+  for (let i = 1; i <= total; i++) {
     const el = document.getElementById(`bk-s${i}`);
     el.classList.remove('done','cur');
     if (i < cur) el.classList.add('done');
     else if (i === cur) el.classList.add('cur');
-    if (i < 4) {
+    if (i < total) {
       const ln = document.getElementById(`bk-l${i}`);
-      ln.classList.toggle('done', i < cur);
+      if (ln) ln.classList.toggle('done', i < cur);
     }
   }
-  // Replace check icon for step 4
-  const s4num = document.querySelector('#bk-s4 .bk-step-num');
-  if (cur === 4) s4num.innerHTML = '<i class="bi bi-check"></i>';
-  else s4num.textContent = '4';
+  const s5num = document.querySelector('#bk-s5 .bk-step-num');
+  if (cur === 5) s5num.innerHTML = '<i class="bi bi-check"></i>';
+  else s5num.textContent = '5';
 }
 
-// ── SEAT MAP ──
-function buildSeatMap(occ = []) {
+// ── SEAT MAP ── (FIX: distingue ejecutivo / turista)
+function buildSeatMap(occ = [], claseHint = null) {
   selSeat = null;
+  const clase = claseHint || selClase;
   const c = document.getElementById('seat-map');
   const cols = ['A','B','C','D','E','F'];
   let html = '<div class="seat-nose"></div>';
@@ -967,15 +1119,25 @@ function buildSeatMap(occ = []) {
   cols.forEach((col,i) => { if(i===3) html+='<div class="seat-aisle"></div>'; html+=`<div style="width:26px;text-align:center;font-size:9px;color:var(--txt3);font-weight:700">${col}</div>`; });
   html += '</div>';
   for (let r = 1; r <= 20; r++) {
-    const fc = r <= 3;
+    const isEjRow = r <= 3; // Filas 1-3 = ejecutivo
     if (r===4) html += '<div class="seat-wing-lbl">— Clase turista —</div>';
     if (r===10) html += '<div class="seat-wing-lbl">✈ Zona alas</div>';
+    if (r===1) html += '<div class="seat-wing-lbl">⭐ Ejecutivo — Filas 1-3</div>';
     html += `<div class="seat-row"><div class="seat-rnum">${r}</div>`;
     cols.forEach((col,i) => {
       if(i===3) html += '<div class="seat-aisle"></div>';
       const id = `${r}${col}`, isOcc = occ.includes(id);
-      const cls = isOcc ? 'occ' : (fc ? 'fav' : 'av');
-      html += `<div class="seat ${cls}" data-seat="${id}" onclick="pickSeat('${id}',${isOcc})" title="${id}">${id}</div>`;
+      // Bloquear asientos que no corresponden a la clase elegida
+      let cls, blocked = false;
+      if (isOcc) { cls = 'occ'; }
+      else if (clase === 'turista' && isEjRow) { cls = 'occ'; blocked = true; }
+      else if (clase === 'ejecutivo' && !isEjRow) { cls = 'occ'; blocked = true; }
+      else if (isEjRow) { cls = 'ej'; }
+      else { cls = 'av'; }
+      const title = blocked
+        ? (clase === 'turista' ? 'Solo clase ejecutivo' : 'Solo clase turista')
+        : id;
+      html += `<div class="seat ${cls}" data-seat="${id}" onclick="pickSeat('${id}',${isOcc||blocked})" title="${title}">${id}</div>`;
     });
     html += '</div>';
   }
@@ -984,34 +1146,50 @@ function buildSeatMap(occ = []) {
 }
 window.pickSeat = function(id, occ) {
   if (occ) return;
-  document.querySelectorAll('.seat.sel,.seat.fsel').forEach(s => {
-    s.classList.remove('sel','fsel');
-    s.classList.add(parseInt(s.dataset.seat)<=3?'fav':'av');
+  document.querySelectorAll('.seat.sel,.seat.ejsel').forEach(s => {
+    s.classList.remove('sel','ejsel');
+    s.classList.add(parseInt(s.dataset.seat)<=3?'ej':'av');
   });
   const el = document.querySelector(`.seat[data-seat="${id}"]`);
-  const isF = parseInt(id) <= 3;
-  if (el) { el.classList.remove('fav','av'); el.classList.add(isF?'fsel':'sel'); }
+  const isEj = parseInt(id) <= 3;
+  if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
   selSeat = id;
+  const claseLabel = isEj ? '⭐ Ejecutivo' : '🪑 Turista';
+  const badgeCls   = isEj ? 'b-ejecutivo' : 'b-turista';
   document.getElementById('seat-info').innerHTML =
-    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asiento <strong>${id}</strong> — <span class="badge ${isF?'b-warn':'b-info'}">${isF?'Primera clase':'Turista'}</span>`;
+    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asiento <strong>${id}</strong> — <span class="badge ${badgeCls}">${claseLabel}</span>`;
 };
 
 // ── CONFIRM ──
 window.confirmReservation = async function() {
+  const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selFlight.destino.includes(c));
   const cur = intl?'USD $':'Bs.';
+  const precioUnit = precioClase(selFlight.precio, selClase);
+  const precioTotal = precioUnit * numPax;
+  const claseLabel = selClase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
+
   const res = await Swal2.fire({
     icon:'question', title:'¿Confirmar reserva?',
-    html:`Vuelo <b>${city(selFlight.origen)} → ${city(selFlight.destino)}</b><br>Asiento: <b>${selSeat}</b><br>Total: <b>${cur} ${selFlight.precio}</b>`,
+    html:`Vuelo <b>${city(selFlight.origen)} → ${city(selFlight.destino)}</b><br>
+          Clase: <b>${claseLabel}</b> · Asiento: <b>${selSeat}</b><br>
+          Pasajeros: <b>${numPax}</b> · Total: <b>${cur} ${precioTotal}</b>`,
     showCancelButton:true, confirmButtonText:'Sí, reservar', cancelButtonText:'Revisar'
   });
   if (!res.isConfirmed) return;
+
   const btn = document.getElementById('btn-confirm'), txt = document.getElementById('confirm-txt');
   btn.disabled = true; txt.textContent = 'Procesando…';
+
   try {
+    // FIX: columna asiento + columna clase en reservations
     const { data: reservation, error: rErr } = await supabase.from('reservations').insert({
-      user_id: CU.id, flight_id: selFlight.id,
-      estado: 'pendiente', precio_total: selFlight.precio, asiento: selSeat,
+      user_id: CU.id,
+      flight_id: selFlight.id,
+      estado: 'pendiente',
+      precio_total: precioTotal,
+      asiento: selSeat,
+      clase: selClase,
     }).select().single();
     if (rErr) throw rErr;
 
@@ -1034,7 +1212,8 @@ window.confirmReservation = async function() {
       discapacidad_visual: document.getElementById('a-visual').checked,
       asistencia_aeropuerto: document.getElementById('a-aeropuerto').checked,
     };
-    if (Object.values(asist).some(v=>v)) await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
+    if (Object.values(asist).some(v=>v))
+      await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
 
     const fi = document.getElementById('comprobante');
     let compUrl = null;
@@ -1044,26 +1223,31 @@ window.confirmReservation = async function() {
       if (!upErr) { const { data: ud } = supabase.storage.from('payments').getPublicUrl(path); compUrl = ud.publicUrl; }
     }
     await supabase.from('payments').insert({
-      reservation_id: reservation.id, monto: selFlight.precio,
-      metodo: 'transferencia_qr', comprobante_url: compUrl,
+      reservation_id: reservation.id,
+      monto: precioTotal,
+      metodo: 'transferencia_qr',
+      comprobante_url: compUrl,
       estado: compUrl ? 'revisando' : 'pendiente',
     });
-    await supabase.from('flights').update({ asientos_disponibles: selFlight.asientos_disponibles - 1 }).eq('id', selFlight.id);
+    // FIX: descontar según número de pasajeros
+    await supabase.from('flights').update({
+      asientos_disponibles: selFlight.asientos_disponibles - numPax
+    }).eq('id', selFlight.id);
 
-    // Show ticket
-    showConfirmationTicket(reservation, passenger, selFlight, selSeat, cur);
-    nextStep(4);
+    showConfirmationTicket(reservation, passenger, selFlight, selSeat, selClase, cur, numPax, precioTotal);
+    nextStep(5);
     await loadDashboard();
   } catch(err) {
     Swal2.fire({icon:'error',title:'Error',text:err.message||'No se pudo crear la reserva.'});
   } finally { btn.disabled=false; txt.textContent='Confirmar reserva'; }
 };
 
-function showConfirmationTicket(res, pax, f, seat, cur) {
+function showConfirmationTicket(res, pax, f, seat, clase, cur, numPax, precioTotal) {
   const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
   const iataMap = {'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM'};
   const getI = str => { for (const [k,v] of Object.entries(iataMap)) if (str.includes(k)) return v; return str.slice(0,3).toUpperCase(); };
-  document.getElementById('confirm-sub').innerHTML = `Tu reserva está <b>pendiente de confirmación de pago</b>. Cuando el equipo BOA verifique tu transferencia se emitirá el boleto definitivo. Guarda los datos de tu vuelo:`;
+  const claseLabel = clase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
+  document.getElementById('confirm-sub').innerHTML = `Tu reserva está <b>pendiente de confirmación de pago</b>. Cuando el equipo BOA verifique tu transferencia se emitirá el boleto definitivo.`;
   document.getElementById('ticket-container').innerHTML = `
     <div class="ticket">
       <div class="tkt-hd">
@@ -1081,7 +1265,9 @@ function showConfirmationTicket(res, pax, f, seat, cur) {
         <div><div class="tkt-dl">Salida</div><div class="tkt-dv">${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
         <div><div class="tkt-dl">Llegada</div><div class="tkt-dv">${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
         <div><div class="tkt-dl">Asiento</div><div class="tkt-dv" style="font-size:20px;color:var(--navy)">${seat}</div></div>
-        <div><div class="tkt-dl">Total</div><div class="tkt-dv">${cur} ${f.precio}</div></div>
+        <div><div class="tkt-dl">Clase</div><div class="tkt-dv">${claseLabel}</div></div>
+        <div><div class="tkt-dl">Pasajeros</div><div class="tkt-dv">${numPax}</div></div>
+        <div><div class="tkt-dl">Total</div><div class="tkt-dv">${cur} ${precioTotal}</div></div>
       </div>
       <hr class="tkt-sep"/>
       <div class="tkt-bot">
@@ -1103,6 +1289,7 @@ window.showTicket = async function(resId) {
   const getI = str => { for (const [k,v] of Object.entries(iataMap)) if (str.includes(k)) return v; return str.slice(0,3).toUpperCase(); };
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>f.destino.includes(c));
   const cur = intl?'USD $':'Bs.';
+  const claseLabel = r.clase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
   await Swal2.fire({
     width: 500, padding: '0',
     showConfirmButton: true, confirmButtonText: 'Cerrar',
@@ -1122,7 +1309,9 @@ window.showTicket = async function(resId) {
         <div><div class="tkt-dl">Salida</div><div class="tkt-dv">${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
         <div><div class="tkt-dl">Llegada</div><div class="tkt-dv">${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
         <div><div class="tkt-dl">Asiento</div><div class="tkt-dv" style="font-size:20px;color:var(--navy)">${r.asiento||'—'}</div></div>
+        <div><div class="tkt-dl">Clase</div><div class="tkt-dv">${claseLabel}</div></div>
         <div><div class="tkt-dl">Documento</div><div class="tkt-dv">${p?.numero_documento||'—'}</div></div>
+        <div><div class="tkt-dl">Total</div><div class="tkt-dv">${cur} ${r.precio_total||'—'}</div></div>
       </div>
       <hr class="tkt-sep"/>
       <div class="tkt-bot">
@@ -1188,12 +1377,10 @@ window.goPage = function(page, navEl) {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sb-backdrop').classList.remove('show');
 };
-
 window.setMN = function(page) {
   document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('act'));
   const t = document.getElementById('mn-'+page); if (t) t.classList.add('act');
 };
-
 window.toggleSidebar = function() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sb-backdrop').classList.toggle('show');

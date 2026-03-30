@@ -3,13 +3,31 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Iniciar Sesión — BOA</title>
+<title>Iniciar Sesión — BOA (Proyecto Académico)</title>
+<meta name="robots" content="noindex, nofollow"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{--navy:#002D72;--blue:#004DB3;--red:#C8102E;--gold:#C9A84C;--gold2:#E8C878;--dark:#0A0F1E;--dark2:#0F1828;--font-d:'Cormorant Garamond',Georgia,serif;--font-b:'Barlow',sans-serif;--font-c:'Barlow Condensed',sans-serif;--tr:all 0.3s cubic-bezier(0.4,0,0.2,1);}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:var(--font-b);background:var(--dark);color:white;min-height:100vh;display:flex;overflow:hidden;}
+
+/* ── BANNER ACADÉMICO ──────────────────────────────────────────────── */
+.academic-banner{
+  position:fixed;top:0;left:0;right:0;z-index:99999;
+  background:linear-gradient(90deg,#1a4a00,#2d7a00);
+  border-bottom:2px solid #5cb800;
+  padding:8px 20px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;
+  color:#e8ffcc;text-align:center;
+}
+.academic-banner .badge{
+  background:#5cb800;color:#000;font-weight:700;font-size:11px;
+  padding:2px 8px;border-radius:2px;letter-spacing:1px;white-space:nowrap;
+}
+.academic-banner span{line-height:1.4;}
+
+body{font-family:var(--font-b);background:var(--dark);color:white;min-height:100vh;display:flex;overflow:hidden;padding-top:38px;}
 .left-panel{flex:1;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:2.5rem;background:linear-gradient(160deg,#000814 0%,#001233 20%,#002372 45%,#1a3060 60%,#7a3520 78%,#c85828 90%,#e8a050 100%);overflow:hidden;}
 .left-panel::after{content:'';position:absolute;inset:0;background:rgba(0,14,46,0.45);pointer-events:none;}
 canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
@@ -30,6 +48,22 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
 .auth-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,0.45);margin-bottom:2.5rem;}
 .auth-sub a{color:var(--gold);text-decoration:none;font-weight:500;}
 .auth-sub a:hover{text-decoration:underline;}
+
+/* ── AVISO DEMO DENTRO DEL FORM ───────────────────────────────────── */
+.demo-notice{
+  background:rgba(92,184,0,0.08);
+  border:1px solid rgba(92,184,0,0.3);
+  border-radius:3px;
+  padding:10px 14px;
+  font-size:12.5px;
+  color:#a8e070;
+  margin-bottom:1.2rem;
+  line-height:1.5;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.demo-notice .icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.demo-notice strong{color:#c6f07a;}
+
 .form-group{margin-bottom:1.1rem;}
 .form-label{display:block;font-family:var(--font-c);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.45rem;cursor:pointer;}
 .form-input{width:100%;padding:13px 16px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.1);border-radius:3px;color:white;font-family:var(--font-b);font-size:15px;outline:none;transition:var(--tr);}
@@ -67,10 +101,35 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
-@media(max-width:768px){body{flex-direction:column;overflow:auto;}.left-panel{min-height:200px;flex:none;padding:1.5rem;}.panel-middle{padding:0.5rem 0;}.panel-tagline{font-size:2rem;}.right-panel{width:100%;padding:2rem 1.5rem;border-left:none;border-top:1px solid rgba(201,168,76,0.15);}}
+
+/* ── FOOTER ACADÉMICO ─────────────────────────────────────────────── */
+.academic-footer{
+  margin-top:1.5rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  text-align:center;
+  font-size:11px;
+  color:rgba(255,255,255,0.25);
+  line-height:1.6;
+}
+
+@media(max-width:768px){
+  body{flex-direction:column;overflow:auto;}
+  .left-panel{min-height:200px;flex:none;padding:1.5rem;}
+  .panel-middle{padding:0.5rem 0;}
+  .panel-tagline{font-size:2rem;}
+  .right-panel{width:100%;padding:2rem 1.5rem;border-left:none;border-top:1px solid rgba(201,168,76,0.15);}
+  .academic-banner{font-size:11px;padding:7px 12px;}
+}
 </style>
 </head>
 <body>
+
+<!-- ═══ BANNER SUPERIOR ACADÉMICO ════════════════════════════════════════════ -->
+<div class="academic-banner" role="alert" aria-label="Aviso de proyecto académico">
+  <span class="badge">⚠ PROYECTO ACADÉMICO</span>
+  <span>Este sitio es una <strong>simulación educativa</strong> sin fines comerciales. No ingreses datos personales reales.</span>
+</div>
 
 <div class="role-loading" id="role-loading">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Logotipo_de_BoA.svg" alt="BOA"/>
@@ -100,17 +159,25 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
   <span class="auth-tag">Boliviana de Aviación</span>
   <h1 class="auth-title">Iniciar Sesión</h1>
   <p class="auth-sub">¿Sin cuenta? <a href="register.html">Regístrate gratis</a></p>
+
+  <!-- Aviso demo dentro del formulario -->
+  <div class="demo-notice" role="note">
+    <span class="icon">🎓</span>
+    <span>Entorno de <strong>demostración académica</strong>. Este formulario no recopila ni almacena datos personales reales. Puedes usar credenciales de prueba.</span>
+  </div>
+
   <div class="error-msg" id="error-msg"></div>
   <div class="success-msg" id="success-msg"></div>
+
   <form id="login-form" onsubmit="handleLogin(event)" novalidate>
     <div class="form-group">
-      <label class="form-label" for="login-email">Correo electrónico</label>
-      <input class="form-input" type="email" id="login-email" placeholder="tu@correo.com" required autocomplete="email"/>
+      <label class="form-label" for="login-email">Correo de demostración</label>
+      <input class="form-input" type="email" id="login-email" placeholder="demo@correo.com" required autocomplete="off"/>
     </div>
     <div class="form-group">
-      <label class="form-label" for="login-password">Contraseña</label>
+      <label class="form-label" for="login-password">Contraseña de demostración</label>
       <div class="input-wrap">
-        <input class="form-input" type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password"/>
+        <input class="form-input" type="password" id="login-password" placeholder="••••••••" required autocomplete="off"/>
         <button type="button" class="toggle-pass" onclick="togglePass('login-password',this)" aria-label="Mostrar contraseña">👁</button>
       </div>
     </div>
@@ -126,6 +193,7 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
       <span id="btn-text">Ingresar</span>
     </button>
   </form>
+
   <div class="divider"><span>o continúa con</span></div>
   <button class="btn-google" id="btn-google" onclick="handleGoogle()">
     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -134,14 +202,18 @@ canvas#stars{position:absolute;inset:0;pointer-events:none;z-index:1;}
       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
       <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
     </svg>
-    Continuar con Google
+    Continuar con Google (Demo)
   </button>
+
+  <!-- Footer académico -->
+  <div class="academic-footer">
+    🎓 Proyecto académico — Simulación educativa sin fines comerciales<br/>
+    No se recopilan ni almacenan datos personales reales.
+  </div>
 </div>
 
 <script type="module">
 import { supabase } from '../assets/js/supabase.js';
-
-// ── HELPERS ──────────────────────────────────────────────────────────────────
 
 function showLoading(msg) {
   document.getElementById('role-loading-msg').textContent = msg || 'Verificando sesión...';
@@ -202,43 +274,27 @@ async function ensureProfile(user) {
   }
 }
 
-// ── DETECTAR TIPO DE CARGA ────────────────────────────────────────────────────
-// Caso 1: Supabase redirect con tokens en el hash (#access_token=...) → OAuth callback
-// Caso 2: Supabase redirect con code en query (?code=...) → PKCE OAuth callback
-// Caso 3: Link mágico desde email → también tiene tokens en hash, pero queremos
-//         que el usuario simplemente quede en el login y entre solo (no redirigir
-//         a otra página de forma automática sin que el usuario lo decida)
-// Solución: si hay sesión activa AL CARGAR → redirigir. Si hay hash de OAuth → procesar.
-
 const hash = window.location.hash;
 const search = window.location.search;
 const hasOAuthHash = hash.includes('access_token') || hash.includes('error_description');
 const hasOAuthCode = new URLSearchParams(search).has('code');
 const isOAuthCallback = hasOAuthHash || hasOAuthCode;
 
-// ── SESIÓN YA ACTIVA (usuario navegó aquí ya logueado, o viene de magic link) ─
-// getSession() lee la sesión actual del localStorage sin hacer red.
-// Si hay sesión → redirigir directo.
 (async () => {
   const { data: { session } } = await supabase.auth.getSession();
   if (session?.user && !isOAuthCallback) {
-    // Ya tiene sesión activa y no es un callback OAuth fresco
     showLoading('Identificando tu perfil...');
     const role = await getUserRole(session.user.id);
     redirectByRole(role);
   }
 })();
 
-// ── PROCESAR CALLBACK OAUTH (Google o magic link con token en hash) ───────────
-// onAuthStateChange se dispara cuando Supabase procesa el token del hash/code.
-// Usamos un flag para evitar doble ejecución.
 let oauthDone = false;
 
 supabase.auth.onAuthStateChange(async (event, session) => {
   if (!isOAuthCallback) return;
   if (oauthDone) return;
   if (!session?.user) return;
-  // Solo procesamos SIGNED_IN (no TOKEN_REFRESHED, etc.)
   if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return;
 
   oauthDone = true;
@@ -249,7 +305,6 @@ supabase.auth.onAuthStateChange(async (event, session) => {
   redirectByRole(role);
 });
 
-// ── LOGIN EMAIL / CONTRASEÑA ──────────────────────────────────────────────────
 window.handleLogin = async function(e) {
   e.preventDefault();
   const email    = document.getElementById('login-email').value.trim().toLowerCase();
@@ -273,7 +328,7 @@ window.handleLogin = async function(e) {
       const m = error.message?.toLowerCase() || '';
       let msg = 'Correo o contraseña incorrectos.';
       if (m.includes('email not confirmed'))
-        msg = 'Tu correo aún no está confirmado. Revisa tu bandeja de entrada o pide al administrador que desactive la confirmación en Supabase.';
+        msg = 'Tu correo aún no está confirmado. Revisa tu bandeja de entrada.';
       else if (m.includes('invalid login') || m.includes('invalid credentials'))
         msg = 'Correo o contraseña incorrectos. Verifica tus datos.';
       else if (m.includes('too many'))
@@ -300,15 +355,12 @@ window.handleLogin = async function(e) {
   }
 };
 
-// ── LOGIN GOOGLE ──────────────────────────────────────────────────────────────
 window.handleGoogle = async function() {
   const btn = document.getElementById('btn-google');
   const errEl = document.getElementById('error-msg');
   errEl.classList.remove('show');
   btn.disabled = true;
 
-  // redirectTo debe apuntar exactamente a esta página para que Supabase
-  // devuelva el token aquí y onAuthStateChange lo procese.
   const redirectTo = window.location.origin + window.location.pathname;
 
   const { error } = await supabase.auth.signInWithOAuth({
@@ -316,7 +368,6 @@ window.handleGoogle = async function() {
     options: {
       redirectTo,
       queryParams: { prompt: 'select_account' },
-      // skipBrowserRedirect: false  ← default, el browser redirige a Google
     }
   });
 
@@ -325,18 +376,15 @@ window.handleGoogle = async function() {
     errEl.classList.add('show');
     btn.disabled = false;
   }
-  // Si no hay error, el browser redirige a Google automáticamente.
-  // Al volver, isOAuthCallback será true y onAuthStateChange manejará el resto.
 };
 
-// ── UI HELPERS ────────────────────────────────────────────────────────────────
 window.togglePass = function(id, btn) {
   const inp = document.getElementById(id);
   inp.type = inp.type === 'password' ? 'text' : 'password';
   btn.textContent = inp.type === 'password' ? '👁' : '🙈';
 };
 
-// ── STARFIELD ─────────────────────────────────────────────────────────────────
+// ── STARFIELD ────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [];

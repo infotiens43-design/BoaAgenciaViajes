@@ -172,7 +172,6 @@ tbody tr:hover td{background:var(--bg)}
 .b-err {background:#FEE4E4;color:#8B1212;border:1px solid #FECACA}
 .b-info{background:#E0ECFF;color:#1040A0;border:1px solid #BFDBFE}
 .b-mut {background:var(--surf2);color:var(--txt3);border:1px solid var(--bdr)}
-/* Clase badges */
 .b-turista{background:#DBEAFE;color:#1D4ED8;border:1px solid #93C5FD}
 .b-ejecutivo{background:#FEF3C7;color:#92400E;border:1px solid #FCD34D}
 
@@ -203,7 +202,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .fc-meta-row{display:flex;justify-content:space-between;align-items:flex-end}
 .fc-times{font-size:12px;color:var(--txt2);line-height:1.85}
 .fc-times i{color:var(--txt3);margin-right:3px}
-/* FIX: precios más visibles */
 .fc-price-block{text-align:right}
 .fc-price-turista{font-family:var(--fh);font-size:20px;color:var(--info);font-weight:700}
 .fc-price-ejecutivo{font-family:var(--fh);font-size:18px;color:var(--gold);font-weight:700}
@@ -284,7 +282,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 /* ── QR GRANDE Y RESPONSIVE ── */
 .qr-card{background:linear-gradient(160deg,#EEF4FF,#E4EDFB);border:1px solid rgba(11,31,75,0.1);border-radius:var(--r);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
 .qr-ttl{font-weight:700;font-size:14px;color:var(--navy);text-align:center}
-/* FIX: QR grande y adaptado a pantalla */
 .qr-img{width:min(240px,78vw);height:min(240px,78vw);border-radius:var(--rs);border:4px solid #fff;box-shadow:var(--sh2);object-fit:contain;background:#fff}
 .qr-amount{font-family:var(--fh);font-size:26px;color:var(--navy);text-align:center;font-weight:800}
 .qr-clase-info{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txt2);text-align:center}
@@ -295,14 +292,19 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .qr-row span:last-child{font-weight:600;color:var(--txt)}
 .qr-note{font-size:11px;color:var(--txt3);text-align:center;line-height:1.55;padding:8px 10px;background:rgba(201,149,42,0.07);border-radius:6px;border:1px solid rgba(201,149,42,0.18);width:100%}
 
-/* Upload */
-.upload-box{background:#EFF6FF;border:1.5px dashed #93C5FD;border-radius:var(--rs);padding:13px}
+/* ── COMPROBANTE: aviso bloqueante ── */
+/* FIX 1: zona de comprobante resaltada cuando no se ha adjuntado */
+.upload-box{background:#EFF6FF;border:1.5px dashed #93C5FD;border-radius:var(--rs);padding:13px;transition:border-color .2s,background .2s}
+.upload-box.required-missing{background:#FFF1F1;border-color:var(--red);}
 .upload-lbl{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:5px;display:block}
 .upload-desc{font-size:12px;color:var(--txt2);margin-bottom:9px;line-height:1.5}
 .upload-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .upload-btn{padding:7px 13px;background:#fff;border:1.5px solid var(--navy);border-radius:var(--rs);color:var(--navy);font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
 .upload-btn:hover{background:var(--navy);color:#fff}
 .upload-fname{font-size:12px;color:var(--txt3)}
+/* Aviso de comprobante requerido */
+.upload-required-msg{font-size:11.5px;color:var(--err);font-weight:600;margin-top:6px;display:none;align-items:center;gap:5px}
+.upload-required-msg.show{display:flex}
 
 /* Nav buttons */
 .bk-nav{display:flex;justify-content:space-between;margin-top:24px;gap:10px}
@@ -350,9 +352,11 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .snack.show{transform:translateY(0);opacity:1}
 .snack.s-ok{border-left:4px solid var(--ok)}
 .snack.s-err{border-left:4px solid var(--err)}
+.snack.s-warn{border-left:4px solid var(--warn)}
 .snack i{font-size:18px}
 .snack.s-ok i{color:var(--ok)}
 .snack.s-err i{color:var(--err)}
+.snack.s-warn i{color:var(--warn)}
 .snack strong{display:block;font-size:13px;font-weight:700;color:var(--txt)}
 .snack span{font-size:11.5px;color:var(--txt2)}
 
@@ -513,7 +517,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
             <option value="abordando">Abordando</option>
           </select>
         </div>
-        <!-- FIX: selector de cantidad de pasajeros -->
         <div class="fg"><label class="fg-lbl">Pasajeros</label>
           <select class="fc" id="f-pax">
             <option value="1">1 pasajero</option>
@@ -570,7 +573,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
                   <div class="clase-opt-desc">Asientos premium · Check-in prioritario · Mayor espacio · Filas 1–3</div>
                 </div>
               </div>
-              <!-- Cantidad pasajeros visible en el paso -->
               <div style="margin-top:14px;padding:12px 14px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
                 <i class="bi bi-people" style="color:var(--navy);font-size:17px"></i>
                 <span style="font-size:13px;color:var(--txt2)">Cantidad de pasajeros:</span>
@@ -657,7 +659,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
           <div class="card" style="margin-bottom:14px">
             <div class="card-hd"><i class="bi bi-qr-code" style="color:var(--navy)"></i><span class="card-hd-ttl">Pago por transferencia</span></div>
             <div class="card-bd">
-              <!-- FIX: QR grande centrado, monto + clase visible -->
               <div class="qr-card">
                 <div class="qr-ttl"><i class="bi bi-qr-code-scan" style="margin-right:5px"></i>Escanea con tu banco para pagar</div>
                 <img class="qr-img" src="https://res.cloudinary.com/dkz78oljz/image/upload/v1774464041/Captura_de_pantalla_2026-03-25_142807_icrctp.png" alt="QR BOA"/>
@@ -676,13 +677,23 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
                 </div>
                 <div class="qr-note"><i class="bi bi-info-circle" style="margin-right:5px"></i>Realiza la transferencia y adjunta el comprobante. Tu boleto se emite cuando el equipo BOA confirme el pago.</div>
               </div>
-              <div class="upload-box" style="margin-top:14px">
-                <span class="upload-lbl"><i class="bi bi-upload"></i> Comprobante de pago</span>
-                <p class="upload-desc">Adjunta la captura o PDF de tu transferencia.</p>
+
+              <!--
+                FIX 1: Comprobante REQUERIDO.
+                - El botón "Confirmar reserva" arranca deshabilitado.
+                - Se habilita solo cuando hay un archivo adjunto.
+                - Si el usuario intenta confirmar sin comprobante, se muestra aviso.
+              -->
+              <div class="upload-box" id="upload-box" style="margin-top:14px">
+                <span class="upload-lbl"><i class="bi bi-upload"></i> Comprobante de pago <span style="color:var(--red)">*</span></span>
+                <p class="upload-desc">Adjunta la captura o PDF de tu transferencia para poder confirmar la reserva.</p>
                 <div class="upload-row">
                   <input type="file" id="comprobante" accept="image/*,.pdf" style="display:none"/>
-                  <label class="upload-btn" for="comprobante"><i class="bi bi-paperclip"></i> Adjuntar</label>
+                  <label class="upload-btn" for="comprobante"><i class="bi bi-paperclip"></i> Adjuntar comprobante</label>
                   <span class="upload-fname" id="file-name">Sin archivo</span>
+                </div>
+                <div class="upload-required-msg" id="upload-required-msg">
+                  <i class="bi bi-exclamation-circle-fill"></i> Debes adjuntar el comprobante de pago para continuar.
                 </div>
               </div>
             </div>
@@ -690,7 +701,13 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
           <div class="bk-nav">
             <button class="btn btn-ghost" onclick="nextStep(3)"><i class="bi bi-arrow-left"></i> Volver</button>
             <div class="bk-nav-r">
-              <button class="btn btn-primary btn-lg" id="btn-confirm" onclick="confirmReservation()"><i class="bi bi-check-circle"></i> <span id="confirm-txt">Confirmar reserva</span></button>
+              <!--
+                FIX 1: disabled hasta que se adjunte comprobante.
+                El atributo se quita en el listener del input file.
+              -->
+              <button class="btn btn-primary btn-lg" id="btn-confirm" onclick="confirmReservation()" disabled>
+                <i class="bi bi-lock-fill"></i> <span id="confirm-txt">Adjunta el comprobante</span>
+              </button>
             </div>
           </div>
         </div>
@@ -775,7 +792,10 @@ import { uploadFile } from '../../assets/js/cloudinary.js';
 
 let CU = null, selFlight = null, selSeat = null, selClase = null, userProf = null, curStep = 1;
 
-// Precios por clase: ejecutivo = precio * 1.8
+// FIX 2: guardamos los asientos REALMENTE ocupados por BD (no bloqueados por clase)
+// para poder reutilizarlos cuando el usuario cambia de clase sin volver a consultar.
+let realOccupiedSeats = [];
+
 const EJECUTIVO_MULT = 1.8;
 function precioClase(base, clase) {
   return clase === 'ejecutivo' ? Math.round(base * EJECUTIVO_MULT) : base;
@@ -942,7 +962,6 @@ async function loadFlights() {
 }
 window.loadFlights = loadFlights;
 
-// FIX: flCard muestra precios turista y ejecutivo
 function flCard(f) {
   const s = new Date(f.fecha_salida), ll = new Date(f.fecha_llegada);
   const durMin = Math.round((ll-s)/60000);
@@ -963,7 +982,6 @@ function flCard(f) {
         <div><i class="bi bi-clock"></i>${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})} → ${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div>
         <div><i class="bi bi-hourglass-split"></i>${Math.floor(durMin/60)}h ${durMin%60}min</div>
       </div>
-      <!-- FIX: precios turista + ejecutivo visibles -->
       <div class="fc-price-block">
         <div class="fc-price-turista"><span style="font-size:11px;margin-right:2px">🪑</span>${cur} ${pTurista}</div>
         <div class="fc-price-label">Turista</div>
@@ -983,7 +1001,7 @@ window.startBooking = async function(flightId) {
   const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
   if (!f) return;
   selFlight = f;
-  selSeat = null;
+  selSeat = [];
   selClase = null;
   curStep = 1;
 
@@ -996,11 +1014,9 @@ window.startBooking = async function(flightId) {
   const pE = Math.round(f.precio * EJECUTIVO_MULT) * numPax;
   const s = new Date(f.fecha_salida);
 
-  // Mostrar precios en selector de clase
   document.getElementById('price-turista').textContent   = `${cur} ${pT}`;
   document.getElementById('price-ejecutivo').textContent = `${cur} ${pE}`;
 
-  // Reset clase selector visual
   document.getElementById('opt-turista').className   = 'clase-opt';
   document.getElementById('opt-ejecutivo').className = 'clase-opt';
 
@@ -1021,11 +1037,44 @@ window.startBooking = async function(flightId) {
   document.getElementById('qr-pax-info').textContent = `· ${numPax} pasajero${numPax>1?'s':''}`;
   document.getElementById('qr-asiento-info').textContent = '· Asiento —';
 
-  const { data: pax } = await supabase.from('reservations').select('asiento').eq('flight_id', flightId).neq('estado','cancelado');
-  buildSeatMap((pax||[]).map(p=>p.asiento).filter(Boolean));
+  // FIX 1: Resetear comprobante y deshabilitar botón confirmar
+  resetComprobanteState();
+
+  // FIX 2: Traer asientos ocupados de BD incluyendo pendientes y en revisión
+  // Solo se excluyen reservas canceladas. Así se respetan asientos de quien ya pagó
+  // y está esperando aprobación del admin.
+  const { data: pax } = await supabase
+    .from('reservations')
+    .select('asiento')
+    .eq('flight_id', flightId)
+    .neq('estado', 'cancelado'); // pendiente, pago_en_revision y confirmado quedan BLOQUEADOS
+
+  // Separar asientos individuales (pueden venir como "5A,5B" si hay multi-pax)
+  realOccupiedSeats = (pax || [])
+    .flatMap(p => (p.asiento || '').split(',').map(s => s.trim()))
+    .filter(Boolean);
+
+  buildSeatMap(realOccupiedSeats);
   updateSteps(1);
   showBookingPage();
 };
+
+// FIX 1: función para resetear estado del comprobante
+function resetComprobanteState() {
+  const fi = document.getElementById('comprobante');
+  if (fi) fi.value = '';
+  const fn = document.getElementById('file-name');
+  if (fn) fn.textContent = 'Sin archivo';
+  const btn = document.getElementById('btn-confirm');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-lock-fill"></i> <span id="confirm-txt">Adjunta el comprobante</span>';
+  }
+  const ub = document.getElementById('upload-box');
+  if (ub) ub.classList.remove('required-missing');
+  const rm = document.getElementById('upload-required-msg');
+  if (rm) rm.classList.remove('show');
+}
 
 function updateFsummPrices() {
   if (!selFlight || !selClase) return;
@@ -1039,22 +1088,22 @@ function updateFsummPrices() {
     const el = document.getElementById(`fsumm-price-${n}`);
     if (el) el.innerHTML = `${cur} ${precio} <span class="bk-clase-badge ${badgeCls}">${claseLabel}</span>`;
   });
-  // Actualizar QR
   document.getElementById('qr-monto').textContent = `${cur} ${precio}`;
   const qb = document.getElementById('qr-clase-badge');
   qb.textContent = claseLabel;
   qb.className = `badge ${selClase === 'ejecutivo' ? 'b-ejecutivo' : 'b-turista'}`;
 }
 
-// FIX: elegir clase
+// FIX 2: pickClase usa realOccupiedSeats (asientos reales de BD) en lugar de
+// leer los elementos .occ del DOM, que podían incluir asientos bloqueados por clase.
 window.pickClase = function(clase) {
   selClase = clase;
+  selSeat = []; // resetear selección al cambiar clase
   document.getElementById('opt-turista').className   = clase === 'turista'   ? 'clase-opt sel-turista'   : 'clase-opt';
   document.getElementById('opt-ejecutivo').className = clase === 'ejecutivo' ? 'clase-opt sel-ejecutivo' : 'clase-opt';
   updateFsummPrices();
-  // Actualizar mapa de asientos para respetar clase
-  const existingOcc = Array.from(document.querySelectorAll('.seat.occ')).map(s => s.dataset.seat);
-  buildSeatMap(existingOcc, clase);
+  // Reconstruir mapa con asientos reales de BD + filtro de clase
+  buildSeatMap(realOccupiedSeats, clase);
 };
 
 function showBookingPage() {
@@ -1074,7 +1123,7 @@ window.nextStep = function(step) {
     if (curStep === 2) {
       const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
       if (selSeat.length !== numPax) {
-        Swal2.fire({icon:'info',title:'Selecciona asientos',text:`Debes seleccionar ${numPax} asientos (tienes ${selSeat.length} seleccionados).`}); return;
+        Swal2.fire({icon:'info',title:'Selecciona asientos',text:`Debes seleccionar ${numPax} asiento${numPax>1?'s':''} (tienes ${selSeat.length} seleccionado${selSeat.length!==1?'s':''}).`}); return;
       }
     }
     if (curStep === 3) {
@@ -1089,7 +1138,6 @@ window.nextStep = function(step) {
   document.querySelectorAll('.bk-panel').forEach(p => p.classList.remove('act'));
   document.getElementById(`bk-p${step}`).classList.add('act');
   window.scrollTo({top:0,behavior:'smooth'});
-  // Actualizar asiento info en QR al llegar al paso 4
   if (step === 4 && selSeat.length > 0) {
     document.getElementById('qr-asiento-info').textContent = '· Asientos: ' + selSeat.join(', ');
   }
@@ -1112,7 +1160,11 @@ function updateSteps(cur) {
   else s5num.textContent = '5';
 }
 
-// ── SEAT MAP ── (FIX: distingue ejecutivo / turista)
+// ── SEAT MAP ──
+// FIX 2: buildSeatMap recibe siempre los asientos reales ocupados de BD.
+// Los asientos de otra clase se bloquean visualmente pero NO se mezclan
+// con los ocupados reales. Esto garantiza que al cambiar de clase, los
+// asientos bloqueados por clase anterior no queden "ocupados" en la nueva vista.
 function buildSeatMap(occ = [], claseHint = null) {
   selSeat = [];
   const clase = claseHint || selClase;
@@ -1123,74 +1175,89 @@ function buildSeatMap(occ = [], claseHint = null) {
   cols.forEach((col,i) => { if(i===3) html+='<div class="seat-aisle"></div>'; html+=`<div style="width:26px;text-align:center;font-size:9px;color:var(--txt3);font-weight:700">${col}</div>`; });
   html += '</div>';
   for (let r = 1; r <= 20; r++) {
-    const isEjRow = r <= 3; // Filas 1-3 = ejecutivo
+    const isEjRow = r <= 3;
     if (r===4) html += '<div class="seat-wing-lbl">— Clase turista —</div>';
     if (r===10) html += '<div class="seat-wing-lbl">✈ Zona alas</div>';
     if (r===1) html += '<div class="seat-wing-lbl">⭐ Ejecutivo — Filas 1-3</div>';
     html += `<div class="seat-row"><div class="seat-rnum">${r}</div>`;
     cols.forEach((col,i) => {
       if(i===3) html += '<div class="seat-aisle"></div>';
-      const id = `${r}${col}`, isOcc = occ.includes(id);
-      // Bloquear asientos que no corresponden a la clase elegida
-      let cls, blocked = false;
-      if (isOcc) { cls = 'occ'; }
-      else if (clase === 'turista' && isEjRow) { cls = 'occ'; blocked = true; }
-      else if (clase === 'ejecutivo' && !isEjRow) { cls = 'occ'; blocked = true; }
-      else if (isEjRow) { cls = 'ej'; }
-      else { cls = 'av'; }
-      const title = blocked
-        ? (clase === 'turista' ? 'Solo clase ejecutivo' : 'Solo clase turista')
-        : id;
-      html += `<div class="seat ${cls}" data-seat="${id}" onclick="pickSeat('${id}',${isOcc||blocked})" title="${title}">${id}</div>`;
+      const id = `${r}${col}`;
+      const isRealOcc = occ.includes(id); // ocupado de verdad (BD)
+
+      // Bloqueado por restricción de clase (no por reserva real)
+      const isClassBlocked = clase
+        ? (clase === 'turista' && isEjRow) || (clase === 'ejecutivo' && !isEjRow)
+        : false;
+
+      let cls, clickable = true;
+      if (isRealOcc) {
+        cls = 'occ'; clickable = false;
+      } else if (isClassBlocked) {
+        cls = 'occ'; clickable = false;
+      } else if (isEjRow) {
+        cls = 'ej';
+      } else {
+        cls = 'av';
+      }
+
+      const titleText = isRealOcc
+        ? 'Ocupado'
+        : isClassBlocked
+          ? (clase === 'turista' ? 'Solo clase ejecutivo' : 'Solo clase turista')
+          : id;
+
+      html += `<div class="seat ${cls}" data-seat="${id}" data-real-occ="${isRealOcc}" data-class-blocked="${isClassBlocked}" onclick="pickSeat('${id}',${!clickable})" title="${titleText}">${id}</div>`;
     });
     html += '</div>';
   }
   c.innerHTML = html;
-  // Restaurar selección visual
-  selSeat.forEach(seatId => {
-    const el = document.querySelector(`.seat[data-seat="${seatId}"]`);
-    const isEj = parseInt(seatId) <= 3;
-    if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
-  });
   document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
 }
-window.pickSeat = function(id, occ) {
-  if (occ) return;
+
+window.pickSeat = function(id, blocked) {
+  if (blocked) return;
   const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
   const index = selSeat.indexOf(id);
   if (index > -1) {
-    // Deseleccionar
     selSeat.splice(index, 1);
   } else {
-    // Seleccionar si no supera el límite
     if (selSeat.length >= numPax) {
-      snack('s-warn', 'Límite alcanzado', `Ya seleccionaste ${numPax} asientos para ${numPax} pasajeros.`);
+      snack('s-warn', 'Límite alcanzado', `Ya seleccionaste ${numPax} asiento${numPax>1?'s':''}.`);
       return;
     }
     selSeat.push(id);
   }
-  // Actualizar clases visuales
-  document.querySelectorAll('.seat.sel,.seat.ejsel').forEach(s => {
+  // Actualizar visuales solo en asientos seleccionables (no realmente ocupados ni bloqueados por clase)
+  document.querySelectorAll('.seat:not([data-real-occ="true"]):not([data-class-blocked="true"])').forEach(s => {
+    const isEj = parseInt(s.dataset.seat) <= 3;
     s.classList.remove('sel','ejsel');
-    s.classList.add(parseInt(s.dataset.seat)<=3?'ej':'av');
+    s.classList.add(isEj ? 'ej' : 'av');
   });
   selSeat.forEach(seatId => {
     const el = document.querySelector(`.seat[data-seat="${seatId}"]`);
     const isEj = parseInt(seatId) <= 3;
     if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
   });
-  // Actualizar info
   if (selSeat.length === 0) {
     document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
   } else {
-    const seatsStr = selSeat.join(', ');
     document.getElementById('seat-info').innerHTML =
-      `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asientos seleccionados: <strong>${seatsStr}</strong> (${selSeat.length}/${numPax})`;
+      `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asientos: <strong>${selSeat.join(', ')}</strong> (${selSeat.length}/${numPax})`;
   }
 };
 
 // ── CONFIRM ──
 window.confirmReservation = async function() {
+  // FIX 1: verificación extra por si acaso (el botón ya debería estar deshabilitado)
+  const fi = document.getElementById('comprobante');
+  if (!fi.files[0]) {
+    document.getElementById('upload-box').classList.add('required-missing');
+    document.getElementById('upload-required-msg').classList.add('show');
+    snack('s-err', 'Comprobante requerido', 'Debes adjuntar el comprobante de pago.');
+    return;
+  }
+
   const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
   const intl = ['Buenos Aires','Lima','São Paulo','Miami','Madrid'].some(c=>selFlight.destino.includes(c));
   const cur = intl?'USD $':'Bs.';
@@ -1207,11 +1274,12 @@ window.confirmReservation = async function() {
   });
   if (!res.isConfirmed) return;
 
-  const btn = document.getElementById('btn-confirm'), txt = document.getElementById('confirm-txt');
-  btn.disabled = true; txt.textContent = 'Procesando…';
+  const btn = document.getElementById('btn-confirm');
+  const confirmTxt = document.getElementById('confirm-txt');
+  btn.disabled = true;
+  confirmTxt.textContent = 'Procesando…';
 
   try {
-    // FIX: columna asiento + columna clase en reservations
     const { data: reservation, error: rErr } = await supabase.from('reservations').insert({
       user_id: CU.id,
       flight_id: selFlight.id,
@@ -1244,23 +1312,25 @@ window.confirmReservation = async function() {
     if (Object.values(asist).some(v=>v))
       await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
 
-    const fi = document.getElementById('comprobante');
+    // FIX 1: el comprobante siempre existe aquí (botón estaba deshabilitado sin archivo)
     let compUrl = null;
-    if (fi.files[0]) {
-      try {
-        compUrl = await uploadFile(fi.files[0], 'boa_comprobantes');
-      } catch (err) {
-        console.error('Error subiendo comprobante a Cloudinary:', err);
-      }
+    try {
+      compUrl = await uploadFile(fi.files[0], 'boa_comprobantes');
+    } catch (err) {
+      console.error('Error subiendo comprobante:', err);
+      // No cortamos el flujo, pero avisamos al admin en el estado
     }
+
     await supabase.from('payments').insert({
       reservation_id: reservation.id,
       monto: precioTotal,
       metodo: 'transferencia_qr',
       comprobante_url: compUrl,
+      // Si subió bien, va a revisión; si falló el upload, queda pendiente
       estado: compUrl ? 'revisando' : 'pendiente',
     });
-    // FIX: descontar según número de pasajeros
+
+    // FIX 2: descontar asientos según número de pasajeros
     await supabase.from('flights').update({
       asientos_disponibles: selFlight.asientos_disponibles - numPax
     }).eq('id', selFlight.id);
@@ -1270,7 +1340,9 @@ window.confirmReservation = async function() {
     await loadDashboard();
   } catch(err) {
     Swal2.fire({icon:'error',title:'Error',text:err.message||'No se pudo crear la reserva.'});
-  } finally { btn.disabled=false; txt.textContent='Confirmar reserva'; }
+    btn.disabled = false;
+    confirmTxt.textContent = 'Confirmar reserva';
+  }
 };
 
 function showConfirmationTicket(res, pax, f, seat, clase, cur, numPax, precioTotal) {
@@ -1278,6 +1350,7 @@ function showConfirmationTicket(res, pax, f, seat, clase, cur, numPax, precioTot
   const iataMap = {'Santa Cruz':'VVI','La Paz':'LPB','Cochabamba':'CBB','Sucre':'SRE','Trinidad':'TDD','Cobija':'CIJ','Oruro':'ORU','Potosí':'POI','Tarija':'TJA','Riberalta':'RIB','Buenos Aires':'EZE','Lima':'LIM'};
   const getI = str => { for (const [k,v] of Object.entries(iataMap)) if (str.includes(k)) return v; return str.slice(0,3).toUpperCase(); };
   const claseLabel = clase === 'ejecutivo' ? '⭐ Ejecutivo' : '🪑 Turista';
+  const seatDisplay = Array.isArray(seat) ? seat.join(', ') : seat;
   document.getElementById('confirm-sub').innerHTML = `Tu reserva está <b>pendiente de confirmación de pago</b>. Cuando el equipo BOA verifique tu transferencia se emitirá el boleto definitivo.`;
   document.getElementById('ticket-container').innerHTML = `
     <div class="ticket">
@@ -1295,7 +1368,7 @@ function showConfirmationTicket(res, pax, f, seat, clase, cur, numPax, precioTot
         <div><div class="tkt-dl">Fecha</div><div class="tkt-dv">${s.toLocaleDateString('es-BO',{day:'numeric',month:'short',year:'numeric'})}</div></div>
         <div><div class="tkt-dl">Salida</div><div class="tkt-dv">${s.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
         <div><div class="tkt-dl">Llegada</div><div class="tkt-dv">${ll.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})}</div></div>
-        <div><div class="tkt-dl">Asiento</div><div class="tkt-dv" style="font-size:20px;color:var(--navy)">${seat}</div></div>
+        <div><div class="tkt-dl">Asiento(s)</div><div class="tkt-dv" style="font-size:16px;color:var(--navy)">${seatDisplay}</div></div>
         <div><div class="tkt-dl">Clase</div><div class="tkt-dv">${claseLabel}</div></div>
         <div><div class="tkt-dl">Pasajeros</div><div class="tkt-dv">${numPax}</div></div>
         <div><div class="tkt-dl">Total</div><div class="tkt-dv">${cur} ${precioTotal}</div></div>
@@ -1396,24 +1469,17 @@ window.handleLogout = async function() {
 
 // ── NAV ──
 window.goPage = function(page, navEl) {
-  // Ocultar todas las páginas
   document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
   document.getElementById('page-booking').classList.remove('act');
-  // Desactivar sidebar links
   document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('act'));
-  // Mostrar la página correcta
   const el = document.getElementById('page-' + page);
   if (el) el.classList.add('act');
-  // Activar sidebar link
   if (navEl) navEl.classList.add('act');
   else { const f = document.querySelector(`.sb-item[data-page="${page}"]`); if (f) f.classList.add('act'); }
-  // Actualizar título topbar
   const titles = { dashboard:'Inicio', 'mis-reservas':'Mis Reservas', 'buscar-vuelos':'Buscar Vuelos', perfil:'Mi Perfil' };
   document.getElementById('tb-title').textContent = titles[page] || 'Portal';
-  // Cerrar sidebar mobile
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sb-backdrop').classList.remove('show');
-  // Sincronizar bottom nav automáticamente
   document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('act'));
   const bt = document.getElementById('mn-' + page);
   if (bt) bt.classList.add('act');
@@ -1429,7 +1495,8 @@ window.toggleSidebar = function() {
 
 function snack(type, ttl, msg) {
   const el = document.getElementById('snack');
-  el.querySelector('i').className = type==='s-ok'?'bi bi-check-circle-fill':'bi bi-exclamation-circle-fill';
+  const icons = { 's-ok': 'bi bi-check-circle-fill', 's-err': 'bi bi-exclamation-circle-fill', 's-warn': 'bi bi-exclamation-triangle-fill' };
+  el.querySelector('i').className = icons[type] || icons['s-ok'];
   document.getElementById('snack-ttl').textContent = ttl;
   document.getElementById('snack-msg').textContent = msg;
   el.className = `snack ${type} show`;
@@ -1440,8 +1507,24 @@ function city(s) { return (s||'').replace(/\s*\([^)]*\)/,'').trim(); }
 function fmtE(e) { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
 function bClass(e) { return {confirmado:'b-ok',pendiente:'b-warn',pago_en_revision:'b-info',cancelado:'b-err',completado:'b-mut'}[e]||'b-mut'; }
 
+// FIX 1: listener del input de comprobante — habilita/deshabilita botón confirmar
 document.getElementById('comprobante')?.addEventListener('change', function() {
-  document.getElementById('file-name').textContent = this.files[0]?.name||'Sin archivo';
+  const hasFile = this.files && this.files[0];
+  document.getElementById('file-name').textContent = hasFile ? this.files[0].name : 'Sin archivo';
+
+  const btn = document.getElementById('btn-confirm');
+  const ub = document.getElementById('upload-box');
+  const rm = document.getElementById('upload-required-msg');
+
+  if (hasFile) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-check-circle"></i> <span id="confirm-txt">Confirmar reserva</span>';
+    ub.classList.remove('required-missing');
+    rm.classList.remove('show');
+  } else {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-lock-fill"></i> <span id="confirm-txt">Adjunta el comprobante</span>';
+  }
 });
 
 init();

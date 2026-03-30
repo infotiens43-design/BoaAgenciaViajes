@@ -1071,8 +1071,11 @@ window.nextStep = function(step) {
     if (curStep === 1 && !selClase) {
       Swal2.fire({icon:'info',title:'Elige una clase',text:'Selecciona Turista o Ejecutivo para continuar.'}); return;
     }
-    if (curStep === 2 && !selSeat) {
-      Swal2.fire({icon:'info',title:'Elige un asiento',text:'Selecciona tu asiento en el mapa para continuar.'}); return;
+    if (curStep === 2) {
+      const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
+      if (selSeat.length !== numPax) {
+        Swal2.fire({icon:'info',title:'Selecciona asientos',text:`Debes seleccionar ${numPax} asientos (tienes ${selSeat.length} seleccionados).`}); return;
+      }
     }
     if (curStep === 3) {
       const n = document.getElementById('p-nombre').value.trim();
@@ -1087,8 +1090,8 @@ window.nextStep = function(step) {
   document.getElementById(`bk-p${step}`).classList.add('act');
   window.scrollTo({top:0,behavior:'smooth'});
   // Actualizar asiento info en QR al llegar al paso 4
-  if (step === 4 && selSeat) {
-    document.getElementById('qr-asiento-info').textContent = `· Asiento ${selSeat}`;
+  if (step === 4 && selSeat.length > 0) {
+    document.getElementById('qr-asiento-info').textContent = '· Asientos: ' + selSeat.join(', ');
   }
 };
 
@@ -1111,7 +1114,7 @@ function updateSteps(cur) {
 
 // ── SEAT MAP ── (FIX: distingue ejecutivo / turista)
 function buildSeatMap(occ = [], claseHint = null) {
-  selSeat = null;
+  selSeat = [];
   const clase = claseHint || selClase;
   const c = document.getElementById('seat-map');
   const cols = ['A','B','C','D','E','F'];
@@ -1143,22 +1146,47 @@ function buildSeatMap(occ = [], claseHint = null) {
     html += '</div>';
   }
   c.innerHTML = html;
+  // Restaurar selección visual
+  selSeat.forEach(seatId => {
+    const el = document.querySelector(`.seat[data-seat="${seatId}"]`);
+    const isEj = parseInt(seatId) <= 3;
+    if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
+  });
   document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
 }
 window.pickSeat = function(id, occ) {
   if (occ) return;
+  const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
+  const index = selSeat.indexOf(id);
+  if (index > -1) {
+    // Deseleccionar
+    selSeat.splice(index, 1);
+  } else {
+    // Seleccionar si no supera el límite
+    if (selSeat.length >= numPax) {
+      snack('s-warn', 'Límite alcanzado', `Ya seleccionaste ${numPax} asientos para ${numPax} pasajeros.`);
+      return;
+    }
+    selSeat.push(id);
+  }
+  // Actualizar clases visuales
   document.querySelectorAll('.seat.sel,.seat.ejsel').forEach(s => {
     s.classList.remove('sel','ejsel');
     s.classList.add(parseInt(s.dataset.seat)<=3?'ej':'av');
   });
-  const el = document.querySelector(`.seat[data-seat="${id}"]`);
-  const isEj = parseInt(id) <= 3;
-  if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
-  selSeat = id;
-  const claseLabel = isEj ? '⭐ Ejecutivo' : '🪑 Turista';
-  const badgeCls   = isEj ? 'b-ejecutivo' : 'b-turista';
-  document.getElementById('seat-info').innerHTML =
-    `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asiento <strong>${id}</strong> — <span class="badge ${badgeCls}">${claseLabel}</span>`;
+  selSeat.forEach(seatId => {
+    const el = document.querySelector(`.seat[data-seat="${seatId}"]`);
+    const isEj = parseInt(seatId) <= 3;
+    if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
+  });
+  // Actualizar info
+  if (selSeat.length === 0) {
+    document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
+  } else {
+    const seatsStr = selSeat.join(', ');
+    document.getElementById('seat-info').innerHTML =
+      `<i class="bi bi-check-circle-fill" style="color:var(--navy)"></i> Asientos seleccionados: <strong>${seatsStr}</strong> (${selSeat.length}/${numPax})`;
+  }
 };
 
 // ── CONFIRM ──
@@ -1173,7 +1201,7 @@ window.confirmReservation = async function() {
   const res = await Swal2.fire({
     icon:'question', title:'¿Confirmar reserva?',
     html:`Vuelo <b>${city(selFlight.origen)} → ${city(selFlight.destino)}</b><br>
-          Clase: <b>${claseLabel}</b> · Asiento: <b>${selSeat}</b><br>
+          Clase: <b>${claseLabel}</b> · Asientos: <b>${selSeat.join(', ')}</b><br>
           Pasajeros: <b>${numPax}</b> · Total: <b>${cur} ${precioTotal}</b>`,
     showCancelButton:true, confirmButtonText:'Sí, reservar', cancelButtonText:'Revisar'
   });
@@ -1189,7 +1217,7 @@ window.confirmReservation = async function() {
       flight_id: selFlight.id,
       estado: 'pendiente',
       precio_total: precioTotal,
-      asiento: selSeat,
+      asiento: selSeat.join(','),
       clase: selClase,
     }).select().single();
     if (rErr) throw rErr;

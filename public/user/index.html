@@ -270,6 +270,11 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .seat.ej{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
 .seat.ej:hover{background:#FCD34D;transform:scale(1.12)}
 .seat.ejsel{background:var(--gold);border-color:var(--gold);color:#fff;transform:scale(1.1)}
+
+/* Held seat style - shown as "temp reserved" in orange */
+.seat.held{background:#FFE4B5;border-color:#FFA500;color:#8B4513;cursor:not-allowed;position:relative}
+.seat.held::after{content:'⏱';font-size:7px;position:absolute;top:-3px;right:-3px;background:#FFA500;border-radius:50%;width:10px;height:10px;display:flex;align-items:center;justify-content:center;color:#fff}
+
 .seat-wing-lbl{text-align:center;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin:4px 0}
 .seat-info{text-align:center;margin-top:10px;font-size:13px;color:var(--txt2)}
 
@@ -278,6 +283,45 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .assist-item{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--bg);cursor:pointer;transition:all .15s;font-size:12.5px;color:var(--txt2)}
 .assist-item:has(input:checked){border-color:var(--navy2);background:rgba(11,31,75,0.05);color:var(--navy);font-weight:600}
 .assist-item input{accent-color:var(--navy);width:14px;height:14px;flex-shrink:0}
+
+/* ── SEAT HOLD TIMER ── */
+/* Timer widget flotante - esquina inferior derecha de la pantalla de reserva */
+#seat-hold-timer{
+  position:fixed;
+  bottom:calc(var(--bot-h) + 16px);
+  right:18px;
+  z-index:500;
+  background:#fff;
+  border:2px solid var(--warn);
+  border-radius:14px;
+  padding:12px 16px 12px 14px;
+  box-shadow:0 8px 32px rgba(212,138,12,0.22), 0 2px 8px rgba(0,0,0,0.08);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  min-width:160px;
+  animation:timerPop .3s var(--ease) both;
+}
+@keyframes timerPop{from{opacity:0;transform:translateY(12px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+#seat-hold-timer.show{display:flex}
+#seat-hold-timer.urgent{border-color:var(--err);background:#FFF5F5;animation:timerPulse 1s ease infinite}
+@keyframes timerPulse{0%,100%{box-shadow:0 8px 32px rgba(212,32,32,0.18)}50%{box-shadow:0 8px 32px rgba(212,32,32,0.45),0 0 0 4px rgba(212,32,32,0.12)}}
+.timer-header{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--warn);letter-spacing:.5px;text-transform:uppercase}
+#seat-hold-timer.urgent .timer-header{color:var(--err)}
+.timer-header i{font-size:15px}
+.timer-display{font-family:var(--fh);font-size:32px;font-weight:800;color:var(--txt);line-height:1;letter-spacing:2px}
+#seat-hold-timer.urgent .timer-display{color:var(--err)}
+.timer-sub{font-size:10px;color:var(--txt3);text-align:center;line-height:1.4;max-width:130px}
+.timer-seats-label{font-size:11px;color:var(--txt2);font-weight:600;text-align:center}
+/* Progress ring */
+.timer-ring-wrap{position:relative;width:56px;height:56px}
+.timer-ring-wrap svg{transform:rotate(-90deg)}
+.timer-ring-bg{stroke:rgba(212,138,12,0.15);fill:none}
+.timer-ring-fill{stroke:var(--warn);fill:none;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s}
+#seat-hold-timer.urgent .timer-ring-fill{stroke:var(--err)}
+.timer-ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:800;color:var(--txt)}
+#seat-hold-timer.urgent .timer-ring-num{color:var(--err)}
 
 /* ── QR GRANDE Y RESPONSIVE ── */
 .qr-card{background:linear-gradient(160deg,#EEF4FF,#E4EDFB);border:1px solid rgba(11,31,75,0.1);border-radius:var(--r);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:14px}
@@ -292,8 +336,7 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .qr-row span:last-child{font-weight:600;color:var(--txt)}
 .qr-note{font-size:11px;color:var(--txt3);text-align:center;line-height:1.55;padding:8px 10px;background:rgba(201,149,42,0.07);border-radius:6px;border:1px solid rgba(201,149,42,0.18);width:100%}
 
-/* ── COMPROBANTE: aviso bloqueante ── */
-/* FIX 1: zona de comprobante resaltada cuando no se ha adjuntado */
+/* Comprobante */
 .upload-box{background:#EFF6FF;border:1.5px dashed #93C5FD;border-radius:var(--rs);padding:13px;transition:border-color .2s,background .2s}
 .upload-box.required-missing{background:#FFF1F1;border-color:var(--red);}
 .upload-lbl{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:5px;display:block}
@@ -302,7 +345,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .upload-btn{padding:7px 13px;background:#fff;border:1.5px solid var(--navy);border-radius:var(--rs);color:var(--navy);font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
 .upload-btn:hover{background:var(--navy);color:#fff}
 .upload-fname{font-size:12px;color:var(--txt3)}
-/* Aviso de comprobante requerido */
 .upload-required-msg{font-size:11.5px;color:var(--err);font-weight:600;margin-top:6px;display:none;align-items:center;gap:5px}
 .upload-required-msg.show{display:flex}
 
@@ -403,6 +445,15 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   .nf-banner{padding:14px 16px}
   .nf-route{font-size:18px}
   .clase-selector{grid-template-columns:1fr 1fr}
+  /* Timer en mobile — arriba a la derecha del contenido */
+  #seat-hold-timer{
+    bottom:auto;
+    top:66px;
+    right:10px;
+    min-width:120px;
+    padding:8px 12px;
+  }
+  .timer-display{font-size:24px}
 }
 @media(max-width:480px){
   .stats-grid{grid-template-columns:1fr 1fr;gap:8px}
@@ -427,6 +478,24 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="snack" id="snack">
   <i class="bi bi-check-circle-fill"></i>
   <div><strong id="snack-ttl"></strong><span id="snack-msg"></span></div>
+</div>
+
+<!-- ── SEAT HOLD TIMER (flotante, siempre visible durante booking) ── -->
+<div id="seat-hold-timer">
+  <div class="timer-header">
+    <i class="bi bi-hourglass-split"></i>
+    <span>Reserva temporal</span>
+  </div>
+  <div class="timer-ring-wrap">
+    <svg width="56" height="56" viewBox="0 0 56 56">
+      <circle class="timer-ring-bg" cx="28" cy="28" r="23" stroke-width="4"/>
+      <circle class="timer-ring-fill" id="timer-ring" cx="28" cy="28" r="23" stroke-width="4"
+        stroke-dasharray="144.51" stroke-dashoffset="0"/>
+    </svg>
+    <div class="timer-ring-num" id="timer-ring-num">3:00</div>
+  </div>
+  <div class="timer-seats-label" id="timer-seats-label">Asientos bloqueados</div>
+  <div class="timer-sub">Completa el pago antes de que expire</div>
 </div>
 
 <!-- SIDEBAR BACKDROP -->
@@ -596,6 +665,7 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
                   <span><span class="leg-dot" style="background:#F1F5F9;border:1px solid #E2E8F0"></span>Ocupado</span>
                   <span><span class="leg-dot" style="background:var(--navy)"></span>Seleccionado</span>
                   <span><span class="leg-dot" style="background:#FEF3C7;border:1px solid #FCD34D"></span>Ejecutivo disponible</span>
+                  <span><span class="leg-dot" style="background:#FFE4B5;border:1px solid #FFA500"></span>Reserva temporal ⏱</span>
                 </div>
                 <div class="seat-plane" id="seat-map"></div>
                 <div class="seat-info" id="seat-info"><i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo</div>
@@ -678,12 +748,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
                 <div class="qr-note"><i class="bi bi-info-circle" style="margin-right:5px"></i>Realiza la transferencia y adjunta el comprobante. Tu boleto se emite cuando el equipo BOA confirme el pago.</div>
               </div>
 
-              <!--
-                FIX 1: Comprobante REQUERIDO.
-                - El botón "Confirmar reserva" arranca deshabilitado.
-                - Se habilita solo cuando hay un archivo adjunto.
-                - Si el usuario intenta confirmar sin comprobante, se muestra aviso.
-              -->
               <div class="upload-box" id="upload-box" style="margin-top:14px">
                 <span class="upload-lbl"><i class="bi bi-upload"></i> Comprobante de pago <span style="color:var(--red)">*</span></span>
                 <p class="upload-desc">Adjunta la captura o PDF de tu transferencia para poder confirmar la reserva.</p>
@@ -701,10 +765,6 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
           <div class="bk-nav">
             <button class="btn btn-ghost" onclick="nextStep(3)"><i class="bi bi-arrow-left"></i> Volver</button>
             <div class="bk-nav-r">
-              <!--
-                FIX 1: disabled hasta que se adjunte comprobante.
-                El atributo se quita en el listener del input file.
-              -->
               <button class="btn btn-primary btn-lg" id="btn-confirm" onclick="confirmReservation()" disabled>
                 <i class="bi bi-lock-fill"></i> <span id="confirm-txt">Adjunta el comprobante</span>
               </button>
@@ -790,11 +850,18 @@ select.fc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 import { supabase } from '../../assets/js/supabase.js';
 import { uploadFile } from '../../assets/js/cloudinary.js';
 
-let CU = null, selFlight = null, selSeat = null, selClase = null, userProf = null, curStep = 1;
-
-// FIX 2: guardamos los asientos REALMENTE ocupados por BD (no bloqueados por clase)
-// para poder reutilizarlos cuando el usuario cambia de clase sin volver a consultar.
+let CU = null, selFlight = null, selSeat = [], selClase = null, userProf = null, curStep = 1;
 let realOccupiedSeats = [];
+let heldSeats = []; // asientos en hold de OTROS usuarios (no el nuestro)
+
+// ── SEAT HOLD TIMER STATE ──
+const HOLD_DURATION_SEC = 180; // 3 minutos
+let holdTimerInterval = null;
+let holdTimerSecondsLeft = HOLD_DURATION_SEC;
+let holdExpireAt = null; // timestamp absoluto de expiración
+let currentHoldId = null; // ID del registro en seat_holds en BD
+
+const RING_CIRC = 144.51; // 2π × r = 2π × 23
 
 const EJECUTIVO_MULT = 1.8;
 function precioClase(base, clase) {
@@ -849,7 +916,164 @@ async function init() {
 
   await loadDashboard();
   await loadFlights();
+
+  // Limpiar holds expirados del usuario al iniciar
+  await cleanExpiredHolds();
+
   setTimeout(() => { document.getElementById('loading').classList.add('done'); setTimeout(() => document.getElementById('loading').remove(), 600); }, 1100);
+}
+
+// ── SEAT HOLD FUNCTIONS ──
+
+/**
+ * Crea un hold temporal en BD para los asientos seleccionados.
+ * La tabla seat_holds tiene: id, flight_id, seats (texto), user_id, expires_at
+ */
+async function createSeatHold(flightId, seats, numPax) {
+  // Primero limpiar el hold previo del mismo usuario en este vuelo
+  await clearMyHold(flightId);
+
+  const expiresAt = new Date(Date.now() + HOLD_DURATION_SEC * 1000).toISOString();
+  const { data, error } = await supabase.from('seat_holds').insert({
+    flight_id: flightId,
+    seats: seats.join(','),
+    user_id: CU.id,
+    expires_at: expiresAt,
+    num_passengers: numPax,
+  }).select().single();
+
+  if (error) {
+    console.error('Error creando hold:', error);
+    return null;
+  }
+  return data;
+}
+
+/** Elimina el hold activo del usuario en este vuelo */
+async function clearMyHold(flightId) {
+  if (!CU) return;
+  await supabase.from('seat_holds')
+    .delete()
+    .eq('user_id', CU.id)
+    .eq('flight_id', flightId || selFlight?.id || '');
+}
+
+/** Elimina el hold por ID (cuando se confirma la reserva) */
+async function clearHoldById(holdId) {
+  if (!holdId) return;
+  await supabase.from('seat_holds').delete().eq('id', holdId);
+}
+
+/** Limpia todos los holds expirados del usuario actual */
+async function cleanExpiredHolds() {
+  if (!CU) return;
+  await supabase.from('seat_holds')
+    .delete()
+    .eq('user_id', CU.id)
+    .lt('expires_at', new Date().toISOString());
+}
+
+/**
+ * Obtiene los asientos en hold de OTROS usuarios para este vuelo
+ * (no expirados). Se usan para mostrarlos en el mapa como "reservados temporalmente".
+ */
+async function getHeldSeatsByOthers(flightId) {
+  const now = new Date().toISOString();
+  const { data } = await supabase.from('seat_holds')
+    .select('seats, user_id')
+    .eq('flight_id', flightId)
+    .neq('user_id', CU.id)
+    .gt('expires_at', now);
+
+  if (!data?.length) return [];
+  return data.flatMap(r => (r.seats || '').split(',').map(s => s.trim())).filter(Boolean);
+}
+
+// ── TIMER UI ──
+
+/** Inicia el contador regresivo de 3 minutos */
+function startHoldTimer(seats) {
+  stopHoldTimer(); // limpiar si había uno previo
+  holdTimerSecondsLeft = HOLD_DURATION_SEC;
+  holdExpireAt = Date.now() + HOLD_DURATION_SEC * 1000;
+
+  const timerEl = document.getElementById('seat-hold-timer');
+  const ringEl  = document.getElementById('timer-ring');
+  const numEl   = document.getElementById('timer-ring-num');
+  const seatsLbl = document.getElementById('timer-seats-label');
+
+  seatsLbl.textContent = `Asientos: ${seats.join(', ')}`;
+  timerEl.classList.add('show');
+  timerEl.classList.remove('urgent');
+
+  function tick() {
+    const remaining = Math.max(0, Math.round((holdExpireAt - Date.now()) / 1000));
+    holdTimerSecondsLeft = remaining;
+
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    const label = `${mins}:${secs.toString().padStart(2,'0')}`;
+
+    numEl.textContent = label;
+
+    // Actualizar ring SVG
+    const pct = remaining / HOLD_DURATION_SEC;
+    const offset = RING_CIRC * (1 - pct);
+    ringEl.style.strokeDashoffset = offset;
+
+    // Urgente si quedan menos de 30 segundos
+    if (remaining <= 30) {
+      timerEl.classList.add('urgent');
+    }
+
+    if (remaining <= 0) {
+      stopHoldTimer();
+      onHoldExpired();
+    }
+  }
+
+  tick();
+  holdTimerInterval = setInterval(tick, 1000);
+}
+
+/** Detiene el temporizador y oculta el widget */
+function stopHoldTimer() {
+  if (holdTimerInterval) {
+    clearInterval(holdTimerInterval);
+    holdTimerInterval = null;
+  }
+  const timerEl = document.getElementById('seat-hold-timer');
+  timerEl.classList.remove('show', 'urgent');
+}
+
+/**
+ * Callback cuando el temporizador expira SIN que el usuario haya confirmado.
+ * Se libera el hold en BD y se notifica al usuario.
+ */
+async function onHoldExpired() {
+  // Eliminar hold de BD
+  if (currentHoldId) {
+    await clearHoldById(currentHoldId);
+    currentHoldId = null;
+  }
+
+  // Si está en la página de booking, avisar y volver a buscar vuelos
+  const isBooking = document.getElementById('page-booking').classList.contains('act');
+  if (isBooking) {
+    await Swal2.fire({
+      icon: 'warning',
+      title: 'Tiempo agotado',
+      html: `Tu reserva temporal de los asientos <b>${selSeat.join(', ')}</b> expiró.<br>Los asientos fueron liberados. Por favor elige nuevamente.`,
+      confirmButtonText: 'Entendido',
+    });
+    // Volver al paso 2 (selección de asiento) y reconstruir mapa
+    selSeat = [];
+    currentHoldId = null;
+    // Recargar holds de otros y mapa
+    heldSeats = await getHeldSeatsByOthers(selFlight.id);
+    buildSeatMap(realOccupiedSeats, selClase);
+    nextStep(2);
+  }
 }
 
 // ── DASHBOARD ──
@@ -1000,10 +1224,19 @@ function flCard(f) {
 window.startBooking = async function(flightId) {
   const { data: f } = await supabase.from('flights').select('*').eq('id', flightId).single();
   if (!f) return;
+
+  // Si había un hold previo activo en otro vuelo, limpiarlo
+  if (selFlight && selFlight.id !== flightId) {
+    await clearMyHold(selFlight.id);
+    stopHoldTimer();
+    currentHoldId = null;
+  }
+
   selFlight = f;
   selSeat = [];
   selClase = null;
   curStep = 1;
+  currentHoldId = null;
 
   const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
   document.getElementById('pax-display').textContent = numPax;
@@ -1037,29 +1270,27 @@ window.startBooking = async function(flightId) {
   document.getElementById('qr-pax-info').textContent = `· ${numPax} pasajero${numPax>1?'s':''}`;
   document.getElementById('qr-asiento-info').textContent = '· Asiento —';
 
-  // FIX 1: Resetear comprobante y deshabilitar botón confirmar
   resetComprobanteState();
 
-  // FIX 2: Traer asientos ocupados de BD incluyendo pendientes y en revisión
-  // Solo se excluyen reservas canceladas. Así se respetan asientos de quien ya pagó
-  // y está esperando aprobación del admin.
+  // Traer asientos realmente ocupados de BD (reservas confirmadas/pendientes)
   const { data: pax } = await supabase
     .from('reservations')
     .select('asiento')
     .eq('flight_id', flightId)
-    .neq('estado', 'cancelado'); // pendiente, pago_en_revision y confirmado quedan BLOQUEADOS
+    .neq('estado', 'cancelado');
 
-  // Separar asientos individuales (pueden venir como "5A,5B" si hay multi-pax)
   realOccupiedSeats = (pax || [])
     .flatMap(p => (p.asiento || '').split(',').map(s => s.trim()))
     .filter(Boolean);
 
-  buildSeatMap(realOccupiedSeats);
+  // Traer asientos en hold de OTROS usuarios (temporales, no confirmados)
+  heldSeats = await getHeldSeatsByOthers(flightId);
+
+  buildSeatMap(realOccupiedSeats, null);
   updateSteps(1);
   showBookingPage();
 };
 
-// FIX 1: función para resetear estado del comprobante
 function resetComprobanteState() {
   const fi = document.getElementById('comprobante');
   if (fi) fi.value = '';
@@ -1094,15 +1325,18 @@ function updateFsummPrices() {
   qb.className = `badge ${selClase === 'ejecutivo' ? 'b-ejecutivo' : 'b-turista'}`;
 }
 
-// FIX 2: pickClase usa realOccupiedSeats (asientos reales de BD) en lugar de
-// leer los elementos .occ del DOM, que podían incluir asientos bloqueados por clase.
 window.pickClase = function(clase) {
   selClase = clase;
-  selSeat = []; // resetear selección al cambiar clase
+  selSeat = [];
+  // Si había un hold activo, limpiarlo porque cambió la clase
+  if (currentHoldId) {
+    clearHoldById(currentHoldId);
+    currentHoldId = null;
+    stopHoldTimer();
+  }
   document.getElementById('opt-turista').className   = clase === 'turista'   ? 'clase-opt sel-turista'   : 'clase-opt';
   document.getElementById('opt-ejecutivo').className = clase === 'ejecutivo' ? 'clase-opt sel-ejecutivo' : 'clase-opt';
   updateFsummPrices();
-  // Reconstruir mapa con asientos reales de BD + filtro de clase
   buildSeatMap(realOccupiedSeats, clase);
 };
 
@@ -1115,7 +1349,7 @@ function showBookingPage() {
   document.getElementById('sb-backdrop').classList.remove('show');
 }
 
-window.nextStep = function(step) {
+window.nextStep = async function(step) {
   if (step > curStep) {
     if (curStep === 1 && !selClase) {
       Swal2.fire({icon:'info',title:'Elige una clase',text:'Selecciona Turista o Ejecutivo para continuar.'}); return;
@@ -1124,6 +1358,19 @@ window.nextStep = function(step) {
       const numPax = parseInt(document.getElementById('f-pax')?.value||'1');
       if (selSeat.length !== numPax) {
         Swal2.fire({icon:'info',title:'Selecciona asientos',text:`Debes seleccionar ${numPax} asiento${numPax>1?'s':''} (tienes ${selSeat.length} seleccionado${selSeat.length!==1?'s':''}).`}); return;
+      }
+
+      // ── CREAR HOLD al pasar del paso 2 al 3 ──
+      // Si ya hay un hold activo válido (mismo usuario, mismo vuelo, mismos asientos), no crear otro
+      const needNewHold = !currentHoldId || holdTimerSecondsLeft <= 0;
+      if (needNewHold) {
+        const numPax2 = parseInt(document.getElementById('f-pax')?.value||'1');
+        const hold = await createSeatHold(selFlight.id, selSeat, numPax2);
+        if (hold) {
+          currentHoldId = hold.id;
+          startHoldTimer(selSeat);
+          snack('s-warn', '⏱ Asientos bloqueados', `Tienes ${HOLD_DURATION_SEC/60} min para completar el pago.`);
+        }
       }
     }
     if (curStep === 3) {
@@ -1140,6 +1387,11 @@ window.nextStep = function(step) {
   window.scrollTo({top:0,behavior:'smooth'});
   if (step === 4 && selSeat.length > 0) {
     document.getElementById('qr-asiento-info').textContent = '· Asientos: ' + selSeat.join(', ');
+  }
+  // Si el usuario vuelve al paso de asiento, pausar/ocultar timer (pero NO eliminar el hold)
+  if (step <= 2) {
+    // Solo ocultamos visualmente el timer si vuelven atrás (el hold sigue activo)
+    // No llamamos stopHoldTimer() para no matar el intervalo
   }
 };
 
@@ -1161,10 +1413,13 @@ function updateSteps(cur) {
 }
 
 // ── SEAT MAP ──
-// FIX 2: buildSeatMap recibe siempre los asientos reales ocupados de BD.
-// Los asientos de otra clase se bloquean visualmente pero NO se mezclan
-// con los ocupados reales. Esto garantiza que al cambiar de clase, los
-// asientos bloqueados por clase anterior no queden "ocupados" en la nueva vista.
+/**
+ * buildSeatMap muestra:
+ *  - occ = asientos REALMENTE ocupados (reservas en BD)
+ *  - heldSeats (global) = asientos en hold de otros usuarios (naranja con ⏱)
+ *  - selSeat (global) = asientos seleccionados por EL USUARIO ACTUAL
+ *  - claseBloqueados = asientos de la otra clase (gris)
+ */
 function buildSeatMap(occ = [], claseHint = null) {
   selSeat = [];
   const clase = claseHint || selClase;
@@ -1183,31 +1438,29 @@ function buildSeatMap(occ = [], claseHint = null) {
     cols.forEach((col,i) => {
       if(i===3) html += '<div class="seat-aisle"></div>';
       const id = `${r}${col}`;
-      const isRealOcc = occ.includes(id); // ocupado de verdad (BD)
-
-      // Bloqueado por restricción de clase (no por reserva real)
+      const isRealOcc = occ.includes(id);
+      const isHeld = heldSeats.includes(id); // hold de OTRO usuario
       const isClassBlocked = clase
         ? (clase === 'turista' && isEjRow) || (clase === 'ejecutivo' && !isEjRow)
         : false;
 
-      let cls, clickable = true;
+      let cls, clickable = true, titleText = id;
+
       if (isRealOcc) {
-        cls = 'occ'; clickable = false;
+        cls = 'occ'; clickable = false; titleText = 'Ocupado';
+      } else if (isHeld) {
+        // Asiento en hold temporal de otro usuario
+        cls = 'held'; clickable = false; titleText = 'Reservado temporalmente';
       } else if (isClassBlocked) {
         cls = 'occ'; clickable = false;
+        titleText = clase === 'turista' ? 'Solo clase ejecutivo' : 'Solo clase turista';
       } else if (isEjRow) {
         cls = 'ej';
       } else {
         cls = 'av';
       }
 
-      const titleText = isRealOcc
-        ? 'Ocupado'
-        : isClassBlocked
-          ? (clase === 'turista' ? 'Solo clase ejecutivo' : 'Solo clase turista')
-          : id;
-
-      html += `<div class="seat ${cls}" data-seat="${id}" data-real-occ="${isRealOcc}" data-class-blocked="${isClassBlocked}" onclick="pickSeat('${id}',${!clickable})" title="${titleText}">${id}</div>`;
+      html += `<div class="seat ${cls}" data-seat="${id}" data-real-occ="${isRealOcc}" data-held="${isHeld}" data-class-blocked="${isClassBlocked}" onclick="pickSeat('${id}',${!clickable})" title="${titleText}">${id}</div>`;
     });
     html += '</div>';
   }
@@ -1228,8 +1481,9 @@ window.pickSeat = function(id, blocked) {
     }
     selSeat.push(id);
   }
-  // Actualizar visuales solo en asientos seleccionables (no realmente ocupados ni bloqueados por clase)
-  document.querySelectorAll('.seat:not([data-real-occ="true"]):not([data-class-blocked="true"])').forEach(s => {
+
+  // Actualizar visuales solo en asientos seleccionables
+  document.querySelectorAll('.seat:not([data-real-occ="true"]):not([data-held="true"]):not([data-class-blocked="true"])').forEach(s => {
     const isEj = parseInt(s.dataset.seat) <= 3;
     s.classList.remove('sel','ejsel');
     s.classList.add(isEj ? 'ej' : 'av');
@@ -1239,6 +1493,7 @@ window.pickSeat = function(id, blocked) {
     const isEj = parseInt(seatId) <= 3;
     if (el) { el.classList.remove('ej','av'); el.classList.add(isEj?'ejsel':'sel'); }
   });
+
   if (selSeat.length === 0) {
     document.getElementById('seat-info').innerHTML = '<i class="bi bi-cursor" style="color:var(--txt3)"></i> Toca un asiento para seleccionarlo';
   } else {
@@ -1249,12 +1504,17 @@ window.pickSeat = function(id, blocked) {
 
 // ── CONFIRM ──
 window.confirmReservation = async function() {
-  // FIX 1: verificación extra por si acaso (el botón ya debería estar deshabilitado)
   const fi = document.getElementById('comprobante');
   if (!fi.files[0]) {
     document.getElementById('upload-box').classList.add('required-missing');
     document.getElementById('upload-required-msg').classList.add('show');
     snack('s-err', 'Comprobante requerido', 'Debes adjuntar el comprobante de pago.');
+    return;
+  }
+
+  // Verificar que el timer no haya expirado
+  if (holdTimerSecondsLeft <= 0 && currentHoldId) {
+    Swal2.fire({icon:'warning',title:'Tiempo agotado',text:'El tiempo de reserva expiró. Por favor vuelve a seleccionar tus asientos.'});
     return;
   }
 
@@ -1312,13 +1572,11 @@ window.confirmReservation = async function() {
     if (Object.values(asist).some(v=>v))
       await supabase.from('special_assistance').insert({ passenger_id: passenger.id, ...asist });
 
-    // FIX 1: el comprobante siempre existe aquí (botón estaba deshabilitado sin archivo)
     let compUrl = null;
     try {
       compUrl = await uploadFile(fi.files[0], 'boa_comprobantes');
     } catch (err) {
       console.error('Error subiendo comprobante:', err);
-      // No cortamos el flujo, pero avisamos al admin en el estado
     }
 
     await supabase.from('payments').insert({
@@ -1326,14 +1584,20 @@ window.confirmReservation = async function() {
       monto: precioTotal,
       metodo: 'transferencia_qr',
       comprobante_url: compUrl,
-      // Si subió bien, va a revisión; si falló el upload, queda pendiente
       estado: compUrl ? 'revisando' : 'pendiente',
     });
 
-    // FIX 2: descontar asientos según número de pasajeros
     await supabase.from('flights').update({
       asientos_disponibles: selFlight.asientos_disponibles - numPax
     }).eq('id', selFlight.id);
+
+    // ── HOLD COMPLETADO: eliminar el registro de seat_holds ──
+    // El pago fue registrado → liberar el hold para que no aparezca como "temporal"
+    if (currentHoldId) {
+      await clearHoldById(currentHoldId);
+      currentHoldId = null;
+    }
+    stopHoldTimer();
 
     showConfirmationTicket(reservation, passenger, selFlight, selSeat, selClase, cur, numPax, precioTotal);
     nextStep(5);
@@ -1463,12 +1727,24 @@ window.sendPwReset = async function() {
 window.handleLogout = async function() {
   const res = await Swal2.fire({icon:'question',title:'¿Cerrar sesión?',showCancelButton:true,confirmButtonText:'Sí, salir',cancelButtonText:'Cancelar'});
   if (!res.isConfirmed) return;
+  // Al salir, limpiar el hold activo
+  if (selFlight && currentHoldId) {
+    await clearHoldById(currentHoldId);
+  }
+  stopHoldTimer();
   await supabase.auth.signOut();
   window.location.href = '../../index.html';
 };
 
 // ── NAV ──
 window.goPage = function(page, navEl) {
+  // Si sale de booking sin completar, limpiar hold
+  const wasBooking = document.getElementById('page-booking').classList.contains('act');
+  if (wasBooking && page !== 'booking') {
+    // No eliminamos el hold aquí porque el usuario puede querer volver
+    // El hold expirará solo en 3 min si no vuelve
+  }
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
   document.getElementById('page-booking').classList.remove('act');
   document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('act'));
@@ -1507,15 +1783,13 @@ function city(s) { return (s||'').replace(/\s*\([^)]*\)/,'').trim(); }
 function fmtE(e) { return {pendiente:'Pendiente',confirmado:'Confirmado',cancelado:'Cancelado',completado:'Completado',pago_en_revision:'En revisión'}[e]||e; }
 function bClass(e) { return {confirmado:'b-ok',pendiente:'b-warn',pago_en_revision:'b-info',cancelado:'b-err',completado:'b-mut'}[e]||'b-mut'; }
 
-// FIX 1: listener del input de comprobante — habilita/deshabilita botón confirmar
+// Listener comprobante
 document.getElementById('comprobante')?.addEventListener('change', function() {
   const hasFile = this.files && this.files[0];
   document.getElementById('file-name').textContent = hasFile ? this.files[0].name : 'Sin archivo';
-
   const btn = document.getElementById('btn-confirm');
   const ub = document.getElementById('upload-box');
   const rm = document.getElementById('upload-required-msg');
-
   if (hasFile) {
     btn.disabled = false;
     btn.innerHTML = '<i class="bi bi-check-circle"></i> <span id="confirm-txt">Confirmar reserva</span>';
@@ -1524,6 +1798,17 @@ document.getElementById('comprobante')?.addEventListener('change', function() {
   } else {
     btn.disabled = true;
     btn.innerHTML = '<i class="bi bi-lock-fill"></i> <span id="confirm-txt">Adjunta el comprobante</span>';
+  }
+});
+
+// Limpiar hold si el usuario cierra la pestaña o navega fuera
+window.addEventListener('beforeunload', () => {
+  if (currentHoldId && selFlight) {
+    // Beacon API para envío asíncrono al cerrar
+    const url = `${supabase.supabaseUrl}/rest/v1/seat_holds?id=eq.${currentHoldId}`;
+    navigator.sendBeacon && navigator.sendBeacon(url);
+    // También intento síncrono (puede no completarse)
+    clearHoldById(currentHoldId);
   }
 });
 
